@@ -1,0 +1,27 @@
+﻿CREATE TABLE [Purchasing].[Vendor] (
+    [VendorId]             INT              NOT NULL,
+    [VendorName]           NVARCHAR (50)    NOT NULL,
+    [StoreName]            NVARCHAR (255)   NULL,
+    [CompanyName]          NVARCHAR (500)   NULL,
+    [AccountNumber]        NVARCHAR (15)    NULL,
+    [TaxCode]              NVARCHAR (50)    NULL,
+    [LogoFile]             NVARCHAR (100)   NULL,
+    [Slogan]               NVARCHAR (250)   NULL,
+    [TermsOfService]       NVARCHAR (MAX)   NULL,
+    [Description]          NVARCHAR (MAX)   NULL,
+    [Hotline]              NVARCHAR (20)    NULL,
+    [SupportOnline]        NVARCHAR (4000)  NULL,
+    [Website]              NVARCHAR (100)   NULL,
+    [ClickThroughs]        MONEY            CONSTRAINT [DF_Vendors_ClickThroughs] DEFAULT ((0)) NULL,
+    [KeyWords]             NVARCHAR (MAX)   NULL,
+    [CreditRating]         TINYINT          NULL,
+    [IsAuthorized]         BIT              NOT NULL,
+    [Ip]                   VARCHAR (30)     NULL,
+    [LastUpdatedIp]        VARCHAR (30)     NULL,
+    [CreatedDate]          DATETIME         NULL,
+    [LastModifiedDate]     DATETIME         NULL,
+    [CreatedByUserId]      UNIQUEIDENTIFIER NULL,
+    [LastModifiedByUserId] UNIQUEIDENTIFIER NULL,
+    CONSTRAINT [PK__Vendors__FC8618F33E9DF37C] PRIMARY KEY CLUSTERED ([VendorId] ASC)
+);
+

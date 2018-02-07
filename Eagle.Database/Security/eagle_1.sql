@@ -1,0 +1,3 @@
+﻿CREATE LOGIN [eagle]
+    WITH PASSWORD = N'crXg>mnm{wxfvtxegjRrkO1ZmsFT7_&#$!~<r0c%wdzge3oo', SID = 0xEDA46A271E6ECD4FA23F359DC629A8A9, DEFAULT_LANGUAGE = [us_english], CHECK_EXPIRATION = ON;
+

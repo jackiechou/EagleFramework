@@ -1,0 +1,25 @@
+﻿CREATE TABLE [dbo].[Company] (
+    [CompanyId]            INT              IDENTITY (1, 1) NOT NULL,
+    [CompanyName]          NVARCHAR (300)   NULL,
+    [Logo]                 NVARCHAR (200)   NULL,
+    [Slogan]               NVARCHAR (250)   NULL,
+    [AddressId]            INT              NULL,
+    [PostalCode]           NVARCHAR (50)    NULL,
+    [Fax]                  NVARCHAR (50)    NULL,
+    [Hotline]              NVARCHAR (20)    NULL,
+    [Mobile]               NVARCHAR (50)    NULL,
+    [Telephone]            NVARCHAR (50)    NULL,
+    [Email]                NVARCHAR (50)    NULL,
+    [Website]              NVARCHAR (100)   NULL,
+    [SupportOnline]        NVARCHAR (4000)  NULL,
+    [TaxCode]              NVARCHAR (50)    NULL,
+    [Description]          NVARCHAR (MAX)   NULL,
+    [Ip]                   VARCHAR (30)     NULL,
+    [LastUpdatedIp]        VARCHAR (30)     NULL,
+    [CreatedDate]          DATETIME         NULL,
+    [LastModifiedDate]     DATETIME         NULL,
+    [CreatedByUserId]      UNIQUEIDENTIFIER NULL,
+    [LastModifiedByUserId] UNIQUEIDENTIFIER NULL,
+    CONSTRAINT [PK__CMS_Comp__3214EC07683E8300] PRIMARY KEY CLUSTERED ([CompanyId] ASC)
+);
+

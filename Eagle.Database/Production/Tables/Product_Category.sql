@@ -1,0 +1,25 @@
+﻿CREATE TABLE [Production].[Product_Category] (
+    [VendorId]             INT              NULL,
+    [CategoryId]           INT              IDENTITY (1, 1) NOT NULL,
+    [CategoryCode]         VARCHAR (100)    NULL,
+    [CategoryName]         NVARCHAR (250)   NULL,
+    [CategoryLink]         NVARCHAR (500)   NULL,
+    [CategoryAlias]        NVARCHAR (250)   NULL,
+    [LanguageCode]         VARCHAR (50)     NULL,
+    [ParentId]             INT              NULL,
+    [Depth]                INT              NULL,
+    [Lineage]              VARCHAR (150)    NULL,
+    [ViewOrder]            INT              NULL,
+    [Icon]                 NVARCHAR (255)   NULL,
+    [BriefDescription]     NVARCHAR (400)   NULL,
+    [Description]          NVARCHAR (MAX)   NULL,
+    [Status]               INT              NULL,
+    [Ip]                   VARCHAR (30)     NULL,
+    [LastUpdatedIp]        VARCHAR (30)     NULL,
+    [CreatedDate]          DATETIME         NULL,
+    [LastModifiedDate]     DATETIME         NULL,
+    [CreatedByUserId]      UNIQUEIDENTIFIER NULL,
+    [LastModifiedByUserId] UNIQUEIDENTIFIER NULL,
+    CONSTRAINT [PK__Product___6DB38D4E0FCD2AA3] PRIMARY KEY CLUSTERED ([CategoryId] ASC)
+);
+

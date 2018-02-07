@@ -1,0 +1,28 @@
+﻿CREATE TABLE [Sales].[Order] (
+    [VendorId]             INT              NULL,
+    [OrderId]              INT              IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [OrderNo]              UNIQUEIDENTIFIER ROWGUIDCOL NOT NULL,
+    [CustomerNo]           UNIQUEIDENTIFIER NOT NULL,
+    [OrderDate]            DATETIME         NOT NULL,
+    [DueDate]              DATETIME         NULL,
+    [ShippingRate]         DECIMAL (10, 2)  NULL,
+    [CouponCode]           VARCHAR (32)     NULL,
+    [CouponDiscount]       DECIMAL (12)     NULL,
+    [SubTotal]             DECIMAL (15, 5)  NULL,
+    [TotalFees]            DECIMAL (15, 5)  NULL,
+    [Discount]             DECIMAL (12, 2)  NULL,
+    [PromotionId]          INT              NULL,
+    [Tax]                  DECIMAL (10, 2)  NULL,
+    [CurrencyCode]         NVARCHAR (16)    NULL,
+    [Comment]              NVARCHAR (4000)  NULL,
+    [MarkAsRead]           BIT              NULL,
+    [Status]               INT              NULL,
+    [Ip]                   VARCHAR (30)     NULL,
+    [LastUpdatedIp]        VARCHAR (30)     NULL,
+    [CreatedDate]          DATETIME         NULL,
+    [LastModifiedDate]     DATETIME         NULL,
+    [CreatedByUserId]      UNIQUEIDENTIFIER NULL,
+    [LastModifiedByUserId] UNIQUEIDENTIFIER NULL,
+    CONSTRAINT [PK__Order__C3907C7455AD9BB9] PRIMARY KEY CLUSTERED ([OrderNo] ASC)
+);
+

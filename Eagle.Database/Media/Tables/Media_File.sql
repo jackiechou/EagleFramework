@@ -1,0 +1,26 @@
+﻿CREATE TABLE [Media].[Media_File] (
+    [FileId]               INT              IDENTITY (1, 1) NOT NULL,
+    [FileName]             NVARCHAR (400)   NULL,
+    [FileUrl]              NVARCHAR (250)   NULL,
+    [Title]                NVARCHAR (400)   NOT NULL,
+    [Alias]                NVARCHAR (400)   NULL,
+    [Lyric]                NVARCHAR (MAX)   NULL,
+    [AutoStart]            BIT              NULL,
+    [MediaLoop]            BIT              NULL,
+    [Dimension]            NVARCHAR (50)    NULL,
+    [Description]          NVARCHAR (MAX)   NULL,
+    [Source]               NVARCHAR (250)   NULL,
+    [Photo]                NVARCHAR (250)   NULL,
+    [Thumbnail]            NVARCHAR (250)   NULL,
+    [ClickThroughs]        INT              CONSTRAINT [DF_Files_ClickThroughs] DEFAULT ((0)) NULL,
+    [SortKey]              INT              NULL,
+    [Status]               INT              CONSTRAINT [DF_Files_Status] DEFAULT ((1)) NULL,
+    [Ip]                   VARCHAR (30)     NOT NULL,
+    [LastUpdatedIp]        VARCHAR (30)     NULL,
+    [CreatedDate]          DATETIME         NULL,
+    [LastUpdatedDate]      DATETIME         NULL,
+    [CreatedByUserId]      UNIQUEIDENTIFIER NULL,
+    [LastModifiedByUserId] UNIQUEIDENTIFIER NULL,
+    CONSTRAINT [PK__Backgrou__3214EC072429290B] PRIMARY KEY CLUSTERED ([FileId] ASC)
+);
+

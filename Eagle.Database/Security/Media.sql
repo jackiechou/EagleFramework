@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [Media]
+    AUTHORIZATION [dbo];
+

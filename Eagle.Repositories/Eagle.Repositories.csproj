@@ -1,0 +1,551 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1C48255E-D645-42B0-BC0C-041097BF6FE9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Eagle.Repositories</RootNamespace>
+    <AssemblyName>Eagle.Repositories</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=6.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqKit, Version=1.1.9.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqKit.1.1.9.0\lib\net45\LinqKit.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Marvin.JsonPatch, Version=0.9.0.0, Culture=neutral, PublicKeyToken=686c63b2d045ab44, processorArchitecture=MSIL">
+      <HintPath>..\packages\Marvin.JsonPatch.Signed.0.9.0\lib\portable-net40+win+wpa81\Marvin.JsonPatch.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.2.0.4\lib\net45\Microsoft.Azure.KeyVault.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Edm, Version=5.8.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.8.3\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.8.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.8.3\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Spatial, Version=5.8.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.8.3\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.OData, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.5.7.0\lib\net45\System.Web.Http.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Business\BrandRepository.cs" />
+    <Compile Include="Business\Employees\ContractRepository.cs" />
+    <Compile Include="Business\Employees\EmployeePositionRepository.cs" />
+    <Compile Include="Business\Employees\EmployeeRepository.cs" />
+    <Compile Include="Business\Employees\EmployeeSkillRepository.cs" />
+    <Compile Include="Business\Employees\EmployeeTimeOffRepository.cs" />
+    <Compile Include="Business\Employees\IContractRepository.cs" />
+    <Compile Include="Business\Employees\IEmployeeAvailabilityRepository.cs" />
+    <Compile Include="Business\Employees\IEmployeePositionRepository.cs" />
+    <Compile Include="Business\Employees\IEmployeeRepository.cs" />
+    <Compile Include="Business\Employees\IEmployeeSkillRepository.cs" />
+    <Compile Include="Business\Employees\IEmployeeTimeOffRepository.cs" />
+    <Compile Include="Business\Employees\IJobPositionRepository.cs" />
+    <Compile Include="Business\Employees\IJobPositionSkillRepository.cs" />
+    <Compile Include="Business\IBrandRepository.cs" />
+    <Compile Include="Business\IOrderProductTempRepository.cs" />
+    <Compile Include="Business\IOrderTempRepository.cs" />
+    <Compile Include="Business\IProductAlbumRepository.cs" />
+    <Compile Include="Business\IAttributeRepository.cs" />
+    <Compile Include="Business\IAttributeOptionRepository.cs" />
+    <Compile Include="Business\IProductRatingRepository.cs" />
+    <Compile Include="Business\AttributeRepository.cs" />
+    <Compile Include="Business\AttributeOptionRepository.cs" />
+    <Compile Include="Business\Vendor\IVendorTransactionMethodRepository.cs" />
+    <Compile Include="Business\Vendor\VendorPaymentMethodRepository.cs" />
+    <Compile Include="Business\Vendor\IVendorPartnerRepository.cs" />
+    <Compile Include="Business\OrderProductTempRepository.cs" />
+    <Compile Include="Business\OrderTempRepository.cs" />
+    <Compile Include="Business\ProductAlbumRepository.cs" />
+    <Compile Include="Business\ProductRatingRepository.cs" />
+    <Compile Include="Business\Roster\IPublicHolidayRepository.cs" />
+    <Compile Include="Business\Roster\IPublicHolidaySetRepository.cs" />
+    <Compile Include="Business\Employees\IQualificationRepository.cs" />
+    <Compile Include="Business\Employees\IRewardDisciplineRepository.cs" />
+    <Compile Include="Business\Employees\ISalaryRepository.cs" />
+    <Compile Include="Business\Roster\IShiftPositionRepository.cs" />
+    <Compile Include="Business\Roster\IShiftRepository.cs" />
+    <Compile Include="Business\Roster\IShiftSwapRepository.cs" />
+    <Compile Include="Business\Roster\IShiftTypeRepository.cs" />
+    <Compile Include="Business\Employees\ISkillRepository.cs" />
+    <Compile Include="Business\Employees\ITerminationRepository.cs" />
+    <Compile Include="Business\Roster\ITimeOffTypeRepository.cs" />
+    <Compile Include="Business\Roster\ITimesheetRepository.cs" />
+    <Compile Include="Business\IWorkingHistoryRepository.cs" />
+    <Compile Include="Business\Roster\JobPositionRepository.cs" />
+    <Compile Include="Business\Roster\JobPositionSkillRepository.cs" />
+    <Compile Include="Business\Roster\PublicHolidayRepository.cs" />
+    <Compile Include="Business\Roster\PublicHolidaySetRepository.cs" />
+    <Compile Include="Business\Employees\EmployeeAvailabilityRepository.cs" />
+    <Compile Include="Business\Employees\QualificationRepository.cs" />
+    <Compile Include="Business\Employees\RewardDisciplineRepository.cs" />
+    <Compile Include="Business\Employees\SalaryRepository.cs" />
+    <Compile Include="Business\Roster\ShiftPositionRepository.cs" />
+    <Compile Include="Business\Roster\ShiftRepository.cs" />
+    <Compile Include="Business\Roster\ShiftSwapRepository.cs" />
+    <Compile Include="Business\Roster\ShiftTypeRepository.cs" />
+    <Compile Include="Business\Employees\SkillRepository.cs" />
+    <Compile Include="Business\Employees\TerminationRepository.cs" />
+    <Compile Include="Business\Roster\TimeOffTypeRepository.cs" />
+    <Compile Include="Business\Roster\TimesheetRepository.cs" />
+    <Compile Include="Business\Vendor\IVendorPaymentMethodRepository.cs" />
+    <Compile Include="Business\Vendor\IVendorShippingCarrierRepository.cs" />
+    <Compile Include="Business\Vendor\IVendorShippingMethodRepository.cs" />
+    <Compile Include="Business\Vendor\VendorPartnerRepository.cs" />
+    <Compile Include="Business\Vendor\VendorShippingCarrierRepository.cs" />
+    <Compile Include="Business\Vendor\VendorShippingMethodRepository.cs" />
+    <Compile Include="Business\Vendor\VendorTransactionMethodRepository.cs" />
+    <Compile Include="Business\WorkingHistoryRepository.cs" />
+    <Compile Include="Cache\AsyncLazyCache.cs" />
+    <Compile Include="Cache\CacheExtensions.cs" />
+    <Compile Include="Cache\CacheManager.cs" />
+    <Compile Include="Cache\ICacheManager.cs" />
+    <Compile Include="Contents\FeedbackRepository.cs" />
+    <Compile Include="Contents\IFeedbackRepository.cs" />
+    <Compile Include="Contents\INewsRatingRepository.cs" />
+    <Compile Include="Contents\NewsRatingRepository.cs" />
+    <Compile Include="Services\Booking\IServiceCategoryRepository.cs" />
+    <Compile Include="Services\Booking\IServicePackOptionRepository.cs" />
+    <Compile Include="Services\Booking\IServicePackTypeRepository.cs" />
+    <Compile Include="Services\Booking\IServicePackRatingRepository.cs" />
+    <Compile Include="Services\Booking\IServicePeriodRepository.cs" />
+    <Compile Include="Services\Booking\IServiceTaxRateRepository.cs" />
+    <Compile Include="Services\Booking\ServiceCategoryRepository.cs" />
+    <Compile Include="Services\Booking\ServicePackOptionRepository.cs" />
+    <Compile Include="Services\Booking\ServicePackTypeRepository.cs" />
+    <Compile Include="Services\Booking\ServicePackRatingRepository.cs" />
+    <Compile Include="Services\Booking\ServicePeriodRepository.cs" />
+    <Compile Include="Services\Booking\ServiceTaxRateRepository.cs" />
+    <Compile Include="Services\Chat\ChatMessageRepository.cs" />
+    <Compile Include="Services\Chat\ChatPrivateMessageMasterRepository.cs" />
+    <Compile Include="Services\Chat\ChatPrivateMessageRepository.cs" />
+    <Compile Include="Services\Chat\IChatMessageRepository.cs" />
+    <Compile Include="Services\Chat\IChatPrivateMessageMasterRepository.cs" />
+    <Compile Include="Services\Chat\IChatPrivateMessageRepository.cs" />
+    <Compile Include="Services\Chat\ChatUserRepository.cs" />
+    <Compile Include="Services\Chat\IChatUserRepository.cs" />
+    <Compile Include="Services\Event\EventTypeRepository.cs" />
+    <Compile Include="Services\Event\IEventTypeRepository.cs" />
+    <Compile Include="Services\Booking\IServiceDiscountRepository.cs" />
+    <Compile Include="Services\Booking\IServicePackDurationRepository.cs" />
+    <Compile Include="Services\Booking\IServicePackProviderRepository.cs" />
+    <Compile Include="Services\Booking\IServicePackRepository.cs" />
+    <Compile Include="Business\CurrencyRateRepository.cs" />
+    <Compile Include="Business\CurrencyRepository.cs" />
+    <Compile Include="Business\CustomerRepository.cs" />
+    <Compile Include="Business\CustomerTypeRepository.cs" />
+    <Compile Include="Business\ICurrencyRateRepository.cs" />
+    <Compile Include="Business\ICurrencyRepository.cs" />
+    <Compile Include="Business\ICustomerRepository.cs" />
+    <Compile Include="Business\ICustomerTypeRepository.cs" />
+    <Compile Include="Business\IManufacturerCategoryRepository.cs" />
+    <Compile Include="Business\IManufacturerRepository.cs" />
+    <Compile Include="Business\IOrderPaymentRepository.cs" />
+    <Compile Include="Business\IOrderProductOptionRepository.cs" />
+    <Compile Include="Business\IOrderProductRepository.cs" />
+    <Compile Include="Business\IOrderRepository.cs" />
+    <Compile Include="Business\IOrderShipmentRepository.cs" />
+    <Compile Include="Business\IPaymentMethodRepository.cs" />
+    <Compile Include="Business\IProductAttributeOptionRepository.cs" />
+    <Compile Include="Business\IProductAttributeRepository.cs" />
+    <Compile Include="Business\IProductCategoryRepository.cs" />
+    <Compile Include="Business\IProductCommentRepository.cs" />
+    <Compile Include="Business\IProductDiscountRepository.cs" />
+    <Compile Include="Business\IProductFileRepository.cs" />
+    <Compile Include="Business\IProductRepository.cs" />
+    <Compile Include="Business\IProductTaxRateRepository.cs" />
+    <Compile Include="Business\IProductTypeRepository.cs" />
+    <Compile Include="Business\IPromotionRepository.cs" />
+    <Compile Include="Business\IShippingCarrierRepository.cs" />
+    <Compile Include="Business\IShippingMethodRepository.cs" />
+    <Compile Include="Business\IShippingFeeRepository.cs" />
+    <Compile Include="Business\Vendor\IVendorAddressRepository.cs" />
+    <Compile Include="Business\Vendor\IVendorCreditCardRepository.cs" />
+    <Compile Include="Business\Vendor\IVendorCurrencyRepository.cs" />
+    <Compile Include="Business\Vendor\IVendorRepository.cs" />
+    <Compile Include="Business\ManufacturerCategoryRepository.cs" />
+    <Compile Include="Business\ManufacturerRepository.cs" />
+    <Compile Include="Business\OrderPaymentRepository.cs" />
+    <Compile Include="Business\OrderProductOptionRepository.cs" />
+    <Compile Include="Business\OrderProductRepository.cs" />
+    <Compile Include="Business\OrderRepository.cs" />
+    <Compile Include="Business\OrderShipmentRepository.cs" />
+    <Compile Include="Business\PaymentMethodRepository.cs" />
+    <Compile Include="Business\ProductAttributeOptionRepository.cs" />
+    <Compile Include="Business\ProductAttributeRepository.cs" />
+    <Compile Include="Business\ProductCategoryRepository.cs" />
+    <Compile Include="Business\ProductCommentRepository.cs" />
+    <Compile Include="Business\ProductDiscountRepository.cs" />
+    <Compile Include="Business\ProductFileRepository.cs" />
+    <Compile Include="Business\ProductRepository.cs" />
+    <Compile Include="Business\ProductTaxRateRepository.cs" />
+    <Compile Include="Business\ProductTypeRepository.cs" />
+    <Compile Include="Business\PromotionRepository.cs" />
+    <Compile Include="Business\ShippingCarrierRepository.cs" />
+    <Compile Include="Business\ShippingMethodRepository.cs" />
+    <Compile Include="Business\ShippingFeeRepository.cs" />
+    <Compile Include="Business\Vendor\VendorAddressRepository.cs" />
+    <Compile Include="Business\Vendor\VendorCreditCardRepository.cs" />
+    <Compile Include="Business\Vendor\VendorCurrencyRepository.cs" />
+    <Compile Include="Business\Vendor\VendorRepository.cs" />
+    <Compile Include="Contents\BannerPageRepository.cs" />
+    <Compile Include="Contents\BannerScopeRepository.cs" />
+    <Compile Include="Contents\BannerZoneRepository.cs" />
+    <Compile Include="Contents\BloodTypeRepository.cs" />
+    <Compile Include="Business\CompanyRepository.cs" />
+    <Compile Include="Services\Event\EventRepository.cs" />
+    <Compile Include="Business\ICompanyRepository.cs" />
+    <Compile Include="Business\ITransactionMethodRepository.cs" />
+    <Compile Include="Business\TransactionMethodRepository.cs" />
+    <Compile Include="CommonRepository.cs" />
+    <Compile Include="Contents\GalleryCollectionRepository.cs" />
+    <Compile Include="Contents\GalleryFileRepository.cs" />
+    <Compile Include="Contents\GalleryTopicRepository.cs" />
+    <Compile Include="Contents\IBannerPageRepository.cs" />
+    <Compile Include="Contents\IBannerScopeRepository.cs" />
+    <Compile Include="Contents\IBannerZoneRepository.cs" />
+    <Compile Include="Services\Event\IEventRepository.cs" />
+    <Compile Include="Contents\IGalleryCollectionRepository.cs" />
+    <Compile Include="Contents\IGalleryFileRepository.cs" />
+    <Compile Include="Contents\IGalleryTopicRepository.cs" />
+    <Compile Include="Contents\IMediaAlbumFileRepository.cs" />
+    <Compile Include="Contents\IMediaFileRepository.cs" />
+    <Compile Include="Contents\IMediaPlayListFileRepository.cs" />
+    <Compile Include="Contents\IMediaPlayListRepository.cs" />
+    <Compile Include="Contents\IMediaTopicRepository.cs" />
+    <Compile Include="Contents\IMediaTypeRepository.cs" />
+    <Compile Include="Contents\INewsCommentRepository.cs" />
+    <Compile Include="Contents\IMediaAlbumRepository.cs" />
+    <Compile Include="Contents\IMediaArtistRepository.cs" />
+    <Compile Include="Contents\IMediaComposerRepository.cs" />
+    <Compile Include="Contents\MediaAlbumFileRepository.cs" />
+    <Compile Include="Contents\MediaAlbumRepository.cs" />
+    <Compile Include="Contents\MediaArtistRepository.cs" />
+    <Compile Include="Contents\MediaComposerRepository.cs" />
+    <Compile Include="Contents\MediaFileRepository.cs" />
+    <Compile Include="Contents\MediaPlayListFileRepository.cs" />
+    <Compile Include="Contents\MediaPlayListRepository.cs" />
+    <Compile Include="Contents\MediaTopicRepository.cs" />
+    <Compile Include="Contents\MediaTypeRepository.cs" />
+    <Compile Include="Contents\NewsCommentRepository.cs" />
+    <Compile Include="Contents\BannerPositionRepository.cs" />
+    <Compile Include="Contents\BannerRepository.cs" />
+    <Compile Include="Contents\BannerTypeRepository.cs" />
+    <Compile Include="Contents\IBannerPositionRepository.cs" />
+    <Compile Include="Contents\IBannerRepository.cs" />
+    <Compile Include="Contents\IBannerTypeRepository.cs" />
+    <Compile Include="Contents\INewsCategoryRepository.cs" />
+    <Compile Include="Contents\INewsRepository.cs" />
+    <Compile Include="Contents\NewsCategoryRepository.cs" />
+    <Compile Include="Contents\NewsRepository.cs" />
+    <Compile Include="Contents\IBloodTypeRepository.cs" />
+    <Compile Include="Contents\ITagIntegrationRepository.cs" />
+    <Compile Include="Contents\TagIntegrationRepository.cs" />
+    <Compile Include="IBaseRepository.cs" />
+    <Compile Include="ICommonRepository.cs" />
+    <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryFluent.cs" />
+    <Compile Include="Repository.cs" />
+    <Compile Include="RepositoryBase.cs" />
+    <Compile Include="RepositoryAsync.cs" />
+    <Compile Include="BaseRepository.cs" />
+    <Compile Include="RepositoryExtend.cs" />
+    <Compile Include="Services\Booking\ServiceDiscountRepository.cs" />
+    <Compile Include="Services\Booking\ServicePackDurationRepository.cs" />
+    <Compile Include="Services\Booking\ServicePackProviderRepository.cs" />
+    <Compile Include="Services\Booking\ServicePackRepository.cs" />
+    <Compile Include="Services\Messaging\INotificationMessageTypeRepository.cs" />
+    <Compile Include="Services\Messaging\INotificationTargetDefaultRepository.cs" />
+    <Compile Include="Services\Messaging\INotificationTargetRepository.cs" />
+    <Compile Include="Services\Messaging\NotificationMessageTypeRepository.cs" />
+    <Compile Include="Services\Messaging\NotificationTargetDefaultRepository.cs" />
+    <Compile Include="Services\Messaging\NotificationTargetRepository.cs" />
+    <Compile Include="Skins\ISkinPackageTypeRepository.cs" />
+    <Compile Include="Skins\SkinPackageTypeRepository.cs" />
+    <Compile Include="SystemManagement\AddressRepository.cs" />
+    <Compile Include="SystemManagement\ContactRepository.cs" />
+    <Compile Include="SystemManagement\CountryRepository.cs" />
+    <Compile Include="Contents\DocumentationRepository.cs" />
+    <Compile Include="SystemManagement\DocumentPermissionRepository.cs" />
+    <Compile Include="SystemManagement\IAddressRepository.cs" />
+    <Compile Include="SystemManagement\IContactRepository.cs" />
+    <Compile Include="SystemManagement\ICountryRepository.cs" />
+    <Compile Include="Contents\IDocumentationRepository.cs" />
+    <Compile Include="SystemManagement\IDocumentPermissionRepository.cs" />
+    <Compile Include="SystemManagement\IMenuPermissionLevelRepository.cs" />
+    <Compile Include="SystemManagement\IMenuPositionRepository.cs" />
+    <Compile Include="SystemManagement\IMenuTypeRepository.cs" />
+    <Compile Include="SystemManagement\IPagePermissionRepository.cs" />
+    <Compile Include="SystemManagement\IPermissionRepository.cs" />
+    <Compile Include="SystemManagement\IProvinceRepository.cs" />
+    <Compile Include="SystemManagement\IRegionRepository.cs" />
+    <Compile Include="SystemManagement\IRoleGroupRepository.cs" />
+    <Compile Include="SystemManagement\ISiteMapRepository.cs" />
+    <Compile Include="SystemManagement\IUserAddressRepository.cs" />
+    <Compile Include="SystemManagement\IUserClaimRepository.cs" />
+    <Compile Include="SystemManagement\IUserRoleGroupRepository.cs" />
+    <Compile Include="SystemManagement\IUserVendorRepository.cs" />
+    <Compile Include="SystemManagement\LogRepository.cs" />
+    <Compile Include="SystemManagement\MenuPermissionLevelRepository.cs" />
+    <Compile Include="SystemManagement\MenuPositionRepository.cs" />
+    <Compile Include="SystemManagement\MenuTypeRepository.cs" />
+    <Compile Include="SystemManagement\PagePermissionRepository.cs" />
+    <Compile Include="SystemManagement\PermissionRepository.cs" />
+    <Compile Include="SystemManagement\ProvinceRepository.cs" />
+    <Compile Include="SystemManagement\RegionRepository.cs" />
+    <Compile Include="SystemManagement\ILogRepository.cs" />
+    <Compile Include="Services\Messaging\INotificationSenderRepository.cs" />
+    <Compile Include="Services\Messaging\IMailServerProviderRepository.cs" />
+    <Compile Include="Services\Messaging\IMessageTypeRepository.cs" />
+    <Compile Include="Services\Messaging\INotificationTypeRepository.cs" />
+    <Compile Include="Services\Messaging\IMessageQueueRepository.cs" />
+    <Compile Include="Services\Messaging\IMessageTemplateRepository.cs" />
+    <Compile Include="Services\Messaging\INotificationMessageRepository.cs" />
+    <Compile Include="Services\Messaging\NotificationSenderRepository.cs" />
+    <Compile Include="Services\Messaging\MailServerProviderRepository.cs" />
+    <Compile Include="Services\Messaging\MessageTypeRepository.cs" />
+    <Compile Include="RepositoryAutoFacModule.cs" />
+    <Compile Include="Contents\ITagRepository.cs" />
+    <Compile Include="Contents\TagRepository.cs" />
+    <Compile Include="Services\Messaging\NotificationTypeRepository.cs" />
+    <Compile Include="Services\Messaging\MessageQueueRepository.cs" />
+    <Compile Include="Services\Messaging\MessageTemplateRepository.cs" />
+    <Compile Include="Services\Messaging\NotificationMessageRepository.cs" />
+    <Compile Include="SystemManagement\ApplicationLanguageRepository.cs" />
+    <Compile Include="SystemManagement\ApplicationSettingRepository.cs" />
+    <Compile Include="SystemManagement\IApplicationLanguageRepository.cs" />
+    <Compile Include="SystemManagement\IApplicationRepository.cs" />
+    <Compile Include="SystemManagement\IApplicationSettingRepository.cs" />
+    <Compile Include="SystemManagement\ContentItemRepository.cs" />
+    <Compile Include="SystemManagement\ContentTypeRepository.cs" />
+    <Compile Include="SystemManagement\IContentItemRepository.cs" />
+    <Compile Include="SystemManagement\IContentTypeRepository.cs" />
+    <Compile Include="SystemManagement\IDocumentFolderRepository.cs" />
+    <Compile Include="SystemManagement\ILanguageRepository.cs" />
+    <Compile Include="SystemManagement\LanguageRepository.cs" />
+    <Compile Include="SystemManagement\IMenuRepository.cs" />
+    <Compile Include="SystemManagement\MenuRepository.cs" />
+    <Compile Include="SystemManagement\IModuleCapabilityRepository.cs" />
+    <Compile Include="SystemManagement\ModuleCapabilityRepository.cs" />
+    <Compile Include="SystemManagement\IModuleCapabilityPermissionRepository.cs" />
+    <Compile Include="SystemManagement\IModuleRepository.cs" />
+    <Compile Include="SystemManagement\IPageModuleRepository.cs" />
+    <Compile Include="SystemManagement\ModuleRepository.cs" />
+    <Compile Include="SystemManagement\PageModuleRepository.cs" />
+    <Compile Include="SystemManagement\IPageRepository.cs" />
+    <Compile Include="SystemManagement\PageRepository.cs" />
+    <Compile Include="SystemManagement\IMenuPermissionRepository.cs" />
+    <Compile Include="SystemManagement\IModulePermissionRepository.cs" />
+    <Compile Include="SystemManagement\MenuPermissionRepository.cs" />
+    <Compile Include="SystemManagement\ModulePermissionRepository.cs" />
+    <Compile Include="SystemManagement\IGroupRepository.cs" />
+    <Compile Include="SystemManagement\IRoleRepository.cs" />
+    <Compile Include="SystemManagement\IUserRoleRepository.cs" />
+    <Compile Include="SystemManagement\GroupRepository.cs" />
+    <Compile Include="SystemManagement\RoleGroupRepository.cs" />
+    <Compile Include="SystemManagement\RoleRepository.cs" />
+    <Compile Include="SystemManagement\Security\IUserIdentity.cs" />
+    <Compile Include="SystemManagement\Security\IUserPrincipal.cs" />
+    <Compile Include="SystemManagement\Security\UserIdentity.cs" />
+    <Compile Include="SystemManagement\Security\UserPrincipal.cs" />
+    <Compile Include="SystemManagement\SiteMapRepository.cs" />
+    <Compile Include="SystemManagement\UserAddressRepository.cs" />
+    <Compile Include="SystemManagement\UserClaimRepository.cs" />
+    <Compile Include="SystemManagement\UserRoleGroupRepository.cs" />
+    <Compile Include="SystemManagement\UserRoleRepository.cs" />
+    <Compile Include="SystemManagement\IUserProfileRepository.cs" />
+    <Compile Include="SystemManagement\IUserRepository.cs" />
+    <Compile Include="SystemManagement\UserProfileRepository.cs" />
+    <Compile Include="SystemManagement\UserRepository.cs" />
+    <Compile Include="SystemManagement\ApplicationRepository.cs" />
+    <Compile Include="SystemManagement\DocumentFileRepository.cs" />
+    <Compile Include="SystemManagement\DocumentFolderRepository.cs" />
+    <Compile Include="SystemManagement\IDocumentFileRepository.cs" />
+    <Compile Include="SystemManagement\FunctionCommandRepository.cs" />
+    <Compile Include="SystemManagement\IFunctionCommandRepository.cs" />
+    <Compile Include="SystemManagement\UserVendorRepository.cs" />
+    <Compile Include="Skins\ISkinPackageBackgroundRepository.cs" />
+    <Compile Include="Skins\ISkinPackageRepository.cs" />
+    <Compile Include="Skins\ISkinPackageTemplateRepository.cs" />
+    <Compile Include="Skins\SkinPackageBackgroundRepository.cs" />
+    <Compile Include="Skins\SkinPackageRepository.cs" />
+    <Compile Include="Skins\SkinPackageTemplateRepository.cs" />
+    <Compile Include="Themes\HtmlRenderExtensions.cs" />
+    <Compile Include="Themes\IView.cs" />
+    <Compile Include="Themes\IViewEngine.cs" />
+    <Compile Include="Themes\LayoutAttribute .cs" />
+    <Compile Include="Themes\SectionExtensions.cs" />
+    <Compile Include="Themes\ThemeSettings.cs" />
+    <Compile Include="UnitOfWork.cs" />
+    <Compile Include="UnitOfWorkAsync.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Eagle.Common\Eagle.Common.csproj">
+      <Project>{1a3d7e94-066b-4ba4-8597-093dc912959e}</Project>
+      <Name>Eagle.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.Core\Eagle.Core.csproj">
+      <Project>{d708f093-0761-482f-a431-88d1f8520928}</Project>
+      <Name>Eagle.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.Data\Eagle.Data.csproj">
+      <Project>{7b636d34-85c5-4b76-b628-f746ca385b89}</Project>
+      <Name>Eagle.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.Entities\Eagle.Entities.csproj">
+      <Project>{30bd7c58-47c3-4834-bd62-382dd38e7124}</Project>
+      <Name>Eagle.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.EntityFramework\Eagle.EntityFramework.csproj">
+      <Project>{eb38d898-b4f2-4337-837f-9c02b2248cf7}</Project>
+      <Name>Eagle.EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.Resources\Eagle.Resources.csproj">
+      <Project>{5e79bc1f-181c-4d80-bf4d-1578c664e425}</Project>
+      <Name>Eagle.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Readme\Elmah.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

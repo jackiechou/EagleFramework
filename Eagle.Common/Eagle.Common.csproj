@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1A3D7E94-066B-4BA4-8597-093DC912959E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Eagle.Common</RootNamespace>
+    <AssemblyName>Eagle.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet.Async, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Renci.SshNet.Async.1.2.0\lib\net40\Renci.SshNet.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Application\ApplicationInfo.cs" />
+    <Compile Include="Application\AssemblyStatusAttribute.cs" />
+    <Compile Include="Cookie\CookieManager.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Data\DataSourceHelper.cs" />
+    <Compile Include="Data\ExcelHelper.cs" />
+    <Compile Include="Data\OleDbHelper.cs" />
+    <Compile Include="Data\SchemaHelper.cs" />
+    <Compile Include="Data\SQLHandler.cs" />
+    <Compile Include="Data\SqlHelper.cs" />
+    <Compile Include="Entities\ChartInfo.cs" />
+    <Compile Include="Entities\Column.cs" />
+    <Compile Include="Entities\ItemInfo.cs" />
+    <Compile Include="Entities\KeyValue.cs" />
+    <Compile Include="Entities\RootObject.cs" />
+    <Compile Include="Extensions\AssemblyInformation.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Extensions\DataExtension.cs" />
+    <Compile Include="Extensions\DataGrid\GridSettings.cs" />
+    <Compile Include="Extensions\DataGrid\LinqExtensions.cs" />
+    <Compile Include="Extensions\DataSetHelper.cs" />
+    <Compile Include="Extensions\DateExtension.cs" />
+    <Compile Include="Extensions\DateInterval.cs" />
+    <Compile Include="Extensions\DateTimeModelBinder.cs" />
+    <Compile Include="Extensions\DecimalModelBinder.cs" />
+    <Compile Include="Extensions\DictionaryExtension.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\EnumHelper\EnumExtension.cs" />
+    <Compile Include="Extensions\EnumHelper\EnumAttribute.cs" />
+    <Compile Include="Extensions\ExcelExtension.cs" />
+    <Compile Include="Extensions\FileVersion.cs" />
+    <Compile Include="Extensions\GenericsToDataSet.cs" />
+    <Compile Include="Extensions\GuidExtensions.cs" />
+    <Compile Include="Extensions\HttpExtensions.cs" />
+    <Compile Include="Extensions\JsonExtensions.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Extensions\LocalModelBinder.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\PathExtension.cs" />
+    <Compile Include="Extensions\PivotExtenstion.cs" />
+    <Compile Include="Extensions\RecursiveJoinExtensions.cs" />
+    <Compile Include="Extensions\Searching\ExpressionBuilder.cs" />
+    <Compile Include="Extensions\Searching\Filter.cs" />
+    <Compile Include="Extensions\StaticFile.cs" />
+    <Compile Include="Extensions\EnumHelper\StringEnum.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\ImageExtension.cs" />
+    <Compile Include="Extensions\LinqExtension.cs" />
+    <Compile Include="Extensions\TimeZoneExtensions.cs" />
+    <Compile Include="Security\Cryptography\SHA256Helper.cs" />
+    <Compile Include="Security\Cryptography\UniqueIdGenerator.cs" />
+    <Compile Include="Services\Ftp\FtpFileTransfer.cs" />
+    <Compile Include="Services\Ftp\SFtpFileTransfer.cs" />
+    <Compile Include="Services\WebRequest\HttpWebRequester.cs" />
+    <Compile Include="Services\Installer\RegistryManager.cs" />
+    <Compile Include="Services\Installer\ServiceHandler.cs" />
+    <Compile Include="Services\Installer\ServiceIntallerManager.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Services\Mail\BodyFormat.cs" />
+    <Compile Include="Services\Mail\EnableSSL.cs" />
+    <Compile Include="Services\Mail\MailHandler.cs" />
+    <Compile Include="Services\Mail\SmtpAuthentication.cs" />
+    <Compile Include="Services\Parse\Modificators.cs" />
+    <Compile Include="Services\Parse\ParseTemplateHandler.cs" />
+    <Compile Include="Services\Parse\ParseHTMLContents.cs" />
+    <Compile Include="Services\Parse\Parser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\Cryptography\CipherUtility.cs" />
+    <Compile Include="Security\Cryptography\Crypto.cs" />
+    <Compile Include="Security\Cryptography\CryptoHelper.cs" />
+    <Compile Include="Security\Cryptography\Encrypt.cs" />
+    <Compile Include="Security\Cryptography\Encryption.cs" />
+    <Compile Include="Security\Cryptography\Encryption64.cs" />
+    <Compile Include="Security\Cryptography\HashAlgorithmUtility.cs" />
+    <Compile Include="Security\Cryptography\MD5Crypto.cs" />
+    <Compile Include="Security\Cryptography\RandomPassword.cs" />
+    <Compile Include="Security\Cryptography\RandomText.cs" />
+    <Compile Include="Security\Cryptography\RijndaelEncDec.cs" />
+    <Compile Include="Security\Cryptography\RNG.cs" />
+    <Compile Include="Security\Cryptography\SecurityHelper.cs" />
+    <Compile Include="Security\Cryptography\SymCryptography.cs" />
+    <Compile Include="Services\Logs\EventLogManager.cs" />
+    <Compile Include="Services\Mail\MailPriority.cs" />
+    <Compile Include="Services\Mail\SmtpClientCustom.cs" />
+    <Compile Include="Services\Mail\SmtpClientNative .cs" />
+    <Compile Include="Services\Message\MessageBox.cs" />
+    <Compile Include="Session\SessionManager.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Settings\Config.cs" />
+    <Compile Include="Settings\ConfigSettings.cs" />
+    <Compile Include="Settings\EnumSettings.cs" />
+    <Compile Include="Settings\SystemSettings.cs" />
+    <Compile Include="TaskSchedule\AsyncLazy.cs" />
+    <Compile Include="TaskSchedule\LazyTask.cs" />
+    <Compile Include="Utilities\ArrayUtils.cs" />
+    <Compile Include="Utilities\DateTimeUtils.cs" />
+    <Compile Include="Utilities\ExpandoConverter.cs" />
+    <Compile Include="Utilities\ExpandUrlsParser.cs" />
+    <Compile Include="Utilities\FileUtils.cs" />
+    <Compile Include="Utilities\FolderUtils.cs" />
+    <Compile Include="Utilities\HtmlUtils.cs" />
+    <Compile Include="Utilities\ImageManager.cs" />
+    <Compile Include="Utilities\ImageThumbnailCreator.cs" />
+    <Compile Include="Utilities\ImageUtils.cs" />
+    <Compile Include="Utilities\JsonUtils.cs" />
+    <Compile Include="Utilities\MathUtils.cs" />
+    <Compile Include="Utilities\NetworkUtils.cs" />
+    <Compile Include="Utilities\Null.cs" />
+    <Compile Include="Utilities\NumberUtils.cs" />
+    <Compile Include="Utilities\StringUtils.cs" />
+    <Compile Include="Utilities\TimeUtils.cs" />
+    <Compile Include="Utilities\UriUtility.cs" />
+    <Compile Include="Utilities\ValidatorUtils.cs" />
+    <Compile Include="Utilities\XmlUtils.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

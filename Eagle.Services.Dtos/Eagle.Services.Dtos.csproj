@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{69049EF1-7E82-4D9F-B7C7-633C3312C45A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Eagle.Services.Dtos</RootNamespace>
+    <AssemblyName>Eagle.Services.Dtos</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseDto.cs" />
+    <Compile Include="Business\BrandEntry.cs" />
+    <Compile Include="Business\BrandInfo.cs" />
+    <Compile Include="Business\BrandDetail.cs" />
+    <Compile Include="Business\BrandEditEntry.cs" />
+    <Compile Include="Business\BrandSearchEntry.cs" />
+    <Compile Include="Business\Transaction\BillingAddressDetail.cs" />
+    <Compile Include="Business\Transaction\CreditCardDetail.cs" />
+    <Compile Include="Business\Transaction\StripeSettings.cs" />
+    <Compile Include="Business\Attribute.cs" />
+    <Compile Include="Business\AttributeOption.cs" />
+    <Compile Include="Contents\Documentation\DocumentationDetail.cs" />
+    <Compile Include="SystemManagement\Resource.cs" />
+    <Compile Include="SystemManagement\Settings\BaseSetting.cs" />
+    <Compile Include="Business\Transaction\CartItem.cs" />
+    <Compile Include="Business\Transaction\Checkout.cs" />
+    <Compile Include="Business\Company.cs" />
+    <Compile Include="Business\Currency.cs" />
+    <Compile Include="Business\Customer.cs" />
+    <Compile Include="Business\Manufacturer.cs" />
+    <Compile Include="Business\Transaction\Order.cs" />
+    <Compile Include="Business\Partner.cs" />
+    <Compile Include="Business\PaymentMethod.cs" />
+    <Compile Include="Business\Personnel\Contract.cs" />
+    <Compile Include="Business\Personnel\Employee.cs" />
+    <Compile Include="Business\Personnel\JobPosition.cs" />
+    <Compile Include="Business\Personnel\Qualification.cs" />
+    <Compile Include="Business\Personnel\RewardDiscipline.cs" />
+    <Compile Include="Business\Personnel\Salary.cs" />
+    <Compile Include="Business\Personnel\Skill.cs" />
+    <Compile Include="Business\Personnel\Termination.cs" />
+    <Compile Include="Business\Personnel\WorkingHistory.cs" />
+    <Compile Include="Business\Product.cs" />
+    <Compile Include="Business\ProductAlbum.cs" />
+    <Compile Include="Business\ProductAttribute.cs" />
+    <Compile Include="Business\ProductAttributeOption.cs" />
+    <Compile Include="Business\ProductCategory.cs" />
+    <Compile Include="Business\ProductComment.cs" />
+    <Compile Include="Business\ProductDiscount.cs" />
+    <Compile Include="Business\ProductFile.cs" />
+    <Compile Include="Business\ProductRating.cs" />
+    <Compile Include="Business\ProductTaxRate.cs" />
+    <Compile Include="Business\ProductType.cs" />
+    <Compile Include="Business\Promotion.cs" />
+    <Compile Include="Business\Roster\PublicHoliday.cs" />
+    <Compile Include="Business\Report\Chart.cs" />
+    <Compile Include="Business\Report\LineChart.cs" />
+    <Compile Include="Business\Roster\Shift.cs" />
+    <Compile Include="Business\Roster\TimeOffType.cs" />
+    <Compile Include="Business\Roster\Timesheet.cs" />
+    <Compile Include="Business\Shipping.cs" />
+    <Compile Include="Business\Transaction.cs" />
+    <Compile Include="Business\Vendor.cs" />
+    <Compile Include="Contents\Articles\News.cs" />
+    <Compile Include="Contents\Articles\NewsCategory.cs" />
+    <Compile Include="Contents\Articles\NewsComment.cs" />
+    <Compile Include="Contents\Articles\NewsRating.cs" />
+    <Compile Include="Contents\Banners\Banner.cs" />
+    <Compile Include="Contents\Banners\BannerPage.cs" />
+    <Compile Include="Contents\Banners\BannerPosition.cs" />
+    <Compile Include="Contents\Banners\BannerScope.cs" />
+    <Compile Include="Contents\Banners\BannerType.cs" />
+    <Compile Include="Contents\Banners\BannerZone.cs" />
+    <Compile Include="Contents\Feedbacks\Feedback.cs" />
+    <Compile Include="Contents\Galleries\Gallery.cs" />
+    <Compile Include="Contents\Galleries\GalleryCollection.cs" />
+    <Compile Include="Contents\Galleries\GalleryFile.cs" />
+    <Compile Include="Contents\Galleries\GalleryTopic.cs" />
+    <Compile Include="Contents\Media\MediaAlbum.cs" />
+    <Compile Include="Contents\Media\MediaArtist.cs" />
+    <Compile Include="Contents\Media\MediaComposer.cs" />
+    <Compile Include="Contents\Media\MediaFile.cs" />
+    <Compile Include="Contents\Media\MediaPlayList.cs" />
+    <Compile Include="Contents\Media\MediaTopic.cs" />
+    <Compile Include="Contents\Media\MediaType.cs" />
+    <Compile Include="Services\Booking\BookingCalendar.cs" />
+    <Compile Include="Services\Booking\BookingPackageKindEntry.cs" />
+    <Compile Include="Services\Booking\BookingSingleKindEntry.cs" />
+    <Compile Include="Services\Booking\BookingPackageEntry.cs" />
+    <Compile Include="Services\Booking\ServiceCategory.cs" />
+    <Compile Include="Services\Booking\ServiceDiscount.cs" />
+    <Compile Include="Services\Booking\ServicePack.cs" />
+    <Compile Include="Services\Booking\ServicePackDuration.cs" />
+    <Compile Include="Common\AutoCompleteDetail.cs" />
+    <Compile Include="Common\BasicAction.cs" />
+    <Compile Include="Common\CalendarEventItem.cs" />
+    <Compile Include="Common\CaptchaRequest.cs" />
+    <Compile Include="Common\DtoExtensions.cs" />
+    <Compile Include="Common\EntityAction.cs" />
+    <Compile Include="Common\EntityActionSummary.cs" />
+    <Compile Include="Common\EntityActionType.cs" />
+    <Compile Include="Common\Error.cs" />
+    <Compile Include="Common\ErrorMessage.cs" />
+    <Compile Include="Common\ErrorCode.cs" />
+    <Compile Include="Common\ExceptionInfo.cs" />
+    <Compile Include="Common\FormActionResultModel.cs" />
+    <Compile Include="Common\IgnoredDateType.cs" />
+    <Compile Include="Common\RuleViolation.cs" />
+    <Compile Include="Common\IsSecured.cs" />
+    <Compile Include="Common\JsonCreationConverter.cs" />
+    <Compile Include="Common\Result.cs" />
+    <Compile Include="Common\JsonResultConverter.cs" />
+    <Compile Include="Common\DataResult.cs" />
+    <Compile Include="Common\GetResult.cs" />
+    <Compile Include="Common\ResultStatus.cs" />
+    <Compile Include="Common\ResultStatusType.cs" />
+    <Compile Include="Common\Select2PagedResult.cs" />
+    <Compile Include="Common\Select2Result.cs" />
+    <Compile Include="Common\SuccessStatus.cs" />
+    <Compile Include="Common\TreeDetail.cs" />
+    <Compile Include="Common\TreeNodeDetail.cs" />
+    <Compile Include="Services\Booking\ServicePackOption.cs" />
+    <Compile Include="Services\Booking\ServicePackProvider.cs" />
+    <Compile Include="Services\Booking\ServicePackRating.cs" />
+    <Compile Include="Services\Booking\ServicePackType.cs" />
+    <Compile Include="Services\Booking\ServicePeriod.cs" />
+    <Compile Include="Services\Booking\ServiceTaxRate.cs" />
+    <Compile Include="Services\Chat\ChatPrivateMessageDetail.cs" />
+    <Compile Include="Services\Chat\ChatMessageDetail.cs" />
+    <Compile Include="Services\Chat\ChatMessageEntry.cs" />
+    <Compile Include="Services\Chat\ChatPrivateMessageEntry.cs" />
+    <Compile Include="Services\Chat\ChatPrivateMessageMasterDetail.cs" />
+    <Compile Include="Services\Chat\ChatPrivateMessageMasterEntry.cs" />
+    <Compile Include="Services\Chat\ChatUserDetail.cs" />
+    <Compile Include="Services\Chat\ChatUserEntry.cs" />
+    <Compile Include="Services\Chat\PrivateChatMessageDetail.cs" />
+    <Compile Include="Services\Chat\PrivateMessageEntry.cs" />
+    <Compile Include="Services\Event\Event.cs" />
+    <Compile Include="Services\Event\EventType.cs" />
+    <Compile Include="Contents\Media\MediaResolution.cs" />
+    <Compile Include="Contents\Tags\Tag.cs" />
+    <Compile Include="Contents\Tags\TagIntegration.cs" />
+    <Compile Include="DtoBase.cs" />
+    <Compile Include="Services\Message\HostSettingDetail.cs" />
+    <Compile Include="Services\Message\IServiceBusLog.cs" />
+    <Compile Include="Services\Message\Mail.cs" />
+    <Compile Include="Services\Message\MessageQueue.cs" />
+    <Compile Include="Services\Message\MessageTemplate.cs" />
+    <Compile Include="Services\Message\MessageType.cs" />
+    <Compile Include="Services\Message\NotificationMessage.cs" />
+    <Compile Include="Services\Message\NotificationMessageType.cs" />
+    <Compile Include="Services\Message\NotificationSender.cs" />
+    <Compile Include="Services\Message\NotificationTarget.cs" />
+    <Compile Include="Services\Message\NotificationType.cs" />
+    <Compile Include="Services\Message\MessageStatusType.cs" />
+    <Compile Include="Services\Message\NotificationChannel.cs" />
+    <Compile Include="Services\Message\NotificationFailedMember.cs" />
+    <Compile Include="Services\Message\NotificationLog.cs" />
+    <Compile Include="Services\Message\NotificationMemberPreference.cs" />
+    <Compile Include="Services\Message\NotificationMethod.cs" />
+    <Compile Include="Services\Message\ProcessMessageQueueResult.cs" />
+    <Compile Include="Services\Message\ServiceBusLog.cs" />
+    <Compile Include="Services\Message\SmtpInfo.cs" />
+    <Compile Include="Services\Message\MessageDetail.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Message\TargetNotificationLog.cs" />
+    <Compile Include="Business\Paypal.cs" />
+    <Compile Include="Skins\Background.cs" />
+    <Compile Include="Skins\SkinPackage.cs" />
+    <Compile Include="Skins\SkinPackageTemplate.cs" />
+    <Compile Include="Skins\SkinPackageType.cs" />
+    <Compile Include="SystemManagement\Address.cs" />
+    <Compile Include="SystemManagement\Application.cs" />
+    <Compile Include="SystemManagement\ApplicationSetting.cs" />
+    <Compile Include="SystemManagement\City.cs" />
+    <Compile Include="SystemManagement\Claim.cs" />
+    <Compile Include="SystemManagement\Content.cs" />
+    <Compile Include="SystemManagement\Country.cs" />
+    <Compile Include="SystemManagement\FileStorage\DocumentFile.cs" />
+    <Compile Include="SystemManagement\FileStorage\DocumentFolder.cs" />
+    <Compile Include="SystemManagement\FileStorage\FileManager.cs" />
+    <Compile Include="SystemManagement\Identity\Account.cs" />
+    <Compile Include="SystemManagement\Identity\Contact.cs" />
+    <Compile Include="SystemManagement\FileStorage\DocumentInfoDetail.cs" />
+    <Compile Include="SystemManagement\Identity\Group.cs" />
+    <Compile Include="SystemManagement\Identity\ManageViewModels.cs" />
+    <Compile Include="SystemManagement\Identity\Permission.cs" />
+    <Compile Include="SystemManagement\Identity\Role.cs" />
+    <Compile Include="SystemManagement\Identity\RoleGroup.cs" />
+    <Compile Include="SystemManagement\Identity\User.cs" />
+    <Compile Include="SystemManagement\Identity\UserAddress.cs" />
+    <Compile Include="SystemManagement\Identity\UserContactDetail.cs" />
+    <Compile Include="SystemManagement\Identity\UserProfile.cs" />
+    <Compile Include="SystemManagement\Identity\UserRole.cs" />
+    <Compile Include="SystemManagement\Identity\UserRoleGroup.cs" />
+    <Compile Include="SystemManagement\Identity\ActionModel.cs" />
+    <Compile Include="SystemManagement\Language.cs" />
+    <Compile Include="SystemManagement\Log.cs" />
+    <Compile Include="SystemManagement\Menu.cs" />
+    <Compile Include="SystemManagement\MenuPage.cs" />
+    <Compile Include="SystemManagement\MenuPermission.cs" />
+    <Compile Include="SystemManagement\MenuType.cs" />
+    <Compile Include="SystemManagement\Module.cs" />
+    <Compile Include="SystemManagement\ModuleCapability.cs" />
+    <Compile Include="SystemManagement\ModulePage.cs" />
+    <Compile Include="SystemManagement\ModulePermission.cs" />
+    <Compile Include="SystemManagement\Page.cs" />
+    <Compile Include="SystemManagement\PageModule.cs" />
+    <Compile Include="SystemManagement\PagePermission.cs" />
+    <Compile Include="SystemManagement\Province.cs" />
+    <Compile Include="SystemManagement\Region.cs" />
+    <Compile Include="Skins\ThemeDetail.cs" />
+    <Compile Include="SystemManagement\SiteMap.cs" />
+    <Compile Include="Business\Transaction\CartItemForShopping.cs" />
+    <Compile Include="Business\Transaction\TransactionInfo.cs" />
+    <Compile Include="Validation\ValidationAttributeExtension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Eagle.Common\Eagle.Common.csproj">
+      <Project>{1a3d7e94-066b-4ba4-8597-093dc912959e}</Project>
+      <Name>Eagle.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.Core\Eagle.Core.csproj">
+      <Project>{d708f093-0761-482f-a431-88d1f8520928}</Project>
+      <Name>Eagle.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.Entities\Eagle.Entities.csproj">
+      <Project>{30bd7c58-47c3-4834-bd62-382dd38e7124}</Project>
+      <Name>Eagle.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.Resources\Eagle.Resources.csproj">
+      <Project>{5e79bc1f-181c-4d80-bf4d-1578c664e425}</Project>
+      <Name>Eagle.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

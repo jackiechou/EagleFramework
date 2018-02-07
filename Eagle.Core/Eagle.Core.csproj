@@ -1,0 +1,401 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D708F093-0761-482F-A431-88D1F8520928}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Eagle.Core</RootNamespace>
+    <AssemblyName>Eagle.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqKit, Version=1.1.9.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqKit.1.1.9.0\lib\net45\LinqKit.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.2.0.4\lib\net45\Microsoft.Azure.KeyVault.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Edm, Version=5.8.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.8.3\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.8.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.8.3\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.8.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.3\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Spatial, Version=5.8.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.8.3\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Tracing, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Tracing.5.2.3\lib\net45\System.Web.Http.Tracing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\AjaxValidateAntiForgeryTokenAttribute.cs" />
+    <Compile Include="Attributes\CustomHandleErrorAttribute.cs" />
+    <Compile Include="Attributes\CustomValidator.cs" />
+    <Compile Include="Attributes\HandleExceptionAttribute.cs" />
+    <Compile Include="Attributes\RestoreModelStateFromTempDataAttribute.cs" />
+    <Compile Include="Attributes\SetTempDataModelStateAttribute.cs" />
+    <Compile Include="Attributes\ValidateModelStateAttribute.cs" />
+    <Compile Include="Attributes\ValidatorAttribute.cs" />
+    <Compile Include="Common\IpAddressExtensions.cs" />
+    <Compile Include="Configuration\CacheKeySetting.cs" />
+    <Compile Include="Common\DisposableManager.cs" />
+    <Compile Include="Common\DisposableObject.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Settings\BrandStatus.cs" />
+    <Compile Include="Settings\DocumentationStatus.cs" />
+    <Compile Include="Settings\MailSetting.cs" />
+    <Compile Include="Settings\OrderProductTempStatus.cs" />
+    <Compile Include="Settings\CardType.cs" />
+    <Compile Include="Settings\BookingCartItemStatus.cs" />
+    <Compile Include="Settings\ItemType.cs" />
+    <Compile Include="Configuration\PathSettings.cs" />
+    <Compile Include="Settings\CartItemStatus.cs" />
+    <Compile Include="Configuration\SettingKeys.cs" />
+    <Compile Include="Cookie\CookieSetting.cs" />
+    <Compile Include="Extension\BroadCastEventArgs.cs" />
+    <Compile Include="Extension\ComboItem.cs" />
+    <Compile Include="Extension\EventNameEnum.cs" />
+    <Compile Include="Extension\MessageRequest.cs" />
+    <Compile Include="Helper\AppHelper.cs" />
+    <Compile Include="HtmlHelper\HtmlRequestHelper.cs" />
+    <Compile Include="Session\SessionKey.cs" />
+    <Compile Include="Settings\BookingPeriodGroup.cs" />
+    <Compile Include="Settings\CustomerTypeSetting.cs" />
+    <Compile Include="Settings\GalleryTopicSetting.cs" />
+    <Compile Include="Settings\MediaFileType.cs" />
+    <Compile Include="Settings\MediaTypeSetting.cs" />
+    <Compile Include="Settings\ModuleSetting.cs" />
+    <Compile Include="Settings\OrderProductStatus.cs" />
+    <Compile Include="Settings\PhoneType.cs" />
+    <Compile Include="Settings\PromotionType.cs" />
+    <Compile Include="Settings\RatingSetting.cs" />
+    <Compile Include="Settings\RegionSetting.cs" />
+    <Compile Include="Settings\ServiceSettings.cs" />
+    <Compile Include="Settings\Sex.cs" />
+    <Compile Include="Common\IDisposableManager.cs" />
+    <Compile Include="Common\LoggingExtensions.cs" />
+    <Compile Include="Common\PriorityLevel.cs" />
+    <Compile Include="Common\QueryableExtensions.cs" />
+    <Compile Include="Common\SerializableKeyValuePair.cs" />
+    <Compile Include="Common\StatusModeExtension.cs" />
+    <Compile Include="Common\StatusMode.cs" />
+    <Compile Include="Common\TypeSerializerExtensions.cs" />
+    <Compile Include="Configuration\ConfigurationProvider.cs" />
+    <Compile Include="Configuration\GlobalSettings.cs" />
+    <Compile Include="Configuration\IConfigurationProvider.cs" />
+    <Compile Include="Configuration\ImageSettings.cs" />
+    <Compile Include="Configuration\Settings.cs" />
+    <Compile Include="CoreAutoFacModule.cs" />
+    <Compile Include="Encryption\DESEncryption.cs" />
+    <Compile Include="Encryption\EmailFileContentEncryption.cs" />
+    <Compile Include="Encryption\FileContentEncryption.cs" />
+    <Compile Include="Encryption\IEncryption.cs" />
+    <Compile Include="Extension\TreeGrid.cs" />
+    <Compile Include="Extension\TreeNode.cs" />
+    <Compile Include="HtmlHelper\Alert\AlertBox.cs" />
+    <Compile Include="HtmlHelper\Alert\AlertBoxFluentOptions.cs" />
+    <Compile Include="HtmlHelper\Alert\AlertHtmlHelper.cs" />
+    <Compile Include="HtmlHelper\Alert\AlertModel.cs" />
+    <Compile Include="HtmlHelper\Alert\AlertType.cs" />
+    <Compile Include="HtmlHelper\Alert\IAlertBox.cs" />
+    <Compile Include="HtmlHelper\Alert\IAlertBoxFluentOptions.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Extensions\CheckBoxListForExtensions.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Extensions\CheckBoxListExtensions.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Internal\Assembly\MvcCheckBoxListInfo.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Internal\BuilderBase.cs" />
+    <Compile Include="HtmlHelper\CheckBox\CheckBoxListInfo.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Internal\ExtensionsBase.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Model\HtmlListInfo.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Internal\Helpers\getHtmlAttributes.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Internal\Helpers\toDictionary.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Internal\Helpers\toProperty.cs" />
+    <Compile Include="HtmlHelper\CheckBox\ListBuilder.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Internal\Model\htmlElementTag.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Model\HtmlTag.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Internal\Model\htmlWrapperInfo.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Internal\Model\listConstructor.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Model\TemplateIsUsed.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Model\TextLayout.cs" />
+    <Compile Include="HtmlHelper\EnumRadioButton.cs" />
+    <Compile Include="HtmlHelper\PartsDescriptionAttribute.cs" />
+    <Compile Include="HtmlHelper\RadioButtonListExtensions.cs" />
+    <Compile Include="HtmlHelper\CustomHelpers.cs" />
+    <Compile Include="HtmlHelper\DateTimeHtmlHelper.cs" />
+    <Compile Include="HtmlHelper\HtmlElement.cs" />
+    <Compile Include="HtmlHelper\HtmlElementBuilder.cs" />
+    <Compile Include="HtmlHelper\ImageHtmlHelper.cs" />
+    <Compile Include="HtmlHelper\Script\ScriptContext.cs" />
+    <Compile Include="HtmlHelper\Script\ScriptHtmlHelper.cs" />
+    <Compile Include="Logging\ActionType.cs" />
+    <Compile Include="Logging\LogType.cs" />
+    <Compile Include="Logging\LoggingExtensions.cs" />
+    <Compile Include="Logging\LogLevel.cs" />
+    <Compile Include="Pagination\DefaultPagerOptions.cs" />
+    <Compile Include="Pagination\Extension\AsyncPagedList.cs" />
+    <Compile Include="Pagination\Extension\AsyncPagedListExtensions.cs" />
+    <Compile Include="Pagination\Extension\BasePagedList.cs" />
+    <Compile Include="Pagination\Extension\GoToFormRenderOptions.cs" />
+    <Compile Include="Pagination\Extension\PagedListPagerHtmlHelper.cs" />
+    <Compile Include="Pagination\Extension\PagedListDisplayMode.cs" />
+    <Compile Include="Pagination\Extension\PagedListMetaData .cs" />
+    <Compile Include="Pagination\Extension\PagedListRenderOptions.cs" />
+    <Compile Include="Pagination\Extension\StaticPagedList.cs" />
+    <Compile Include="Pagination\PagingHtmlBootstrapHelper.cs" />
+    <Compile Include="Pagination\IPagedList.cs" />
+    <Compile Include="Pagination\PagedList.cs" />
+    <Compile Include="Pagination\Pager.cs" />
+    <Compile Include="Pagination\PagerOptions.cs" />
+    <Compile Include="Pagination\PagerOptionsBuilder.cs" />
+    <Compile Include="Pagination\PaginatedList.cs" />
+    <Compile Include="Pagination\Pagination.cs" />
+    <Compile Include="Pagination\PaginationLink.cs" />
+    <Compile Include="Pagination\PaginationModel.cs" />
+    <Compile Include="Pagination\PagingExtensions.cs" />
+    <Compile Include="Pagination\PagingHtmlHelper.cs" />
+    <Compile Include="Pagination\RouteValueDictionaryExtensions.cs" />
+    <Compile Include="Permission\MenuPositionAdmin.cs" />
+    <Compile Include="Permission\MenuPermissionAccessLevel.cs" />
+    <Compile Include="Permission\MenuPositionSite.cs" />
+    <Compile Include="Permission\PagePermissionLevel.cs" />
+    <Compile Include="Search\SearchDataRequest.cs" />
+    <Compile Include="Search\SearchDataResult.cs" />
+    <Compile Include="Search\SearchRequest.cs" />
+    <Compile Include="Search\SearchResult.cs" />
+    <Compile Include="Permission\ModuleDefinition.cs" />
+    <Compile Include="Permission\PermissionGroupKey.cs" />
+    <Compile Include="Permission\PermissionLevel.cs" />
+    <Compile Include="Permission\PermissionManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\AddressType.cs" />
+    <Compile Include="Settings\ApplicationLanguageStatus.cs" />
+    <Compile Include="Settings\ApplicationSettingStatus.cs" />
+    <Compile Include="Settings\ApplicationType.cs" />
+    <Compile Include="Settings\BannerPositionSetting.cs" />
+    <Compile Include="Settings\BannerPositionStatus.cs" />
+    <Compile Include="Settings\BannerScopeStatus.cs" />
+    <Compile Include="Settings\BannerStatus.cs" />
+    <Compile Include="Settings\BannerTypeSetting.cs" />
+    <Compile Include="Settings\BannerTypeStatus.cs" />
+    <Compile Include="Settings\CompanyStatus.cs" />
+    <Compile Include="Settings\ContentItemSetting.cs" />
+    <Compile Include="Settings\ContentTypeSetting.cs" />
+    <Compile Include="Settings\ContractType.cs" />
+    <Compile Include="Settings\CreditCardStatus.cs" />
+    <Compile Include="Settings\CurrencyStatus.cs" />
+    <Compile Include="Settings\CustomerStatus.cs" />
+    <Compile Include="Settings\CustomerTypeStatus.cs" />
+    <Compile Include="Settings\DiscountType.cs" />
+    <Compile Include="Settings\DocumentFileStatus.cs" />
+    <Compile Include="Settings\DocumentFolderStatus.cs" />
+    <Compile Include="Settings\DomainType.cs" />
+    <Compile Include="Settings\EmployeeContractStatus.cs" />
+    <Compile Include="Settings\EmployeeStatus.cs" />
+    <Compile Include="Settings\EventStatus.cs" />
+    <Compile Include="Settings\EventTypeStatus.cs" />
+    <Compile Include="Settings\FileBrowserType.cs" />
+    <Compile Include="Settings\FileLocation.cs" />
+    <Compile Include="Settings\GalleryCollectionStatus.cs" />
+    <Compile Include="Settings\GalleryFileStatus.cs" />
+    <Compile Include="Settings\GalleryTopicStatus.cs" />
+    <Compile Include="Settings\HostSettingStatus.cs" />
+    <Compile Include="Settings\LanguageSetting.cs" />
+    <Compile Include="Settings\LanguageStatus.cs" />
+    <Compile Include="Settings\LanguageType.cs" />
+    <Compile Include="Settings\ManufacturerCategoryStatus.cs" />
+    <Compile Include="Settings\ManufacturerStatus.cs" />
+    <Compile Include="Settings\MediaAlbumFileStatus.cs" />
+    <Compile Include="Settings\MediaAlbumStatus.cs" />
+    <Compile Include="Settings\MediaArtistStatus.cs" />
+    <Compile Include="Settings\MediaComposerStatus.cs" />
+    <Compile Include="Settings\MediaPlayListFileStatus.cs" />
+    <Compile Include="Settings\MediaPlayListStatus.cs" />
+    <Compile Include="Settings\MediaTopicStatus.cs" />
+    <Compile Include="Settings\MediaTypeStatus.cs" />
+    <Compile Include="Settings\MenuPermissionLevelStatus.cs" />
+    <Compile Include="Settings\MenuPositionSetting.cs" />
+    <Compile Include="Settings\MenuStatus.cs" />
+    <Compile Include="Settings\AlertMessageType.cs" />
+    <Compile Include="Settings\MenuTypeSetting.cs" />
+    <Compile Include="Settings\MessageTypeSetting.cs" />
+    <Compile Include="Settings\ModuleCapabilitySetting.cs" />
+    <Compile Include="Settings\NotificationSender.cs" />
+    <Compile Include="Settings\NotificationTargetType.cs" />
+    <Compile Include="Settings\NotificationTypeSetting.cs" />
+    <Compile Include="Settings\NotificationTypeStatus.cs" />
+    <Compile Include="Settings\ModuleCapabilityStatus.cs" />
+    <Compile Include="Settings\ModuleStatus.cs" />
+    <Compile Include="Settings\ModuleType.cs" />
+    <Compile Include="Settings\NewsCategoryStatus.cs" />
+    <Compile Include="Settings\NewsCommentStatus.cs" />
+    <Compile Include="Settings\NewsStatus.cs" />
+    <Compile Include="Settings\OrderStatus.cs" />
+    <Compile Include="Settings\PageStatus.cs" />
+    <Compile Include="Settings\PageType.cs" />
+    <Compile Include="HtmlHelper\CheckBox\Model\Position.cs" />
+    <Compile Include="Settings\ProductAttributeOptionStatus.cs" />
+    <Compile Include="Settings\ProductAttributeStatus.cs" />
+    <Compile Include="Settings\ProductCategoryStatus.cs" />
+    <Compile Include="Settings\ProductCommentStatus.cs" />
+    <Compile Include="Settings\ProductCouponStatus.cs" />
+    <Compile Include="Settings\ProductDiscountStatus.cs" />
+    <Compile Include="Settings\ProductFileStatus.cs" />
+    <Compile Include="Settings\ProductStatus.cs" />
+    <Compile Include="Settings\ProductTaxRateStatus.cs" />
+    <Compile Include="Settings\ProductTypeStatus.cs" />
+    <Compile Include="Settings\PromotionStatus.cs" />
+    <Compile Include="Settings\QuestionSettings.cs" />
+    <Compile Include="Settings\SexType.cs" />
+    <Compile Include="Settings\ShiftStatus.cs" />
+    <Compile Include="Settings\ShiftSwapStatus.cs" />
+    <Compile Include="Settings\SiteMapFrequency.cs" />
+    <Compile Include="Settings\StatusCode.cs" />
+    <Compile Include="Settings\StorageType.cs" />
+    <Compile Include="Settings\TagStatus.cs" />
+    <Compile Include="Settings\TagType.cs" />
+    <Compile Include="Settings\TimeOffStatus.cs" />
+    <Compile Include="Settings\TimesheetStatus.cs" />
+    <Compile Include="Settings\TitleSetting.cs" />
+    <Compile Include="Settings\TransactionMethodStatus.cs" />
+    <Compile Include="Settings\UserType.cs" />
+    <Compile Include="Settings\VendorStatus.cs" />
+    <Compile Include="Transport\CloudFileUrl.cs" />
+    <Compile Include="HtmlHelper\DataGrid\DataGridHelper.cs" />
+    <Compile Include="HtmlHelper\DataGrid\DataGridOption.cs" />
+    <Compile Include="HtmlHelper\DataGrid\GridViewHelper.cs" />
+    <Compile Include="UI\Layout\DesktopLayoutType.cs" />
+    <Compile Include="UI\Layout\LayoutType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Eagle.Common\Eagle.Common.csproj">
+      <Project>{1a3d7e94-066b-4ba4-8597-093dc912959e}</Project>
+      <Name>Eagle.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Eagle.Resources\Eagle.Resources.csproj">
+      <Project>{5e79bc1f-181c-4d80-bf4d-1578c664e425}</Project>
+      <Name>Eagle.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Readme\Elmah.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

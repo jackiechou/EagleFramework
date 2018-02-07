@@ -1,0 +1,43 @@
+﻿@using Eagle.Services.Skins
+@using Eagle.WebApp.Themes
+@{
+    Layout = ThemeViewEngine.DesktopMasterLayout;
+}
+
+@section Meta{
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="csrf-token" content="" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+}
+
+@section HeaderStyles{
+    @Styles.Render("~/Themes/Booking/DesktopStyle")
+}
+
+@RenderSection("HeadScripts", false)
+<!--=== Breadcrumbs v4 ===-->
+<div class="breadcrumbs breadcrumbs-dark">
+    <div class="container">
+        <h1 class="pull-left">@ViewBag.Title</h1><!--=== Title Page ===-->
+        <div id="SiteMap" class="navbar-header site-map pull-right"></div>
+    </div>
+</div>
+<!--=== End Breadcrumbs v4 ===-->
+@RenderBody()    
+        
+  
+@section FooterScripts{
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryajax")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Themes/Booking/DesktopFooterScript")
+    @RenderSection("Scripts", false)
+}

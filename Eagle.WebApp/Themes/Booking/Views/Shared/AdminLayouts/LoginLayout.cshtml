@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>@ViewBag.Title</title>    
+    @Styles.Render("~/Themes/Default/LoginStyle")
+    @Scripts.Render("~/Scripts/App/LoginScript")
+</head>
+<body>
+    <div id="container" class="container">
+        <div id="loginbox" class="login-page mainbox col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info">
+                @*<div class="panel-heading">
+                        <div class="panel-title">Sign In</div>
+                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>
+                    </div>*@
+                <div class="panel-body">
+                    <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                    <div class="row">
+                        <div class="col-xs-7" style="text-align: right; margin-top:120px;">
+                            <img src="~/Images/left-banner.png" width="500" height="333" />
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="logo">
+                                <img src="~/Images/logo160x127.png" />
+                            </div>
+                            <hr class="colorgraph">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12" style="border-top: 1px solid #ccc; margin-top:40px;">
+                            <div class="footer">
+                                @Html.Raw(LanguageResource.CopyRight) by 5EAGLES Co.Ltd
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+    <div id="loading" class="loading"></div>
+</body>
+</html>

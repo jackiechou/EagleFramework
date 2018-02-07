@@ -1,0 +1,26 @@
+﻿@*@Styles.Render("~/Themes/Default/PopUpStyle")
+@Scripts.Render("~/Scripts/App/PopUpScript")
+ 
+@RenderSection("HeadScripts", required: false)*@
+
+<div class="modal fade modal-popup" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">@ViewBag.Title</h4>
+            </div>
+            <div class="modal-body">
+                Content for the dialog / modal goes here.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">@Html.Raw(LanguageResource.Close)</button>
+                @*<button type="button" class="btn btn-primary edit" >@Html.Raw(Eagle.Resource.LanguageResource.Save)</button>*@
+                @if (IsSectionDefined("PopupBottomActionButtons"))
+                {
+                    @RenderSection("PopupBottomActionButtons", required: false)
+                }
+            </div>
+        </div>
+    </div>
+</div>

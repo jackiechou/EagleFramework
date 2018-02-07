@@ -1,0 +1,48 @@
+﻿@using Eagle.Services.Skins
+@using Eagle.WebApp.Themes
+@{
+    Layout = ThemeViewEngine.DesktopMasterLayout;
+}
+
+@section Meta{
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="csrf-token" content="" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+}
+
+@section HeaderStyles{
+    @Styles.Render("~/Themes/Booking/DesktopStyle")
+}
+
+@RenderSection("HeadScripts", false)
+@RenderSection("Banner", false)
+
+ <!--Site map runs from main script ----------------------------->
+<div class="rows">
+    <div class="container">
+        <div class="col-md-8">
+            <div id="SiteMap" class="navbar-header site-map"></div>
+        </div>
+    </div>
+</div>
+<div id="page" class="container-fluid">
+    <div class="row main-content-page">
+        @RenderBody()
+    </div>
+</div>
+
+@section FooterScripts{
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryajax")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Themes/Booking/DesktopFooterScript")
+    @RenderSection("Scripts", false)
+}

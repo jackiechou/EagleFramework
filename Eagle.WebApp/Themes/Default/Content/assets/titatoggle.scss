@@ -1,0 +1,1056 @@
+﻿/*******************************************************
+Variables
+*******************************************************/
+$white: #FFF;
+$brand-success: #72c02c;
+$brand-info: green;
+$brand-warning: yellow;
+$brand-danger: red;
+$gray: gray;
+$gray-light: #D4D8D1;
+$border-radius-base: 0px;
+$border-radius-large: 0px;
+$border-radius-small: 0px;
+// Sizes
+$scrubber-width-default: 22px;
+$scrubber-width-sm: 12px;
+$scrubber-width-md: 34px;
+$scrubber-width-lg: 40px;
+
+// Scrubber text
+// - off
+$slider-text-unchecked: "Off";
+$slider-text-unchecked-color: #fff;
+// - on
+$slider-text-checked: "On";
+$slider-text-checked-color: #fff;
+
+/*******************************************************
+Animation
+*******************************************************/
+
+@-moz-keyframes popIn {
+    0% {
+        transform: scale(1, 1);
+    }
+
+    25% {
+        transform: scale(1.2, 1);
+    }
+
+    50% {
+        transform: scale(1.4, 1);
+    }
+
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+@-webkit-keyframes popIn {
+    0% {
+        transform: scale(1, 1);
+    }
+
+    25% {
+        transform: scale(1.2, 1);
+    }
+
+    50% {
+        transform: scale(1.4, 1);
+    }
+
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(1, 1);
+    }
+
+    25% {
+        transform: scale(1.2, 1);
+    }
+
+    50% {
+        transform: scale(1.4, 1);
+    }
+
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+@keyframes popOut {
+    0% {
+        transform: scale(1, 1);
+    }
+
+    25% {
+        transform: scale(1.2, 1);
+    }
+
+    50% {
+        transform: scale(1.4, 1);
+    }
+
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+@keyframes splashIn {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    25% {
+        transform: scale(1.1);
+        opacity: .8;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: .9;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes splashOut {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    25% {
+        transform: scale(1);
+        opacity: .8;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: .9;
+    }
+
+    100% {
+        transform: scale(.5);
+        opacity: 1;
+    }
+}
+
+/*******************************************************
+Main Slider basics
+*******************************************************/
+
+.checkbox-toggle {
+    position: relative;
+
+    input[type="checkbox"] {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        height: 0%;
+        margin: 0 0;
+        cursor: pointer;
+        opacity: 0;
+    }
+
+    input + span {
+        cursor: pointer;
+        user-select: none;
+
+        &:before {
+            position: absolute;
+            left: 0px;
+            display: inline-block;
+        }
+
+        > h4 {
+            display: inline;
+        }
+    }
+}
+
+.form-horizontal [class^='checkbox'] {
+    input + span:after {
+        top: 7px;
+    }
+}
+
+/*******************************************************
+Main Slider
+*******************************************************/
+
+.checkbox-slider {
+
+    input {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        height: 0%;
+        margin: 0 0;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+
+        + span {
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            padding-left: $scrubber-width-default * 2;
+
+            &:before {
+                position: absolute;
+                left: 0px;
+                display: inline-block;
+                content: "";
+                height: $scrubber-width-default;
+                width: $scrubber-width-default * 2;
+                background: rgba(100, 100, 100, .2);
+                box-shadow: inset 0 0 5px rgba(0, 0, 0, .8);
+                transition: background .2s ease-out;
+            }
+            // Off State
+            &:after {
+                width: $scrubber-width-default;
+                height: $scrubber-width-default;
+                position: absolute;
+                left: 0px;
+                top: 0;
+                display: block;
+                background: $white;
+                background-clip: content-box;
+                color: #000000;
+                transition: margin-left 0.1s ease-in-out;
+                text-align: center;
+                font-size: 10px;
+                font-weight: bold;
+                line-height: 20px;
+                content: "";
+            }
+        }
+
+        > h4 {
+            display: inline;
+        }
+        // On state
+        &:checked {
+            + span {
+
+                &:before {
+                    transition: background .2s ease-in;
+                }
+
+                &:after {
+                    margin-left: $scrubber-width-default;
+                    content: "";
+                    color: #ffffff;
+                    background: #5cb85c;
+                    border: solid transparent 1px;
+                    background-clip: content-box;
+                }
+            }
+        }
+    }
+}
+
+/*******************************************************
+Slider default
+*******************************************************/
+
+.checkbox-slider--default {
+
+    input + span:after {
+        background: $white;
+        border: solid transparent 1px;
+        background-clip: content-box;
+    }
+
+    input:checked + span:after {
+        background: $brand-success;
+        border: solid transparent 1px;
+        background-clip: content-box;
+    }
+}
+
+/*******************************************************
+Slider default rounded
+*******************************************************/
+
+.checkbox-slider--a-rounded {
+
+    input + span:after,
+    input + span:before {
+        border-radius: $border-radius-base;
+    }
+
+    input + span:after,
+    input:checked + span:after {
+        border: solid transparent 2px;
+        background-clip: content-box;
+    }
+    /*******************************************************
+    Slider default rounded Sizes
+    *******************************************************/
+     &.checkbox-slider-sm {
+
+        input + span:before,
+        input + span:after {
+            border-radius: $border-radius-small;
+        }
+    }
+
+    &.checkbox-slider-md {
+
+        input + span:before,
+        input + span:after {
+            border-radius: $border-radius-base;
+        }
+    }
+
+    &.checkbox-slider-lg {
+
+        input + span:before,
+        input + span:after {
+            border-radius: $border-radius-large;
+        }
+    }
+}
+
+/*******************************************************
+Slider A
+*******************************************************/
+
+.checkbox-slider--a {
+    position: relative;
+    min-width: $scrubber-width-default * 2.5;
+    min-height: $scrubber-width-default;
+    padding-top: 1px;
+    label{
+        width: 100%;
+        .text{
+            float: left;
+            line-height: 22px;
+            margin-left: 5px;
+        }
+    }
+    input {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        height: 0%;
+        margin: 0 0;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+
+        + span {
+           
+            float: left;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            width: $scrubber-width-default * 2.5;
+            &:before {
+                content: "";
+                position: absolute;
+                left: 0px;
+                display: inline-block;
+                width: $scrubber-width-default * 2.5;
+                background: rgba(100, 100, 100, 0.2);
+                box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+                transition: background 0.2s ease-out;
+                height: $scrubber-width-default;
+            }
+
+            &:after {
+                width: $scrubber-width-default * 1.5;
+                font-size: $scrubber-width-default / 2.5;
+                color: $slider-text-unchecked-color;
+                content: $slider-text-unchecked;
+                border: solid transparent 1px;
+                background-clip: content-box;
+                height: $scrubber-width-default;
+                left: 0px;
+                top: 0;
+                display: block;
+                background: $brand-success;
+                transition: margin-left 0.1s ease-in-out;
+                text-align: center;
+                font-weight: bold;
+                line-height: $scrubber-width-default;
+            }
+        }
+
+        &:checked + span {
+            &:before {
+                transition: background 0.2s ease-in;
+            }
+
+            &:after {
+                content: $slider-text-checked;
+                color: $slider-text-checked-color;
+                background: $brand-success;
+                border: solid transparent 1px;
+                background-clip: content-box;
+                margin-left: $scrubber-width-default;
+            }
+        }
+    }
+
+    /*******************************************************
+    Slider A SIZES
+    *******************************************************/
+     &.checkbox-slider-sm {
+
+        input + span {
+            padding-left: $scrubber-width-sm * 2.5;
+        }
+
+        input + span:before {
+            width: $scrubber-width-sm * 2.5;
+        }
+
+        input + span:after {
+            width: $scrubber-width-sm * 1.5;
+            font-size: $scrubber-width-sm / 2.5;
+        }
+
+        input:checked + span:after {
+            margin-left: $scrubber-width-sm;
+        }
+    }
+
+    &.checkbox-slider-md {
+
+        input + span {
+            padding-left: $scrubber-width-md * 2.5;
+        }
+
+        input + span:before {
+            width: $scrubber-width-md * 2.5;
+        }
+
+        input + span:after {
+            width: $scrubber-width-md * 1.5;
+            font-size: $scrubber-width-md / 2.5;
+        }
+
+        input:checked + span:after {
+            margin-left: $scrubber-width-md;
+        }
+    }
+
+    &.checkbox-slider-lg {
+
+        input + span {
+            padding-left: $scrubber-width-lg * 2.5;
+        }
+
+        input + span:before {
+            width: $scrubber-width-lg * 2.5;
+        }
+
+        input + span:after {
+            width: $scrubber-width-lg * 1.5;
+            font-size: $scrubber-width-lg / 1.5;
+        }
+
+        input:checked + span:after {
+            margin-left: $scrubber-width-lg;
+        }
+    }
+}
+
+/*******************************************************
+Slider B
+*******************************************************/
+
+.checkbox-slider--b {
+    position: relative;
+    min-width: $scrubber-width-default * 2;
+    min-height: $scrubber-width-default;
+    label {
+        line-height: 22px;
+        width: 100%;
+        .text{
+            float: left;
+            line-height: 22px;
+            margin-left: $scrubber-width-default * 2 + 5;
+        }
+    }
+
+    input {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        height: 0%;
+        margin: 0 0;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+
+        + span {
+            //  padding-left: $scrubber-width-default * 2;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            margin-left: 50px;
+            float: left;
+            &:before {
+                border-radius: $scrubber-width-default;
+                width: $scrubber-width-default * 2;
+                position: absolute;
+                left: 0px;
+                display: inline-block;
+                content: "";
+                height: $scrubber-width-default;
+                background: rgba(100, 100, 100, 0.2);
+                box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+                transition: background 0.2s ease-out;
+            }
+
+            &:after {
+                background: $white;
+                content: "";
+                width: $scrubber-width-default;
+                border: solid transparent 2px;
+                background-clip: padding-box;
+                border-radius: $scrubber-width-default;
+                height: $scrubber-width-default;
+                position: absolute;
+                left: 0px;
+                top: 0 !important;
+                display: block;
+                transition: margin-left 0.1s ease-in-out;
+                text-align: center;
+                font-weight: bold;
+            }
+        }
+
+        > h4 {
+            display: inline;
+        }
+
+        &:not(:checked) + span:after {
+            animation: popOut ease-in .3s normal;
+            -webkit-animation: popOut ease-in 0.3s normal;
+        }
+
+        &:checked + span {
+            &:after {
+                top: 0;
+                content: "";
+                margin-left: $scrubber-width-default;
+                border: solid transparent 2px;
+                background-clip: padding-box;
+                -webkit-animation: popIn ease-in 0.3s normal;
+                animation: popIn ease-in 0.3s normal;
+            }
+
+            &:before {
+                background: $brand-success;
+                transition: background 0.2s ease-in;
+            }
+        }
+    }
+    /*******************************************************
+    Slider B Sizes
+    *******************************************************/
+    &.checkbox-slider-md {
+        input + span:before {
+            border-radius: $scrubber-width-md;
+        }
+
+        input + span:after {
+            border-radius: $scrubber-width-md;
+        }
+    }
+
+    &.checkbox-slider-lg {
+        input + span:before {
+            border-radius: $scrubber-width-lg;
+        }
+
+        input + span:after {
+            border-radius: $scrubber-width-lg;
+        }
+    }
+}
+
+/*******************************************************
+Slider B-flat
+*******************************************************/
+
+.checkbox-slider--b-flat {
+
+    input {
+
+        + span:before {
+            box-shadow: none;
+        }
+    }
+}
+
+/*******************************************************
+Slider C
+*******************************************************/
+
+.checkbox-slider--c {
+    position: relative;
+    min-width: $scrubber-width-default * 2;
+    min-height: $scrubber-width-default;
+    label {
+        line-height: 22px;
+        width: 100%;
+        .text{
+            float: left;
+            line-height: 22px;
+            margin-left: $scrubber-width-default * 2 + 5;
+        }
+    }
+
+    input {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        height: 0%;
+        margin: 0 0;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+
+
+        + span {
+            //  padding-left: $scrubber-width-default * 2;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            margin-left: 50px;
+            float: left;
+            &:before {
+                height: 2px !important; // needs to be
+                top: $scrubber-width-default / 2;
+                box-shadow: none;
+                width: $scrubber-width-default * 2;
+                background: $gray;
+                border-radius: $scrubber-width-default;
+                position: absolute;
+                left: 0px;
+                display: inline-block;
+                content: "";
+            }
+
+            &:after {
+                box-shadow: none;
+                width: $scrubber-width-default;
+                border: solid $gray 2px;
+                border-radius: $scrubber-width-default;
+                background: $gray-light;
+                content: "";
+                border: solid transparent 2px;
+                height: $scrubber-width-default;
+                position: absolute;
+                left: 0px;
+                top: 0 !important;
+                display: block;
+                transition: margin-left 0.1s ease-in-out;
+                text-align: center;
+                font-weight: bold;
+            }
+        }
+
+        &:checked + span {
+            &:after {
+                background: $brand-success;
+                margin-left: $scrubber-width-default;
+                border: solid $brand-success 2px;
+            }
+
+            &:before {
+                background: $brand-success;
+            }
+        }
+    }
+    /*******************************************************
+Slider C Sizes
+*******************************************************/
+    &.checkbox-slider-sm {
+
+        input + span:before {
+            top: $scrubber-width-sm / 2 - 1;
+        }
+    }
+
+    &.checkbox-slider-md {
+
+        input + span:before {
+            top: $scrubber-width-md / 2 - 1;
+        }
+
+        input + span:after {
+            width: $scrubber-width-md;
+            border-radius: $scrubber-width-md;
+        }
+    }
+
+    &.checkbox-slider-lg {
+
+        input + span:before {
+            top: $scrubber-width-lg / 2 - 1; //correct border
+        }
+
+        input + span:after {
+            width: $scrubber-width-lg;
+            border-radius: $scrubber-width-lg;
+        }
+    }
+}
+
+// Horizontal Form
+.form-horizontal [class*='checkbox-slider--c'] {
+
+    &.checkbox-slider-sm {
+
+        input + span:before {
+            top: $scrubber-width-sm / 2 + 5;
+        }
+    }
+
+    &.checkbox-slider-md {
+
+        input + span:before {
+            top: $scrubber-width-md / 2 + 5;
+        }
+    }
+
+    &.checkbox-slider-lg {
+
+        input + span:before {
+            top: $scrubber-width-lg / 2 + 5;
+        }
+    }
+}
+
+/*******************************************************
+Slider C-weight
+*******************************************************/
+
+.checkbox-slider--c-weight {
+    input {
+
+        + span:before {
+            height: 1px !important; // needs to be
+        }
+
+        &:checked + span:before {
+            height: 2px !important; // needs to be
+        }
+
+        &:not(:checked) + span:after {
+            transform: scale(.7);
+            left: -6px;
+        }
+    }
+}
+
+/******************************************************
+State Disabled
+*******************************************************/
+
+.checkbox-slider--default input:disabled {
+    + span:after {
+        background: $gray-light;
+    }
+
+    + span:before {
+        box-shadow: 0 0 0 black;
+    }
+
+    + span {
+        color: $gray-light;
+    }
+}
+
+.checkbox-slider--a input:disabled {
+    + span:after {
+        background: $gray-light;
+        color: $white;
+    }
+
+    + span:before {
+        box-shadow: 0 0 0 black;
+    }
+
+    + span {
+        color: $gray-light;
+    }
+}
+
+.checkbox-slider--b input:disabled {
+
+    + span:after {
+        border: solid transparent 2px;
+        border-radius: $scrubber-width-lg;
+    }
+
+    + span:before {
+        box-shadow: 0 0 0 black;
+    }
+
+    + span {
+        color: $gray-light;
+    }
+}
+
+.checkbox-slider--c input:disabled {
+    &:checked + span:after {
+        background: $gray-light;
+    }
+
+    + span:after {
+        border-color: $gray-light;
+    }
+
+    + span:before {
+        background: $gray-light;
+    }
+
+    + span {
+        color: $gray-light;
+    }
+}
+
+/*******************************************************
+Indicators
+*******************************************************/
+
+input:checked + .indicator-success {
+    color: $brand-success;
+}
+
+input:checked + .indicator-info {
+    color: $brand-info;
+}
+
+input:checked + .indicator-warning {
+    color: $brand-warning;
+}
+
+input:checked + .indicator-danger {
+    color: $brand-danger;
+}
+
+/*******************************************************
+Sizes
+*******************************************************/
+
+// Small
+.checkbox-slider-sm {
+    line-height: $scrubber-width-sm;
+
+    input + span {
+        padding-left: $scrubber-width-sm * 2;
+    }
+
+    input + span:before {
+        width: $scrubber-width-sm * 2;
+    }
+
+    input + span:after,
+    input + span:before {
+        height: $scrubber-width-sm;
+        line-height: $scrubber-width-sm;
+    }
+
+    input + span:after {
+        width: $scrubber-width-sm;
+        vertical-align: middle;
+    }
+
+    input:checked + span:after {
+        margin-left: $scrubber-width-sm;
+    }
+}
+
+// Medium
+.checkbox-slider-md {
+    line-height: $scrubber-width-md;
+
+    input + span {
+        padding-left: $scrubber-width-md * 2;
+    }
+
+    input + span:before {
+        width: $scrubber-width-md * 2;
+    }
+
+    input + span:after,
+    input + span:before {
+        height: $scrubber-width-md;
+        line-height: $scrubber-width-md;
+    }
+
+    input + span:after {
+        width: $scrubber-width-md;
+        vertical-align: middle;
+    }
+
+    input:checked + span:after {
+        margin-left: $scrubber-width-md;
+    }
+}
+
+// Large
+.checkbox-slider-lg {
+    line-height: $scrubber-width-lg;
+
+    input + span {
+        padding-left: $scrubber-width-lg * 2;
+    }
+
+    input + span:before {
+        width: $scrubber-width-lg * 2;
+    }
+
+    input + span:after,
+    input + span:before {
+        height: $scrubber-width-lg;
+        line-height: $scrubber-width-lg;
+    }
+
+    input + span:after {
+        width: $scrubber-width-lg;
+        vertical-align: middle;
+    }
+
+    input:checked + span:after {
+        margin-left: $scrubber-width-lg;
+    }
+}
+
+/*******************************************************
+Variations
+*******************************************************/
+
+// info
+.checkbox-slider-info {
+    &.checkbox-slider--default,
+    &.checkbox-slider--a,
+    &.checkbox-slider--c,
+    &.checkbox-slider--c-weight {
+        input:checked + span:after {
+            background: $brand-info;
+            background-clip: content-box;
+        }
+    }
+
+    &.checkbox-slider--c,
+    &.checkbox-slider--c-weight {
+        input:checked + span:after {
+            border-color: $brand-info;
+        }
+    }
+
+    &.checkbox-slider--b,
+    &.checkbox-slider--b-flat,
+    &.checkbox-slider--c,
+    &.checkbox-slider--c-weight {
+        input:checked + span:before {
+            background: $brand-info;
+        }
+    }
+}
+
+// warning
+.checkbox-slider-warning {
+    &.checkbox-slider--default,
+    &.checkbox-slider--a,
+    &.checkbox-slider--c,
+    &.checkbox-slider--c-weight {
+        input:checked + span:after {
+            background: $brand-warning;
+            background-clip: content-box;
+        }
+    }
+
+    &.checkbox-slider--c,
+    &.checkbox-slider--c-weight {
+        input:checked + span:after {
+            border-color: $brand-warning;
+        }
+    }
+
+    &.checkbox-slider--b,
+    &.checkbox-slider--b-flat,
+    &.checkbox-slider--c,
+    &.checkbox-slider--c-weight {
+        input:checked + span:before {
+            background: $brand-warning;
+        }
+    }
+}
+
+// danger
+.checkbox-slider-danger {
+    &.checkbox-slider--default,
+    &.checkbox-slider--a,
+    &.checkbox-slider--c,
+    &.checkbox-slider--c-weight {
+        input:checked + span:after {
+            background: $brand-danger;
+            background-clip: content-box;
+        }
+    }
+
+    &.checkbox-slider--c,
+    &.checkbox-slider--c-weight {
+        input:checked + span:after {
+            border-color: $brand-danger;
+        }
+    }
+
+    &.checkbox-slider--b,
+    &.checkbox-slider--b-flat,
+    &.checkbox-slider--c,
+    &.checkbox-slider--c-weight {
+        input:checked + span:before {
+            background: $brand-danger;
+        }
+    }
+}

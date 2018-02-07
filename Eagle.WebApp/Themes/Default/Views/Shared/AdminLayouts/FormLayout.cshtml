@@ -1,0 +1,60 @@
+﻿<div id="FormContainer" class="form-container">
+    <div id="FormHeader" class="form-header">
+        <div class="topbar">
+            <div class="row topbar-inner">
+                <div class="col-md-6">
+                    @if (IsSectionDefined("TopHeading"))
+                    {
+                        @RenderSection("TopHeading", false)
+                    }
+                    else
+                    {
+                        <h6 class="text-capitalize">@ViewBag.Title</h6>
+                    }
+                </div>
+                <div class="col-md-6 no-padding-right">
+                    <div class="right-button-align">
+                        @if (IsSectionDefined("TopActionButtons"))
+                        {
+                            @RenderSection("TopActionButtons", false)
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="FormMessage" class="form-message">
+        <div id="alertMessageBox" class="margin-5">
+            @if (ViewBag.DisplayErrorMessage == true)
+            {
+                <div class="@ViewBag.CssClass">
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                    <strong>@ViewBag.SortMessage !</strong>
+                    <div class="padding-left">
+                        @Html.Raw(Server.HtmlDecode(ViewBag.Message))
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="progress progress-striped active">
+            <div class="progress-bar progress-bar-success" style="width: 0%;">
+                <span class="sr-only">0% Complete</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="FormBody" class="form-body">
+        @(IsSectionDefined("FormBody") ? RenderSection("FormBody", false) : RenderBody())
+    </div>
+
+    <div id="FormFooter" class="form-footer">
+        @if (IsSectionDefined("BottomActionButtons"))
+        {
+            <div class="footbar">
+                @RenderSection("BottomActionButtons", false)
+            </div>
+        }
+    </div>
+</div>
+@RenderSection("FormScripts", false)

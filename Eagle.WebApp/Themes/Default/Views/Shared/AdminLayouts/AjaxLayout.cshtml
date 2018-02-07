@@ -1,0 +1,141 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    @Styles.Render("~/Themes/Default/FullScreenAdminStyle")
+    @Scripts.Render("~/bundles/jquery")
+</head>
+<body class="hold-transition skin-blue layout-top-nav">
+  
+    <div id="container" class="wrapper">
+
+        <div id="header" class="header main-header">
+            @Html.Partial("_TopHeaderPartial")
+        </div>
+        <div class="clearboth"></div>
+
+        <!-- start container -->
+        <div id="body" class="body">
+            <div id="BodyContainer" class="body-container">
+                <div id="PaneContainer" class="pane-container">
+
+                    <!--start left ----------------------------->
+                    <div id="LeftPane" class="left-pane">
+                        @RenderSection("LeftPane", required: false)
+                    </div>
+                    <!--end left ------------------------------->
+                    <!--start content ----------------------------------------------------------->
+                    <div id="ContentPane" class="content-pane">
+                        <!--Site map runs from main script ----------------------------->
+                        <div class="row">
+                            <div class="col-md-4 padding-left-5">
+                                <div id="SiteMap" class="navbar-header site-map"></div>
+                            </div>
+                            <div class="col-md-8 padding-right-5"></div>
+                        </div>
+
+                        <div class="row">
+                            @if (IsSectionDefined("BodyPane"))
+                            {
+                                @RenderSection("BodyPane", required: false)
+                            }
+                            else
+                            {
+                                <div id="BodyPaneContainer" class="body-pane-container">
+                                    <div id="HeaderContainer" class="header-container">
+                                        <div class="row">
+                                            <div class="col-md-10 no-padding-left">
+                                                @if (IsSectionDefined("TitleSection"))
+                                                {
+                                                    @RenderSection("TitleSection", required: false)
+                                                }
+                                                else
+                                                {
+                                                    <h4>@ViewBag.Title</h4>
+                                                }
+                                            </div>
+                                            <div class="col-md-2 no-padding-right">
+                                                <div class="top-toolbar">
+                                                    @RenderSection("TopActionButtons", required: false)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="MainContainer" class="main-container">
+                                        @if (IsSectionDefined("MessageSection"))
+                                        {
+                                            @RenderSection("MessageSection", required: false)
+                                        }
+                                        else
+                                        {
+                                            @Html.Partial("_MessagePartial")
+                                        }
+
+                                        @if (IsSectionDefined("ContentSection"))
+                                        {
+                                            @RenderSection("ContentSection", required: false)
+                                        }
+
+                                        @if (IsSectionDefined("SubContentSection"))
+                                        {
+                                            @RenderSection("SubContentSection", required: false)
+                                        }
+
+                                        @RenderSection("Scripts", required: false)
+                                    </div>
+
+                                    <div id="FooterContainer" class="footer-container">
+                                        <div class="bottom-toolbar">
+                                            @if (IsSectionDefined("BottomActionButtons"))
+                                            {
+                                                @RenderSection("BottomActionButtons", required: false)
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                    <!--end content -------------------------------------------------------------->
+
+                </div>
+            </div>
+        </div>
+        <div class="clearboth"></div>
+
+        <!-- start footer -->
+        <div id="footer" class="footer">
+            @Html.Partial("_Footer")
+        </div>
+        <!-- and footer -->
+        
+        <!-- end container -->
+    </div>
+
+<div id="loading" class="loading"></div>
+    @Scripts.Render("~/bundles/jqueryajax")
+    @Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    //LANGUAGE RESOURCE
+    window.Create = '@Html.Raw(LanguageResource.Create)';
+    window.CreateSuccess = '@Html.Raw(LanguageResource.CreateSuccess)';
+    window.CreateFailure = '@Html.Raw(LanguageResource.CreateFailure)';
+    window.Edit = '@Html.Raw(LanguageResource.Edit)';
+    window.UpdateSuccess = '@Html.Raw(LanguageResource.UpdateSuccess)';
+    window.UpdateFailure = '@Html.Raw(LanguageResource.UpdateFailure)';
+    window.UpdateStatus = '@Html.Raw(LanguageResource.UpdateStatus)';
+    window.UpdateStatusSuccess = '@Html.Raw(LanguageResource.UpdateStatusSuccess)';
+    window.UpdateStatusFailure = '@Html.Raw(LanguageResource.UpdateStatusFailure)';
+</script>
+</body>
+</html>

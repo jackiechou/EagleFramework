@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = LanguageResource.EditManufacturer;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Business.ManufacturerEditEntry
+
+<div class="panel panel-default">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditManufacturer", name = "frmEditManufacturer", autocomplete = "off", @class = "form-horizontal" }))
+    {
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditManufacturer" data-id="@Model.CategoryId" data-url='@Url.Action("Edit", "Manufacturer")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editManufacturer" data-mode="edit" data-form="frmEditManufacturer" data-url='@Url.Action("Edit", "Manufacturer")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditManufacturer</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.CategoryId, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.CategoryId, null, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.CategoryId)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.ManufacturerName, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.ManufacturerName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ManufacturerName)
+
+                                    @Html.HiddenFor(model => model.ManufacturerId)
+                                    @Html.ValidationMessageFor(model => model.ManufacturerId)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", type = "email" })
+                                    @Html.ValidationMessageFor(model => model.Email)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Phone, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", type = "tel" })
+                                    @Html.ValidationMessageFor(model => model.Phone)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Fax, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.Fax, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Fax)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Address, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                   @Html.TextAreaFor(model => model.Address, new { rows = 2, columns = 40, maxlength = 150, @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Address)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.IsActive, new {@class = "control-label col-md-2"})
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        @Html.RadioButtonSwitchEnumFor(model => model.IsActive)
+                                        @Html.ValidationMessageFor(model => model.IsActive, "", new {@class = "text-danger"})
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label(LanguageResource.Photo, new { @class = "control-label col-md-2" })
+                                @Html.HiddenFor(model => model.Photo)
+                                <div class="col-md-10">
+                                    <div class="file-container">
+                                        <div class="row">
+                                            <div class="col-md-8 no-padding-left">
+                                                <input type="file" id="File" name="File" accept="image/gif, image/jpg, image/jpeg, image/png, image/gif" class="btn btn-default form-control" />
+                                                @Html.ValidationMessageFor(model => model.File)
+                                            </div>
+                                            <div class="col-md-4 no-padding-left">
+                                                <input type="button" class="btn btn-warning resetFile" value="@LanguageResource.Reset" />
+                                            </div>
+                                        </div>
+                                        <div id="image-holder">
+                                            @if (!string.IsNullOrEmpty(Model.FileUrl))
+                                            {
+                                                <img src='@Model.FileUrl' class="thumb-image" width='450' height='250' />
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditManufacturer" data-id="@Model.CategoryId" data-url='@Url.Action("Edit", "Manufacturer")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editManufacturer" data-mode="edit" data-form="frmEditManufacturer" data-id="@Model.CategoryId" data-url='@Url.Action("Edit", "Manufacturer")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,167 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <style type="text/css">
+
+    </style>
+    @Styles.Render("~/Themes/Default/ReportStyle")
+    @Scripts.Render("~/Scripts/HeaderScript")
+
+
+    <link href="~/Scripts/plugins/flot/flotchart.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/flot/jquery.flot.js" type="text/javascript"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.pie.js" type="text/javascript"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.resize.js" type="text/javascript"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.axislabels.js" type="text/javascript"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.symbol.js" type="text/javascript"></script>
+    <script src="~/Scripts/plugins/flot/jshashtable-3.0.js" type="text/javascript"></script>
+    <script src="~/Scripts/plugins/flot/jquery.numberformatter-1.2.4.js" type="text/javascript"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.time.js" type="text/javascript"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.tooltip.js" type="text/javascript"></script>
+    <script id="scriptChart" src="~/Scripts/app/chart/common_chart.js" type="text/javascript"></script>
+    <!--[if IE]><script src="~/Scripts/plugins/flot/excanvas.js"></script><![endif]-->
+
+    @*<script type="text/javascript">
+        @{
+            //set LanguageId
+            string LanguageId = Session["LanguageId"] == null ? "124" : Session["LanguageId"].ToString();
+            //Set Permission
+
+            int FView = 1; int FDelete = 1; int FEdit = 1; int FExport = 1;
+            List<Eagles.Model.SYS_tblFunctionPermissionViewModel> lst = (List<Eagles.Model.SYS_tblFunctionPermissionViewModel>)Session[Eagle.Common.Settings.SettingKeys.MenuList];
+            if (lst != null && Session[Eagle.Common.Settings.SettingKeys.AccountInfo] != null)
+            {
+                string url = Request.Url.AbsolutePath.ToString().Substring(1);
+                var fp = lst.Where(p => p.Url.Contains(url.TrimEnd('/'))).FirstOrDefault();
+                //nếu không phải là admin thì check quyền
+                if (fp != null)
+                {
+                    if (((Eagles.Model.AccountViewModel)Session[Eagle.Common.Settings.SettingKeys.AccountInfo]).FAdm != 1)
+                    {
+                        //Nếu không phải là  admin => check quyền
+                        FView = (fp.FView == true) ? 1 : 0;
+                        FDelete = (fp.FDelete == true) ? 1 : 0;
+                        FEdit = (fp.FEdit == true) ? 1 : 0;
+                        FExport = (fp.FExport == true) ? 1 : 0;
+
+                    }
+                    else
+                    {
+                        //Nếu là admin full quyền
+                        FView = 1;
+                        FDelete = 1;
+                        FEdit = 1;
+                        FExport = 1;
+                    }
+
+                }
+                else
+                {
+                    //Nếu không có quyền hoặc hết session acc => return
+                    Response.RedirectToRoute("Admin_PermissionDenied");
+                }
+            }
+            else
+            {
+                //Hết session => nhảy ra trang ngoài
+                Response.RedirectToRoute("Admin_Login");
+            }
+
+        }
+        $(window).on('load', function () {
+            $('#loading').fadeOut(500);
+        });
+        var LanguageId = parseInt('@LanguageId');
+
+        var areas = '/Admin';
+        var FView = parseInt('@FView');
+        var FDelete = parseInt('@FDelete');
+        var FEdit = parseInt('@FEdit');
+        var FExport = parseInt('@FExport');
+        //var bmsLocale = 'en';
+        // $.uiBackCompat = false;
+    </script>*@
+
+    @RenderSection("HeadScripts", required: false)
+</head>
+<!--[if IE 6]><body class="ie ie6"><![endif]-->
+<!--[if IE 7]><body class="ie ie7"><![endif]-->
+<!--[if IE 8]><body class="ie ie8"><![endif]-->
+<!--[if IE 9]><body class="ie ie9"><![endif]-->
+<!--[if gt IE 9]><body class="ie"><![endif]-->
+<!--[if !IE ]><!-->
+<body>
+    <!--<![endif]-->
+    <div id="container">
+        <div id="header" class="banner_top">
+            <div class="container">
+                <div class="row">
+                    @*@Html.Partial("_HeaderPartial")*@
+                </div>
+            </div>
+            <!-- start menutop -->
+            <div class="menu_top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-11">
+                            @*@Html.Action("_NavigationPartial", "Home")*@
+                        </div>
+                        <div class="col-md-1 s-h">
+                            <a data-placement="bottom" data-original-title="Show / Hide Sidebar" href="javascript:void(0);" rel="tooltip" class="btn btn-success" id="changeSidebarPos">
+                                <i class="glyphicon glyphicon-resize-horizontal"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- and menutop -->
+        </div>
+        <!-- start container -->
+        <div id="body" class="container">
+            <div class="row" id="content-bg">
+                <div id="LeftPane">
+                    @Html.Partial("_LeftBarPartial")
+                </div>
+                <!--/span-->
+                <!--start.content -->
+                <div id="ContentPane">
+                    <ul class="breadcrumb">
+                        @*@Html.MvcSiteMap().SiteMapPath()*@
+                    </ul>
+                    <div class="row content-header">
+                        <div class="col-md-10">
+                            <h4>@ViewBag.Title</h4>
+                        </div>
+                        <div class="col-md-2">
+                            <div>
+                                @RenderSection("Button", required: false)
+                            </div>
+                        </div>
+                    </div>
+                    @RenderBody()
+                </div>
+                <!--start.content -->
+
+            </div>
+            <!--/row-->
+            <hr style="margin-bottom: -5px;margin-right: -10px;margin-left: -10px;" />
+        </div>
+        <!-- and menutop -->
+        @*@section BottomPane
+        {
+            @Scripts.Render("~/Scripts/FooterScript")
+            @RenderSection("Scripts", required: false)
+            <div id="footer" class="footer">
+                @Html.Partial("_FooterPartial")
+            </div>
+        }*@
+    </div>
+
+    <div id="loading" class="loading"></div>
+</body>
+</html>

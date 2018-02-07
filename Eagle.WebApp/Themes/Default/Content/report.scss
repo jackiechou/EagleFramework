@@ -1,0 +1,68 @@
+﻿ fieldset.leftCotent div.fielsetContent {
+    padding-top: 10px;
+    height: auto;
+}
+
+fieldset.leftCotent ul {
+    list-style: none;
+    margin: 0px;
+}
+
+fieldset.leftCotent label {
+    width: 150px;
+    text-align: left;
+    display: inline-block;
+}
+
+fieldset.leftCotent {
+    border-radius: 10px;
+    background: #eee;
+    margin: 20px;
+    padding: 20px 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,.3);
+    position: relative;
+    border: 2px groove threedface;
+    width:160px;
+}
+
+fieldset.leftCotent legend span {
+    display: block;
+    margin: -20px -10px;
+    background: #fff;
+    padding: 0 10px;
+    font-size: 12px !important;
+    border-top: none;
+    border: 2px groove threedface;
+    box-shadow: inset 0 -2px 2px rgba(0,0,0,.1);
+}
+
+fieldset.leftCotent legend {
+    position: absolute;
+    top: -2px;
+    padding: 10px;
+    border: none;        
+    font-weight: bold;
+    line-height: 30px;
+    font-size: 12px !important;
+}
+.selected { background-color: #efefef;}
+
+.chart_placeholder {
+    width:600px;
+    height:300px;
+    margin:0 auto;
+    float:left;
+}
+.chart_label {
+    height:40px;
+    padding-top:10px;
+}
+
+.report_container{
+    width:100%;
+    height:400px;
+    overflow-x: scroll;
+}
+.row-fluid label {
+        float: right;
+}

@@ -1,0 +1,31 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.CustomerTypeManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody" class="container-fluid">
+                <div id="divEdit">
+                    @Html.Partial("../Business/Ecommerce/Attribute/_Create")
+                </div>
+                <div id="divList">
+                    @Html.Action("LoadSearchForm", "Attribute")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.CustomerTypeSearchUrl = '@Url.Action("Search", "Attribute")';
+    </script>
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui-custom.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon-custom.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <script type="text/javascript" src="~/Scripts/app/modules/customer-type.js"></script>
+}

@@ -1,0 +1,44 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    @RenderSection("Meta", false)
+    <title>@ViewBag.Title</title>
+    <!-- You can use Open Graph tags to customize link previews.
+    Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
+    @*<meta property="og:url" content="http://jenasisorganicnailspa.com" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Jenasis Organic Nail Spa" />
+        <meta property="og:description" content="Nail Spa" />
+        <meta property="og:image" content="http://jenasisorganicnailspa.com/Images/logo.png" />*@
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    @RenderSection("HeaderStyles", false)
+    @RenderSection("HeaderScripts", false)
+</head>
+<body class="header-fixed">
+    <div class="wrapper">
+        @Html.Partial("../Shared/Booking/_HeaderPartial")
+
+        @RenderBody()
+
+        @Html.Partial("../Shared/Booking/_FooterPartial")
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a href="#" data-dismiss="modal" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+                        <h3 class="modal-title" id="myModalTitle"></h3>
+                    </div>
+                    <div class="modal-body" id="myModalBody">
+                        @LanguageResource.Loading
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-content-page"></div>
+    <div id="loading" class="loading"></div>
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    @RenderSection("FooterScripts", false)
+</body>
+</html>

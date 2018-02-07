@@ -1,0 +1,62 @@
+﻿#LeftPane {
+  display: block;
+  float: left;
+  position: relative;
+  padding: 0px; }
+
+#ContentPane {
+  transition: margin-left 0.4s ease 0s;
+  float: left;
+  padding: 10px 0px; }
+
+.hide-sidebar #LeftPane {
+  display: none !important;
+  width: 0%; }
+
+.hide-sidebar #ContentPane {
+  /*margin: auto  0px !important;*/
+  margin: 0px;
+  width: 100% !important; }
+
+.profile-sidebar {
+  padding: 20px 0 10px 0;
+  background: #fff; }
+
+.profile-user {
+  display: inline-block;
+  border-bottom: 2px solid #3189C8;
+  width: 100%; }
+  .profile-user .profile-userpic {
+    margin: 8px 0px; }
+    .profile-user .profile-userpic img.img-responsive {
+      margin: 10px auto;
+      border-radius: 50% !important; }
+  .profile-user .profile-usertitle {
+    position: relative;
+    width: 115px;
+    overflow: hidden;
+    padding-left: 0px; }
+    .profile-user .profile-usertitle .profile-usertitle-container {
+      padding: 35px 0px 0px 0px;
+      overflow: hidden; }
+      .profile-user .profile-usertitle .profile-usertitle-container .profile-usertitle-name {
+        color: #5a7391;
+        font-size: 11px;
+        font-weight: 600;
+        overflow: hidden; }
+      .profile-user .profile-usertitle .profile-usertitle-container .profile-usertitle-job {
+        text-transform: uppercase;
+        color: #5b9bd1;
+        font-size: 10px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        overflow: hidden; }
+      .profile-user .profile-usertitle .profile-usertitle-container .profile-userbuttons {
+        text-align: center;
+        margin-top: 10px; }
+  .profile-user .line {
+    border-bottom: 2px solid #3189C8; }
+
+.profile-usermenu {
+  margin-top: 0px; }
+

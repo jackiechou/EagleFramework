@@ -1,0 +1,28 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.Brand);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody">
+                <div id="divEdit">
+                    @Html.Action("Create", "Brand")
+                </div>
+                <div id="divList">
+                    @Html.Action("LoadSearchForm", "Brand")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.BrandSearchUrl = '@Url.Action("Search", "Brand")';
+    </script>
+    <script type="text/javascript" src="~/Scripts/app/modules/brand.js"></script>
+}
+

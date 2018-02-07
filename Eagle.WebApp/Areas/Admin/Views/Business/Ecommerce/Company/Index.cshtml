@@ -1,0 +1,41 @@
+﻿@using Eagle.Core.Configuration
+@using Eagle.Core.UI.Layout
+@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.CompanyInfomation;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainBody">
+    <div id="divEdit">
+        @Html.Partial("../Business/Ecommerce/Company/_Create")
+    </div>
+</div>
+
+
+@section Scripts{
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet"/>
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.default.mobile.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/kendo/js/kendo.all.min.js")"></script>
+    <script type="text/javascript">
+        //UPLOAD IN EDIOR
+        window.ReadImageBrowserUrl = '@Url.Action("Read", "ImageBrowser")';
+        window.CreateImageBrowserDirectoryUrl = '@Url.Action("CreateDirectory", "ImageBrowser")';
+        window.DestroyImageBrowserUrl = '@Url.Action("Destroy", "ImageBrowser")';
+        window.ThumbnailImageBrowserUrl = '@Url.Action("Thumbnail", "ImageBrowser")';
+        window.UploadImageBrowserUrl = '@Url.Action("Upload", "ImageBrowser")';
+        window.UploadCompanyImageFolder = '@Url.Content(GlobalSettings.CompanyUploadImagePath)';
+
+        window.PopulateCountrySelectListUrl = '@Url.Action("PopulateCountrySelectList", "Contact")';
+        window.PopulateProvinceSelectListUrl = '@Url.Action("PopulateProvinceSelectList", "Contact")';
+        window.PopulateRegionSelectListUrl = '@Url.Action("PopulateRegionSelectList", "Contact")';
+        window.GetCompanyTreeUrl = '@Url.Action("GetCompanyTree", "Company")';
+        window.EditCompanyUrl = '@Url.Action("Edit", "Company")';
+    </script>
+    <script src="~/Scripts/app/modules/company.js"></script>
+}

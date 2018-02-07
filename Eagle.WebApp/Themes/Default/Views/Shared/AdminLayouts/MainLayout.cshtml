@@ -1,0 +1,163 @@
+﻿@using Eagle.Services.Skins
+@{
+    Layout = ThemeViewEngine.AdminMasterLayout;
+}
+
+@section Meta{
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+}
+
+@section HeaderStyles{
+    @Styles.Render("~/Themes/Default/TwoColumnAdminStyle")
+}
+
+@RenderSection("HeadScripts", false)
+<div id="BodyContainer" class="body-container">
+    <div id="PaneContainer" class="pane-container row">
+
+        <!--start left ------------>
+        <div id="LeftPane" class="left-pane col-md-2">
+            @if (IsSectionDefined("LeftPane"))
+            {
+                @RenderSection("LeftPane", false)
+            }
+            else
+            {
+                <div class="profile-user">
+                    @Html.Action("GeProfileOnLeft", "Dashboard")
+                </div>
+                <!-- SIDEBAR MENU -->
+                <div class="profile-usermenu">
+                    @Html.Action("LoadLeftMainMenu", "Menu")
+                </div>
+            }
+        </div>
+        <!--end left -------------->
+        <!--start content ------------->
+        <div id="ContentPane" class="content-pane no-padding-left col-md-10">
+
+            <div class="row no-padding-right">
+                <div id="SiteMap" class="navbar-header site-map"></div>
+            </div>
+
+            <div class="row">
+                <div id="BodyPaneContainer" class="body-pane-container">
+                    <div id="HeaderContainer" class="header-container">
+                        <div class="row">
+                            <div class="col-md-10 no-padding-left">
+                                @if (IsSectionDefined("TitleSection"))
+                                {
+                                    @RenderSection("TitleSection", false)
+                                }
+                                else
+                                {
+                                    <h4>@ViewBag.Title</h4>
+                                }
+                            </div>
+                            <div class="col-md-2 no-padding-right">
+                                <div class="top-toolbar">
+                                    @if (IsSectionDefined("TopActionButtons"))
+                                    {
+                                        @RenderSection("TopActionButtons", false)
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="MainContainer" class="main-container">
+                        @if (IsSectionDefined("MessageSection"))
+                        {
+                            @RenderSection("MessageSection", false)
+                        }
+                        else
+                        {
+                            @Html.Partial("_MessagePartial")
+                        }
+
+                        @RenderSection("ContentSection")
+
+                        @if (IsSectionDefined("SubContentSection"))
+                        {
+                            @RenderSection("SubContentSection", false)
+                        }
+
+                        @if (IsSectionDefined("Scripts"))
+                        {
+                            @RenderSection("Scripts", false)
+                        }
+                    </div>
+
+                    <div id="FooterContainer" class="footer-container">
+                        <div class="bottom-toolbar">
+                            @if (IsSectionDefined("BottomActionButtons"))
+                            {
+                                @RenderSection("BottomActionButtons", false)
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--end content --------------->
+
+    </div>
+</div>
+@section FooterScripts{
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryajax")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script type="text/javascript">
+        //LANGUAGE RESOURCE
+        window.Create = '@Html.Raw(LanguageResource.Create)';
+        window.CreateSuccess = '@Html.Raw(LanguageResource.CreateSuccess)';
+        window.CreateFailure = '@Html.Raw(LanguageResource.CreateFailure)';
+        window.Edit = '@Html.Raw(LanguageResource.Edit)';
+        window.UpdateSuccess = '@Html.Raw(LanguageResource.UpdateSuccess)';
+        window.UpdateFailure = '@Html.Raw(LanguageResource.UpdateFailure)';
+        window.Delete = '@Html.Raw(LanguageResource.Delete)';
+        window.DeleteSuccess = '@Html.Raw(LanguageResource.DeleteSuccess)';
+        window.DeleteFailure = '@Html.Raw(LanguageResource.DeleteFailure)';
+        window.Quit = '@Html.Raw(LanguageResource.Quit)';
+        window.Warning = '@Html.Raw(LanguageResource.Warning)';
+        window.DoYouWantToContinue = '@Html.Raw(LanguageResource.DoYouWantToContinue)';
+        window.Ok = '@Html.Raw(LanguageResource.Ok)';
+        window.Cancel = '@Html.Raw(LanguageResource.Cancel)';
+        window.NoRecordFound = '@Html.Raw(LanguageResource.NoRecordFound)';
+        window.UploadFileError = '@Html.Raw(LanguageResource.UploadFileError)';
+    </script>
+    @Scripts.Render("~/Scripts/FooterScript")
+    @RenderSection("Scripts", false)
+}
+
+<div id="PopupCotainer">
+    <div class="modal fade modal-popup" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">@ViewBag.Title</h4>
+                </div>
+                <div class="modal-body">
+                    Content for the dialog / modal goes here.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">@Html.Raw(LanguageResource.Close)</button>
+                    @if (!IsSectionDefined("PopupBottomActionButtons"))
+                    {
+                        @RenderSection("PopupBottomActionButtons", false)
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

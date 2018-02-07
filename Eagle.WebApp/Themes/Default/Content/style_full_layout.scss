@@ -1,0 +1,33 @@
+﻿#LeftPane {
+    display: none;
+    float: left;
+    position: relative;
+    width: 0%;
+}
+#ContentPane {
+   /* margin-left: 220px;*/
+    float:left;
+    transition: margin-left 0.4s ease 0s;
+    width:100%;      
+    margin: 0px 0px 20px 0px;
+}
+
+
+.hide-sidebar #LeftPane {
+  display: block !important;
+  width: 23.2%;
+  }
+  
+.hide-sidebar #ContentPane {
+    /*margin: auto  0px !important;*/   
+    margin: 0px 0px 0px 10px;
+    width:75.7% !important;   
+}
+
+.kv-file-upload {
+    display: none;
+}
+
+.fileinput-upload-button {
+    display: none;
+}

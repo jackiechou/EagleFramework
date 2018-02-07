@@ -1,0 +1,34 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>   
+    @RenderSection("Meta", false)
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    @RenderSection("HeaderStyles", false)  
+    @RenderSection("HeaderScripts", false)
+</head>
+<body class="hold-transition skin-blue layout-top-nav">
+
+    <div id="container" class="wrapper">
+
+        <div id="header" class="header main-header">
+            @Html.Partial("_TopHeaderPartial")
+        </div>
+        <div class="clearboth"></div>
+        
+        <div id="body" class="body">
+            @RenderBody()
+        </div>
+        <div class="clearboth"></div>
+
+        <div id="footer" class="footer">
+            @Html.Partial("_Footer")
+        </div>
+        
+        @RenderSection("FooterScripts", false)
+        
+    </div>
+    <a href="#" id="back-to-top" class="scroll-up" title="Back to top">&uarr;</a>
+    <div id="loading" class="loading"></div>
+</body>
+</html>

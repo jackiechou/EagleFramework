@@ -1,0 +1,186 @@
+﻿@{
+    ViewBag.Title = LanguageResource.EditCustomer;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Business.CustomerEditEntry
+
+<div class="panel panel-default">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditCustomer", name = "frmEditCustomer", autocomplete = "off", @class = "form-horizontal" }))
+    {
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditCustomer" data-id="@Model.CustomerId" data-url='@Url.Action("Edit", "Customer")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editCustomer" data-mode="edit" data-form="frmEditCustomer" data-id="@Model.CustomerId" data-url='@Url.Action("Edit", "Customer")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditCustomer</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-re-0">
+            <div id="formMessage" class="form-message">
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.CustomerTypeId, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(model => model.CustomerTypeId, null, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.CustomerTypeId)
+                                </div>
+                                @Html.RequiredLabelFor(model => model.CustomerNo, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    <div class="input-group addon">
+                                        @Html.TextBoxFor(model => model.CustomerNo, new {@class = "form-control"})
+                                        @Html.ValidationMessageFor(model => model.CustomerNo)
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default generate-code" type="button" data-url='@Url.Action("GenerateCode", "Customer")' id="btnReloadCode"><i class="glyphicon glyphicon-refresh"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.FirstName)
+
+                                    @Html.HiddenFor(model => model.CustomerId)
+                                    @Html.ValidationMessageFor(model => model.CustomerId)
+                                </div>
+                                @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.LastName)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ContactName, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.ContactName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ContactName)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Mobile, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Mobile)
+                                </div>
+                                @Html.LabelFor(model => model.WorkPhone, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.WorkPhone, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.WorkPhone)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Email)
+                                </div>
+                                @Html.LabelFor(model => model.Fax, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.Fax, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Fax)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CardNo, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.CardNo, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.CardNo)
+                                </div>
+                                @Html.LabelFor(model => model.IdCardNo, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.IdCardNo, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IdCardNo)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PassPortNo, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.PassPortNo, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.PassPortNo)
+                                </div>
+                                @Html.LabelFor(model => model.TaxCode, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.TaxCode, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.TaxCode)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BirthDay, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.DatePickerFor(model => model.BirthDay)
+                                    @Html.ValidationMessageFor(model => model.BirthDay)
+                                </div>
+                                @Html.RequiredLabelFor(model => model.Gender, new {@class = "control-label col-md-2"})
+                                <div class="col-md-4">
+                                    @Html.RadioButtonSwitchEnumFor(model => model.Gender)
+                                    @Html.ValidationMessageFor(model => model.Gender)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                 @Html.RequiredLabelFor(model => model.IsActive, new {@class = "control-label col-md-2"})
+                                <div class="col-md-4">
+                                    @Html.RadioButtonSwitchEnumFor(model => model.IsActive)
+                                    @Html.ValidationMessageFor(model => model.IsActive)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label(LanguageResource.Logo, new { @class = "control-label col-md-2" })
+                                @Html.HiddenFor(model => model.Photo)
+                                <div class="col-md-10">
+                                    <div class="file-container">
+                                        <div class="row">
+                                            <div class="col-md-8 no-padding-left">
+                                                <input type="file" id="File" name="File" accept="image/gif, image/jpg, image/jpeg, image/png, image/gif" class="btn btn-default form-control" />
+                                                @Html.ValidationMessageFor(model => model.File)
+                                            </div>
+                                            <div class="col-md-4 no-padding-left">
+                                                <input type="button" class="btn btn-warning resetFile" value="@LanguageResource.Reset" />
+                                            </div>
+                                        </div>
+                                        <div id="image-holder">
+                                            @if (!string.IsNullOrEmpty(Model.FileUrl))
+                                            {
+                                                <img src='@Model.FileUrl' class="thumb-image" width='450' height='250' />
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Partial("../Business/Ecommerce/Customer/_AddressEdit", Model)
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditCustomer" data-id="@Model.CustomerId" data-url='@Url.Action("Edit", "Customer")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editCustomer" data-mode="edit" data-form="frmEditCustomer" data-id="@Model.CustomerId" data-url='@Url.Action("Edit", "Customer")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+                                                }
+</div>

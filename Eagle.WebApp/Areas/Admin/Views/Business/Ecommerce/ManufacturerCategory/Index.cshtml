@@ -1,0 +1,27 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.ManufacturerCategory);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody" class="container-fluid">
+                <div id="divEdit">
+                    @Html.Partial("../Business/Ecommerce/ManufacturerCategory/_Create")
+                </div>
+                <div id="divList">
+                    @Html.Action("List", "ManufacturerCategory")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script Scope="text/javascript">
+        window.ManufacturerCategoryListUrl = '@Url.Action("List", "ManufacturerCategory")';
+    </script>
+    <script type="text/javascript" src="~/Scripts/app/modules/manufacturer-category.js"></script>
+}

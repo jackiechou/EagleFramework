@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = LanguageResource.CreateCustomerType;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Business.CustomerTypeEntry
+
+<div class="panel panel-default">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmCreateCustomerType", name = "frmCreateCustomerType", }))
+    {
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateCustomerType" data-url='@Url.Action("Create", "CustomerType")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save add create createCustomerType" data-mode="create" data-form="frmCreateCustomerType" data-url='@Url.Action("Create", "CustomerType")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.CreateCustomerType</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.AntiForgeryToken()
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+                        <div class="form-horizontal">
+
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.CustomerTypeName, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.CustomerTypeName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.CustomerTypeName)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PromotionalRate, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.PromotionalRate, new { @class = "form-control", type="number" })
+                                    @Html.ValidationMessageFor(model => model.PromotionalRate)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.Note, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Note)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.RadioButtonSwitchEnumFor(model => model.IsActive, CustomerTypeStatus.Active)
+                                    @Html.ValidationMessageFor(model => model.IsActive)
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateCustomerType" data-url='@Url.Action("Create", "CustomerType")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save add create createCustomerType" data-mode="create" data-form="frmCreateCustomerType" data-url='@Url.Action("Create", "CustomerType")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

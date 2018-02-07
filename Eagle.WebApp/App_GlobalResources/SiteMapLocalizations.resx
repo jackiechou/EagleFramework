@@ -1,0 +1,585 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Access" xml:space="preserve">
+    <value>Phân quyền người dùng</value>
+  </data>
+  <data name="AccountManagement" xml:space="preserve">
+    <value>Quản lý thông tin người dùng</value>
+  </data>
+  <data name="AddForm" xml:space="preserve">
+    <value>Thêm form chức năng</value>
+  </data>
+  <data name="AddMenu" xml:space="preserve">
+    <value>Thêm thông tin danh mục</value>
+  </data>
+  <data name="AddNew" xml:space="preserve">
+    <value>Thêm mới</value>
+  </data>
+  <data name="AddNewCandidate" xml:space="preserve">
+    <value>Thêm ứng viên</value>
+  </data>
+  <data name="AssignStaffSchedule" xml:space="preserve">
+    <value>Gán nhân viên vào lịch</value>
+  </data>
+  <data name="BackgroundData" xml:space="preserve">
+    <value>Dữ liệu nền</value>
+  </data>
+  <data name="BrandManagement" xml:space="preserve">
+    <value>Quản lý nhãn hiệu</value>
+  </data>
+  <data name="C66a" xml:space="preserve">
+    <value>C66a-HD</value>
+  </data>
+  <data name="C67a" xml:space="preserve">
+    <value>C67a-HD</value>
+  </data>
+  <data name="C68a" xml:space="preserve">
+    <value>C68a-HD</value>
+  </data>
+  <data name="C69a" xml:space="preserve">
+    <value>C69a-HD</value>
+  </data>
+  <data name="C70a" xml:space="preserve">
+    <value>C70a-HD</value>
+  </data>
+  <data name="CandidateEvaluationReport" xml:space="preserve">
+    <value>Báo cáo đánh giá ứng viên</value>
+  </data>
+  <data name="CandidateInformation" xml:space="preserve">
+    <value>Lý lịch ứng viên</value>
+  </data>
+  <data name="CandidateList" xml:space="preserve">
+    <value>Danh sách ứng viên</value>
+  </data>
+  <data name="CategoryManagement" xml:space="preserve">
+    <value>Quản lý ngành hàng</value>
+  </data>
+  <data name="CompanyInfomation" xml:space="preserve">
+    <value>Thông tin công ty</value>
+  </data>
+  <data name="Convalescence" xml:space="preserve">
+    <value>Nghỉ dưỡng sức</value>
+  </data>
+  <data name="DataPermission" xml:space="preserve">
+    <value>Phân quyền dữ liệu</value>
+  </data>
+  <data name="Delegate" xml:space="preserve">
+    <value>Ủy quyền</value>
+  </data>
+  <data name="DistributorManagement" xml:space="preserve">
+    <value>Quản lý nhà phân phối</value>
+  </data>
+  <data name="FormManagement" xml:space="preserve">
+    <value>Quản lý form chức năng</value>
+  </data>
+  <data name="FunctionName_LeaveInsurance" xml:space="preserve">
+    <value>Nghỉ bảo hiểm</value>
+  </data>
+  <data name="FunctionPermission" xml:space="preserve">
+    <value>Phân quyền chức năng</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>Thông tin chung</value>
+  </data>
+  <data name="GroupManagement" xml:space="preserve">
+    <value>Quản lý nhóm</value>
+  </data>
+  <data name="Holidays" xml:space="preserve">
+    <value>Ngày nghỉ / lễ</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Bảng điều khiển</value>
+  </data>
+  <data name="Hospital" xml:space="preserve">
+    <value>Bệnh viện</value>
+  </data>
+  <data name="InsNoticeData" xml:space="preserve">
+    <value>Dữ liệu báo bảo hiểm</value>
+  </data>
+  <data name="Insurance" xml:space="preserve">
+    <value>Bảo hiểm</value>
+  </data>
+  <data name="Interview" xml:space="preserve">
+    <value>Phỏng vấn</value>
+  </data>
+  <data name="InterviewCalendar" xml:space="preserve">
+    <value>Lịch phỏng vấn</value>
+  </data>
+  <data name="InterviewCriteria" xml:space="preserve">
+    <value>Tiêu chí phỏng vấn</value>
+  </data>
+  <data name="InterviewCriteriaType" xml:space="preserve">
+    <value>Loại tiêu chí phỏng vấn</value>
+  </data>
+  <data name="InterviewEvaluationReport" xml:space="preserve">
+    <value>Báo cáo đánh giá kết quả phỏng vấn</value>
+  </data>
+  <data name="InterviewSchedule" xml:space="preserve">
+    <value>Đặt lịch phỏng vấn</value>
+  </data>
+  <data name="LeaveDayType" xml:space="preserve">
+    <value>Chi tiết loại nghỉ</value>
+  </data>
+  <data name="LeaveOfInsurance" xml:space="preserve">
+    <value>Nghỉ bảo hiểm</value>
+  </data>
+  <data name="LeaveType" xml:space="preserve">
+    <value>Danh mục loại nghỉ</value>
+  </data>
+  <data name="ListOfParticipating" xml:space="preserve">
+    <value>Danh sách tham gia BH</value>
+  </data>
+  <data name="MasterDataInfo" xml:space="preserve">
+    <value>Thông tin dữ liệu nền</value>
+  </data>
+  <data name="MasterDataOnlineProcess" xml:space="preserve">
+    <value>Qui trình online</value>
+  </data>
+  <data name="MenuManagement" xml:space="preserve">
+    <value>Quản lý danh mục chức năng</value>
+  </data>
+  <data name="MonthlyOTReport" xml:space="preserve">
+    <value>Tổng hợp làm ngoài giờ theo tháng</value>
+  </data>
+  <data name="MonthlyTimeKeepingReport" xml:space="preserve">
+    <value>Chi tiết chấm công</value>
+  </data>
+  <data name="NoOfMonth" xml:space="preserve">
+    <value>Tổng số tháng</value>
+  </data>
+  <data name="OnlineProcessDetail" xml:space="preserve">
+    <value>Qui trình online - chi tiết</value>
+  </data>
+  <data name="OnlineProcessMaster" xml:space="preserve">
+    <value>Qui trình online</value>
+  </data>
+  <data name="OTNightRecord" xml:space="preserve">
+    <value>Danh sách nhân viên làm ca đêm</value>
+  </data>
+  <data name="OTRecord" xml:space="preserve">
+    <value>Danh sách nhân viên làm thêm giờ</value>
+  </data>
+  <data name="Payroll" xml:space="preserve">
+    <value>Lương</value>
+  </data>
+  <data name="PayrollInsuranceParameter" xml:space="preserve">
+    <value>Tham số lương, bảo hiểm</value>
+  </data>
+  <data name="Personnel" xml:space="preserve">
+    <value>Nhân sự</value>
+  </data>
+  <data name="PlanList" xml:space="preserve">
+    <value>Danh sách kế hoạch tuyển dụng</value>
+  </data>
+  <data name="ProcessRecruitment" xml:space="preserve">
+    <value>Quy trình tuyển Dụng</value>
+  </data>
+  <data name="ProductManagement" xml:space="preserve">
+    <value>Quản lý sản phẩm</value>
+  </data>
+  <data name="Qualification" xml:space="preserve">
+    <value>Bằng cấp - Chứng chỉ</value>
+  </data>
+  <data name="QuotaRecruitment" xml:space="preserve">
+    <value>Định biên tuyển dụng</value>
+  </data>
+  <data name="Recruitment" xml:space="preserve">
+    <value>Tuyển Dụng</value>
+  </data>
+  <data name="RecruitmentDemand" xml:space="preserve">
+    <value>Yêu cầu tuyển dụng</value>
+  </data>
+  <data name="RecruitmentDemandRecord" xml:space="preserve">
+    <value>Danh sách yêu cầu tuyển dụng</value>
+  </data>
+  <data name="RecruitmentFee" xml:space="preserve">
+    <value>Chi phí tuyển dụng</value>
+  </data>
+  <data name="RecruitmentPlan" xml:space="preserve">
+    <value>Kế hoạc tuyển dụng</value>
+  </data>
+  <data name="RecruitmentProject" xml:space="preserve">
+    <value>Phương án tuyển dụng</value>
+  </data>
+  <data name="RecruitmentProjectList" xml:space="preserve">
+    <value>Danh sách phương án tuyển dụng</value>
+  </data>
+  <data name="RecruitmentSource" xml:space="preserve">
+    <value>Nguồn tuyển dụng</value>
+  </data>
+  <data name="RecruitmentTournament" xml:space="preserve">
+    <value>Vòng tuyển dụng</value>
+  </data>
+  <data name="RecruitmentType" xml:space="preserve">
+    <value>Loại vòng tuyển dụng</value>
+  </data>
+  <data name="RenewHICard" xml:space="preserve">
+    <value>Gia hạn thẻ BHYT</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Vui lòng nhập thông tin "{0}"</value>
+  </data>
+  <data name="ResultsRecord" xml:space="preserve">
+    <value>Ghi nhận kết quả</value>
+  </data>
+  <data name="RolesManagement" xml:space="preserve">
+    <value>Quản lý thông tin nhóm người dùng</value>
+  </data>
+  <data name="SalaryGrade" xml:space="preserve">
+    <value>Ngạch lương</value>
+  </data>
+  <data name="SalaryRank" xml:space="preserve">
+    <value>Bậc lương</value>
+  </data>
+  <data name="Scale" xml:space="preserve">
+    <value>Thang bảng lương</value>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>Lịch làm việc</value>
+  </data>
+  <data name="ScheduleChange" xml:space="preserve">
+    <value>Thay đổi lịch làm việc</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Tìm kiếm</value>
+  </data>
+  <data name="SetupParameters" xml:space="preserve">
+    <value>Thiết lập thông số</value>
+  </data>
+  <data name="Shift" xml:space="preserve">
+    <value>Ca làm việc</value>
+  </data>
+  <data name="Skill" xml:space="preserve">
+    <value>Kỹ năng</value>
+  </data>
+  <data name="StandardAnnualLeave" xml:space="preserve">
+    <value>Ngày phép chuẩn</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>Hệ thống</value>
+  </data>
+  <data name="SystemAdministration" xml:space="preserve">
+    <value>Quản trị hệ thống</value>
+  </data>
+  <data name="SystemParameter" xml:space="preserve">
+    <value>Tham số hệ thống</value>
+  </data>
+  <data name="Termination" xml:space="preserve">
+    <value>Thôi việc</value>
+  </data>
+  <data name="Timekeeping" xml:space="preserve">
+    <value>Chấm công</value>
+  </data>
+  <data name="TimeKeepingReport" xml:space="preserve">
+    <value>Thống kê đi trễ về sớm</value>
+  </data>
+  <data name="Timesheet" xml:space="preserve">
+    <value>Chấm công</value>
+  </data>
+  <data name="Training" xml:space="preserve">
+    <value>Đào tạo</value>
+  </data>
+  <data name="TransferCandidate" xml:space="preserve">
+    <value>Chuyển ứng viên thành nhân viên</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Cập nhật</value>
+  </data>
+  <data name="UserGroupManagement" xml:space="preserve">
+    <value>Quản lý Tài khoản - Nhóm</value>
+  </data>
+  <data name="WorkingBackground" xml:space="preserve">
+    <value>Kinh nghiệm làm việc</value>
+  </data>
+  <data name="WorkingExpectation" xml:space="preserve">
+    <value>Nguyện vọng làm việc</value>
+  </data>
+  <data name="WorkingSchedule" xml:space="preserve">
+    <value>Bảng phân công lịch làm việc</value>
+  </data>
+  <data name="YearlyOTReport" xml:space="preserve">
+    <value>Tổng hợp làm ngoài giờ</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Đổi mật khẩu</value>
+  </data>
+  <data name="CAFR" xml:space="preserve">
+    <value>Báo cáo chuyên sâu tài chính</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Công ty</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Thêm</value>
+  </data>
+  <data name="CreateEmployee" xml:space="preserve">
+    <value>Thêm nhân viên</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>Phòng ban</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Nhân sự</value>
+  </data>
+  <data name="EmployeeProfile" xml:space="preserve">
+    <value>Lý lịch nhân viên</value>
+  </data>
+  <data name="HRReport" xml:space="preserve">
+    <value>Báo cáo nhân sự</value>
+  </data>
+  <data name="PersonnelReport" xml:space="preserve">
+    <value>Báo cáo nhân sự</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Tiểu sử</value>
+  </data>
+  <data name="Project" xml:space="preserve">
+    <value>Dự án</value>
+  </data>
+  <data name="Relationship" xml:space="preserve">
+    <value>Quan hệ</value>
+  </data>
+  <data name="RewardDiscipline" xml:space="preserve">
+    <value>Khen thưởng - kỷ luật</value>
+  </data>
+  <data name="SelfService" xml:space="preserve">
+    <value>Dịch vụ</value>
+  </data>
+  <data name="WorkingHistory" xml:space="preserve">
+    <value>Lịch sử làm việc</value>
+  </data>
+  <data name="WorkingRecord" xml:space="preserve">
+    <value>Quá trình làm việc</value>
+  </data>
+  <data name="EmployeeManagement" xml:space="preserve">
+    <value>Quản lý nhân viên</value>
+  </data>
+  <data name="ProfileManagement" xml:space="preserve">
+    <value>Tiểu sử</value>
+  </data>
+  <data name="ProjectManagement" xml:space="preserve">
+    <value>Quản lý dự án</value>
+  </data>
+  <data name="QualificationManagement" xml:space="preserve">
+    <value>Quản lý bằng cấp</value>
+  </data>
+  <data name="RelationshipManagement" xml:space="preserve">
+    <value>Quản lý mối quan hệ</value>
+  </data>
+  <data name="RewardDisciplineManagement" xml:space="preserve">
+    <value>Quản lý khen thưởng - kỷ luật</value>
+  </data>
+  <data name="WorkingHistoryManagement" xml:space="preserve">
+    <value>Quản lý lịch sử làm việc</value>
+  </data>
+  <data name="WorkingRecordManagement" xml:space="preserve">
+    <value>Quản lý quá trình làm việc</value>
+  </data>
+  <data name="EditEmployee" xml:space="preserve">
+    <value>Sửa thông tin nhân viên</value>
+  </data>
+  <data name="ContractManagement" xml:space="preserve">
+    <value>Quản lý hợp đồng</value>
+  </data>
+  <data name="EditTermination" xml:space="preserve">
+    <value>Xử lý thôi việc</value>
+  </data>
+  <data name="TerminationType" xml:space="preserve">
+    <value>Loại thôi việc</value>
+  </data>
+  <data name="TerminationReason" xml:space="preserve">
+    <value>Lí do thôi việc</value>
+  </data>
+  <data name="TerminationParameter" xml:space="preserve">
+    <value>Thiết lập tham số cơ bản</value>
+  </data>
+  <data name="TerminationList" xml:space="preserve">
+    <value>Danh sách thôi việc</value>
+  </data>
+  <data name="BasicConfiguration" xml:space="preserve">
+    <value>Cấu hình cơ bản</value>
+  </data>
+  <data name="A01aTS" xml:space="preserve">
+    <value>A01a-TS</value>
+  </data>
+  <data name="A01TS" xml:space="preserve">
+    <value>A01-TS</value>
+  </data>
+  <data name="D02TS" xml:space="preserve">
+    <value>D02-TS</value>
+  </data>
+  <data name="D07TS" xml:space="preserve">
+    <value>D07-TS</value>
+  </data>
+  <data name="SeveranceSettlement" xml:space="preserve">
+    <value>Quyết toán thôi việc</value>
+  </data>
+  <data name="AddNewEmployee" xml:space="preserve">
+    <value>Thêm nhân viên</value>
+  </data>
+  <data name="EmployeeList" xml:space="preserve">
+    <value>Danh sách nhân viên</value>
+  </data>
+  <data name="LeaveApplication" xml:space="preserve">
+    <value>Đơn xin nghỉ phép</value>
+  </data>
+  <data name="LeaveRecord" xml:space="preserve">
+    <value>Quản lý nghỉ phép</value>
+  </data>
+  <data name="Reconciliation" xml:space="preserve">
+    <value>Chuyển phép năm</value>
+  </data>
+  <data name="MTLChild" xml:space="preserve">
+    <value>Danh sách nhân viên nuôi con nhỏ &lt; 12 tháng</value>
+  </data>
+  <data name="TimesheetCyclic" xml:space="preserve">
+    <value>Chu kỳ chấm công</value>
+  </data>
+  <data name="EditProfile" xml:space="preserve">
+    <value>Chỉnh sửa tiểu sử</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Tài khoản</value>
+  </data>
+  <data name="Contract" xml:space="preserve">
+    <value>Hợp đồng lao động</value>
+  </data>
+  <data name="FamilyRelationship" xml:space="preserve">
+    <value>Quan hệ gia đình</value>
+  </data>
+  <data name="JoinedProjects" xml:space="preserve">
+    <value>Dự án tham gia</value>
+  </data>
+  <data name="LaborContracts" xml:space="preserve">
+    <value>Hợp đồng lao động</value>
+  </data>
+  <data name="IndividualOT" xml:space="preserve">
+    <value>Chi tiết làm thêm của nhân viên</value>
+  </data>
+  <data name="OTLimitByStaff" xml:space="preserve">
+    <value>Giới hạn làm ngoài giờ</value>
+  </data>
+  <data name="OTRequest" xml:space="preserve">
+    <value>Đơn làm thêm ngoài giờ</value>
+  </data>
+  <data name="OTRequestRecord" xml:space="preserve">
+    <value>Danh sách đơn làm thêm ngoài giờ</value>
+  </data>
+</root>

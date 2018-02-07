@@ -1,0 +1,241 @@
+﻿html{margin: 0; padding: 0;}
+body {
+    font-size: .85em;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    color: #232323;   
+     /*background: url("../Desktop/images/bg.png") repeat scroll center top rgba(0, 0, 0, 0) !important;*/
+}
+
+header, footer, nav, section {
+    display: block;
+}
+
+#LeftPane {
+display: block;
+float: left;
+position: relative;
+width: 23.2%;
+}
+
+#ContentPane { 
+    margin-right: 0;
+    transition: margin-left 0.4s ease 0s;
+    width:74.8% !important;   
+   float:left;
+   margin-left:10px;
+  
+}
+#TopPane {
+    padding: 15px 5px 0 0;
+}
+#content-bg {
+    margin-left:-10px;	
+    padding: 20px 10px;
+    background-color:#fff;
+    min-height:500px;
+}
+.logo {
+    float:left;
+}
+.slogan {
+    font-family:times new roman, new york, times, serif;
+    font-size:16pt;
+    margin:45px 0px 0px 0px;
+    color:#fff;
+    font-weight:bold;
+      float:left;
+
+}
+.top-controls {
+float:right;
+text-align:right;
+ margin:17px 0px 0px 0px;
+}
+.languages {
+
+}
+
+.hot-line-status{
+    float:left;
+}
+.hot-line-number{
+    float:left;
+    color:#fff;
+    font-size:20px;
+    padding:7px 0px
+}
+.banner_top {
+	background: #006699;
+	padding: 10px 0px;
+    min-width: 1024px;
+	}
+.menu_top {
+	width: 100%;
+	height: 25px;
+	background: #006699;
+	border-top: 1px solid #fff;
+}
+
+.footer {
+    background: none repeat scroll 0 0 #069;
+    border-top: 1px solid #fff;
+    margin: 5px 0 0;
+    min-width: 1044px;
+    bottom: 0;
+    height: 40px;  
+    width: 100%;
+}
+
+.footer p {
+    color: #fff;
+   margin: 0;
+    padding: 10px;
+}
+/* Styles for basic forms
+-----------------------------------------------------------*/
+fieldset {
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+textarea {
+    min-height: 75px;
+}
+
+.editor-label {
+    margin: 1em 0 0 0;
+}
+
+.editor-field {
+    margin: 0.5em 0 0 0;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error {
+    color: #f00;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+.table {
+    clear:both;
+    margin-top:10px;
+}
+
+ 
+.clearboth {
+    clear:both;
+}
+
+#BirthdayPlaceHolder {
+   border: 1px dotted  #006699;
+}
+ul.rowItem {   
+    border-top:    1px dotted #2b91af;
+    border-right:  1px dotted #2b91af;
+    border-bottom: 1px dotted #2b91af;
+    border-left:   10px solid #0099CC;
+
+    min-height:80px;  
+    background:#FFFFFF;
+    padding:10px;
+    margin:3px;
+}
+ul.rowItem  li.column {
+    list-style-type:none;  
+}
+
+.leftColumn {
+    float:left;
+      box-sizing: border-box;
+    display: block;
+     min-height: 30px;
+    padding-right:10px;
+}
+
+.rightColumn {
+    box-sizing: border-box;
+    display: block;
+    float: left;   
+    min-height: 30px;
+}
+
+.avatar {
+    height:80px !important;
+}
+
+.header_bar {
+   padding:5px;
+}
+/*.btn-group > .btn.active {
+    color: #4072B4;
+}*/
+
+.container-fluid2 {
+    margin: 0 auto;
+    padding-right: 20px !important;
+    width: 970px !important;
+}
+
+.menu_top .nav-pills > li > a {
+    color: #ffffff;
+}
+.nav-pills > li > a {
+    border-radius: 0;
+    margin-top: 0;
+}
+/* Alerts ---------------------- */
+div.alert-box { display: block; padding: 6px 7px 7px; font-weight: bold; font-size: 14px; color: white; background-color: #2ba6cb; border: 1px solid rgba(0, 0, 0, 0.1); margin-bottom: 12px; -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; -o-border-radius: 3px; border-radius: 3px; text-shadow: 0 -1px rgba(0, 0, 0, 0.3); position: relative; }
+div.alert-box .success { background-color: #5da423; color: #fff; text-shadow: 0 -1px rgba(0, 0, 0, 0.3); }
+div.alert-box .warning { background-color: #c60f13; color: #fff; text-shadow: 0 -1px rgba(0, 0, 0, 0.3); }
+div.alert-box .info { background-color: #e9e9e9; color: #505050; text-shadow: 0 1px rgba(255, 255, 255, 0.3); }
+div.alert-box a.close { color: #333; position: absolute; right: 4px; top: -1px; font-size: 17px; opacity: 0.2; padding: 4px; }
+div.alert-box a.close:hover, div.alert-box a.close:focus { opacity: 0.4; }
+
+/*START BOX CONTAINER -------------------------*/
+.box_container {
+    border: 1px dashed #D9EBF7;
+    padding:10px;
+}
+.box_header {
+    border-radius:0.3em 0.3em 0em 0em;
+    border-color:#0099CC;
+    border-style: dashed;
+    border-width: 0px 0px 0px 12px;
+    height: 30px;
+    padding: 3px;
+    background:#0099CC;
+}
+.box_header h6 {
+    font-size:13px;
+    font-weight:bold;
+    color:#FFFFFF;
+}
+.box_content {
+    border: 1px solid #0099CC;
+    min-height: 30px;
+}
+/*END BOX CONTAINER -------------------------*/

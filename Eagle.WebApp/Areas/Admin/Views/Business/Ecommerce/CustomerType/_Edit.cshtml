@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = LanguageResource.EditCustomerType;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Business.CustomerTypeEditEntry
+
+<div class="panel panel-default">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditCustomerType", name = "frmEditCustomerType", autocomplete = "off", @class = "form-horizontal" }))
+    {
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditCustomerType" data-id="@Model.CustomerTypeId" data-url='@Url.Action("Edit", "CustomerType")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editCustomerType" data-mode="edit" data-form="frmEditCustomerType" data-id="@Model.CustomerTypeId" data-url='@Url.Action("Edit", "CustomerType")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditCustomerType</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.CustomerTypeName, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.CustomerTypeName, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.CustomerTypeName)
+
+                                    @Html.HiddenFor(model => model.CustomerTypeId)
+                                    @Html.ValidationMessageFor(model => model.CustomerTypeId)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PromotionalRate, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.PromotionalRate, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.PromotionalRate)
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.Note, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Note)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.RadioButtonSwitchEnumFor(model => model.IsActive)
+                                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditCustomerType" data-id="@Model.CustomerTypeId" data-url='@Url.Action("Edit", "CustomerType")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editCustomerType" data-mode="edit" data-form="frmEditCustomerType" data-id="@Model.CustomerTypeId" data-url='@Url.Action("Edit", "CustomerType")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

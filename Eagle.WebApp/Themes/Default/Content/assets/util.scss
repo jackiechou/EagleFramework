@@ -1,0 +1,326 @@
+﻿// Make sure the charset is set appropriately
+@charset "UTF-8";
+
+//Blue colors
+$blue:                  #214e75;
+$blue-light:            #337ab7;
+$blue-lighter:          #4495C7;
+$blue-lighter-level-1:  #5bc0de;
+$blue-lighter-level-2:  #BBC0CF;
+$blue-lighter-level-3:  #57889c;
+$blue-lighter-level-3:  #577492;
+$blue-lighter-level-4:  #105F64;
+$blue-dark:             #265A88;
+$blue-darker:           #275b89;
+$blue-darker-level-1:   #3276b1;
+$blue-darker-level-2:   #337ab7;
+$blue-darker-level-3:   #003E5B;
+$blue-darker-level-4:   #002b3f;
+$blue-darker-level-5:   #1f496d;
+$blue-darker-level-6:   #34495E;
+$blue-darker-level-7:   #3A4558;
+
+
+//** Link
+$link-blue-dark:  #003E5B;
+$link-hover-blue-dark: darken($link-blue-dark, 15%) !default;
+$link-hover-decoration-blue-dark: underline !default;
+
+
+//Gray colors
+$gray-light:           #D4D8D1;
+$gray-lighter:         #DADADA;
+$gray-lighter-level-1: #eee;
+$gray-lighter-level-2: #A8A8A1; 
+$gray-lighter-level-3: #777; 
+$gray-lighter-level-4: #67655D;   
+$gray-dark:            #4c4f53;
+$gray-dark-level-1:    #333;
+$gray-darker:          #222;
+
+//Violet colors
+$violet:            #92626F;
+$violet-lighter:    #ac5287;
+$violet-darker:     #332C2F;
+
+//Yellow colors
+$yellow:                 #DAA520;
+$yellow-light:           #FFDC00;
+$yellow-lighter:         #FFFF33;
+$yellow-lighter-level-1: #FFFFCC;
+$yellow-lighter-level-2: #F0E68C;
+$yellow-lighter-level-3: #F1DA91;
+$yellow-lighter-level-4: #BDB76B;
+$yellow-lighter-level-5: #AA9A66;
+$yellow-lighter-level-6: #CCCC00;
+$yellow-dark:            #999900;
+$yellow-dark-level-1:    #c49119;
+$yellow-darker:          #666600;
+$yellow-darker-level-1:  #333300;
+$yellow-darker-level-2:  #4E463F;
+
+//Green:
+$green:                 #40ac2b;
+$green-light:           #5cb85c;
+$green-lighter:         #9FC943;
+$green-lighter-level-1: #9dc93e;
+$green-lighter-level-2: #71843f;
+$green-dark:            #5b835b;
+$green-darker:          #4c6e4c;
+$green-darker-level-1:  #0A2D2D;
+$green-darker-level-2:  #07231F;
+$green-darker-level-3:  #2b3b48;
+$green-darker-level-4:  #444444;
+
+//Red colors
+$red:                   #a90329;
+$red-light:             #B74934;
+$red-lighter:           #FF454A;
+$red-lighter-level-1:   #C0392B;
+$red-lighter-level-2:   #d9534f;
+$red-dark:              #960322;
+$red-darker:            #82021e;
+$red-darker-level-1:    #521702;
+
+//Orange
+$orange:                #F0883D;
+$orange-light:          #F39C12;
+$orange-lighter:        #f0ad4e;
+$orange-dark:           #a57225;
+$orange-darker:         #B4652C;
+
+$color-blue: #3498db;
+$color-red: #e74c3c;
+$color-orange: #e67e22;
+$color-sea: #1abc9c;
+$color-green: #2ecc71;
+$color-yellow: #f1c40f;
+$color-default: #95a5a6;
+$color-purple: #9b6bcc;
+$color-aqua: #27d7e7;
+$color-brown: #9c8061;
+$color-dark-blue: #2A6496;
+$color-darker-blue: #4765a0;
+$color-light-green: #59b795;
+$color-dark: #555555;
+$color-light-grey: #585f69;
+
+
+$color-celeste: #D4D8D1;
+$color-delta: #A8A8A1;
+$color-teak: #AA9A66;
+$color-mojo: #B74934;
+$color-waikawa-gray: #577492;
+$color-ironside-gray: #67655D;
+$color-thunder: #332C2F;
+
+@mixin border-solid($width, $color) {
+    border: solid #{$width} #{$color};
+}
+
+@mixin offset-margin($margin, $value){
+  margin-#{$margin}: $value;
+}
+
+@for $i from 1 through 100 {
+  @each $margin in top, left, bottom, right {
+
+    .offset-#{$margin}-#{$i}{
+      @include offset-margin($margin, 1rem * $i) 
+    }
+
+  }
+}
+
+@mixin make-color-btn-u($color, $colorClass) {
+    #{$colorClass} {
+        &.btn-u {
+            background: $color;
+            &:hover,
+            &:focus,
+            &:active,
+            &.active{
+                background: $color;
+            }
+            &.dropdown-toggle{
+                .open &{
+                     background: $color;
+                }
+            }
+
+            &.btn-u-split.dropdown-toggle {
+               border-left: solid 1px $color;
+            }
+
+             &.btn-brd {
+                 &:hover {
+                    color: $color;
+                    border-color: $color;
+                }
+                &.btn-brd-hover:hover {
+                    background: $color;
+                }
+             }
+        }
+    }
+}
+@mixin make-color-btn($color, $colorClass) {
+    #{$colorClass} {
+        &.btn {
+            background: $color;
+            border-color: $color;
+            color: #FFFFFF;            
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+            -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
+        }
+    }
+}
+@mixin make-color-panel($color, $colorClass) {
+    #{$colorClass} {
+        &.panel {
+            border-color: $color;
+
+            .panel-heading {
+                background: $color;
+            }
+
+            .panel-title {
+                color: #FFF;
+            }
+        }
+    }
+}
+
+@include make-color-panel($color-dark-blue, '.panel-dark-blue');
+@include make-color-panel($color-celeste, '.panel-celeste');
+@include make-color-panel($color-delta, '.panel-delta');
+@include make-color-panel($color-teak, '.panel-teak');
+@include make-color-panel($color-mojo, '.panel-mojo');
+@include make-color-panel($color-waikawa-gray, '.panel-waikawa-gray');
+@include make-color-panel($color-ironside-gray, '.panel-ironside-gray');
+@include make-color-panel($color-thunder, '.panel-thunder');
+@include make-color-panel($color-blue, '.panel-blue');
+@include make-color-panel($color-red, '.panel-red');
+
+
+@include make-color-btn-u($color-celeste, '.btn-u-celeste');
+@include make-color-btn-u($color-delta, '.btn-u-delta');
+@include make-color-btn-u($color-teak, '.btn-u-teak');
+@include make-color-btn-u($color-mojo, '.btn-u-mojo');
+@include make-color-btn-u($color-waikawa-gray, '.btn-u-waikawa-gray');
+@include make-color-btn-u($color-ironside-gray, '.btn-u-ironside-gray');
+@include make-color-btn-u($color-thunder, '.btn-u-thunder');
+@include make-color-btn-u($color-blue, '.btn-u-blue');
+@include make-color-btn-u($color-red, '.btn-u-red');
+@include make-color-btn-u($color-orange, '.btn-u-orange');
+@include make-color-btn-u($color-sea, '.btn-u-sea');
+@include make-color-btn-u($color-green, '.btn-u-green');
+@include make-color-btn-u($color-yellow, '.btn-u-yellow');
+@include make-color-btn-u($color-default, '.btn-u-default');
+@include make-color-btn-u($color-purple, '.btn-u-purple');
+@include make-color-btn-u($color-aqua, '.btn-u-aqua');
+@include make-color-btn-u($color-brown, '.btn-u-brown');
+@include make-color-btn-u($color-dark-blue, '.btn-u-dark-blue');
+@include make-color-btn-u($color-dark, '.btn-u-dark');
+@include make-color-btn-u($color-light-grey, '.btn-u-light-grey');
+
+@include make-color-btn($color-celeste, '.btn-celeste');
+@include make-color-btn($color-delta, '.btn-delta');
+@include make-color-btn($color-teak, '.btn-teak');
+@include make-color-btn($color-mojo, '.btn-mojo');
+@include make-color-btn($color-waikawa-gray, '.btn-waikawa-gray');
+@include make-color-btn($color-ironside-gray, '.btn-ironside-gray');
+@include make-color-btn($color-thunder, '.btn-thunder');
+
+
+@include make-color-btn($color-sea, '.btn-sea');
+@include make-color-btn($color-aqua, '.btn-aqua');
+@include make-color-btn($color-brown, '.btn-brown');
+@include make-color-btn($color-dark, '.btn-dark');
+
+
+//Gray Button
+@include make-color-btn($color-light-grey, '.btn-light-grey');
+@include make-color-btn($gray-light, '.btn-gray-light');
+@include make-color-btn($gray-lighter, '.btn-gray-lighter');
+@include make-color-btn($gray-lighter-level-1, '.btn-gray-lighter-level-1');
+@include make-color-btn($gray-lighter-level-2, '.btn-gray-lighter-level-2');
+@include make-color-btn($gray-lighter-level-3, '.btn-gray-lighter-level-3');
+@include make-color-btn($gray-lighter-level-4, '.btn-gray-lighter-level-4');
+@include make-color-btn($gray-dark, '.btn-gray-dark');
+@include make-color-btn($gray-dark-level-1, '.btn-gray-dark-level-1');
+@include make-color-btn($gray-darker, '.btn-gray-darker');
+
+//Blue Button
+@include make-color-btn($color-blue, '.btn-blue');
+@include make-color-btn($color-dark-blue, '.btn-dark-blue');
+@include make-color-btn($blue-light, '.btn-blue-light');
+@include make-color-btn($blue-lighter, '.btn-blue-lighter');
+@include make-color-btn($blue-lighter-level-1, '.btn-blue-lighter-level-1');
+@include make-color-btn($blue-lighter-level-2, '.btn-blue-lighter-level-2');
+@include make-color-btn($blue-lighter-level-3, '.btn-blue-lighter-level-3');
+@include make-color-btn($blue-lighter-level-4, '.btn-blue-lighter-level-4');
+@include make-color-btn($blue-dark, '.btn-blue-dark');
+@include make-color-btn($blue-darker, '.btn-blue-darker');
+@include make-color-btn($blue-darker-level-1, '.btn-blue-dark-level-1');
+@include make-color-btn($blue-darker-level-2, '.btn-blue-dark-level-2');
+@include make-color-btn($blue-darker-level-3, '.btn-blue-darker-level-3');
+@include make-color-btn($blue-darker-level-4, '.btn-blue-darker-level-4');
+@include make-color-btn($blue-darker-level-5, '.btn-blue-dark-level-5');
+@include make-color-btn($blue-darker-level-6, '.btn-blue-darker-level-6');
+@include make-color-btn($blue-darker-level-7, '.btn-blue-darker-level-7');
+
+//Purple Button
+@include make-color-btn($color-purple, '.btn-purple');
+@include make-color-btn($violet, '.violet');
+@include make-color-btn($violet-lighter, '.btn-violet-lighter');
+@include make-color-btn($violet-darker, '.btn-violet-darker');
+
+
+//Yello Button
+@include make-color-btn($color-yellow, '.btn-yellow');
+@include make-color-btn($yellow-light, '.btn-yellow-light');
+@include make-color-btn($yellow-lighter, '.btn-yellow-lighter');
+@include make-color-btn($yellow-lighter-level-1, '.btn-yellow-lighter-level-1');
+@include make-color-btn($yellow-lighter-level-2, '.btn-yellow-lighter-level-2');
+@include make-color-btn($yellow-lighter-level-3, '.btn-yellow-lighter-level-3');
+@include make-color-btn($yellow-lighter-level-4, '.btn-yellow-lighter-level-4');
+@include make-color-btn($yellow-lighter-level-5, '.btn-yellow-lighter-level-5');
+@include make-color-btn($yellow-lighter-level-6, '.btn-yellow-lighter-level-6');
+@include make-color-btn($yellow-dark, '.btn-yellow-dark');
+@include make-color-btn($yellow-dark-level-1, '.btn-yellow-dark-level-1');
+@include make-color-btn($yellow-darker, '.btn-yellow-darker');
+@include make-color-btn($yellow-darker-level-1, '.btn-yellow-darker-level-1');
+@include make-color-btn($yellow-darker-level-2, '.btn-yellow-darker-level-2');
+
+//Green Button
+@include make-color-btn($color-green, '.btn-green');
+@include make-color-btn($green-light, '.btn-green-light');
+@include make-color-btn($green-lighter, '.btn-green-lighter');
+@include make-color-btn($green-lighter-level-1, '.btn-green-lighter-level-1');
+@include make-color-btn($green-lighter-level-2, '.btn-green-lighter-level-2');
+@include make-color-btn($green-dark, '.btn-green-dark');
+@include make-color-btn($green-darker, '.btn-green-darker');
+@include make-color-btn($green-darker-level-1, '.btn-green-darker-level-1');
+@include make-color-btn($green-darker-level-2, '.btn-green-darker-level-2');
+@include make-color-btn($green-darker-level-3, '.btn-green-darker-level-3');
+@include make-color-btn($green-darker-level-4, '.btn-green-darker-level-4');
+
+
+//Red Button
+@include make-color-btn($color-red, '.btn-red');
+@include make-color-btn($red-light, '.btn-red-light');
+@include make-color-btn($red-lighter, '.btn-red-lighter');
+@include make-color-btn($red-lighter-level-1, '.btn-red-lighter-level-1');
+@include make-color-btn($red-lighter-level-2, '.btn-red-lighter-level-2');
+@include make-color-btn($red-dark, '.btn-red-dark');
+@include make-color-btn($red-darker, '.btn-red-darker');
+@include make-color-btn($red-darker-level-1, '.btn-red-darker-level-1');
+
+//Orange Button
+@include make-color-btn($color-orange, '.btn-orange');
+@include make-color-btn($orange-light, '.btn-orange-light');
+@include make-color-btn($orange-lighter, '.btn-orange-lighter');
+@include make-color-btn($orange-dark, '.btn-orange-dark');
+@include make-color-btn($orange-darker, '.btn-orange-darker');

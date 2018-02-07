@@ -1,0 +1,71 @@
+﻿@using Eagle.Core.HtmlHelper
+@using Eagle.Services.Dtos.Contents.Articles
+@model Eagle.Services.Dtos.Services.Event.EventSearchEntry
+@using (Html.BeginForm("Search", "Event", FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+{
+    <div class="panel panel-primary search-panel">
+        <div class="panel-heading text-bold">@LanguageResource.Search</div>
+        <div class="panel-body">
+            @Html.Partial("_MessagePartial")
+            <div id="search_box" class="search-box">
+                <div class="row col-md-12">
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>@LanguageResource.Keywords</label>
+                        </div>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.Keywords, null, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>@LanguageResource.TypeId</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="TypeId" name="TypeId" value="0" class="easyui-combotree form-control cbxCategoryTree" data-url='@Url.Action("GetEventTypeSelectTree", "Event")' style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>@LanguageResource.FromDate</label>
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DatePickerFor(model => model.FromDate)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>@LanguageResource.ToDate</label>
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DatePickerFor(model => model.ToDate)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>@LanguageResource.Status</label>
+                        </div>
+                        <div class="col-md-8">
+                            @Html.EnumDropDownListFor(model => model.SearchStatus,  string.Format("--- {0} ---", LanguageResource.Select), new {@class = "form-control"})
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="text-right">
+                    <button type="button" class="btn btn-warning reset">
+                        <span class="glyphicon glyphicon-refresh"></span> @LanguageResource.Reset
+                    </button>
+                    <button type="button" class="btn btn-primary search btnSearch" data-url='@Url.Action("Search", "Event")'>
+                        <span class="glyphicon glyphicon-search"></span> @LanguageResource.Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

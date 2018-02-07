@@ -1,0 +1,74 @@
+﻿@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Services.Booking.ServicePackEditEntry
+
+@{int i = 0;}
+@if (Model != null)
+{ 
+    <div class="panel panel-default panel-table panel-option">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col col-xs-6">
+                    <h6><span class="glyphicon glyphicon-option-vertical"></span> @LanguageResource.PackageOption</h6>
+                </div>
+                <div class="col col-xs-6 text-right">
+                    <button type="button" data-index="@i" class="btn btn-sm btn-primary create-option add-row">@LanguageResource.AddNewItem</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table id="ExistedOptions" name="ExistedOptions" data-array="ExistedOptions" class='dynamic-table table table-striped table-bordered table-hover table-sortable table-list option-table package-@i-option-table'>
+                <thead class="thead-default">
+                    <tr>
+                        <th class="text-center bg-color-grey hidden">@LanguageResource.PackageId</th>
+                        <th class="text-center bg-color-grey hidden">@LanguageResource.OptionId</th>
+                        <th class="text-center bg-color-grey">@LanguageResource.OptionName</th>
+                        <th class="text-center bg-color-grey">@LanguageResource.OptionValue</th>
+                        <th class="text-center bg-color-grey">@LanguageResource.IsActive</th>
+                        <th class="text-center bg-color-grey"><label class="glyphicon glyphicon-cog"></label></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ExistedOptions != null && Model.ExistedOptions.Count >0)
+                    {
+                        foreach (var item in Model.ExistedOptions)
+                        {
+                            <tr id="@($"row{i}")" data-id="@i" data-array="ExistedOptions[@i]" class="active">
+                                <td class="hidden" data-name="PackageId"><input id="ExistedOptions[@i].PackageId" name="ExistedOptions[@i].PackageId" type="text" value="@item.PackageId" placeholder='PackageId' class="form-control" readonly="readonly" /></td>
+                                <td class="hidden" data-name="OptionId"><input id="ExistedOptions[@i].OptionId" name="ExistedOptions[@i].OptionId" type="text" value="@item.OptionId" placeholder='OptionId' class="form-control" readonly="readonly" /></td>
+                                <td data-name="OptionName"><input id="ExistedOptions[@i].OptionName" name="ExistedOptions[@i].OptionName" type="text" value="@item.OptionName" placeholder='OptionName' class="form-control" readonly="readonly" /></td>
+                                <td data-name="OptionValue"><input id="ExistedOptions[@i].OptionValue" name="ExistedOptions[@i].OptionValue" type="text" value="@item.OptionValue" placeholder='OptionValue' class="form-control number" readonly="readonly" /></td>
+                                <td class="text-center" data-name="IsActive">
+                                    @Html.DropDownList("ExistedOptions[" + i + "].IsActive", new SelectList(Enum.GetValues(typeof(ServicePackOptionStatus)), item.IsActive), new { @class = "form-control" })
+                                </td>
+                                <td class="text-center">
+                                    <button data-title="Edit" class='btn btn-success glyphicon glyphicon-pencil row-edit'></button>
+                                    <button data-title="Delete" class='btn btn-warning glyphicon glyphicon-trash row-remove'></button>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr id="@($"row{i}")" data-id="@i" data-array="ExistedOptions[@i]" class="active">
+                            <td data-name="OptionName"><input id="ExistedOptions[@i].OptionName" name="ExistedOptions[@i].OptionName" type="text" value="" placeholder='@LanguageResource.OptionName' class="form-control option-name" /></td>
+                            <td data-name="OptionValue"><input id="ExistedOptions[@i].OptionValue" name="ExistedOptions[@i].OptionValue" type="text" maxlength="20" pattern="/\D/g" value="" placeholder='@LanguageResource.OptionValue' class="form-control number option-value" /></td>
+                            <td class="text-center" data-name="IsActive">
+                                @Html.DropDownList("ExistedOptions[" + i + "].IsActive", new SelectList(Enum.GetValues(typeof(ServicePackOptionStatus)), ServicePackOptionStatus.Active), new { @class = "form-control" })
+                            </td>
+                            <td class="text-center actions">
+                                <button type="button" data-title="Edit" data-id="0" data-index="@i" class='btn btn-success glyphicon glyphicon-pencil row-edit'></button>
+                                <button type="button" data-title="Delete" data-id="0" data-index="@i" class='btn btn-warning glyphicon glyphicon-trash row-remove'></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <button type="button" data-index="@i" class="btn btn-sm btn-primary pull-right create-option add-row">@LanguageResource.AddNewItem</button>
+            </div>
+        </div>
+    </div>
+}

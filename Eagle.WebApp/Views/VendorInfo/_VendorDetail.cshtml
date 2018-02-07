@@ -1,0 +1,83 @@
+﻿@using Eagle.Core.HtmlHelper
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Business.VendorEditEntry
+
+<div class="panel panel-default">
+    <div class="panel-heading text-bold">
+        <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.Details</h4>
+    </div>
+
+    <div class="panel-body padding-top-0">
+        <div class="product-details">
+            <div class="table-responsive">
+                <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            <tr>
+                                <td colspan="2">
+                                    <img src='@Model.FileUrl' class="thumb-image" width='450' height='150' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(item => item.StoreName)
+                                </td>
+                                <td data-id="@Model.VendorId">
+                                    @Html.DisplayFor(item => item.StoreName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(item => item.Slogan)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(item => item.Slogan)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(item => item.Mobile)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(item => item.Mobile)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(item => item.Telephone)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(item => item.Telephone)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(item => item.Hotline)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(item => item.Hotline)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(item => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(item => item.Email)
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center">@LanguageResource.NotFound</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

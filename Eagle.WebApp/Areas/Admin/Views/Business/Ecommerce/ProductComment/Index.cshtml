@@ -1,0 +1,24 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.ProductCommentManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody">
+                <div id="divList">
+                    @Html.Action("LoadSearchForm", "ProductComment")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.ProductCommentSearchUrl = '@Url.Action("Search", "ProductComment")';
+    </script>
+    <script type="text/javascript" src="~/Scripts/app/modules/product-comment.js"></script>
+}

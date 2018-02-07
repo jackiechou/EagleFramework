@@ -1,0 +1,16 @@
+﻿@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Business.ProductInfoDetail>
+@if (Model.Any())
+{
+    foreach (var product in Model)
+     {
+         <div class="col-md-4 content-boxes-v6 md">
+             <a href='@Url.Action("Details", "Production", new {id = product.ProductId})' class="rounded-x " >  
+                 <img src="@Url.Content(product.SmallPhotoUrl)" alt="Custom widget with image" />
+                 <h1 class="title-v3-md text-uppercase margin-bottom-10">@product.ProductName</h1>
+             </a>
+             <p class="dotdot">@product.ShortDescription</p>
+         </div>
+     }
+}
+
+

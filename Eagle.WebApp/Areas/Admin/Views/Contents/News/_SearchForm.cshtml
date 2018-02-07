@@ -1,0 +1,87 @@
+﻿@using Eagle.Core.HtmlHelper
+@using Eagle.Services.Dtos.Contents.Articles
+@model Eagle.Services.Dtos.Contents.Articles.NewsSearchEntry
+@using (Html.BeginForm("Search", "News", FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+{
+    <div class="panel panel-primary search-panel">
+        <div class="panel-heading text-bold">@LanguageResource.Search</div>
+        <div class="panel-body">
+
+            @Html.Partial("_MessagePartial")
+
+            <div id="search_box" class="search-box">
+                <div class="row col-md-12">
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>@LanguageResource.Keywords</label>
+                        </div>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.Keywords, null, new {@class = "form-control"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>@LanguageResource.Authors</label>
+                        </div>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.Authors, null, new {@class = "form-control"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>@LanguageResource.FromDate</label>
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DatePickerFor(model=>model.FromDate)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>@LanguageResource.ToDate</label>
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DatePickerFor(model => model.ToDate)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>@LanguageResource.Status</label>
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model=>model.Status, null, new {@class = "form-control"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>@LanguageResource.CategoryId</label>
+                        </div>
+                        <div class="col-md-8">
+                            <ul id="tree"></ul>
+                            @Html.TextBox("CategoryId", null, new {@class = "form-control", @style = "position:absolute; top:-9999px; left:-9999px"})
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="text-right">
+                    <button type="button" class="btn btn-warning reset"  id="btnReset">
+                        <span class="glyphicon glyphicon-refresh"></span> @LanguageResource.Reset
+                    </button>
+                    <button type="button" class="btn btn-primary search btnSearch"  id="btnSearch" data-url='@Url.Action("Search", "News")'>
+                        <span class="glyphicon glyphicon-search"></span> @LanguageResource.Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

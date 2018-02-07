@@ -1,0 +1,65 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.BookingCalendar;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+@model Eagle.Services.Dtos.Services.Booking.BookingCalendarSearchEntry
+<div class="box-container">
+    <div class="heading-bar-container">
+        <div class="heading-bar-inner">
+            <div class="row">
+                <h6>@LanguageResource.BookingCalendar</h6>
+            </div>
+        </div>
+    </div>
+    <div class="body-container">
+        <div id="bodyContent" class="row">
+            <div class="col-md-2">
+                <div class="panel panel-primary search-panel">
+                    <div class="panel-heading text-bold">@LanguageResource.Search</div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+                        {
+                            @Html.ValidationSummary("", new { @class = "alert alert-danger" })
+                            <div class="row margin-bottom-15">
+                                @Html.DatePickerWithIconFor(model => model.FromDate)
+                            </div>
+                            <div class="row">
+                                @Html.DatePickerWithIconFor(model => model.ToDate)
+                            </div>
+                            <div class="row margin-top-15">
+                                <div class="pull-right">
+                                    <div class="input-group">
+                                        <button type="button" class="btn btn-primary search" data-form="frmSearch" data-mode="search">
+                                            <span class="glyphicon glyphicon-search" role="button"></span> @LanguageResource.Search
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div id='calendar'></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        window.GetCalendarEventsUrl = '@Url.Action("GetCalendarEvents", "BookingCalendar")';
+        window.EditServiceBookingUrl = '@Url.Action("Edit", "BookingCalendar")';
+    </script>
+    <link href="~/Scripts/plugins/fullcalendar-3.4.0/fullcalendar.css" rel="stylesheet" />
+    <link href="~/Scripts/plugins/fullcalendar-3.4.0/fullcalendar.print.css" media="print" rel="stylesheet" />
+    <script src="~/Scripts/plugins/fullcalendar-3.4.0/lib/moment.min.js"></script>
+    <script src="~/Scripts/plugins/fullcalendar-3.4.0/fullcalendar.min.js"></script>
+    <script src="~/Scripts/plugins/fullcalendar-3.4.0/locale-all.js"></script>
+    <script type="text/javascript" src="~/Scripts/app/modules/booking-calendar.js"></script>
+
+}
+

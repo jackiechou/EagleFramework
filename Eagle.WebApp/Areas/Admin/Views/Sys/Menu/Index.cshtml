@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = Html.Raw(LanguageResource.Menu);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+@using Eagle.Services.Skins
+@model List<Eagle.Services.Dtos.SystemManagement.MenuDetail>
+
+    <div id="MainBody">
+        <div id="content_box" class="row">
+            <!-- START LEFT FRAME -->
+            <div id="left_box" class="left-box col-md-4">
+                <div id="divMenuList">
+                    @Html.Partial("../Sys/Menu/_Search")
+                </div>
+                <div class="clearboth"></div>
+            </div>
+            <div id="right_box" class="right-box col-md-8">
+                <div id="divEdit">
+                    @Html.Action("Create", "Menu")
+                </div>
+            </div>
+        </div>
+    </div>
+    @section Scripts{
+        <link type="text/css" href="~/Scripts/plugins/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"/>
+        <script type="text/javascript" src="~/Scripts/plugins/zTree/js/jquery.ztree.core-3.5.js"></script>
+        <script type="text/javascript" src="~/Scripts/plugins/zTree/js/jquery.ztree.excheck-3.5.js"></script>
+        <script type="text/javascript" src="~/Scripts/plugins/zTree/js/jquery.ztree.exedit.js"></script>
+
+        <!-- Bootstrap-Iconpicker -->
+        <link href="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/css/bootstrap-iconpicker.min.css" rel="stylesheet"/>
+        <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/iconset/iconset-glyphicon.min.js"></script>
+        <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/iconset/iconset-fontawesome-4.2.0.min.js"></script>
+        <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/bootstrap-iconpicker.min.js"></script>
+
+        <link href="~/Scripts/plugins/colorpicker/css/evol.colorpicker.min.css" rel="stylesheet"/>
+        <script src="~/Scripts/plugins/colorpicker/js/evol.colorpicker.min.js"></script>
+
+        <script type="text/javascript">
+            window.EditMenuUrl = '@Url.Action("Edit", "Menu")';
+            window.UpdateListOrderUrl = '@Url.Action("UpdateListOrder", "Menu")';
+            window.PopulateListBoxUrl = '@Url.Action("PopulateListBox", "Menu")';
+            window.PopulatePageSelectListUrl = '@Url.Action("PopulatePageSelectList", "Page")';
+            window.PopulateMenuPositionMultiSelectListUrl = '@Url.Action("PopulateMenuPositionMultiSelectList", "Menu")';
+            window.PopulateMenuPositionMultiSelectedListUrl = '@Url.Action("PopulateMenuPositionMultiSelectedList", "Menu")';
+            window.GetHierachicalListUrl = '@Url.Action("GetHierachicalList", "Menu")';
+        </script>
+
+        <link href="~/Scripts/plugins/easyui/themes/bootstrap/easyui.css" rel="stylesheet"/>
+        <link href="~/Scripts/plugins/easyui/themes/bootstrap/combobox.css" rel="stylesheet" />
+        <script src="~/Scripts/plugins/easyui/jquery.easyui.min.js"></script>
+        <script src="~/Scripts/app/modules/menu.js"></script>
+    }

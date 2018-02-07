@@ -1,0 +1,42 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.Identity.UserInfoDetail
+
+@if (Model != null)
+{
+    <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-user"></span>
+                    <strong>@Model.Profile.Contact.FirstName</strong>
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <div class="navbar-login">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                </div>
+                                <div class="col-md-8">
+                                    <p class="text-left"><strong>@Model.Profile.Contact.FullName</strong></p>
+                                    <p class="text-left small">@Model.Profile.Contact.Email</p>
+                                    <p class="text-left">
+                                        <a href="@Url.Action("GetProfile", "Account")" class="btn btn-primary btn-block btn-sm">@LanguageResource.Profile</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="divider navbar-login-session-bg"></li>
+                    <li>
+                        <a href='@Url.Action("ChangePassword", "Account")' rel="tooltip">@LanguageResource.ChangePassword <span class="glyphicon glyphicon-envelope pull-right"></span></a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="@Url.Action("LogOff", "Account", new { @DesiredUrl = HttpContext.Current.Request.Url.AbsoluteUri })">@LanguageResource.SignOut <span class="glyphicon glyphicon-log-out pull-right"></span></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+}

@@ -1,0 +1,35 @@
+﻿@model Eagle.Services.Dtos.Business.Transaction.TransactionInfo
+@{
+    ViewBag.Title = LanguageResource.Transaction;
+    Layout = Eagle.Services.Skins.ThemeViewEngine.DesktopMainLayout;
+}
+
+<div class="container">
+    <div class="row text-center">
+        <div class="transaction-container padding-top-20">
+            <div class="transaction-header"></div>
+            <div class="transaction-body">
+                <div class="transaction-image">
+                    <img src='/Themes/Booking/Content/img/success-transaction.png' class="thumb-image" width='250' height='250' />
+                </div>
+                <div class="transaction-caption">
+                    <h3><span class="title-success">Your order has been proccessed successfully.</span></h3>
+                    <h4>Thank you for purchasing our products and services !</h4>
+                </div>
+                <div class="transaction-content">
+                    @if (Model != null && !string.IsNullOrEmpty(Model.FirstName) && !string.IsNullOrEmpty(Model.LastName))
+                    {
+                        <div class="row">
+                            @string.Format("{0} {1}", Model.FirstName, Model.LastName), your order is : @Model.OrderNo . <br/>
+                            We'll send the confirmation email to you.
+                        </div>
+                    }
+                    <a class="backurl" href='@Url.Action("Index", "Production")'>
+                        <i class="fa fa-shopping-cart"></i> @Html.Raw(LanguageResource.BuyMore)
+                    </a>
+                </div>
+            </div>
+            <div class="transaction-footer"></div>
+        </div>
+    </div>
+</div>

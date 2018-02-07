@@ -1,0 +1,122 @@
+﻿@using Eagle.Core.Configuration
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Business.Transaction.OrderPaymentEntry
+@{
+    ViewBag.Title = LanguageResource.Payment;
+    Layout = Eagle.Services.Skins.ThemeViewEngine.DesktopMainLayout;
+}
+<div class="payment-container">
+    @using (Html.BeginForm("ProcessPayment", "CustOrder", FormMethod.Post, new { id = "payment-form", name = "payment-form", @class = "form-horizontal" }))
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-container">
+                    <div id="formMessage" class="form-message">
+                        @Html.AntiForgeryToken()
+                        @Html.Partial("_MessagePartial")
+                        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+                    </div>
+                </div>
+                <div class="form-container container">
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <!-- Accordion -->
+                            <div class="accordion-v2">
+                                <div class="panel-group" id="payment-method-panel">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a class="payment-method" data-parent="payment-method-panel" data-toggle="collapse" href="#collapseCreditCard" data-payment-method-id="2">
+                                                    <i class="fa fa-credit-card"></i> @Html.Raw(LanguageResource.ProcessingThroughPaymentGateway)
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseCreditCard" class="panel-collapse collapse in">
+                                            <div class="panel-body cus-form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 no-col-space control-label">@Html.Raw(LanguageResource.CardType)</label>
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownList("CardType", Model.CardTypes, null, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 no-col-space control-label">@Html.Raw(LanguageResource.CardholderName)</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" id="card-holder" name="CardHolder" class="form-control required card-cardholder-name" placeholder='@Html.Raw(LanguageResource.CardholderName)' autocomplete="off" required />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 no-col-space control-label">@Html.Raw(LanguageResource.CardNumber)</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="card-number" type="text" class="form-control required card-number" name="CardNo" data-stripe="number" placeholder='@Html.Raw(LanguageResource.CardNo)' autocomplete="off" required data-msg-required="cannot be blank" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4">@Html.Raw(LanguageResource.ExpirationDate) (MM/YYYY)</label>
+                                                    <div class="col-sm-8 input-small-field">
+                                                        <div class="row">
+                                                            <div class="col-md-5 padding-right-0">
+                                                                <select id="card-exp-month" name="ExpMonth" data-stripe="exp_month" size="1" class="card-expiry-month form-control" required data-msg-required="empty">
+                                                                    <option value="01" selected="selected">01</option>
+                                                                    <option value="02">02</option>
+                                                                    <option value="03">03</option>
+                                                                    <option value="04">04</option>
+                                                                    <option value="05">05</option>
+                                                                    <option value="06">06</option>
+                                                                    <option value="07">07</option>
+                                                                    <option value="08">08</option>
+                                                                    <option value="09">09</option>
+                                                                    <option value="10">10</option>
+                                                                    <option value="11">11</option>
+                                                                    <option value="12">12</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-1 padding-left-0 padding-right-0">
+                                                                <span class="slash">/</span>
+                                                            </div>
+                                                            <div class="col-md-5 padding-left-0">
+                                                                <select id="card-exp-year" name="ExpYear" data-stripe="exp_year" class="card-expiry-year form-control required" required data-msg-required="empty"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 no-col-space control-label">@Html.Raw(LanguageResource.CVV)</label>
+                                                    <div class="col-sm-8 input-small-field">
+                                                        <input type="text" id="card-cvv" name="Cvv" class="card-cvc form-control required" data-stripe="cvc" placeholder='@Html.Raw(LanguageResource.CVV)' size="4" minlength="3" maxlength="4" autocomplete="off" required data-msg-required="empty" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-offset-6">
+                        <button type="button" class="btn btn-primary submit-button" id="process-payment" data-url='@Url.Action("ProcessPayment","CustOrder")' data-form="payment-form">
+                            @LanguageResource.ProcessPayment
+                        </button>
+                        <span class="payment-errors"></span>
+                     </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="PublicKey" value="@Model.PublicKey" />
+        <input type="hidden" id="PaymentToken" name="PaymentToken" />
+        <input type="hidden" id="OrderNo" name="OrderNo" value="@Model.OrderNo" />
+        <input type="hidden" id="CustomerId" name="CustomerId" value="@Model.CustomerId" />
+        <input type="hidden" id="Amount" name="Amount" value="@Model.Amount" />
+        <input type="hidden" id="PaymentMethodId" name="PaymentMethodId" value="@Model.PaymentMethodId" />       
+    }
+</div>
+
+@section Scripts
+{
+    <script src="~/Themes/Booking/Content/js/app/payment.js"></script>
+}

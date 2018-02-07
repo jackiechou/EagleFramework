@@ -1,0 +1,25 @@
+﻿<div class="coupon-code">
+    <div class="row">
+        <div class="col-md-3">
+            <p>@LanguageResource.EnterYourPromotionCode</p>
+        </div>
+        <div class="col-md-3">
+            <input id="promotion-code-text" class="form-control margin-bottom-10" name="PromotionInfo.PromotionCode" type="text">
+            <span id="promotion-code-valid-label" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" style="display:none">@LanguageResource.ValidPromoCode</span>
+            <span id="promotion-code-invalid-label" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" style="display:none">@LanguageResource.InvalidPromoCode</span>
+        </div>
+        <div class="col-md-3">
+            <button id="promotion-code-btn" type="button" class="btn-u btn-u-sea-shop" data-url="@Url.Action("ApplyPromotionCode", "CustOrder")">@LanguageResource.Apply</button>
+        </div>
+        <div class="col-md-3">
+            <ul id="promotion-code-section" class="list-inline total-result" style="display:none">
+                <li>
+                    <h4>@LanguageResource.ValidPromotionCode</h4>
+                    <div class="total-result-in">
+                        <button id="promotion-code-remove" type="button" data-url="@Url.Action("RemovePromotionCode", "CustOrder")">Remove</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

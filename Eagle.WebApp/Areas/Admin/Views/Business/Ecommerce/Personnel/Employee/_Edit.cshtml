@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = Html.Raw(LanguageResource.EditEmployee);
+}
+
+@model Eagle.Services.Dtos.Business.Personnel.EmployeeEditEntry
+
+
+@using (Html.BeginForm("Edit", "Employee", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditEmployee", name = "frmEditEmployee", autocomplete = "off", @class = "form-horizontal", role = "form" }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <button type="button" class="btn btn-default back-home" onclick="location.href = '@Url.Action("Index", "Employee")'">
+                            <span class="glyphicon glyphicon-backward"></span> @LanguageResource.Back
+                        </button>
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditEmployee</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div class="form-container">
+                <div id="formMessage" class="form-message">
+                    @Html.Partial("_MessagePartial")
+                    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+                </div>
+                <div id="formBody" class="form-horizontal">
+                    <div class="form-container">
+                        <div class="form-horizontal">
+                            <div class="panel with-nav-tabs panel-info">
+                                <div class="panel-heading">
+                                    <div class='btn-toolbar pull-right'>
+                                        <div class='btn-group'>
+                                            <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditEmployee" data-url='@Url.Action("Edit", "Employee")' value="@LanguageResource.Reset" />
+                                            <input type="button" class="btn btn-primary save edit editEmployee" data-mode="edit" data-form="frmEditEmployee" data-url='@Url.Action("Edit", "Employee")' value="@LanguageResource.Save" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <ul class="nav nav-tabs" id="myTab">
+                                            <li id="tab-1" class="active"><a href="#tab1" data-toggle="tab">@LanguageResource.GeneralInfo</a></li>
+                                            <li id="tab-2"><a href="#tab2" data-toggle="tab">@LanguageResource.Address</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <div class="form-body-container">
+                                        <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                                        <div class="tab-content no-border">
+
+                                            <div class="tab-pane fade in active" id="tab1">
+                                                <!--start row-->
+
+                                                <div class="form-group">
+                                                    @Html.RequiredLabelFor(model => model.EmployeeNo, new { @class = "control-label col-md-2" })
+                                                    <div class="col-md-4">
+                                                        <div class="input-group addon">
+                                                            @Html.TextBoxFor(model => model.EmployeeNo, new {@class = "form-control"})
+                                                            @Html.ValidationMessageFor(model => model.EmployeeNo)
+                                                            <div class="input-group-btn">
+                                                                <button class="btn btn-default generate-code" type="button" data-url='@Url.Action("GenerateCode", "Employee")' id="btnReloadCode"><i class="glyphicon glyphicon-refresh"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        @Html.HiddenFor(model => model.EmployeeId)
+                                                        @Html.ValidationMessageFor(model => model.EmployeeId)
+                                                    </div>
+                                                    @Html.RequiredLabelFor(model => model.CompanyId, new { @class = "control-label col-md-2" })
+                                                    <div class="col-md-4">
+                                                        <input id="CompanyId" name="CompanyId" value="@Model.CompanyId" class="easyui-combotree form-control cbxParentTree" data-url='@Url.Action("GetCompanyTree", "Company")' style="width: 100%;">
+                                                        @Html.ValidationMessageFor(model => model.CompanyId)
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    @Html.RequiredLabelFor(model => model.JoinedDate, new { @class = "control-label col-md-2" })
+                                                    <div class="col-md-4">
+                                                        @Html.DateTimePickerFor(model => model.JoinedDate)
+                                                    </div>
+                                                    @Html.RequiredLabelFor(model => model.PositionId, new { @class = "control-label col-md-2" })
+                                                    <div class="col-md-4">
+                                                        @Html.DropDownListFor(model => model.PositionId, ViewBag.PostionId as SelectList, new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => model.PositionId)
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Status, new {@class = "control-label col-md-2"})
+                                                    <div class="col-md-4">
+                                                        @Html.RadioButtonSwitchEnumFor(model => model.Status)
+                                                        @Html.ValidationMessageFor(model => model.Status)
+                                                    </div>
+                                                </div>
+                                                @Html.Action("LoadContact", "Employee", new { contactId = Model.ContactId })
+                                                <!--end row-->
+                                            </div>
+
+                                            <div class="tab-pane fade" id="tab2">
+                                                <!--start row-->
+                                                @Html.Action("LoadEmergencyAddressEdit", "Employee", new { addressId = Model.EmergencyAddress.AddressId })
+                                                @Html.Action("LoadPermanentAddressEdit", "Employee", new { addressId = Model.PermanentAddress.AddressId })
+                                                <!--end row-->
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class='btn-toolbar pull-right'>
+                                            <div class='btn-group'>
+                                                <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditEmployee" data-url='@Url.Action("Edit", "Employee")' value="@LanguageResource.Reset" />
+                                                <input type="button" class="btn btn-primary save edit editEmployee" data-mode="edit" data-form="frmEditEmployee" data-url='@Url.Action("Edit", "Employee")' value="@LanguageResource.Save" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}

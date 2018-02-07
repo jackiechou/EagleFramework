@@ -1,0 +1,76 @@
+﻿@using Eagle.Core.HtmlHelper
+@model Eagle.Services.Dtos.SystemManagement.Identity.GroupEditEntry
+
+<div class="panel panel-primary create-panel">
+    <div class="panel-heading text-bold">@LanguageResource.Edit</div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmRoleGroup", name = "frmRoleGroup", @class = "form-horizontal" }))
+        {
+            @*@Html.AntiForgeryToken()*@
+            
+            <div id="editBox" class="edit-box">
+                <div class="row col-md-12">
+
+                    <div id="formMessage" class="form-message">
+                        @Html.ValidationSummary(true)
+                        @Html.Partial("_MessagePartial")
+                    </div>
+
+                    <div id="formBody" class="form-body">
+                        <div class="row">
+                            <div class="col-md-4 no-padding-left no-padding-right">
+                                @Html.RequiredLabelFor(model => model.GroupName, new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.GroupName, new { maxlength = 250, @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.GroupName)
+                                @Html.TextBoxFor(model => model.GroupId, new { @id = "GroupId", @style = "position:absolute; top:-9999px; left:-9999px" })
+                                @Html.ValidationMessageFor(model => model.GroupId)
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 no-padding-left no-padding-right">
+                                @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-8">
+                                @Html.TextAreaFor(model => model.Description, new { rows = 2, columns = 40, maxlength = 4000, @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Description)
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">@Html.LabelFor(model => model.IsActive, new { @class = "control-label" })</div>
+                            <div class="col-md-8">
+                                <div class="checkbox-slider--b">
+                                    <label>
+                                        @{
+                                            if (Model.IsActive != null && Model.IsActive == true)
+                                            {
+                                                <input type="checkbox" id="IsActive" name="IsActive" checked="checked" value="true" ><span></span>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" id="IsActive" name="IsActive" class="checkbox" value="false" ><span></span>
+                                            }
+                                        }
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="formFooter" class="form-footer">
+                        <div class="bottom-toolbar">
+                            <input type="button" id="btnReset" data-mode="edit" data-form="frmRoleGroup" data-url='@Url.Action("_Edit", "Group")' value="@LanguageResource.btnReset" class="btn btn-warning reset" />
+                            <input type="button" id="btnEdit" data-mode="edit" data-form="frmRoleGroup" data-url='@Url.Action("_Edit", "Group")' value="@LanguageResource.btnSave" class="btn btn-primary edit" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

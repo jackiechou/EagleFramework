@@ -1,0 +1,29 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.ProductDiscountManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody">
+                <div id="divEdit">
+                    @Html.Action("Create", "ProductDiscount")
+                </div>
+                <div id="divList">
+                    @Html.Action("LoadSearchForm", "ProductDiscount")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.ProductDiscountSearchUrl = '@Url.Action("Search", "ProductDiscount")';
+    </script>
+    <link href="~/Scripts/plugins/bootstrap-plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script type="text/javascript" src="~/Scripts/app/modules/product-discount.js"></script>
+}

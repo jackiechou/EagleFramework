@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = LanguageResource.AboutUs;
+}
+@model Eagle.Services.Dtos.Business.CustomerInfoDetail
+<div id="profile-basis">
+    @if (Model != null)
+    {
+      <div class="margin-top-15">
+            <div class="panel panel-primary">                
+                <div class="panel-heading">
+                    <h3 class="panel-title">@string.Format("{0} {1}", Model.FirstName, Model.LastName)</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <table class="table table-user-information">
+                            <tbody>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.ContactName)</td>
+                                    <td>@Model.ContactName</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.CustomerNo)</td>
+                                    <td>@Model.CustomerNo</td>
+                                </tr>
+
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.Gender)</td>
+                                    <td>@Html.DisplayEnumFor(model => model.Gender)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.BirthDay)</td>
+                                    <td>@string.Format("{0:dd/MM/yyyy}",Model.BirthDay)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.Email)</td>
+                                    <td>@Model.Email</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.Mobile)</td>
+                                    <td>@Model.Mobile</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.WorkPhone)</td>
+                                    <td>@Model.WorkPhone</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.HomePhone)</td>
+                                    <td>@Model.HomePhone</td>
+                                </tr>
+
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.PassPortNo)</td>
+                                    <td>@Model.PassPortNo</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.IdCardNo)</td>
+                                    <td>@Model.IdCardNo</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.Address)</td>
+                                    <td>@Model.Address.Location</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <span class="btn-group pull-right margin-right-10 ">
+                            <a href="javacript:void(0);" type="button" class="btn btn-sm btn-warning edit edit editProfileDetails"  data-id="@Model.CustomerId" data-container="divEdit" data-url='@Url.Action("EditProfile", "Cust")' title='@Html.Raw(LanguageResource.EditUser)'><i class="glyphicon glyphicon-edit"></i></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @LanguageResource.NoData
+        </div>
+    }
+</div>

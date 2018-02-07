@@ -1,0 +1,9 @@
+﻿@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Business.ProductInfoDetail
+
+<form name="f1" class="product-quantity sm-margin-bottom-20">
+    <button type='button' class="quantity-button subtract-qty-1" name='subtract' value='-'>-</button>
+    <input type='text' class="quantity-field quantity qty" name='qty' data-id="@Model.ProductId" data-unitsinstock="@Model.UnitsInStock" value="1" id='qty' />
+    <button type='button' class="quantity-button add-qty-1" name='add' value='+'>+</button>
+    <button type="button" class="btn btn-u btn-u-sea-shop btn-u-lg add-items-to-cart" data-id="@Model.ProductId" data-type="@ItemType.Product">@LanguageResource.AddToCart</button>
+</form>

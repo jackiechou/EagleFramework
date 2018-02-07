@@ -1,0 +1,75 @@
+﻿@{
+    Layout = Eagle.Services.Skins.ThemeViewEngine.ErrorLayout;
+}
+@model  Eagle.Services.Dtos.Common.ExceptionInfo
+
+<div id="container-error-page">
+    <div id="body">
+        <div class="row-fluid">
+            <div class="col-md-4">
+                <section class="content-header">
+                    <h3>
+                        @Model.StatusCode Error Page
+                    </h3>
+                </section>
+            </div>
+            <div class="col-md-8">
+                <div class="menu">
+                    <span class="menu-icon"><a href="#"><img src="images/menu-icon.png" alt=""></a></span>
+                    <ul class="nav1" style="display: none;">
+                        <li><a href="/">Home</a></li>
+                    </ul>
+                  
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <section class="content">
+                <div class="error-page">
+                    <h3 class="headline text-red">@Model.StatusCode</h3>
+                    <div class="error-content">
+                        <div class="text-center">
+                            <h3>
+                                <i class="fa fa-warning text-danger"></i> Oops! Something went wrong.
+                            </h3>
+                        </div>
+                        <div class="text-center">
+                            <h2 class="without-margin">
+                                Don't worry. It's <span class="text-warning"><strong>@Model.StatusCode</strong></span> error only.
+                            </h2>
+                            <div class="text-center">
+                                @*<img src="~/Images/error404 (1).png" id="imgError" alt="Không tìm thấy rồi">*@                                
+                                <div class="content-details text-effect">
+                                    <span>@Model.Title</span>
+                                    <div id="error-details">
+                                        @Model.ErrorMessage
+                                    </div>
+                                </div>
+                                <div class="back-page">Back <a href="/">Home</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="row-fluid">
+            <div id="footer">
+                <p>© 2017 Error Page. All Rights Reserved | Design by <a href="http://5eagles.com.vn">5EAGLES</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <!-- script-for-menu -->
+    <script>
+        $("span.menu-icon").click(function() {
+            $("ul.nav1").slideToggle(300,
+                function() {
+                    // Animation complete.
+                });
+        });
+    </script>
+    <!-- /script-for-menu -->
+}

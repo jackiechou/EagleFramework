@@ -1,0 +1,77 @@
+﻿@model Eagle.Services.Dtos.Business.ProductEditEntry
+
+<div class="panel panel-primary panel-table">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-6">
+                <h5><span class="glyphicon glyphicon-adjust"></span> @LanguageResource.ProductAttribute</h5>
+            </div>
+            <div class="col-md-6">
+                <div class="row padding-top-4 pull-right">
+                    <button type="button" class="btn btn-sm btn-success btn-create row-add" data-mode="create">
+                        <span class="glyphicon glyphicon-plus" role="button"></span> @LanguageResource.AddNewItem
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="panel panel-default panel-table dynamic-container" id="ExistedAttributes" name="ExistedAttributes" data-array="ExistedAttributes" data-mode="edit">
+            <div class="panel-heading">
+                <div class="row dynamic-heading">
+                    <div class="col-md-4 text-center hidden">@LanguageResource.AttributeId</div>
+                    <div class="col-md-4 text-center">@LanguageResource.AttributeName</div>
+                    <div class="col-md-4 text-center">@LanguageResource.IsActive</div>
+                    <div class="col-md-4 text-center">
+                        <label class="glyphicon glyphicon-cog"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="dynamic-container-inner">
+                    @{int i = 0;}
+                    @if (Model.ExistedAttributes != null && Model.ExistedAttributes.Any())
+                    {
+                        foreach (var item in Model.ExistedAttributes)
+                        {
+                            <div id="@($"editingRow{i}")" data-id="@i" data-array="ExistedAttributes[@i]" class="dynamic-row bg-grey padding-10">
+                                <div class="dynamic-main-row row" data-name="AttributeName">
+                                    <div class="dynamic-col col-md-4 hidden" data-name="AttributeId">
+                                        <input id="ExistedAttributes[@i].AttributeId" name="ExistedAttributes[@i].AttributeId" type="hidden" value="@item.AttributeId" placeholder='AttributeId' class="form-control" readonly="readonly" />
+                                    </div>
+                                    <div class="dynamic-col col-md-4" data-name="AttributeName">
+                                        <input id="ExistedAttributes[@i].AttributeName" name="ExistedAttributes[@i].AttributeName" type="text" value="@item.AttributeName" placeholder='@LanguageResource.AttributeName' class="form-control" />
+                                    </div>
+                                    <div class="dynamic-col col-md-4 text-center" data-name="IsActive">
+                                        @Html.DropDownList("ExistedAttributes[" + @i + "].IsActive", new SelectList(Enum.GetValues(typeof(Eagle.Core.Settings.ProductAttributeStatus)), @item.IsActive), new { @class = "form-control" })
+                                    </div>
+                                    <div class="dynamic-col col-md-4 text-center">
+                                        <button type="button" data-title="LoadOptionForm" data-id="@item.AttributeId" data-index="@i" data-mode="edit" class='btn btn-default glyphicon glyphicon-plus options-load'></button>
+                                        <button type="button" data-title="Edit" data-id="@item.AttributeId" data-index="@i" class='btn btn-success glyphicon glyphicon-pencil row-edit'></button>
+                                        <button type="button" data-title="Delete" data-id="@item.AttributeId" data-index="@i" data-url='@Url.Action("Delete","ProductAttribute")' class='btn btn-warning glyphicon glyphicon-trash row-remove'></button>
+                                    </div>
+                                </div>
+                                <div class="dynamic-sub-row row">
+                                    <div class="padding-left-right-160 padding-top-bottom-10 attribute-@i-option-container" id="ExistedAttributes[@i].OptionContainer">
+                                        @if (item.ExistedOptions != null && item.ExistedOptions.Any())
+                                        {
+                                            @Html.Action("GetProductAttributeOptions", "Product", new { attributeId = item.AttributeId, index = i })
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            i++;
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <button type="button" class="btn btn-sm btn-success btn-create pull-right row-add">
+                <span class="glyphicon glyphicon-plus" role="button"></span> @LanguageResource.AddNewItem
+            </button>
+        </div>
+    </div>
+</div>

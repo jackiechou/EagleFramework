@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.SystemManagement.ContentItemDetail>
+<div class="FilterArea">
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Label("ContentType", new { @class = "control-label" })
+        </div>
+        <div class="col-md-8">
+            @Html.DropDownList("ContentType", null, new { @class = "col-md-12 form-control" })
+        </div>
+        <div class="col-md-2">
+            <input type="button" id="btnSearch" value="@LanguageResource.Search" class="btn btn-info btnSearch" />
+        </div>
+    </div>
+</div>
+<div class="table-responsive">
+    <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+        <thead>
+            <tr>
+                <th class="text_center">@LanguageResource.SequenceNo</th>  
+                <th>
+                    @Html.DisplayNameFor(model => model.ContentKey)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Content)
+                </th>
+                <th class="table-actions text_center no-sort">@LanguageResource.Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int i = 0;}
+            @foreach (var item in Model)
+            {
+                i++;
+                <tr>
+                    <td>
+                        @i
+                    </td>                     
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContentKey)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </td>
+                    <td class="table-actions text_center center no-sort">
+                        <a data-id="@item.ContentItemId" title="Edit" class="ico editItem ">&nbsp;&nbsp;&nbsp;</a>
+                        <a data-id="@item.ContentItemId" title="Delete" class="ico deleteItem ">&nbsp;&nbsp;&nbsp;</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

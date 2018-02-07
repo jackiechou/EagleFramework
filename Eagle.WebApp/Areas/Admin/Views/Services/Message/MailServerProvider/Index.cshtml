@@ -1,0 +1,27 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.MailServerProvider;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody">
+                <div id="divEdit">
+                    @Html.Action("Create", "MailServerProvider")
+                </div>
+                <div id="search-result">
+                    @Html.Action("List", "MailServerProvider")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.MailServerProviderListhUrl = '@Url.Action("List", "MailServerProvider")';
+    </script>
+    <script type="text/javascript" src="~/Scripts/app/modules/mail-server-provider.js"></script>
+}

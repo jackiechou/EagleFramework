@@ -1,0 +1,97 @@
+﻿@model Eagle.Services.Dtos.Contents.Feedbacks.FeedbackEntry
+
+<div class="contactPage">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmCreateFeedback", name = "frmCreateFeedback", }))
+    {
+        <div class="contact-form panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="title ">
+                        <span class="title-item">@LanguageResource.Contact</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel-body">
+                <div class="form-container">
+                    <div id="formMessage">
+                        @Html.AntiForgeryToken()
+                        @Html.Partial("_MessagePartial")
+                        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+                    </div>
+                    <div id="formBody" class="form-horizontal">
+                        <div class="form-container">
+                            <div class="form-horizontal">
+
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.SenderName, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(model => model.SenderName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.SenderName)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(model => model.Email, new {@class = "form-control"})
+                                        @Html.ValidationMessageFor(model => model.Email)
+                                    </div>
+                                    @Html.LabelFor(model => model.Mobile, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Mobile)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.Subject, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(model => model.Subject, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Subject)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.Body, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.Body, new { rows = 6, columns = 40, maxlength = 4000, @class = "form-control ckeditor" })
+                                        @Html.HiddenFor(model => model.Body)
+                                        @Html.ValidationMessageFor(model => model.Body)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.RequiredLabel("Captcha", LanguageResource.EnterCaptchaTextLikeTextImageBelow, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="captcha-container">
+                                            <div class="captcha-form row">
+                                                <div class="col-md-6">
+                                                    <input id="txtCaptcha" name="txtCaptcha" type="text" class="captcha-text-confirm form-control" />
+                                                    <label id="lblResult"></label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input id="btnGetCaptchaImage" class="get-captcha" type="button" value="Refresh" />
+                                                </div>
+                                            </div>
+                                            <div id="captcha-image-container" class="captcha-image-container" data-url='@Url.Content("~/Handlers/CaptchaHandler.ashx")' data-width="270" data-height="100">
+                                                <input id="captcha" type="hidden" class="captcha-text" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class='btn-toolbar pull-right'>
+                        <div class='btn-group'>
+                            <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateFeedback" data-url='@Url.Action("CreateFeedback", "ContactUs")' value="@LanguageResource.Reset" />
+                            <input type="button" class="btn btn-primary save add create createFeedback" data-mode="create" data-form="frmCreateFeedback" data-url='@Url.Action("CreateFeedback", "ContactUs")' value="@LanguageResource.Save" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

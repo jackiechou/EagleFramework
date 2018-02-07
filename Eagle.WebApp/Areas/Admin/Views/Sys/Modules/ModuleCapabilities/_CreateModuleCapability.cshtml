@@ -1,0 +1,24 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.CapabilityEntry
+
+<table id="ModuleCapabilities" name="ModuleCapabilities" data-array="ModuleCapabilities" class="dynamic-table table table-striped table-bordered table-hover table-sortable table-list">
+    <tbody>
+        <tr id="row0" data-id="0" data-array="ModuleCapabilities[0]">
+            @*<td class="hidden" data-name="ModuleId"><input id="ModuleCapabilities[0].ModuleId" name="ModuleCapabilities[0].ModuleId" type="text" value="@Model.ModuleId" placeholder='ModuleId' class="form-control ignored"/></td>
+            <td class="hidden" data-name="CapabilityId"><input id="ModuleCapabilities[0].CapabilityId"  name="ModuleCapabilities[0].CapabilityId" class="form-control ignored" /></td>*@
+            <td data-name="CapabilityName"><input id="ModuleCapabilities[0].CapabilityName" name="ModuleCapabilities[0].CapabilityName" type="text" value="" placeholder='CapabilityName' class="form-control" /></td>
+            <td data-name="CapabilityCode"><input id="ModuleCapabilities[0].CapabilityCode" name="ModuleCapabilities[0].CapabilityCode" type="text" value="" placeholder='CapabilityCode' class="form-control" /></td>
+            <td data-name="Description"><textarea id="ModuleCapabilities[0].Description" name="ModuleCapabilities[0].Description" placeholder='Description' class="form-control"></textarea></td>
+            <td class="text-center" data-name="IsActive">
+                <input type="checkbox" id="ModuleCapabilities[0].IsActive" name="ModuleCapabilities[0].IsActive" checked="checked" value="true" class="form-control ignored" />
+            </td>
+            <td class="text-center">
+                <button data-title="Edit" class='btn btn-success glyphicon glyphicon-pencil row-edit'></button>
+                <button data-title="Delete" class='btn btn-warning glyphicon glyphicon-trash row-remove'></button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="row">
+    <button type="button" id="add_row" name="add_row" class="add-row btn btn-sm btn-primary btn-create pull-right">@LanguageResource.AddNewItem</button>
+</div>

@@ -1,0 +1,19 @@
+﻿<div class="form-group">
+    @Html.RequiredLabel("Captcha", LanguageResource.EnterCaptchaTextLikeTextImageBelow, new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <div class="captcha-container">
+            <div class="captcha-form row">
+                <div class="col-md-6">
+                    <input id="txtCaptcha" name="txtCaptcha" type="text" class="captcha-text-confirm form-control" />
+                    <label id="lblResult"></label>
+                </div>
+                <div class="col-md-6">
+                    <input id="btnGetCaptchaImage" class="get-captcha" type="button" value="Refresh" />
+                </div>
+            </div>
+            <div id="captcha-image-container" class="captcha-image-container" data-url='@Url.Content("~/Handlers/CaptchaHandler.ashx")' data-width="270" data-height="100">
+                <input id="captcha" type="hidden" class="captcha-text" />
+            </div>
+        </div>
+    </div>
+</div>

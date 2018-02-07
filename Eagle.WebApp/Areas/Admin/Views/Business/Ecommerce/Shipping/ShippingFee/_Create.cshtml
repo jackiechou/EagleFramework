@@ -1,0 +1,134 @@
+﻿@{
+    ViewBag.Title = LanguageResource.CreateShippingFee;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Business.ShippingFeeEntry
+
+<div class="panel panel-default">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmCreateShippingFee", name = "frmCreateShippingFee", }))
+    {
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateShippingFee" data-url='@Url.Action("Create", "ShippingFee")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save add create createShippingFee" data-mode="create" data-form="frmCreateShippingFee" data-url='@Url.Action("Create", "ShippingFee")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.CreateShippingFee</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.AntiForgeryToken()
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.ShippingFeeName, new {@class = "control-label col-md-2"})
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.ShippingFeeName, new {@class = "form-control"})
+                                    @Html.ValidationMessageFor(model => model.ShippingFeeName)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.ShippingCarrierId, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(model => model.ShippingCarrierId, null, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ShippingCarrierId)
+                                </div>
+                                @Html.RequiredLabelFor(model => model.ShippingMethodId, new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(model => model.ShippingMethodId, null, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ShippingMethodId)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.ZipStart, new {@class = "control-label col-md-2"})
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.ZipStart, new {@class = "form-control"})
+                                    @Html.ValidationMessageFor(model => model.ZipStart)
+                                </div>
+                                @Html.RequiredLabelFor(model => model.ZipEnd, new {@class = "control-label col-md-2"})
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.ZipEnd, new {@class = "form-control"})
+                                    @Html.ValidationMessageFor(model => model.ZipEnd)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.WeightStart, new {@class = "control-label col-md-2"})
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.WeightStart, new {@class = "form-control", type = "number"})
+                                    @Html.ValidationMessageFor(model => model.WeightStart)
+                                </div>
+                                @Html.RequiredLabelFor(model => model.WeightEnd, new {@class = "control-label col-md-2"})
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.WeightEnd, new {@class = "form-control", type = "number"})
+                                    @Html.ValidationMessageFor(model => model.WeightEnd)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.RateFee, new {@class = "control-label col-md-2"})
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(model => model.RateFee, new {@class = "form-control number"})
+                                        @Html.ValidationMessageFor(model => model.RateFee)
+                                        <span class="input-group-addon">
+                                            @Html.Display("CurrencyCode", ViewBag.CurrencyCode as string, new {@class = "form-control"})
+                                        </span>
+                                    </div>
+                                </div>
+                                @Html.RequiredLabelFor(model => model.PackageFee, new {@class = "control-label col-md-2"})
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(model => model.PackageFee, new {@class = "form-control number"})
+                                        @Html.ValidationMessageFor(model => model.PackageFee)
+                                        <span class="input-group-addon">
+                                            @Html.Display("CurrencyCode", ViewBag.CurrencyCode as string, new {@class = "form-control"})
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.Vat, new {@class = "control-label col-md-2"})
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.Vat, new {@class = "form-control number"})
+                                    @Html.ValidationMessageFor(model => model.Vat)
+                                </div>
+                                @Html.RequiredLabelFor(model => model.IsActive, new {@class = "control-label col-md-2"})
+                                <div class="col-md-4">
+                                    <div class="checkbox-slider--a">
+                                        <label>
+                                            <input type="checkbox" id="IsActive" name="IsActive" checked="checked" value="true"><span></span>
+                                        </label>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.IsActive)
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateShippingFee" data-url='@Url.Action("Create", "ShippingFee")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save add create createShippingFee" data-mode="create" data-form="frmCreateShippingFee" data-url='@Url.Action("Create", "ShippingFee")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

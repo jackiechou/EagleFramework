@@ -1,0 +1,14 @@
+﻿<div class="product-categories-home">
+    <div class="product-categories-home-inner">
+        <h2 class="title">
+            <a href='@Url.Action("Index", "Production")'>
+                <i class="fa fa-list-alt"></i> @LanguageResource.Categories
+            </a>
+        </h2>
+        <div class="categories-container">
+            <div class="category-tree">
+                <ul id="cateTree" data-url='@Url.Action("GetProductCategorySelectTree", "Production")'></ul>
+            </div>
+        </div>
+    </div>
+</div>

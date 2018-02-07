@@ -1,0 +1,53 @@
+﻿@model Eagle.Services.Dtos.Business.ProductSearchEntry
+@using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+{
+    <div class="filter-by-block md-margin-bottom-60">
+        <div class="panel-group" id="accordion-v2">
+            <div class="panel panel-default">
+                <h1>Categories</h1>
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <ul id="categoryTree" data-url='@Url.Action("GetProductCategorySelectTree", "Production")'></ul>
+                    </div>
+                </div>
+            </div>
+        </div><!--/end panel group-->
+
+        <div class="panel-group" id="accordion-v2">
+            <div class="panel panel-default">
+                <h1>@LanguageResource.Search</h1>
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+
+                        <div class="search_product">
+                            <div class="item">
+                                <label class="label_item" for="ProductName">@LanguageResource.ProductName :</label>
+                                <input type="text" name="ProductName" id="ProductName" class="form-control" placeholder="@LanguageResource.ProductName" />
+                            </div>
+                            <div class="item">
+                                <label class="label_item" for="CategoryId">@LanguageResource.ProductCategory:</label>
+                                <input id="CategoryId" name="CategoryId" class="easyui-combotree form-control cbxCategoryTree" data-url='@Url.Action("GetProductCategorySelectTree", "Production")' style="width: 100%;">
+                            </div>
+                            <div class="item">
+                                <label class="label_item">Price:</label>
+                                <span class="slider-snap"></span>
+                                <p class="slider-snap-text">
+                                    <div id="filter-price-slider" class="easyui-slider" data-options="min:@ViewBag.ProductFilteredPriceMin,max:@ViewBag.ProductFilteredPriceMax,step:10,showTip:true,range:true,mode:'h'" style="height: 200px"></div>
+                                    <input id="filter-price-min" name="MinPrice" type="hidden" value="@ViewBag.ProductFilteredPriceMin" />
+                                    <input id="filter-price-max" name="MaxPrice" type="hidden" value="@ViewBag.ProductFilteredPriceMax" />
+                                </p>
+                            </div>
+                            <div class="item">
+                                <button type="button" class="btn btn-u btn-brd btn-brd-hover btn-u-sea-shop btn-primary search" data-form="frmSearch" data-mode="search">
+                                    <span class="glyphicon glyphicon-search" role="button"></span> @LanguageResource.Search
+                                </button>
+                                <button type="button" class="btn btn-u btn-brd btn-brd-hover btn-u-sea-shop btn-block reset" data-form="frmSearch">Reset</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div><!--/end panel group-->
+    </div>
+}

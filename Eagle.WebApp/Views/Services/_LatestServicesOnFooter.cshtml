@@ -1,0 +1,60 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@using Eagle.Core.Settings
+@model IPagedList<Eagle.Services.Dtos.Services.Booking.ServicePackInfoDetail>
+
+<div class="footer-services">
+    <div class="footer-box">
+        <div class="title">
+            <h3>@LanguageResource.Services</h3>
+        </div>
+        <div class="content">
+            <div class="data-block">
+                <!-- start: service -->
+                <ul class="list-unstyled service-list margin-bottom-20">
+
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <!-- start: item inner  -->
+                            <li class="item">
+                                <div class="box-images">
+                                    <a title="@item.PackageName" href="@Url.Action("Details","Service", new {id = item.PackageId })">
+                                        <img alt="@item.PackageName" src="@Url.Content(item.FileUrl)">
+                                    </a>
+                                </div>
+                                <div class="box-content">
+                                    <h2><a title="@item.PackageName" href="@Url.Action("Details","Service", new {id = item.PackageId })">@item.PackageName</a></h2>
+                                    <p></p>
+                                    @*@if (!string.IsNullOrEmpty(item.Specification))
+                                    {
+                                        <p class="except dotdot">@Html.Raw(Eagle.Common.Utilities.StringUtils.StripHtml(item.Specification))</p>
+                                    }*@
+                                </div>
+                                <div class="note">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <span class="service-fee">@((item.TotalFee == 0) ? @LanguageResource.ContactUs : @Html.FormatValue(item.TotalFee, "{0:c}"))</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="read-more-wrapper">
+                                                <a class="read-more" data-id="@item.PackageId" title="@item.PackageName" href="@Url.Content("~/Service/Details/"+item.PackageId)">
+                                                    @LanguageResource.ReadMore
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                         <!-- end: item inner  -->
+                        }
+                    }
+
+                </ul>
+                <!-- end: service -->
+            </div>
+        </div>
+        <!-- end: content -->
+    </div>
+</div>

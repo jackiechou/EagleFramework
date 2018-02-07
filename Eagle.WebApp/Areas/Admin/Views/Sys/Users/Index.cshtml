@@ -1,0 +1,42 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.User;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div class="box-container">
+    <div class="heading-bar-container">
+        <div class="heading-bar-inner">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>@LanguageResource.User</h6>
+                </div>
+                <div class="col-md-8 text-right">
+                    <div class="btn-group" data-toggle="buttons">
+                        <button type="button" class="btn btn-success load-create-form" onclick="location.href = '@Url.Action("Create", "User")'">
+                            <span class="glyphicon glyphicon-plus-sign"></span> @LanguageResource.Create
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body-container">
+        <div id="MainBody">
+            @Html.Partial("../Sys/Users/_Reset")
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        window.PopulateCountrySelectListUrl = '@Url.Action("PopulateCountrySelectList", "Contact")';
+        window.PopulateProvinceSelectListUrl = '@Url.Action("PopulateProvinceSelectList", "Contact")';
+        window.PopulateRegionSelectListUrl = '@Url.Action("PopulateRegionSelectList", "Contact")';
+        window.PopulateGroupDropDownListUrl = '@Url.Action("PopulateGroupDropDownList", "User")';
+        window.PopulateRoleDropDownListUrl = '@Url.Action("PopulateRoleDropDownList", "User")';
+        window.SearchUrl = '@Url.Action("Search", "User")';
+    </script>
+    <script src="~/Scripts/app/modules/user.js"></script>
+}

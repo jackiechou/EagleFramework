@@ -1,0 +1,72 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@model IPagedList<Eagle.Services.Dtos.Business.ProductInfoDetail>
+
+<div id="result-list">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>@Html.Raw(LanguageResource.Products)</h4>
+        </div>
+        <div class="panel-body">
+            @if (Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="row">
+                        <div class="product-img product-img-brd">
+                            <a href='@Url.Action("Details", "Production", new {id = item.ProductId})'>
+                                <img class="img-responsive" width="150" height="150" src="@item.SmallPhotoUrl" alt="@item.ProductName">
+                            </a>
+                            @if (item.GrossPrice > 0)
+                            {
+                                <a class="product-review" href='@Url.Action("Details", "Production", new { id = item.ProductId })'>@LanguageResource.QuickReview</a>
+                                <a class="add-to-cart" href="#"><i class="fa fa-shopping-cart"></i>@LanguageResource.AddToCart</a>
+                            }
+                            <div class="shop-rgba-dark-green rgba-banner">@LanguageResource.New</div>
+                        </div>
+
+                        <div class="product-description product-description-brd margin-bottom-30">
+                            <div class="overflow-h margin-bottom-5">
+                                <div class="product-name">
+                                    <h4 class="title-price dotdot"><a href='@Url.Action("Details", "Production", new {id = item.ProductId})'>@item.ProductName</a></h4>
+                                    <span class="gender text-uppercase">@item.ProductType</span>
+                                    <span class="gender">@item.ProductCategory</span>
+                                </div>
+                                <div class="product-price">
+                                    <div class="rating-container">
+                                        <div class="star-rating" id="starRating_@item.ProductId" star-id="@item.ProductId" star-url='@Url.Action("CreateProductRating", "Production")' rating-type="product">
+                                            <span class="fa fa-star-o" data-rating="1" title="Did not like it"></span>
+                                            <span class="fa fa-star-o" data-rating="2" title="it was okay"></span>
+                                            <span class="fa fa-star-o" data-rating="3" title="Liked it"></span>
+                                            <span class="fa fa-star-o" data-rating="4" title="Really liked it"></span>
+                                            <span class="fa fa-star-o" data-rating="5" title="It was amazing"></span>
+                                            <input type="hidden" name="ratingValue" id="ratingValue_@item.ProductId" input-id="@item.ProductId" class="rating-value" value="@item.Rating">
+                                        </div>
+                                    </div>
+                                    <span class="price-tag">@(item.GrossPrice == 0 ? LanguageResource.ContactUs : Html.FormatValue(item.GrossPrice, "${0:c}"))</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="text-center datagrid-pager">
+        @if (Model != null && Model.Any())
+        {
+            <ul class="pagination pagination-v2 datagrid-pagination">
+                @Html.PagedListPager(Model, page => Url.Action("GetProductsByManufacturer", "Production", new { page }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 5,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    //DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "result-list" }))
+            </ul>
+        }
+    </div>
+</div>

@@ -1,0 +1,133 @@
+﻿@{
+    ViewBag.Title = LanguageResource.EditMailServerProvider;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Services.Message.MailServerProviderEditEntry
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditMailServerProvider", name = "frmEditMailServerProvider", autocomplete = "off", @class = "form-horizontal" }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditMailServerProvider" data-id="@Model.MailServerProviderId" data-url='@Url.Action("Edit", "MailServerProvider")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editMailServerProvider" data-mode="edit" data-form="frmEditMailServerProvider" data-url='@Url.Action("Edit", "MailServerProvider")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditMailServerProvider</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="container-fluid">
+                    <div class="form-container">
+                        <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                        <div class="form-body-container">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.MailServerProviderName, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(model => model.MailServerProviderName, new {@class = "form-control"})
+                                        @Html.ValidationMessageFor(model => model.MailServerProviderName)
+
+                                        @Html.HiddenFor(model => model.MailServerProviderId)
+                                        @Html.ValidationMessageFor(model => model.MailServerProviderId)
+                                    </div>
+                                    @Html.RequiredLabelFor(model => model.MailServerProtocol, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.MailServerProtocol, null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.MailServerProtocol)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IncomingMailServerHost, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(model => model.IncomingMailServerHost, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.IncomingMailServerHost)
+                                    </div>
+                                    @Html.RequiredLabelFor(model => model.IncomingMailServerPort, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(model => model.IncomingMailServerPort, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.IncomingMailServerPort)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.OutgoingMailServerHost, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(model => model.OutgoingMailServerHost, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.OutgoingMailServerHost)
+                                    </div>
+                                    @Html.LabelFor(model => model.OutgoingMailServerPort, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(model => model.OutgoingMailServerPort, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.OutgoingMailServerPort)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Ssl, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        <div class="checkbox-slider--a">
+                                            <label>
+                                                @{
+                                                    if (@Model.Ssl)
+                                                    {
+                                                        <input type="checkbox" id="Ssl" name="Ssl" checked="checked" value="true"><span></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" id="Ssl" name="Ssl" value="false"><span></span>
+                                                    }
+                                                }
+                                            </label>
+                                        </div>
+
+                                        @Html.ValidationMessageFor(model => model.Ssl)
+                                    </div>
+                                    @Html.LabelFor(model => model.Tls, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        <div class="checkbox-slider--a">
+                                            <label>
+                                                @{
+                                                    if (@Model.Tls)
+                                                    {
+                                                        <input type="checkbox" id="Tls" name="Tls" checked="checked" value="true"><span></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" id="Tls" name="Tls" value="false"><span></span>
+                                                    }
+                                                }
+                                            </label>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Tls)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditMailServerProvider" data-id="@Model.MailServerProviderId" data-url='@Url.Action("Edit", "MailServerProvider")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editMailServerProvider" data-mode="edit" data-form="frmEditMailServerProvider" data-id="@Model.MailServerProviderId" data-url='@Url.Action("Edit", "MailServerProvider")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}

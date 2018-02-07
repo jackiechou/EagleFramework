@@ -1,0 +1,133 @@
+﻿@{
+    Layout = "";
+}
+
+@model Eagle.Services.Dtos.Contents.Documentation.DocumentationEditEntry
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent" class="row">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmDocumentation", name = "frmDocumentation", @class = "form-horizontal", enctype = "multipart/form-data" }))
+            {
+                <div id="HeaderContainer" class="heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>@LanguageResource.EditDocumentation</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="BodyContainer">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div id="LeftContent" class="col-md-3">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading text-bold">@LanguageResource.DocumentInformation</div>
+                                    <div class="panel-body">
+                                        <div class="form-message">&nbsp;</div>
+                                        <div class="container-fluid">
+                                            <div class="form-container">
+
+                                                <div class="form-body-container">
+                                                    <div class="form-horizontal">
+
+                                                        <div class="form-group">
+                                                            <div class="col-md-3">
+                                                                @Html.LabelFor(model => model.DocumentInfo.FileTitle, new { @class = "control-label" })
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                                @Html.TextBoxFor(model => model.DocumentInfo.FileTitle, new { @class = "form-control", placeholder = LanguageResource.FileTitle, @readonly = "readonly" })
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <div class="col-md-3">
+                                                                @Html.LabelFor(model => model.DocumentInfo.FileExtension, new { @class = "control-label" })
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                                @Html.TextBoxFor(model => model.DocumentInfo.FileExtension, new { @class = "form-control", placeholder = LanguageResource.FileExtension, @readonly = "readonly" })
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer"></div>
+                                </div>
+                            </div>
+                            <div id="RightContent" class="col-md-9 right-content">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading text-bold">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h6>@LanguageResource.Edit</h6>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class='btn-toolbar pull-right'>
+                                                    <div class='btn-group'>
+                                                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmDocumentation" data-url='@Url.Action("Edit", "Documentation")' value="@LanguageResource.Reset" />
+                                                        <input type="button" class="btn btn-primary save edit editDocumentation" data-mode="edit" data-form="frmDocumentation" data-url='@Url.Action("Edit", "Documentation")' value="@LanguageResource.Save" />
+                                                        <input type="button" class="btn btn-primary updateDocumentation" data-mode="edit" data-form="frmDocumentation" data-url='@Url.Action("Edit", "Documentation")' value="@LanguageResource.SaveAndBack" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="formMessage" class="form-message">
+                                            @Html.AntiForgeryToken()
+                                            @Html.Partial("_MessagePartial")
+                                            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+                                        </div>
+                                        <div id="formBody" class="container-fluid">
+                                            <div class="form-container">
+                                                <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                                                <div class="form-body-container">
+                                                    <div class="form-horizontal">
+
+                                                        @Html.HiddenFor(model => model.DocumentationId)
+                                                        @Html.ValidationMessageFor(model => model.DocumentationId)
+
+                                                        <div class="form-group">
+                                                            @Html.Label(LanguageResource.File, new { @class = "control-label col-md-2" })
+                                                            <div class="col-md-10">
+                                                                <div class="file-container">
+                                                                    <div class="row">
+                                                                        <div class="col-md-8 no-padding-left">
+                                                                            <input type="file" id="File" name="File" accept=".csv,.xlsx,.xls,.doc,.docx,.ppt,.pptx,.txt,.pdf,application/msword, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/vnd.ms-powerpoint,text/plain" class="btn btn-default form-control" />
+                                                                        </div>
+                                                                        <div class="col-md-4 no-padding-left">
+                                                                            <input type="button" class="btn btn-warning resetFile" value="@LanguageResource.Reset" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <div class="row">
+                                            <div class="bottom-toolbar">
+                                                <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmDocumentation" data-url='@Url.Action("Edit", "Documentation")' value="@LanguageResource.Reset" />
+                                                <input type="button" class="btn btn-primary save edit editDocumentation" data-mode="edit" data-form="frmDocumentation" data-url='@Url.Action("Edit", "Documentation")' value="@LanguageResource.Save" />
+                                                <input type="button" class="btn btn-primary updateDocumentation" data-mode="edit" data-form="frmDocumentation" data-url='@Url.Action("Edit", "Documentation")' value="@LanguageResource.SaveAndBack" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,138 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.ModuleEntry
+
+<div class="sub-container">
+    <div class="sub-header-container">
+        <div class="sub-heading-title">
+            <h6><span class="glyphicon glyphicon-option-vertical"></span> @LanguageResource.ModuleSelection</h6>
+        </div>
+    </div>
+    <div class="sub-body-container">
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.RequiredLabelFor(model => model.ModuleTypeId)
+                </div>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.ModuleTypeId, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ModuleTypeId)
+                </div>
+            </div>
+        </div>
+
+        <!--start row-->
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.RequiredLabelFor(model => model.ModuleName)
+                </div>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(model => model.ModuleName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ModuleName)
+                </div>
+            </div>
+        </div>
+        <!--end row-->
+        <!--start row-->
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.RequiredLabelFor(model => model.ModuleTitle)
+                </div>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(model => model.ModuleTitle, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ModuleTitle)
+                </div>
+            </div>
+        </div>
+        <!--end row-->
+        <!--start row-->
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.RequiredLabelFor(model => model.ModuleCode)
+                </div>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(model => model.ModuleCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ModuleCode)
+                </div>
+            </div>
+        </div>
+        <!--end row-->
+        <!--start row-->
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.Description)
+                </div>
+                <div class="col-md-9">
+                    @Html.TextAreaFor(model => model.Description, new { rows = 2, columns = 40, maxlength = 150, @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Description)
+                </div>
+            </div>
+        </div>
+        <!--end row-->
+        <!--start row-->
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.StartDate)
+                </div>
+                <div class="col-md-3">
+                    @Html.DatePickerWithIconFor(model => model.StartDate,DateTime.UtcNow.ToString("dd/MM/yyyy"))
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.EndDate)
+                </div>
+                <div class="col-md-3">
+                    @Html.DatePickerWithIconFor(model => model.EndDate);
+                </div>
+            </div>
+        </div>
+        <!--end row-->
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.Header)
+                </div>
+                <div class="col-md-9">
+                    @Html.TextAreaFor(model => model.Header, new { rows = 2, columns = 40, maxlength = 150, @class = "form-control ckeditor" })
+                    @Html.HiddenFor(model => model.Header)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.Footer)
+                </div>
+                <div class="col-md-9">
+                    @Html.TextAreaFor(model => model.Footer, new { rows = 2, columns = 40, maxlength = 150, @class = "form-control ckeditor" })
+                    @Html.HiddenFor(model => model.Footer)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-4">
+                    <div class="checkbox-slider--b">
+                        <label>
+                            <input type="checkbox" id="InheritViewPermissions" name="InheritViewPermissions" value="true" checked="checked"><span></span><span class="text">@LanguageResource.InheritViewPermissions</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="checkbox-slider--b">
+                        <label>
+                            <input type="checkbox" id="IsSecured" name="IsSecured" value="true" checked="checked"><span></span><span class="text">@LanguageResource.IsSecured</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

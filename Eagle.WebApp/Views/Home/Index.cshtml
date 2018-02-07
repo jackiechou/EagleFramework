@@ -1,0 +1,65 @@
+﻿@using Eagle.Core.Settings
+@using Eagle.Services.Dtos.Services.Event
+@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.Home;
+    Layout = ThemeViewEngine.DesktopMainLayout;
+}
+
+<!--=== Slider ===-->
+@section Banner
+{
+    @{
+        Html.RenderAction("GetHomeBanners", "BannerInfo");
+    }
+}
+<!--=== End Slider ===-->
+
+<!--=== Home Content ===-->
+
+@{
+    Html.RenderAction("GetLatestEvents", "Home", new
+    {
+        page = 1,
+        pageSize = 1,
+        filter = new EventSearchEntry
+        {
+            SearchStatus = EventStatus.Upcoming
+        }
+    });
+
+    Html.RenderAction("GetVendorInfo", "Home");
+    Html.RenderAction("GetLastestServices", "Home", new { page = 1, pageSize = 12 });
+    Html.RenderAction("GetDiscountedProductListImage", "Home");
+    Html.RenderAction("GetDiscountedPackages", "Service", new { page = 1, pageSize = 12 });
+}
+
+<div class="product-container-home">
+    <div class="col-md-8 col-xs-12">
+        @{
+            Html.RenderAction("GetLastestProducts", "Home", new { page = 1, pageSize = 5 });
+        }
+    </div>
+    <div class="col-md-4 col-xs-12">
+        @Html.Partial("../Home/_ProductCategories")
+    </div>
+</div>
+
+@{
+    Html.RenderAction("Welcome", "Home");
+    Html.RenderAction("GetServiceCategories", "Home");
+}
+
+<!--=== End Home Content ===-->
+
+@section Scripts
+{
+    <script type="text/javascript">
+        window.GetProductCategorySelectTree = '@Url.Action("GetProductCategorySelectTree", "Production")';
+        window.ProductsByCategory = '@Url.Action("ProductsByCategory", "Production")';
+    </script>
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui-custom.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <script src="~/Themes/Booking/Content/js/app/home.js"></script>
+}

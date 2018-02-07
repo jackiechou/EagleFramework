@@ -1,0 +1,256 @@
+﻿@using Eagle.Core.HtmlHelper
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.SystemManagement.MenuEditEntry
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditMenu", name = "frmEditMenu", @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div id="FormContainer" class="form-container">
+        <div id="FormHeader" class="form-header">
+            <div class="topbar">
+                <div class="row topbar-inner">
+                    <div class="col-md-6">
+                        <h6 class="text-capitalize">@Html.Raw(LanguageResource.Menu + " > " + LanguageResource.Edit + " " + @Model.MenuName)</h6>
+                    </div>
+                    <div class="col-md-6 no-padding-right">
+                        <div class="right-button-align">
+                            <input type="button" class="btn btn-default reset btnReset" data-mode="reset" data-form="frmEditMenu" value="@LanguageResource.Reset" />
+                            <input type="button" class="btn btn-primary edit editMenu" data-mode="edit" data-form="frmEditMenu" data-id="@Model.MenuId" data-url='@Url.Action("Edit", "Menu")' value="@LanguageResource.Save" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="FormMessage" class="form-message">
+            <div id="alertMessageBox" class="margin-5">
+                @if (ViewBag.DisplayErrorMessage == true)
+                {
+                    <div class="@ViewBag.CssClass">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                        <strong>@ViewBag.SortMessage !</strong>
+                        <div class="padding-left">
+                            @Html.Raw(Server.HtmlDecode(ViewBag.Message))
+                        </div>
+                    </div>
+                }
+                @Html.ValidationSummary()
+            </div>
+            <div class="progress progress-striped active">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    <span class="sr-only">0% Complete</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="FormBody" class="form-body">
+            <div class="edit-menu">
+                <div class="row">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li id="tab-1" class="active"><a href="#pane-1" data-toggle="tab">@LanguageResource.MenuInfo</a></li>
+                        <li id="tab-2"><a href="#pane-2" data-toggle="tab">@LanguageResource.Appearance</a></li>
+                        <li id="tab-3"><a href="#pane-3" data-toggle="tab">@LanguageResource.MenuPermission</a></li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content responsive">
+                        <div class="tab-pane  fade in active" id="pane-1">
+                            <div class="sub-container">
+                                <div class="sub-header-container">
+                                    <div class="sub-heading-title">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <h6><label id="TypeName" name="TypeName">@LanguageResource.Admin</label></h6>
+                                            </div>
+                                            <div class="col-md-3 text-right no-padding-right">
+                                                <div class="btn-group" data-toggle="buttons" id="type-select">
+                                                    <input id="TypeId" name="TypeId" type="hidden" value="@Model.TypeId" />
+                                                    @*@Html.RadioButtonListFor(model => model.TypeId, ViewData["TypeId"] as IEnumerable<SelectListItem>)*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sub-body-container">
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.ParentId)
+                                        </div>
+                                        <div class="col-md-10">
+                                            <input id="ParentId" name="ParentId" class="easyui-combotree form-control cbxParentMenuTree" value="@Model.ParentId" style="width: 100%">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.PageId)
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="input-group">
+                                               @Html.DropDownListFor(model => model.PageId, null, new { @class = "form-control", autocomplete = "off" })
+                                                <div class="input-group-addon create-page" id="createPage" data-action="@Url.Action("Index", "Page")">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.RequiredLabelFor(model => model.MenuName)
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.TextBoxFor(model => model.MenuName, new { @class = "form-control", placeholder = LanguageResource.MenuName })
+                                            @Html.TextBoxFor(model => model.MenuId, new { @style = "position:absolute; top:-9999px; left:-9999px" })
+                                            @Html.ValidationMessageFor(model => model.MenuName)
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.RequiredLabelFor(model => model.MenuTitle)
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.TextBoxFor(model => model.MenuTitle, new { @class = "form-control", placeholder = LanguageResource.MenuTitle })
+                                            @Html.ValidationMessageFor(model => model.MenuTitle)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.Description)
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.Description, new { rows = 2, columns = 40, maxlength = 150, @class = "form-control", placeholder = LanguageResource.Description })
+                                            @Html.ValidationMessageFor(model => model.Description)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.IsSecured)
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="checkbox-slider--b">
+                                                <label>
+                                                    @{
+                                                        if (Model.IsSecured != null && Model.IsSecured == true)
+                                                        {
+                                                            <input type="checkbox" id="IsSecured" name="IsSecured" checked="checked" value="true"><span>@LanguageResource.IsSecured</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" id="IsSecured" name="IsSecured" value="false"><span>@LanguageResource.IsSecured</span>
+                                                        }
+                                                    }
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.Status)
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.RadioButtonEnumFor(model => model.Status)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="pane-2">
+                            <div class="sub-container">
+                                <div class="sub-header-container">
+                                    <div class="sub-heading-title">
+                                        <h6>@LanguageResource.Appearance</h6>
+                                    </div>
+                                </div>
+                                <div class="sub-body-container">
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.IconFile)
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="row">
+                                                <div class="col-md-8 no-padding-left">
+                                                    <input type="file" id="FileUpload" name="FileUpload" class="btn btn-default form-control" />
+                                                    @Html.TextBoxFor(model => model.IconFile, new { @style = "position:absolute; top:-9999px; left:-9999px" })
+                                                </div>
+                                                <div class="col-md-4 no-padding-left">
+                                                    <input type="button" class="btn btn-warning resetImage" value="@LanguageResource.ResetImage" />
+                                                </div>
+                                            </div>
+                                            <div id="image-holder"></div>
+                                            <div id="image-container" class="image-container">
+                                                @if (@Model.DocumentFileInfo != null)
+                                                {
+                                                    @Html.ImageByFileId("Photo", Model.IconFile, Model.DocumentFileInfo.FileUrl, Model.DocumentFileInfo.FileName, new { width = "50", height = "50", @class = "thumb-image" })
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.Target)
+                                        </div>
+                                        <div class="col-md-5">
+                                            @Html.DropDownListFor(model => model.Target, null, new { @class = "form-control" })
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.IconClass)
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button id="btnIconPicker" class="btn btn-default iconpicker" role="iconpicker"></button>
+                                            <input type="hidden" id="IconClass" name="IconClass" class="selectedIcon" value="@Model.IconClass" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.CssClass)
+                                        </div>
+                                        <div class="col-md-5">
+                                            @Html.TextBoxFor(model => model.CssClass, new { @class = "form-control", placeholder = LanguageResource.CssClass })
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.Color)
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="color-picker-container">
+                                                <input id="ColorPicker" name="ColorPicker" class="color-picker evo-cp0" value="" style="width: 100px" />
+                                                <input type="hidden" id="Color" name="Color" class="color" value="@Model.Color" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.Label(LanguageResource.PositionId)
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="row">
+                                                @Html.Partial("../Sys/Menu/_EditPosition")
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="pane-3">
+                            @Html.Action("EditPermission", "Menu", new { id = @Model.MenuId });
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="FormFooter" class="form-footer">
+            <div class="bottom-toolbar">
+                <input type="button" class="btn btn-warning reset btnReset" data-mode="reset" data-form="frmEditMenu" value="@LanguageResource.Reset" />
+                <input type="button" class="btn btn-primary edit editMenu" data-mode="edit" data-form="frmEditMenu" data-id="@Model.MenuId" data-url='@Url.Action("Edit", "Menu")' value="@LanguageResource.Save" />
+            </div>
+        </div>
+    </div>
+                                                        }

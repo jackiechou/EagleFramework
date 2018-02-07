@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>jQuery Superfish megamenu example with full touch support for Android, iOS and Windows 8.</title>
+    <link rel="stylesheet" href="css/megafish.css" media="screen">
+    <style>
+      html, body, .wrap {
+        width: 50em;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      .wrap {
+        padding: 1em;
+        height: auto;
+        min-height: 90%;
+      }
+      h1 {
+        font-size: 1.125em;
+      }
+      .sf-mega ul {
+        list-style-type: auto;
+        margin: 0;
+        padding-left: 1.2em;
+      }
+      .sf-mega li {
+        margin-left: 0;
+      }
+      .sf-mega h2 {
+        font-size: 1em;
+        margin: .5em 0;
+        color: #13a;
+      }
+      a:focus, a:hover, a:active {
+        text-decoration: none;
+      }
+    </style>
+    <script src="js/jquery.js"></script>
+    <script src="js/hoverIntent.js"></script>
+    <script src="js/superfish.js"></script>
+    <script>
+
+    (function($){ //create closure so we can safely use $ as alias for jQuery
+
+      $(document).ready(function(){
+        
+        var exampleOptions = {
+          speed: 'fast'
+        }
+        // initialise plugin
+        var example = $('#nav').superfish(exampleOptions);
+
+       
+      });
+
+    })(jQuery);
+
+
+    </script>
+  </head>
+  <body>
+     <ul id="nav" style="display: -moz-box; width: 100%" class="sf-menu">
+            <li class="current"><a href="/133/80"><span> <i class="icon-th-large"></i>  Trang chủ</span></a></li>
+			<li><a href="/admin/order/index/134/81"><span> <i class="icon-th-large"></i>  Giới thiệu</span></a></li>
+			<li><a href="/admin/permission/index/13/82" class="sf-with-ul"><span> <i class="icon-th-large"></i>  Tin tức - Sự kiện</span></a>
+				<div class="sf-mega" >
+					<div class="sf-mega-section">
+						<h2>Tin tức - Sự kiện:</h2>
+						<ul>
+							<li>
+								<a href="/admin/service/index/82/97" class="sf-with-ul"><span> <i class="icon-th"></i>  Services</span></a>
+								<div class="sf-mega">
+									<div class="sf-mega-section">
+										<h2>Services:</h2>
+										<ul>						
+											<li><a href="/admin/birthdayservice/index/97/98"><span> <i class="icon-th"></i>  Birthday Services</span></a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</li>
+					</ul>
+					</div>
+				</div>
+			</li>
+			<li><a href="/admin/permission/index/13/82/164/83"><span> <i class="icon-th-large"></i>  Bán hàng online</span></a></li>
+			<li ><a href="/home/index/166/85"><span> <i class="icon-th-large"></i>  Media</span></a></li>
+			<li ><a href="/introduction/index/167/86"><span> <i class="icon-th-large"></i>  Liên Hệ</span></a></li>
+        </ul>
+  </body>
+</html>

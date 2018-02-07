@@ -1,0 +1,25 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.ModuleId);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainBody">
+    <div class="row">
+        <div id="divList" class="col-md-5">
+            @Html.Partial("../Sys/Modules/_SearchForm")
+        </div>
+        <div id="divEdit" class="col-md-7 no-padding-left">
+            @Html.Action("Create", "Module")
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.PageMultiSelectListUrl = '@Url.Action("PopulatePageMultiSelectList", "Module")';
+        window.PagesByModuleMultiSelectListUrl = '@Url.Action("PopulatePagesByModuleMultiSelectList", "Module")';   
+        window.IndexModuleUrl = '@Url.Action("Index", "Module")';
+      </script>
+    <script src="~/Scripts/app/modules/module.js"></script>
+}

@@ -1,0 +1,55 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.PageEditEntry
+
+<div id="page-permission" class="page-permission">
+    <table id="tbl-page-permission" class="table">
+        <thead>
+            <tr>
+                <th data-id="RoleId">
+                    @LanguageResource.RoleName
+                </th>
+                <th data-id="AllowAccess">
+                    @LanguageResource.AllowAccess
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.PagePermissions.Any())
+            {
+                int i = 0;
+                foreach (var item in Model.PagePermissions)
+                {
+                    <tr>
+                        <td>
+                            <label id="RoleName" name="RoleName">@item.Role.RoleName</label>
+                            <input type="hidden" id="PagePermissions[@i].RoleId" name="PagePermissions[@i].RoleId" value="@item.RoleId"/>
+                        </td>
+                        <td class="text_center">
+                            <div class="checkbox-slider--a">
+                                <label>
+                                    @{
+                                        if (item.AllowAccess)
+                                        {
+                                            <input type="checkbox" data-pageid="@item.PageId" data-roleid="@item.RoleId" data-url='@Url.Action("UpdatePagePermission", "Page")' class="allowAccess changePermissionStatus" id="PagePermissions[@i].AllowAccess" name="PagePermissions[@i].AllowAccess" checked="checked" value="true"><span></span>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" data-pageid="@item.PageId" data-roleid="@item.RoleId" data-url='@Url.Action("UpdatePagePermission", "Page")' class="allowAccess changePermissionStatus" id="PagePermissions[@i].AllowAccess" name="PagePermissions[@i].AllowAccess" value="false"><span></span>
+                                        }
+                                    }
+                                </label>
+                            </div>
+
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+            else
+            {
+                <tr class="row">
+                    <td colspan="2" class="not-found col-xs-12 col-sm-12 col-md-12">@LanguageResource.NoDataFound</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

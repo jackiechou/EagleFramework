@@ -1,0 +1,15 @@
+﻿@using Eagle.Core.HtmlHelper
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Business.VendorInfoDetail
+
+<div class="panel panel-default">
+    <div class="panel-heading text-bold">
+        <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.RefundPolicy</h4>
+    </div>
+
+    <div class="panel-body padding-top-0">
+        <div class="product-details">
+            @Html.Raw(Model.RefundPolicy)
+        </div>
+    </div>
+</div>

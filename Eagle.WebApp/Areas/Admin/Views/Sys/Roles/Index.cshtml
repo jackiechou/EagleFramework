@@ -1,0 +1,59 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.Role;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div class="box-container">
+    <div class="heading-bar-container">
+        <div class="heading-bar-inner">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>@LanguageResource.Role</h6>
+                </div>
+                <div class="col-md-8 text-right">
+                    <div class="btn-group" data-toggle="buttons">
+                        <button type="button" class="btn btn-default load-back-form" data-url='@Url.Action("Index", "Role")'>
+                            <span class="glyphicon glyphicon-backward"></span> @LanguageResource.Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body-container">
+        <div id="bodyContent" class="row">
+            <div id="LeftContent" class="col-md-6">
+                <div id="divEdit">
+                    @Html.Action("Create", "Role")
+                </div>
+            </div>
+            <div id="RightContent" class="col-md-6">
+                <div id="MainBody" class="form-horizontal main_box">
+                    <div id="gridcontainer" class="gridContainer">
+                        @Html.Action("LoadSearchForm", "Role")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        //LANGUAGE RESOURCE
+        window.Create = '@Html.Raw(LanguageResource.Create)';
+        window.CreateSuccess = '@Html.Raw(LanguageResource.CreateSuccess)';
+        window.CreateFailure = '@Html.Raw(LanguageResource.CreateFailure)';
+        window.Edit = '@Html.Raw(LanguageResource.Edit)';
+        window.UpdateSuccess = '@Html.Raw(LanguageResource.UpdateSuccess)';
+        window.UpdateFailure = '@Html.Raw(LanguageResource.UpdateFailure)';
+        window.UpdateStatus = '@Html.Raw(LanguageResource.UpdateStatus)';
+        window.UpdateStatusSuccess = '@Html.Raw(LanguageResource.UpdateStatusSuccess)';
+        window.UpdateStatusFailure = '@Html.Raw(LanguageResource.UpdateStatusFailure)';
+
+        window.SearchRoleUrl = '@Url.Action("Search", "Role")';
+        window.UpdateStatusUrl = '@Url.Action("UpdateStatus", "Role")';
+    </script>
+    <script src="~/Scripts/app/modules/role.js"></script>
+}

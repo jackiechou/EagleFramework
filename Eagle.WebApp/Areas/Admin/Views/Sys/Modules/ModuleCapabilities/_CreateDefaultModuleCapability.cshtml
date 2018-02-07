@@ -1,0 +1,95 @@
+﻿<div class="sub-container">
+    <div class="sub-header-container">
+        <div class="sub-heading-title">
+            <h6><span class="glyphicon glyphicon-option-vertical"></span> @LanguageResource.ModuleCapability</h6>
+        </div>
+    </div>
+    <div class="sub-body-container container-fluid">
+        <div class="panel panel-default panel-table">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col col-xs-6">
+                        <h5><span class="glyphicon glyphicon-adjust"></span> @LanguageResource.Capability</h5>
+                    </div>
+                    <div class="col col-xs-6 text-right">
+                        @*<button type="button" id="load_default_settings" name="load_default_settings" class="btn btn-sm btn-u btn-u-default btn-loadDefaultSettings">@LanguageResource.LoadDefaultSettings</button>*@
+                        <button type="button" id="add_row" name="add_row" class="add-row btn btn-sm btn-primary btn-create">@LanguageResource.AddNewItem</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+
+                <table id="ModuleCapabilities" name="ModuleCapabilities" data-array="ModuleCapabilities" class="dynamic-table table table-striped table-bordered table-hover table-sortable table-list">
+                    <thead class="thead-default">
+                    <tr>
+                        <th class="text-center">@LanguageResource.CapabilityName</th>
+                        <th class="text-center">@LanguageResource.CapabilityCode</th>
+                        <th class="text-center">@LanguageResource.Description</th>
+                        <th class="text-center">@LanguageResource.IsActive</th>
+                        <th class="text-center"><label class="glyphicon glyphicon-cog"></label></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="row0" data-id="0" data-array="ModuleCapabilities[0]">
+                            <td data-name="CapabilityName"><input id="ModuleCapabilities[0].CapabilityName" name="ModuleCapabilities[0].CapabilityName" type="text" value="View" placeholder='CapabilityName' class="form-control"/></td>
+                            <td data-name="CapabilityCode"><input id="ModuleCapabilities[0].CapabilityCode" name="ModuleCapabilities[0].CapabilityCode" type="text" value="View" placeholder='CapabilityCode' class="form-control" /></td>
+                            <td data-name="Description"><textarea id="ModuleCapabilities[0].Description" name="ModuleCapabilities[0].Description" placeholder='Description' class="form-control">View</textarea></td>
+                            <td class="text-center" data-name="IsActive">
+                                <input type="checkbox" id="ModuleCapabilities[0].IsActive" name="ModuleCapabilities[0].IsActive" checked="checked" value="true" class="form-control ignored"/>
+                            </td>
+                            <td class="text-center">
+                                <button data-toggle="tooltip" data-title="Edit" class='btn btn-success glyphicon glyphicon-pencil row-edit'></button>
+                                <button data-toggle="tooltip" data-title="Delete" class='btn btn-warning glyphicon glyphicon-trash row-remove'></button>
+                            </td>
+                        </tr>
+
+
+                        <tr id="row1" data-id="1" data-array="ModuleCapabilities[1]">
+                            <td data-name="CapabilityName"><input id="ModuleCapabilities[1].CapabilityName" name="ModuleCapabilities[1].CapabilityName" type="text" value="Create" placeholder='CapabilityName' class="form-control"/></td>
+                            <td data-name="CapabilityCode"><input id="ModuleCapabilities[1].CapabilityCode" name="ModuleCapabilities[1].CapabilityCode" type="text" value="Create" placeholder='CapabilityCode' class="form-control" /></td>
+                            <td data-name="Description"><textarea id="ModuleCapabilities[1].Description" name="ModuleCapabilities[1].Description" placeholder='Description' class="form-control">Create</textarea></td>
+                            <td class="text-center" data-name="IsActive">
+                                <input type="checkbox" id="ModuleCapabilities[1].IsActive" name="ModuleCapabilities[1].IsActive" checked="checked" value="true" class="form-control ignored"/>
+                            </td>
+                            <td class="text-center">
+                                <button data-toggle="tooltip" data-title="Edit" class='btn btn-success glyphicon glyphicon-pencil row-edit'></button>
+                                <button data-toggle="tooltip" data-title="Delete" class='btn btn-warning glyphicon glyphicon-trash row-remove'></button>
+                            </td>
+                        </tr>
+
+                        <tr id="row2" data-id="2" data-array="ModuleCapabilities[2]">
+                            <td data-name="CapabilityName"><input id="ModuleCapabilities[2].CapabilityName" name="ModuleCapabilities[2].CapabilityName" type="text" value="Edit" placeholder='CapabilityName' class="form-control"/></td>
+                            <td data-name="CapabilityCode"><input id="ModuleCapabilities[2].CapabilityCode" name="ModuleCapabilities[2].CapabilityCode" type="text" value="Edit" placeholder='CapabilityCode' class="form-control" /></td>
+                            <td data-name="Description"><textarea id="ModuleCapabilities[2].Description" name="ModuleCapabilities[2].Description" placeholder='Description' class="form-control">Edit</textarea></td>
+                            <td class="text-center" data-name="IsActive">
+                                <input type="checkbox" id="ModuleCapabilities[2].IsActive" name="ModuleCapabilities[2].IsActive" checked="checked" value="true" class="form-control ignored"/>
+                            </td>
+                            <td class="text-center">
+                                <button data-toggle="tooltip" data-title="Edit" class='btn btn-success glyphicon glyphicon-pencil row-edit'></button>
+                                <button data-toggle="tooltip" data-title="Delete" class='btn btn-warning glyphicon glyphicon-trash row-remove'></button>
+                            </td>
+                        </tr>
+
+                        <tr id="row3" data-id="3" data-array="ModuleCapabilities[3]">
+                            <td data-name="CapabilityName"><input id="ModuleCapabilities[3].CapabilityName" name="ModuleCapabilities[3].CapabilityName" type="text" value="Delete" placeholder='CapabilityName' class="form-control"/></td>
+                            <td data-name="CapabilityCode"><input id="ModuleCapabilities[3].CapabilityCode" name="ModuleCapabilities[3].CapabilityCode" type="text" value="Delete" placeholder='CapabilityCode' class="form-control" /></td>
+                            <td data-name="Description"><textarea id="ModuleCapabilities[3].Description" name="ModuleCapabilities[3].Description" placeholder='Description' class="form-control">Delete</textarea></td>
+                             <td class="text-center" data-name="IsActive">
+                                <input type="checkbox" id="ModuleCapabilities[3].IsActive" name="ModuleCapabilities[3].IsActive" checked="checked" value="true" class="form-control ignored"/>
+                            </td>
+                            <td class="text-center">
+                                <button data-toggle="tooltip" data-title="Edit" class='btn btn-success glyphicon glyphicon-pencil row-edit'></button>
+                                <button data-toggle="tooltip" data-title="Delete" class='btn btn-warning glyphicon glyphicon-trash row-remove'></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div class="panel-footer">
+                <div class="row">@LanguageResource.PleaseRemoveRedundancy</div>
+            </div>
+        </div>
+    </div>
+</div>

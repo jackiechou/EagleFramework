@@ -1,0 +1,25 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.Contact);
+    Layout = ThemeViewEngine.DesktopSubLayout;
+}
+<div id="page" class="row">
+    <div class="page-content container content-sm">
+        <div class="row">
+            <div class="col-md-8">
+                @Html.Partial("../Contact/_ContactForm")
+            </div>
+            <div class="col-md-4">
+                @{
+                    Html.RenderAction("GetContactInfo", "ContactUs");
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/app/theme/default/google-map.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7oXxSIG-G0A1lgRQL2rCdrO-pGDDhVAg&callback=initMap" async defer></script>
+    <script type="text/javascript" src="~/Scripts/app/theme/default/contact-us.js"></script>
+
+}

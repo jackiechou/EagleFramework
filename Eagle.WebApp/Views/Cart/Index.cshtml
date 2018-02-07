@@ -1,0 +1,144 @@
+﻿@model Eagle.Services.Dtos.Business.Transaction.CartInfoForShopping
+@{
+     ViewBag.Title = LanguageResource.Cart;
+     Layout = Eagle.Services.Skins.ThemeViewEngine.DesktopMainLayout;
+}
+
+
+<div class="container cart-detail">
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <h2>@Html.Raw(LanguageResource.YourCart)</h2>
+            @if (!Model.Items.Any())
+            {
+                <p id="empty-cart-warning" class="text-center">
+                    <img src="~/Images/empty-cart.jpg" alt="@LanguageResource.EmptyCart" style="display: block; margin-left: auto; margin-right: auto;" />
+                </p>
+            }
+            else
+            {
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Items.FirstOrDefault().Name)</th>
+                        <th class="text-center">@Html.DisplayNameFor(model => model.Items.FirstOrDefault().Quantity)</th>
+                        <th class="text-center">@Html.DisplayNameFor(model => model.Items.FirstOrDefault().NetPrice)</th>
+                        <th class="text-center">@Html.DisplayNameFor(model => model.Items.FirstOrDefault().Amount)</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td class="col-sm-7 col-md-7">
+                                <div class="media">
+                                    <a class="thumbnail" data-id="@item.Id" title="@item.Name" href='@Url.Action("Details", "Production", new { id = item.Id })'>
+                                        <img class="media-object" src="@item.Image" style="width: 72px; height: 72px;" alt="@item.Name">
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">
+                                            <a data-id="@item.Id" title="@item.Name" href='@Url.Action("Details", "Production", new {id = item.Id})'>@item.Name</a>
+                                        </h4>
+                                            
+                                        @if (item.Detail != null)
+                                        {
+                                            if (item.Detail.Manufacturer != null)
+                                            {
+                                                <h5 class="media-heading"> @LanguageResource.By <a href="#">@item.Detail.Manufacturer.ManufacturerName</a></h5>
+                                            }
+                                            if (item.Detail.UnitsInStock != null && item.Detail.UnitsInStock > 0)
+                                            {
+                                                <div class="hidden"><span>@LanguageResource.UnitsInStock: </span><span class="text-success">@item.Detail.UnitsInStock</span></div>
+                                            }
+
+                                            string cssClass;
+                                            switch (item.Status)
+                                            {
+                                                case Eagle.Core.Settings.CartItemStatus.Available:
+                                                    cssClass = "badge badge-success hidden";
+                                                    break;
+                                                case Eagle.Core.Settings.CartItemStatus.NotBeenSalesYet:
+                                                    cssClass = "badge badge-warning";
+                                                    break;
+                                                case Eagle.Core.Settings.CartItemStatus.OutOfStock:
+                                                    cssClass = "badge badge-error";
+                                                    break;
+                                                case Eagle.Core.Settings.CartItemStatus.ExceedUnitOfStock:
+                                                    cssClass = "badge badge-warning";
+                                                    break;
+                                                default:
+                                                    cssClass = "badge badge-info hidden";
+                                                    break;
+                                            }
+                                            <h5 class="media-heading"><span class="@cssClass">@item.Status.ToString()</span></h5>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col-sm-2 col-md-2 text-center">
+                                <div class="input-group">
+                                    <div class="input-group-btn decrement-quantity" role="button">
+                                        <button type='button' class="form-control quantity-button" name='subtract' value='-'>-</button>
+                                    </div>
+                                    <input type='text' class="form-control text-center quantity-field quantity update-qty" name='qty1' data-id="@item.Id" data-unitsinstock="@item.UnitsInStock" value="@item.Quantity" id='qty_@item.Id'/>
+                                    <div class="input-group-btn increment-quantity" role="button">
+                                        <button type='button' class="form-control quantity-button" name='add' value='+')>+</button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col-sm-1 col-md-1 text-center"><strong>@Html.FormatValue(item.NetPrice, "{0:c}")</strong></td>
+                            <td class="col-sm-1 col-md-1 text-center"><strong id="amount-@item.Id" data-netprice="@item.NetPrice" data-grossprice="@item.GrossPrice">@Html.FormatValue(item.Amount, "{0:c}")</strong></td>
+                            <td class="col-sm-1 col-md-1">
+                                <button type="button" class="btn btn-danger remove-item-from-cart" data-id="@item.Id">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                    <tr class="hide">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><h5>@LanguageResource.SubTotal</h5></td>
+                        <td class="text-right"><h5><strong id="sub-total">@Html.FormatValue(Model.SubTotal, "{0:c}")</strong></h5></td>
+                    </tr>
+                    <tr class="hide">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><h5>@LanguageResource.EstimatedShipping</h5></td>
+                        <td class="text-right">
+                            <h5>
+                                <strong>
+                                    @*TODO: Phi giao hang chi xac dinh khi co dia chi giao hang va ti le phi dua tren khoang cach va can nang
+                                    => Weight - DistanceBetweenStockAndCustomerPlace - ShippingRate*@
+                                    @Html.FormatValue(Model.Weights, "{0:c}")
+                                </strong>
+                            </h5>
+                        </td>
+                    </tr>
+                    <tr class="total-row">
+                        <td  colspan="3"></td>
+                        <td><h3>@LanguageResource.Total</h3></td>
+                        <td class="text-right"><h3><strong id="total">@Html.FormatValue(Model.Total, "{0:c}")</strong></h3></td>
+                    </tr>
+                    <tr class="checkout-row">
+                        <td colspan="3"></td>                        
+                        <td>
+                            <button type="button" id="continue-cart" data-url='@Url.Action("Index", "Production")' class="btn btn-default">
+                                <span class="glyphicon glyphicon-shopping-cart"></span> @LanguageResource.ContinueShopping
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" id="create-bill" data-url='@Url.Action("CreateBill", "CustOrder")' class="btn btn-success" @(!Model.Items.Any() ? "disabled" : "")>
+                                <span class="glyphicon glyphicon-play"></span> @LanguageResource.Checkout
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

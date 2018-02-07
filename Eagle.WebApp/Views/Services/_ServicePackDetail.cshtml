@@ -1,0 +1,116 @@
+﻿@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Services.Booking.ServicePackInfoDetail
+
+<div class="service-pack-detail-container">
+    @if (Model != null)
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <div class="service-photo">
+                    @if (Model.FileUrl != null)
+                    {
+                        <div class="service-image">
+
+                            @if (!string.IsNullOrEmpty(Model.FileUrl))
+                            {
+                                <img src="@Url.Content(Model.FileUrl)" alt="@Model.PackageName" />
+                            }
+                            else
+                            {
+                                <img src="/Images/150x90.png" alt="@Model.PackageName" />
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-6 padding-left-0">
+                <div class="service-header">
+                    <div class="headline">
+                        <h3>@Model.PackageName</h3>
+                    </div>
+                </div>
+                <div class="service-body">
+                    
+                    <div class="rating-container">
+                        <div class="star-rating" id="starRating_@Model.PackageId" star-id="@Model.PackageId" star-url='@Url.Action("CreateServicePackRating", "Service")' rating-type="service">
+                            <span class="fa fa-star-o" data-rating="1" title="Did not like it"></span>
+                            <span class="fa fa-star-o" data-rating="2" title="it was okay"></span>
+                            <span class="fa fa-star-o" data-rating="3" title="Liked it"></span>
+                            <span class="fa fa-star-o" data-rating="4" title="Really liked it"></span>
+                            <span class="fa fa-star-o" data-rating="5" title="It was amazing"></span>
+                            <input type="hidden" name="ratingValue" id="ratingValue_@Model.PackageId" input-id="@Model.PackageId" class="rating-value" value="@Model.Rating">
+                        </div>
+                    </div>
+                    <div class="service-caption">
+                        @if (Model.Category != null)
+                        {
+                            <div class="service-category">
+                                <span class="service-category-title">@LanguageResource.Category :</span>
+                                <span class="service-category-text">@Model.Category.CategoryName</span>
+                            </div>
+                        }
+                        @if (Model.Type != null)
+                        {
+                            <div class="service-type">
+                                <span class="service-type-title">@LanguageResource.Type :</span>
+                                <span class="service-type-text">@Model.Type.TypeName</span>
+                            </div>
+                        }
+
+                        @if (Model.DiscountRate != null && Model.DiscountRate > 0 && Model.TotalFee > 0)
+                        {
+                            <div class="discount-rate">
+                                <div class="saving">@LanguageResource.Saving :</div>
+                                <div class="xthrough">@Html.FormatValue(Model.TotalFee + Model.DiscountRate, "{0:c}")</div>
+                            </div>
+                        }
+
+                        @if (Model.TotalFee != null)
+                        {
+                            <div class="price-block">
+                                <div class="price">
+                                    <span class="price-title">@LanguageResource.Price :</span>
+                                    <span class="price-tag price-comparison-offer">
+                                        @((Model.TotalFee == 0) ? LanguageResource.ContactUs : Html.FormatValue(Model.TotalFee, "{0:c}"))
+                                    </span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    @if (Model.TotalFee != null && Model.TotalFee > 0)
+                    {
+                    <div class="service-quantity-container">
+                        <form name="f1" class="service-quantity sm-margin-bottom-20">
+                            <h4 class="service-quantity-title">@LanguageResource.Quantity</h4>
+                            <button type='button' class="quantity-button subtract-qty-1" name='subtract' value='-'>-</button>
+                            <input type='text' class="quantity-field quantity qty" name='qty' data-id="@Model.PackageId" value="1" id='qty'/>
+                            <button type='button' class="quantity-button add-qty-1" name='add' value='+'>+</button>
+                            <button type="button" class="btn btn-u btn-u-sea-shop btn-u-lg add-items-to-cart" data-id="@Model.PackageId" data-type="@ItemType.ServicePackage">@LanguageResource.AddToCart</button>
+                            <button type="button" class="btn btn-u btn-u-sea-shop btn-u-lg view-cart" id="view-cart" onclick="location.href = '/Cart'">@LanguageResource.ViewCart
+                            </button>
+                        </form>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div clas="row">
+            <div class="service-content">
+                <h4 class="service-content-title">@Html.Raw(LanguageResource.Specification)</h4>
+                <div class="specification">
+                    @Html.Raw(Model.Specification)
+                </div>
+            </div>
+            <div class="service-footer">
+                @Html.Partial("../Shared/_SocialLinks")
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <p>@Html.Raw(LanguageResource.NotFound)</p>
+        </div>
+    }
+</div>
+@Html.Partial("Shared/Booking/_QuickMenu")

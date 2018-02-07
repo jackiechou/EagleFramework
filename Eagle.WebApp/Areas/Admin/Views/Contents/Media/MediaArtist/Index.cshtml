@@ -1,0 +1,29 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.MediaArtistManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody" class="container-fluid">
+                <div id="divEdit">
+                    @Html.Action("Create", "MediaArtist")
+                </div>
+                <div id="divList">
+                    @Html.Action("List", "MediaArtist")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="FooterContainer"><div class="bottom-toolbar"></div></div>
+
+@section Scripts{
+    <script Scope="text/javascript">
+        window.MediaArtistListUrl = '@Url.Action("List", "MediaArtist")';
+    </script>
+    <script type="text/javascript" src="~/Scripts/app/modules/media-artist.js"></script>
+}

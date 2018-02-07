@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Title = LanguageResource.CreateCustomer;
+}
+
+@using Eagle.Core.Configuration
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Business.CustomerRegisterEntry
+
+<div class="panel panel-default">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new {enctype = "multipart/form-data", id = "frmCreateCustomer", name = "frmCreateCustomer", role = "form", autocomplete = "off" }))
+    {
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.CreateCustomer</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.AntiForgeryToken()
+                <div id="alertMessageBox-frmCreateCustomer" aria-hidden="true" aria-labelledby="alertMessage" role="dialog" class="modal hide fade message-box">
+                    <div class="modal-body">
+                        <div id="alertMessage">
+                            @if (ViewBag.DisplayErrorMessage == true)
+                            {
+                                <div class="@ViewBag.CssClass">
+                                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                    <strong>@ViewBag.SortMessage !</strong> @ViewBag.Message
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-body-container">
+                        <div class="form-horizontal">                                                      
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.FirstName, new {@class = "control-label col-md-3"})
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", autocapitalize = "on" })
+                                    @Html.ValidationMessageFor(model => model.FirstName)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.LastName, new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", autocapitalize = "on" })
+                                    @Html.ValidationMessageFor(model => model.LastName)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.EmailAddress, new { @class = "control-label col-md-3"})
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.EmailAddress)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(m => m.PasswordSalt, new { @class = "control-label col-md-3" })
+                                <div class="col-md-5">
+                                    @Html.TextBoxFor(model => model.PasswordSalt, null, new { @class = "form-control", type = "password", autocomplete = "off", placeholder = LanguageResource.Password })
+                                    @Html.ValidationMessageFor(model => model.PasswordSalt)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-5 col-md-offset-3">
+                                    @Html.TextBoxFor(model => model.ConfirmedPassword, new { @class = "form-control", type = "password", placeholder = LanguageResource.ConfirmedPassword, autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.ConfirmedPassword)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.Phone, new { @class = "control-label col-md-3" })
+                                <div class="col-md-5">
+                                    @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Phone)
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.EnumDropDownListFor(model => model.PhoneType, null, Convert.ToInt32(PhoneType.Mobile))
+                                    @Html.ValidationMessageFor(model => model.PhoneType)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BirthDay, new { @class = "control-label col-md-3" })
+                                <div class="col-md-5">
+                                    @Html.DatePickerFor(model => model.BirthDay)
+                                    @Html.ValidationMessageFor(model => model.BirthDay)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.Address.CountryId, new { @class = "control-label col-md-3" })
+                                <div class="col-md-5">
+                                    <select id="Address.CountryId" name="Address.CountryId" class="Address-CountryId form-control" data-id="@Model.Address.CountryId" data-url='@Url.Action("PopulateCountrySelectList", "Cust")'></select>
+                                    @Html.ValidationMessageFor(model => model.Address.CountryId)
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.Address.PostalCode, new { @class = "form-control", placeholder = @LanguageResource.PostalCode })
+                                    @Html.ValidationMessageFor(model => model.Address.PostalCode)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.Address.ProvinceId, new { @class = "control-label col-md-3" })
+                                <div class="col-md-5">
+                                    <select id="Address.ProvinceId" name="Address.ProvinceId" class="Address-ProvinceId form-control ignored" data-id="@Model.Address.ProvinceId" data-url='@Url.Action("PopulateProvinceSelectList", "Contact")'></select>
+                                    @Html.ValidationMessageFor(model => model.Address.ProvinceId)
+                                </div>
+                                <div class="col-md-4 hidden">
+                                    <select id="Address.RegionId" name="Address.RegionId" class="Address-RegionId form-control ignored" data-url='@Url.Action("PopulateRegionSelectList", "Contact")'>
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.Address.RegionId)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.Address.Street, new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.TextAreaFor(model => model.Address.Street, new { rows = 2, columns = 40, maxlength = 130, @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Address.Street)
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset" data-mode="create" data-form="frmCreateCustomer" data-url='@Url.Action("SignUp", "Cust")' value="@LanguageResource.Reset"/>
+                        <input type="button" class="btn btn-primary registerCustomer" data-mode="create" data-form="frmCreateCustomer" data-url='@Url.Action("SignUp", "Cust")' value="@LanguageResource.Save"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

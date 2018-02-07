@@ -1,0 +1,134 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eagle.Common", "Eagle.Common\Eagle.Common.csproj", "{1A3D7E94-066B-4BA4-8597-093DC912959E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eagle.Core", "Eagle.Core\Eagle.Core.csproj", "{D708F093-0761-482F-A431-88D1F8520928}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eagle.EntityFramework", "Eagle.EntityFramework\Eagle.EntityFramework.csproj", "{EB38D898-B4F2-4337-837F-9C02B2248CF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eagle.Repositories", "Eagle.Repositories\Eagle.Repositories.csproj", "{1C48255E-D645-42B0-BC0C-041097BF6FE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eagle.Resources", "Eagle.Resources\Eagle.Resources.csproj", "{5E79BC1F-181C-4D80-BF4D-1578C664E425}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eagle.Services", "Eagle.Services\Eagle.Services.csproj", "{593452BD-7050-4156-A88F-94EB87313B6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eagle.Services.Dtos", "Eagle.Services.Dtos\Eagle.Services.Dtos.csproj", "{69049EF1-7E82-4D9F-B7C7-633C3312C45A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eagle.Data", "Eagle.Data\Eagle.Data.csproj", "{7B636D34-85C5-4B76-B628-F746CA385B89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eagle.Entities", "Eagle.Entities\Eagle.Entities.csproj", "{30BD7C58-47C3-4834-BD62-382DD38E7124}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "elFinder.Net", "elFinder.Net\elFinder.Net.csproj", "{EE8DA138-7EDA-4EB5-B3FD-377763D5EAAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{54F0BCF7-4D0B-4C5B-B620-7809DA9D28A3}"
+	ProjectSection(SolutionItems) = preProject
+		WebEssentials2015-Settings.json = WebEssentials2015-Settings.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E1116592-BE94-4467-89DE-3081B08CF9F6}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet.config = NuGet.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eagle.WebApp", "Eagle.WebApp\Eagle.WebApp.csproj", "{950B1B48-777B-4266-902F-F4F4950C1857}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A3D7E94-066B-4BA4-8597-093DC912959E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A3D7E94-066B-4BA4-8597-093DC912959E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A3D7E94-066B-4BA4-8597-093DC912959E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A3D7E94-066B-4BA4-8597-093DC912959E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D708F093-0761-482F-A431-88D1F8520928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D708F093-0761-482F-A431-88D1F8520928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D708F093-0761-482F-A431-88D1F8520928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D708F093-0761-482F-A431-88D1F8520928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB38D898-B4F2-4337-837F-9C02B2248CF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB38D898-B4F2-4337-837F-9C02B2248CF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB38D898-B4F2-4337-837F-9C02B2248CF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB38D898-B4F2-4337-837F-9C02B2248CF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C48255E-D645-42B0-BC0C-041097BF6FE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C48255E-D645-42B0-BC0C-041097BF6FE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C48255E-D645-42B0-BC0C-041097BF6FE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C48255E-D645-42B0-BC0C-041097BF6FE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E79BC1F-181C-4D80-BF4D-1578C664E425}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E79BC1F-181C-4D80-BF4D-1578C664E425}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E79BC1F-181C-4D80-BF4D-1578C664E425}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E79BC1F-181C-4D80-BF4D-1578C664E425}.Release|Any CPU.Build.0 = Release|Any CPU
+		{593452BD-7050-4156-A88F-94EB87313B6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{593452BD-7050-4156-A88F-94EB87313B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{593452BD-7050-4156-A88F-94EB87313B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{593452BD-7050-4156-A88F-94EB87313B6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69049EF1-7E82-4D9F-B7C7-633C3312C45A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69049EF1-7E82-4D9F-B7C7-633C3312C45A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69049EF1-7E82-4D9F-B7C7-633C3312C45A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69049EF1-7E82-4D9F-B7C7-633C3312C45A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B636D34-85C5-4B76-B628-F746CA385B89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B636D34-85C5-4B76-B628-F746CA385B89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B636D34-85C5-4B76-B628-F746CA385B89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B636D34-85C5-4B76-B628-F746CA385B89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30BD7C58-47C3-4834-BD62-382DD38E7124}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30BD7C58-47C3-4834-BD62-382DD38E7124}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30BD7C58-47C3-4834-BD62-382DD38E7124}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30BD7C58-47C3-4834-BD62-382DD38E7124}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE8DA138-7EDA-4EB5-B3FD-377763D5EAAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE8DA138-7EDA-4EB5-B3FD-377763D5EAAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE8DA138-7EDA-4EB5-B3FD-377763D5EAAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE8DA138-7EDA-4EB5-B3FD-377763D5EAAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{950B1B48-777B-4266-902F-F4F4950C1857}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{950B1B48-777B-4266-902F-F4F4950C1857}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{950B1B48-777B-4266-902F-F4F4950C1857}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{950B1B48-777B-4266-902F-F4F4950C1857}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E8C1B1A9-0E42-4DB6-A7D1-9A109AB3CC8E}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 12
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://thegioicuaban.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Eagle.Common\\Eagle.Common.csproj
+		SccProjectName1 = Eagle.Common
+		SccLocalPath1 = Eagle.Common
+		SccProjectUniqueName2 = Eagle.Core\\Eagle.Core.csproj
+		SccProjectName2 = Eagle.Core
+		SccLocalPath2 = Eagle.Core
+		SccProjectUniqueName3 = Eagle.Data\\Eagle.Data.csproj
+		SccProjectName3 = Eagle.Data
+		SccLocalPath3 = Eagle.Data
+		SccProjectUniqueName4 = Eagle.Entities\\Eagle.Entities.csproj
+		SccProjectName4 = Eagle.Entities
+		SccLocalPath4 = Eagle.Entities
+		SccProjectUniqueName5 = Eagle.EntityFramework\\Eagle.EntityFramework.csproj
+		SccProjectName5 = Eagle.EntityFramework
+		SccLocalPath5 = Eagle.EntityFramework
+		SccProjectUniqueName6 = Eagle.Repositories\\Eagle.Repositories.csproj
+		SccProjectName6 = Eagle.Repositories
+		SccLocalPath6 = Eagle.Repositories
+		SccProjectUniqueName7 = Eagle.Resources\\Eagle.Resources.csproj
+		SccProjectName7 = Eagle.Resources
+		SccLocalPath7 = Eagle.Resources
+		SccProjectUniqueName8 = Eagle.Services.Dtos\\Eagle.Services.Dtos.csproj
+		SccProjectName8 = Eagle.Services.Dtos
+		SccLocalPath8 = Eagle.Services.Dtos
+		SccProjectUniqueName9 = Eagle.Services\\Eagle.Services.csproj
+		SccProjectName9 = Eagle.Services
+		SccLocalPath9 = Eagle.Services
+		SccProjectUniqueName10 = Eagle.WebApp\\Eagle.WebApp.csproj
+		SccProjectName10 = Eagle.WebApp
+		SccLocalPath10 = Eagle.WebApp
+		SccProjectUniqueName11 = elFinder.Net\\elFinder.Net.csproj
+		SccProjectName11 = elFinder.Net
+		SccLocalPath11 = elFinder.Net
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,27 @@
+﻿<div id="divEdit">
+    @Html.Action("LoadSearchForm", "User")
+</div>
+<div class="panel panel-default search-result-panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-10"></div>
+            <div class="col-md-2 text-right">
+                <div class="grid-toolbar">
+                    <strong>Display</strong>
+                    <div class="btn-group">
+                        <a href="#" id="list" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-th-list"></span> List
+                        </a> <a href="#" id="grid" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-th"></span> Grid
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div id="search-result" class="row no-padding-left no-padding-right">
+            @Html.Action("Search", "User")
+        </div>
+    </div>
+</div>

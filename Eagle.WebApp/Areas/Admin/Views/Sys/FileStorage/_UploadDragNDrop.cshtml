@@ -1,0 +1,357 @@
+﻿ <div class="upload_box">
+    <h3>Choose file(s)</h3>
+    <div class="uploadContainer">
+         <div class="uploadFileContainer">
+	        <input id="FileUpload" name="FileUpload[]" type="file" multiple="multiple" />
+        </div>
+         <div class="actions">
+            <input id="btnUpload" type="button" value="Upload" />
+        </div>
+    </div>
+    <div style="clear:both"></div>
+    <div id="drop-area">
+        <span class="message">Drop images here to upload. <br /><i>(they will only be visible to you)</i></span>
+    </div>
+     <div id="file-list-area">
+         <ul id="fileList" class="file-list"></ul>
+
+     </div>
+    <div style="clear:both"></div>
+ </div>
+
+@*<script src="~/Scripts/jquery-1.11.1.js"></script>*@
+<script src="~/Scripts/jquery.filedrop.js"></script>
+
+<script type ="text/javascript">
+    $(function () {
+        var dropbox = $('#drop-area'),
+            message = $('.message', dropbox),
+            fileList = $('.file-list'),
+            divPreviewImage = $('.preview-image'),
+            divFileInfo = $('.file-info'),          
+            filesUpload = document.getElementById("FileUpload");
+        var service_url = '/Handlers/UploadHandler.ashx';
+        var formData = new FormData();
+
+        dropbox.filedrop({
+            paramname: 'pic',
+            maxfiles: 5,
+            maxfilesize: 100,
+            url: service_url,
+
+            uploadFinished: function (i, file, response) {
+                $.data(file).addClass('done');
+            },
+
+            error: function (err, file) {
+                switch (err) {
+                    case 'BrowserNotSupported':
+                        showMessage('Your browser does not support HTML5 file uploads!');
+                        break;
+                    case 'TooManyFiles':
+                        alert('Too many files! Please select 5 at most! (configurable)');
+                        break;
+                    case 'FileTooLarge':
+                        alert(file.name + ' is too large! Please upload files up to 2mb (configurable).');
+                        break;
+                    default:
+                        break;
+                }
+            },
+
+            // Called before each upload is started
+            //        beforeEach: function (file) {
+            //            if (!file.type.match(/^image\//)) {
+            //                alert('Only images are allowed!');
+
+            //                // Returning false will cause the
+            //                // file to be rejected
+            //                return false;
+            //            }
+            //        },
+
+            uploadStarted: function (i, file, len) {
+                createImage(file);
+            },
+
+            progressUpdated: function (i, file, progress) {
+                $.data(file).find('.progress').width(progress);
+            }
+
+        });        
+
+        var template = '<div class="preview">' +
+                            '<div id="preview-image" class="preview-image">' +
+                                '<span class="imageHolder">' +
+                                    '<img width="300" height="70" />' +
+                                    '<span class="uploaded"></span>' +
+                                '</span>' +                               
+                            '</div>' +
+                            '<div class="file-info" id="file-info">' +
+                                '<div class="divFileName"><strong>Name:</strong><span class="file-name"></span></div>' +
+                                '<div class="divFileType"><strong>Type:</strong><span class="file-type"></span></div>' +
+                                '<div class="divFileSize"<strong>Size:</strong><span class="file-size"></span></div>' +
+                            '</div>'+                           
+                            '<div class="removeItem"></div>' +
+                        '</div><div style="clear:both"></div>';
+
+        filesUpload.addEventListener("change", function () {
+            var files = filesUpload.files[0];
+            createImage(files);
+            //formData.append('FileUpload', $('input[type=file]')[0].files[0]);
+
+            for (var i = 0; i < files.length; i++) {
+                formData.append(files[i].name, files[i]);
+            }
+            alert(file_data.length);
+        }, false);    
+      
+
+        $("#btnUpload").click(function (evt) {
+            //var files = $("#FileUpload").get(0).files;
+            //var files = filesUpload.files[0];
+
+            //var files = $("#FileUpload").get(0).files;
+            //alert(files.length);
+
+            //for (i = 0; i < fileList.length.prop("files").length; i++) {
+            //    //uploadImage(i);
+            //}
+            var fd = new FormData();
+            var file_data = $('input[type="file"]')[0].files; // for multiple files
+            //for (var i = 0; i < file_data.length; i++) {
+            //    fd.append("file_" + i, file_data[i]);
+            //}
+            alert(file_data.length);
+
+            //uploadFile(files);
+           // evt.preventDefault();
+        });     
+
+        function createImage(file) {
+            var preview = $(template),
+                image = $('img', preview),
+                file_name = $('span.file-name', preview),
+                file_type = $('span.file-type', preview),
+                file_size = $('span.file-size', preview),
+                remove = $('div.removeItem', preview);
+
+            var reader = new FileReader();
+
+            image.width = 300;
+            image.height = 100;          
+
+            reader.onload = function (e) {
+                // e.target.result holds the DataURL which
+                // can be used as a source of the image:
+                //alert(e.target.result);
+                image.attr('src', e.target.result);
+
+                file_name.html(file.name);
+                file_type.html(file.type);
+                file_size.html(parseInt(file.size / 1024, 10) + " kb");
+            };
+
+            // Reading the file as a DataURL. When finished,
+            // this will trigger the onload function above:
+            reader.readAsDataURL(file);
+
+            message.hide();
+
+            var li = document.createElement("li");
+            preview.appendTo(li);
+            fileList.show();
+            fileList.append(li);
+
+            // Associating a preview container
+            // with the file, using jQuery's $.data():
+
+            $.data(file, preview);          
+
+            remove.click(function (evt) {
+                $(this).parent('div.preview').remove();
+            });
+        }
+
+        function uploadFile(files) {
+            var divClear = document.createElement("div"),
+                progressBarContainer = document.createElement("div"),
+                progressBar = document.createElement("div");
+
+            // Uploading - for Firefox, Google Chrome and Safari
+            var xhr = new XMLHttpRequest();
+            var data = new FormData();
+
+            for (var i = 0; i < files.length; i++) {
+                data.append(files[i].name, files[i]);
+
+                progressBar.className = "progress-bar";
+                progressBarContainer.className = "progress-bar-container";
+                progressBarContainer.appendChild(progressBar);                
+
+                divClear.setAttribute('class', "clear");
+                progressBarContainer.appendChild(divClear);  
+                divPreviewImage.append(progressBarContainer);
+                fileList.show();
+            }
+
+
+
+
+            // Update progress bar
+            xhr.addEventListener("progress", function (evt) {
+                if (evt.lengthComputable) {
+                    progressBar.style.width = (evt.loaded / evt.total) * 100 + "%";
+                }
+                else {
+                    // No data to calculate on
+                }
+            }, false);
+
+            // Update progress bar
+            xhr.upload.addEventListener("progress", function (evt) {
+                if (evt.lengthComputable) {
+                    progressBar.style.width = (evt.loaded / evt.total) * 100 + "%";
+                }
+                else {
+                    // No data to calculate on
+                }
+            }, false);
+
+
+            //// File uploaded
+            xhr.addEventListener("load", function () {
+                progressBarContainer.className += " uploaded";
+                //progressBar.innerHTML = "Uploaded!";
+                progressBar.innerHTML = '<span style="color:red">' + xhr.response + "</span>";
+            }, false);
+           
+            var base_url = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+            //xhr.open("POST", base_url + "/Handlers/UploadMultipleFileHandler.ashx");
+            xhr.open("POST", base_url + "/Handlers/UploadMultipleFileHandler.ashx");
+            xhr.send(data);
+
+        }
+
+
+        function showMessage(msg) {
+            message.html(msg);
+        }
+    });
+</script>
+
+<style type="text/css">
+    .uploadFileContainer {
+        float:left;
+    }
+     .actions {
+        float:right;
+    }
+    .file-info {
+        float:left;
+        text-align:left;
+        padding:5px;       
+    }
+    .preview-image {
+        float:left;
+        padding:5px;
+    }
+    .removeItem {
+        float:right;
+        margin:20px;
+        background: url(/Content/Admin/images/icon_delete.png) no-repeat; width:22px;height:22px; display:inline-block;text-decoration:none !important;cursor:pointer;
+    }
+    .preview {
+        border:2px dashed #dddddd;
+        height: 80px;        
+        margin-bottom:5px;
+    }
+   
+
+
+
+
+.file-list .progress-bar-container .uploaded .progress-bar {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #6DB508;
+    display: inline-block;
+    width: auto;
+}
+#drop-area {
+    border: 2px dashed #DDDDDD;
+    height: auto;
+    min-height:50px;
+    margin-bottom: 0px;
+    padding: 10px;
+    text-align: center;
+}
+
+#drop-area .drop-instructions {
+    display: block;
+    height: 30px;
+}
+#drop-area .drop-over {
+    display: none;
+    font-size: 25px;
+    height: 30px;
+}
+
+#file-list-area{
+    border: 1px solid #DDDDDD;
+    clear:both;
+    margin: 5px 0px;
+}
+.file-list{
+    list-style: none outside none;	
+    display: none;
+    padding-left:0px;
+}
+
+.file-list li.no-items {
+    border-bottom: medium none;
+}
+.file-list li {
+    border-bottom: 1px dashed #DDDDDD;
+    margin: 1em;
+}
+.file-list .progress-bar {
+    background: none repeat scroll 0 0 #6787E3;
+    font-weight: bold;
+    height: 10px;
+    width: 0;
+}
+
+.file-list .progress-bar-container .uploaded {
+    border: medium none;
+    height: auto;
+}
+.file-list .progress-bar-container {
+    border: 1px solid #555555;
+    height: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.file-list li img {
+    max-width: 400px;
+}
+#preview-image{
+    width: 300px;
+    margin: 0px 10px;
+    float:left;
+    overflow:hidden;
+}
+
+#file-info{
+    float:left;
+}
+
+#file-info div{
+    font-size: 0.8em !important;
+    margin-bottom: 0.1em;
+}
+.clear{clear:both}
+img {
+    border: medium none;
+    vertical-align: middle;
+}
+</style>

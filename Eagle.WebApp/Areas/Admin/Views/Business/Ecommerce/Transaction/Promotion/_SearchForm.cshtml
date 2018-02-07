@@ -1,0 +1,42 @@
+﻿@model Eagle.Services.Dtos.Business.PromotionSearchEntry
+
+<div class="panel panel-default search-panel">
+    <div class="panel-heading">
+        <h5>@Html.Raw(LanguageResource.Search)</h5>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+        {
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-cog"></span> @LanguageResource.Search
+                        </span>
+                        <span class="input-group-addon">
+                            @Html.DatePickerFor(model => model.StartDate)
+                        </span>
+                        <span class="input-group-addon">
+                            @Html.DatePickerFor(model => model.EndDate)
+                        </span>
+                        <span class="input-group-addon">
+                            @Html.EnumDropDownListFor(model => model.IsActive,  string.Format("--- {0} ---", LanguageResource.Select), new { @class = "form-control" })
+                        </span>
+                        <span class="input-group-addon">
+                            <button type="button" class="btn btn-primary search" data-form="frmSearch" data-mode="search">
+                                <span class="glyphicon glyphicon-search search" role="button"></span> @LanguageResource.Search
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        <div id="search-result" class="row">
+            @{
+                Html.RenderAction("Search", "Promotion");
+            }
+        </div>
+    </div>
+</div>

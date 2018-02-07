@@ -1,0 +1,60 @@
+﻿@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Business.ProductInfoDetail>
+@if (Model.Any())
+{
+    <div class="latest-products-home-page">
+        <h2 class="title">
+            <a href='@Url.Action("Index", "Production")'>
+                <i class="fa fa-signal fix-ico"></i> @LanguageResource.LatestProducts
+            </a>
+        </h2>
+        @{
+            var firstItem = Model.FirstOrDefault();
+            <div class="first-container">
+                <div class="item-container">
+                    <a href='@Url.Action("Details", "Production", new {id = firstItem.ProductId})' title="@firstItem.ProductName">
+                        <img src="@Url.Content(firstItem.SmallPhotoUrl)" alt="@firstItem.ProductName" title="@firstItem.ProductName" />
+                    </a>
+                    <h3>
+                        <a href='@Url.Action("Details", "Production", new {id = firstItem.ProductId})' title="@firstItem.ProductName">
+                            @firstItem.ProductName
+                        </a>
+                    </h3>
+                    <div class="item-content">
+                        @Html.Raw(firstItem.Specification)
+                    </div>
+                </div>
+            </div>
+            if (Model.Count() >= 2)
+            {
+                <ul>
+                    @foreach (var item in Model.Skip(1).Take(2))
+                    {
+                        <li class="top">
+                            <div class="row-fluid">
+                                <div class="col-md-5 col-sx-5">
+                                    <a href='@Url.Action("Details", "Production", new {id = item.ProductId})' title="@item.ProductName">
+                                        <img src="@Url.Content(item.SmallPhotoUrl)" alt="@item.ProductName" title="@item.ProductName" />
+                                    </a>
+                                </div>
+                                <div class="col-md-7 col-sx-7 padding-left-0">
+                                    <h4>
+                                        <a href='@Url.Action("Details", "Production", new {id = item.ProductId})' title="@item.ProductName">
+                                            @item.ProductName
+                                        </a>
+                                    </h4>
+                                    <div class="summary">
+                                        <p class="dotdot">@item.ShortDescription</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+                <div class="view-more">
+                    <a href='@Url.Action("Index", "Production")' rel="nofollow">@LanguageResource.ReadMore</a>
+                </div>
+            }
+        }
+    </div>
+    <div class="clearfix"></div>
+}

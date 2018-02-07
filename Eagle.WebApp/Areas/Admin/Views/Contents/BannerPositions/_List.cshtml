@@ -1,0 +1,96 @@
+﻿@using Eagle.Core.Settings
+@model IEnumerable<Eagle.Services.Dtos.Contents.Banners.BannerPositionDetail>
+
+<div class="panel panel-default search-form-panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-10">
+                <h5>@Html.Raw(LanguageResource.List)</h5>
+            </div>
+            <div class="col-md-2 text-right">
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-default back-form" onclick="location.href = '@Url.Action("Index", "BannerPosition")'">
+                        <span class="glyphicon glyphicon-home"></span> @LanguageResource.CreateBannerPosition
+                    </button>
+                    <button type="button" class="btn btn-default search">
+                        <span class="glyphicon glyphicon-th-list"></span> @LanguageResource.List
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            @LanguageResource.SequenceNo
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PositionName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.Status)
+                        </th>
+                        <th class="table-actions text_center no-sort">@LanguageResource.Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            int index = i + 1;
+                            <tr>
+                                <td class="text-center">
+                                    @index
+                                </td>
+                                <td data-id="@item.PositionId">
+                                    @Html.DisplayFor(modelItem => item.PositionName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td class="text-center">
+                                    <div class="inner-center">
+                                        <div class="checkbox-slider--a">
+                                            <label>
+                                                @{
+                                                    if (item.Status == BannerPositionStatus.Active)
+                                                    {
+                                                        <input type="checkbox" id="Status-@item.PositionId" name="Status-@item.PositionId}")" data-id="@item.PositionId" data-url='@Url.Action("UpdateStatus", "BannerPosition")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeStatus" checked="checked" value="1"><span></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" id="Status-@item.PositionId" name="Status-@item.PositionId}")" data-id="@item.PositionId" data-url='@Url.Action("UpdateStatus", "BannerPosition")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeStatus" value="0"><span></span>
+                                                    }
+                                                }
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="table-actions text-center center no-sort">
+                                    <a data-id="@item.PositionId" title="@LanguageResource.Delete" class="btn btn-small btn-warning delete deleteItem" data-container="divEdit" data-url='@Url.Action("Delete", "BannerPosition")' data-warning="@LanguageResource.DoYouWantToDeleteItem"><span class="glyphicon glyphicon-align-center icon-trash"></span></a>
+                                    <a data-id="@item.PositionId" title="@Html.Raw(LanguageResource.Edit)" class="btn btn-small btn-primary editItem" data-container="divEdit" data-url='@Url.Action("Edit", "BannerPosition")'><span class="icon-edit"></span></a>
+                                </td>
+                            </tr>
+                                                            i++;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="5" class="text-center">@LanguageResource.NoRecordFound</td>
+                                                        </tr>
+                                                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer"></div>
+</div>

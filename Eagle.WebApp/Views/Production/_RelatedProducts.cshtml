@@ -1,0 +1,58 @@
+﻿@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Business.ProductInfoDetail>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4>@Html.Raw(LanguageResource.RelatedProducts)</h4>
+    </div>
+    <div class="panel-body">
+        <div class="related-product-container">
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="product-item">
+                        <ul class="media-list main-list">
+                            <li class="media">
+                                <a class="pull-left" data-id="@item.ProductId" title="@item.ProductName" href='@Url.Action("Details", "Production", new {id = item.ProductId})'>
+                                    @if (!string.IsNullOrEmpty(item.SmallPhotoUrl))
+                                    {
+                                        <img src='@item.SmallPhotoUrl' alt='@item.ProductName' class="media-object">
+                                    }
+                                    else
+                                    {
+                                        <img src="/Images/150x90.png" alt='@item.ProductName' class="media-object">
+                                    }
+                                </a>
+                                <div class="media-body">
+                                    <a data-id="@item.ProductId" title="@item.ProductName" href='@Url.Action("Details", "Production", new {id = item.ProductId})'>
+                                        <h4 class="media-heading">@item.ProductName</h4>
+                                    </a>
+                                    <p class="by-author hidden">@string.Format("{0} : {1}",LanguageResource.By,item.Manufacturer.ManufacturerName)</p>
+                                    <p class="summary">
+                                        @if (!string.IsNullOrEmpty(item.ShortDescription))
+                                        {
+                                            @(item.ShortDescription.Length > 80 ? item.ShortDescription.Substring(0, 80) + "..." : item.ShortDescription);
+                                        }
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="row">@LanguageResource.NotFound</div>
+            }
+        </div>
+    </div>
+    <div class="panel-footer">
+        @if (Model != null)
+        {
+            <div class="read-more">
+                <div class="btn-group" data-toggle="buttons">
+                    <button class="btn btn-success products-by-category" data-categoryid="@Model.FirstOrDefault().CategoryId"  data-url='@Url.Action("ProductsByCategory", "Production")'>@Html.DisplayUpperTitle(LanguageResource.ReadMore)<span class="glyphicon glyphicon-chevron-right"></span></button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

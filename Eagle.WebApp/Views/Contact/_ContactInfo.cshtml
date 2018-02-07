@@ -1,0 +1,68 @@
+﻿@model Eagle.Services.Dtos.Business.VendorInfoDetail
+
+<div id="contact-info" class="contact-info sidebar">
+    @if (Model != null)
+    {
+        <div class="row">
+            <article class="vendor-info">
+                <header>
+                    <h3 data-id="@Model.VendorId">@Model.VendorName</h3>
+                </header>
+                <section class="vendor-content">
+                    @if (Model.Addresses != null && Model.Addresses.Any())
+                    {
+                        <ul class="address-info">
+                            @foreach (var item in Model.Addresses)
+                            {
+                                if (item.Address != null)
+                                {
+                                    string address = item.Address.Street;
+                                    <li>
+                                        @{
+                                            if (item.Address.Region != null && !string.IsNullOrEmpty(item.Address.Region.RegionName))
+                                            {
+                                                address = address + ", " + item.Address.Region.RegionName;
+                                            }
+                                            if (item.Address.Province != null && !string.IsNullOrEmpty(item.Address.Province.ProvinceName))
+                                            {
+                                                address = address + ", " + item.Address.Province.ProvinceName;
+                                            }
+                                            <span class='sub-title'><i class='fa fa-home'></i> @LanguageResource.Address : </span> @Html.Raw(address)
+                                        }
+                                    </li>
+                                }
+                                <li>
+                                    <span class="sub-title"><i class="fa fa-phone"></i> @LanguageResource.Telephone :</span> <a href="tel:@Model.Telephone"> <span class="telephone">@Model.Telephone</span></a>
+                                </li>
+                                <li>
+                                    <span class="sub-title"><i class="fa fa-mobile"></i>&nbsp;&nbsp; @LanguageResource.Mobile</span>&nbsp;&nbsp; <a href="tel:@Model.Mobile"> <span class="mobile">@Model.Mobile</span></a>
+                                </li>
+                             }
+                        </ul>
+                     }
+                </section>
+                <section class="time-work-container">
+                    <ul class="time-work">
+                        <li>
+                            <span class='sub-title'><i class='fa fa-medkit'></i> @LanguageResource.SupportOnline : </span> @Model.SupportOnline
+                        </li>
+                        <li>
+                            <span class='sub-title'><i class='fa fa-envelope'></i> @LanguageResource.Email : </span> <a href='mailto:@Html.Raw(Model.Email)'><span class='fa fa-envelope-o'></span></a>
+                        </li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+
+        if (Model.Addresses != null && Model.Addresses.FirstOrDefault() != null)
+        {
+            <div class="row row-map">
+                <input type="hidden" id="address" name="address" title="@Model.Addresses.FirstOrDefault().Address.Location" value="@Model.Addresses.FirstOrDefault().Address.Location" />
+
+                <div id="map" class="google-map" style="height:350px; width: 100%; position: absolute;">
+                    <div id="map-canvas"></div>
+                </div>
+            </div>
+        }
+    }
+</div>

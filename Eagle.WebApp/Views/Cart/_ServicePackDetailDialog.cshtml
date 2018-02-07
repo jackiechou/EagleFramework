@@ -1,0 +1,83 @@
+﻿@model Eagle.Services.Dtos.Services.Booking.ServicePackInfoDetail
+<div class="row">
+    <div class="col-md-6 product_img">
+        @if (!string.IsNullOrEmpty(Model.FileUrl))
+        {
+            <img src="@Url.Content(Model.FileUrl)" alt="@Model.PackageName" class="img-responsive" />
+        }
+        else
+        {
+            <img src="/Images/150x90.png" alt="@Model.PackageName" class="img-responsive" />
+        }
+    </div>
+    <div class="col-md-6 product_content">
+        <h4>@LanguageResource.Service: <span>@Model.PackageName</span></h4>
+        <div class="rating">
+            <div class="rating-container">
+                <div class="star-rating" id="starRating_@Model.PackageId" star-id="@Model.PackageId" star-url='@Url.Action("CreateServicePackRating", "Service")' rating-type="service">
+                    <span class="fa fa-star-o" data-rating="1" title="Did not like it"></span>
+                    <span class="fa fa-star-o" data-rating="2" title="it was okay"></span>
+                    <span class="fa fa-star-o" data-rating="3" title="Liked it"></span>
+                    <span class="fa fa-star-o" data-rating="4" title="Really liked it"></span>
+                    <span class="fa fa-star-o" data-rating="5" title="It was amazing"></span>
+                    <input type="hidden" name="ratingValue" id="ratingValue_@Model.PackageId" input-id="@Model.PackageId" class="rating-value" value="@Model.Rating">
+                </div>
+
+            </div>
+        </div>
+        <p>@LanguageResource.Description: @Model.Description</p>
+
+        <ul class="list-inline shop-product-prices margin-bottom-30">
+            <div class="service-caption">
+                @if (Model.Category != null)
+                {
+                    <div class="service-category">
+                        <span class="service-category-title">@LanguageResource.Category :</span>
+                        <span class="service-category-text">@Model.Category.CategoryName</span>
+                    </div>
+                }
+                @if (Model.Type != null)
+                {
+                    <div class="service-type">
+                        <span class="service-type-title">@LanguageResource.Type :</span>
+                        <span class="service-type-text">@Model.Type.TypeName</span>
+                    </div>
+                }
+
+                @if (Model.DiscountRate != null && Model.DiscountRate > 0 && Model.TotalFee > 0)
+                {
+                    <div class="discount-rate">
+                        <div class="saving">@LanguageResource.Saving :</div>
+                        <div class="xthrough">@Html.FormatValue(Model.TotalFee + Model.DiscountRate, "{0:c}")</div>
+                    </div>
+                }
+
+                @if (Model.TotalFee != null)
+                {
+                    <div class="price-block">
+                        <div class="price">
+                            <span class="price-title">@LanguageResource.Price :</span>
+                            <span class="price-tag price-comparison-offer">
+                                @((Model.TotalFee == 0) ? LanguageResource.ContactUs : Html.FormatValue(Model.TotalFee, "{0:c}"))
+                            </span>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </ul>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="wishlist-category">
+                    <strong>@LanguageResource.Specification:</strong> @Html.Raw(Model.Specification)
+                </p>
+            </div>
+        </div>
+        <div class="space-ten"></div>
+        <div class="btn-ground">
+            <a href="#" class="btn btn-u btn-u-sea-shop btn-continue-shoping" data-dismiss="modal"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;@LanguageResource.ContinueShopping</a>
+            <a href="/Cart" class="btn btn-u btn-u-sea-shop">&nbsp;&nbsp;@LanguageResource.ViewCart</a>
+        </div>
+    </div>
+</div>

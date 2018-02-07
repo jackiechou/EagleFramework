@@ -1,0 +1,37 @@
+﻿@using Eagle.Core.Settings
+@using Eagle.Services.Dtos.Services.Event
+@{
+    ViewBag.Title = LanguageResource.EventDetail;
+    Layout = Eagle.Services.Skins.ThemeViewEngine.DesktopMainLayout;
+}
+
+<div id="page" class="row">
+    <div class="page-content container">
+        <div class="row">
+            <div class="event-left col-md-8">
+                <div id="divEdit">
+                    @{
+                        Html.RenderAction("GetDetails", "EventInfo", new { id = ViewBag.EventId });
+                    }
+                </div>
+            </div>
+            <div class="event-right col-md-4">
+                <div class="col-md-12">
+                    @{
+                        Html.RenderAction("GetLatestEventsRight", "EventInfo", new
+                        {
+                            status = EventStatus.Upcoming,
+                            page = 1,
+                            pageSize =8
+                        });
+                    }
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Themes/Booking/Content/js/app/event-info.js"></script>
+}

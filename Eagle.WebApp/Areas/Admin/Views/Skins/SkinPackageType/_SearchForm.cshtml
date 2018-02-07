@@ -1,0 +1,43 @@
+﻿<div class="panel panel-default search-form-panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-10">
+                <h5>@Html.Raw(LanguageResource.List)</h5>
+            </div>
+            <div class="col-md-2 text-right">
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-default back-form" onclick="location.href = '@Url.Action("Index", "SkinPackageType")'">
+                        <span class="glyphicon glyphicon-home"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+            {
+            @Html.ValidationSummary("", new { @class = "alert alert-danger" })
+            <div class="row margin-bottom-15">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-cog"></span> @LanguageResource.Search
+                    </span>
+                    <span class="input-group-addon">
+                        @Html.DropDownList("Status", null, new { @class = "form-control" })
+                    </span>
+                    <span class="input-group-addon reset" data-form="frmSearch" data-mode="search">
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </span>
+                    <span class="input-group-addon search" data-form="frmSearch" data-mode="search">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </span>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        <div id="search-result" class="row">
+            @Html.Action("Search", "SkinPackageType")
+        </div>
+    </div>
+</div>

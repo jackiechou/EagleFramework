@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.SystemManagement.FileStorage.DocumentFileDetail>
+<div id="grid-list" class="table datatable">
+    <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+        <thead>
+            <tr>
+                <th class="text_center">@LanguageResource.SequenceNo</th>   
+                <th>
+                    @Html.DisplayNameFor(model => model.FileTitle)
+                </th>               
+                <th>
+                    @Html.DisplayNameFor(model => model.FileDescription)
+                </th>                                   
+                <th class="table-actions text_center no-sort">@LanguageResource.Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int i = 0;}
+            @foreach (var item in Model)
+            {
+                i++;
+                <tr id="@item.FileId">
+                    <td>
+                        @i
+                    </td>                  
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FileTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FileDescription)
+                    </td>                              
+                    <td class="table-actions text_center center no-sort">                       
+                        <button type="button" data-id="@item.FileId" data-title="@item.FileTitle" id="btnDownloadFile" title="@Html.Raw(LanguageResource.DownloadFile)" class="ico download">&nbsp;&nbsp;&nbsp;</button>
+                        <button type="button" data-id="@item.FileId" data-title="@item.FileTitle" id="btnDeleteFile" title="@Html.Raw(LanguageResource.Delete)" class="ico delete">&nbsp;&nbsp;&nbsp;</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div id="event_message"></div>
+<div id="dialog-confirm" title="@Html.Raw(LanguageResource.Delete)">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+        @Html.Raw(LanguageResource.ConfirmDelete)
+    </p>
+</div>

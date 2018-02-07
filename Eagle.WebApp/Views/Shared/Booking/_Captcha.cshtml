@@ -1,0 +1,29 @@
+﻿@model Eagle.Services.Dtos.Common.CaptchaRequest
+@using (Html.BeginForm("ValidateCaptcha", "Captcha", FormMethod.Post, new { id = "captchaform" }))
+{
+    <fieldset>
+        <p>To prevent robots of submitting, please enter the words below.</p>
+        <div id="captcha-container" class="g-recaptcha" data-error="Please prove your human" data-theme="dark" data-sitekey="@Model.PublicKey"></div>
+        @Html.HiddenFor(model => model.Response)
+        <p id="error">You miss-spelled the words. Please try again.</p>
+        <p><input id="submitButton" type="button" value="Check Captcha" class="button" data-url="@Url.Action("ValidateCaptcha","Captcha")" /></p>
+
+    </fieldset>
+}
+
+
+<script type="text/javascript">
+    $(function() {
+        var verifyCallback = function(response) {
+            alert(response);
+        };
+
+        var onloadCallback = function() {
+            grecaptcha.render('captcha-container', {
+                'sitekey': '6LfXwiUUAAAAADrkpzmWNSTzrgTRC3YAGtyyKMSX',
+                'callback': verifyCallback
+            });
+        };
+    });
+</script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>

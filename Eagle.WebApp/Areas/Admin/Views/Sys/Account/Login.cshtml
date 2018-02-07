@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = LanguageResource.Login;
+    Layout = ThemeViewEngine.AdminLoginLayout;
+}
+
+@using Eagle.Services.Skins
+@model Eagle.Services.Dtos.SystemManagement.Identity.LoginModel
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginform", name = "loginform", DesiredUrl = ViewBag.ReturnUrl, @class = "form-horizontal" }))
+{
+    @Html.HiddenFor(model => model.DesiredUrl)
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+    <div style="border:0 none;">
+        <div style="margin-bottom: 10px" class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon glyphicon-user"></span></span>
+            @Html.TextBoxFor(m => m.UserName, new { placeholder = Html.Raw(LanguageResource.UserName), @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.UserName)
+        </div>
+        <div style="margin-bottom: 10px" class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+            @Html.TextBoxFor(m => m.Password, new { placeholder = Html.Raw(LanguageResource.Password), @class = "form-control", type = "password" })
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+        <div class="input-group" style="width:100%;">
+            <div class="checkbox remember-me">
+                @Html.CheckBoxFor(m => m.RememberMe, new { name = "RememberMe", value = "True" }) @Html.LabelFor(m => m.RememberMe)
+            </div>
+        </div>
+
+        <div style="margin-top:10px" class="form-group">
+            <!-- Button -->
+            <div class="col-sm-12 controls">
+                <input type="submit" name="btnLogin" value="@LanguageResource.Login" id="btnLogin" tabindex="4" class="btn btn-info btn-success pull-right btn-medium row-fluid" style="padding-bottom: 4px;">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 control">
+                <div style="border-top: 1px solid #ccc; padding-top: 15px; font-size: 85%; ">
+                    <label>@Html.Raw(LanguageResource.DontHaveAnAccount)</label>
+                    <a href="javascript:void(0);" style="color: #FFF;" onclick="$('#loginbox').hide(); $('#signupbox').show();">
+                       @LanguageResource.SignUpHere
+                    </a>
+                    <a href="javascript:void(0);" style="color: #FFF;" class="pull-right" onclick="$('login_form_holder').hide();$('forgot_form_holder').show();">@LanguageResource.ForgotYourPassword?</a>
+                </div>
+                <div class="message" style="padding-top: 15px; font-size: 85%; ">
+                    <label style="color:red;">@ViewBag.Message</label>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    (function ($) {
+        $('#btnLogin').on('click', function () {
+            $("body").addClass('loading2');
+        });
+        //============================================================
+        $('#UserName').focus();
+        //$("#forgetModal").draggable({ handle: ".modal-header" });
+        $(document).on("click", "#btnForgetPassword", function () {
+            $('.preload').show();
+            var name = $('#email_username').val();
+            $.ajax({
+                type: "POST",
+                url: '/Account/ForgetPassword?name=' + name,
+                success: function(data) {
+                    $('.preload').remove();
+                    $('#ForgetOld').remove();
+                    $('#ForgetPassword').html(data);
+                }
+            });
+
+            return false;
+        });
+
+        $(document).keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode === '13') {
+                if ($('#UserName').val() !== '' && $('#Password') !== '')
+                    $('#btnLogin').click();
+            }
+        });
+        //============================================================
+    })(jQuery);
+</script>
+

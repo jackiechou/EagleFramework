@@ -1,0 +1,406 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.Contents;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+@section TitleSection {
+    <h4>@LanguageResource.Contents</h4>
+}
+@section TopActionButtons {
+    <input type="button" class="btn  btn-default reset btnReset" value="@LanguageResource.Reset" />
+    <input type="button" class="btn btn-primary add btnAdd" value="@LanguageResource.Add" />
+    <input type="button" class="btn btn-primary edit btnEdit hidden" value="@LanguageResource.Edit" />
+}
+@section BottomActionButtons {
+    <input type="button" class="btn btn-warning reset btnReset" value="@LanguageResource.Reset" />
+    <input type="button" class="btn btn-primary add btnAdd" value="@LanguageResource.Add" />
+    <input type="button" class="btn btn-primary edit btnEdit hidden" value="@LanguageResource.Edit" />
+}
+
+@section ContentSection
+{
+  <div id="MainBody">
+      @Html.Partial("../Contents/Taxonomy/ContentType/_Reset")
+  </div>
+
+<script type="text/javascript">
+    (function ($) {
+        $.createDataBuilder = function (p) {
+            var DataMgr = {
+                config: {
+                    isPostBack: false,
+                    async: true,
+                    cache: false,
+                    processData: false,
+                    mimeType: "multipart/form-data",
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    data: '{}',
+                    dataType: 'json',
+                    baseURL: p.BaseURL,
+                    method: "",
+                    url: "",
+                    ajaxCallMode: 0,
+                    isValid: false,
+                    mode: 0,
+                    key:0,
+                    ContainerClientID: p.ContainerClientID
+                },
+                messages:
+                {
+                    nomenu: "No Data"
+                },
+                init: function (config) {
+                    DataMgr.InitializeCotrols();
+                    DataMgr.BindEvents();
+                },
+                ajaxSuccess: function (data) {
+                    if (data.message == "timeout")
+                        window.location.reload();
+                    else {
+                        switch (parseInt(DataMgr.config.ajaxCallMode)) {
+                            //case 0:
+                            //    DataMgr.GetList();
+                            case 1:
+                                DataMgr.BindDetails(data);
+                                break;
+                            case 2:
+                                DataMgr.ReloadData(data);
+                                break;
+                        }
+                    }
+                },
+                ajaxFailure: function (jqXHR, textStatus, errorThrown) {
+                    handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                },
+                ajaxCall: function (config) {
+                    $.ajax({
+                        type: DataMgr.config.type,
+                        contentType: DataMgr.config.contentType,
+                        cache: DataMgr.config.cache,
+                        url: DataMgr.config.url,
+                        data: DataMgr.config.data,
+                        dataType: DataMgr.config.dataType,
+                        success: DataMgr.ajaxSuccess,
+                        error: DataMgr.ajaxFailure,
+                        async: false
+                    });
+                },
+                InitializeCotrols: function () {
+                    $("#ContentType").find("option[value='1']").attr('selected', true).siblings().attr('selected', false);
+                    PopulateDataTable(LanguageCode,5);
+                    DataMgr.DragNDrop();
+                    
+                    $('.tags').tagsInput({ width: 'auto', 'defaultText': '@Html.Raw(LanguageResource.AddATag)', 'removeWithBackspace': true, 'style': 'bootstrap', 'placeholderColor': '#666666' });
+                },               
+                BindEvents: function () {
+                    $(document).on('change', '#ContentType', function () {
+                        $(this).find("option[value=" + $(this).val() + "]").attr('selected', true).siblings().attr('selected', false);
+                        DataMgr.GetList();
+                    });
+
+                    //search action
+                    $(document).on("click", "#btnSearch", function () {
+                        DataMgr.GetList();
+                    });
+
+                    //Add and update post action
+                    $(document).on("click", ".btnAdd", function () {
+                        if (!$("#myform").valid()) { // Not Valid
+                            return false;
+                        } else {
+                            DataMgr.AddData();
+                        }
+                    });
+
+                    $(document).on("click", ".btnEdit", function () {
+                        if (!$("#myform").valid()) { // Not Valid
+                            return false;
+                        } else {
+                           DataMgr.UpdateData();
+                        }
+                    });
+
+
+                    // Reset form
+                    $(document).on("click", ".btnReset", function () {
+                        DataMgr.ResetControls();
+                    });
+
+                    // Click edit (get)
+                    $(document).on("click", ".editItem", function () {
+                        var ID = $(this).data('id');  // ID cua dong du lieu
+                        DataMgr.GetDetails(ID);
+
+                        //Go to top
+                        $('html, body').animate({ scrollTop: 0 }, 'fast');
+                        return false;
+                    });
+
+                    // Click delete (get)
+                    $(document).on("click", ".deleteItem", function (e) {
+                        var ID = $(this).data('id');  // ID cua dong du lieu
+                        bootbox.confirm("@Html.Raw(LanguageResource.DoYouWantToContinue)", function (result) {
+                            if (result) {
+                                DataMgr.config.mode = 2;
+                                DataMgr.DeleteData(ID);
+                                return false;
+                            }
+                        });
+                    });
+
+                },
+                GetList: function () {                
+                    $.ajax({
+                        type: "GET",
+                        url: "/Admin/ContentItem/List",
+                        data: { "ContentType": $("#ContentType").val() },
+                        success: function (data, statusCode, xhr) {
+                            $('#divList').html(data);
+                            PopulateDataTable(LanguageCode,5);
+                           // $('.selectpicker').selectpicker();
+                            $('.btnEdit').addClass("hidden");
+                            $('.btnAdd').removeClass("hidden");
+                        }, error: function (jqXHR, textStatus, errorThrown) {
+                            handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                        }
+                    });
+                },                           
+                AddData: function () {
+                    var data = convertFormToJSON("myform");
+                    this.config.method = "Create";
+                    this.config.data = data;
+                    this.config.url = DataMgr.config.baseURL + this.config.method;
+                    this.config.ajaxCallMode = 2;
+                    this.ajaxCall(this.config);
+                },
+                GetDetails: function (id) {
+                    DataMgr.config.mode = 1;
+                    DataMgr.config.key = id;
+                    var data = { "id": id };
+                    this.config.method = "Details";
+                    this.config.data = data;
+                    this.config.type = "GET";
+                    this.config.dataType = "html";
+                    this.config.url = this.config.baseURL + this.config.method;
+                    this.config.ajaxCallMode = 1;
+                    this.ajaxCall(this.config);
+                },
+                BindDetails: function (data) {
+                    $('#divEdit').html(data);
+                    $('.btnAdd').addClass("hidden");
+                    $('.btnEdit').removeClass("hidden");
+                    
+                    // PopulateDataTable(LanguageCode, 5);
+                },
+                UpdateData: function () {
+                    var data = convertFormToJSON("myform");
+                    this.config.method = "Edit";
+                    this.config.type = "POST";
+                    this.config.dataType = "json";
+                    this.config.data = data;
+                    this.config.url = DataMgr.config.baseURL + this.config.method;
+                    this.config.ajaxCallMode = 2;
+                    this.ajaxCall(this.config);
+                },
+                DeleteData: function (ID) {
+                    this.config.method = "Delete";
+                    this.config.type = "POST";
+                    this.config.data = JSON.stringify({ "id": ID });
+                    this.config.url = DataMgr.config.baseURL + this.config.method + "/" + ID;
+                    this.config.ajaxCallMode = 2;
+                    this.ajaxCall(this.config);
+                },
+                ReloadData: function (data) {
+                    var mode = DataMgr.config.mode;
+                    var titleSuccess = "", titleFailure = "", titleAjaxError = "";
+                    titleAjaxError = "@LanguageResource.Error";
+                    if (mode == 0) {
+                        titleSuccess = "@LanguageResource.CreateSuccess";
+                        titleFailure = "@LanguageResource.CreateFailure";
+                    }
+                    else if (mode == 1) {
+                        titleSuccess = "@LanguageResource.UpdateSuccess";
+                        titleFailure = "@LanguageResource.UpdateFailure";
+                    }
+                    else {
+                        titleSuccess = "@LanguageResource.DeleteSuccess";
+                        titleFailure = "@LanguageResource.DeleteFailure";
+                    }
+
+                    var result = JSON.parse(data);
+                    // var result = $.parseJSON(data);
+                    if (result.flag == 'true') {
+                        //Reload page after success
+                        this.config.method = "Index";
+                        $.ajax({
+                            type: "GET",
+                            url: DataMgr.config.baseURL + this.config.method,
+                            success: function (data, statusCode, xhr) {
+                                if (data.message == "timeout")
+                                    window.location.reload();
+                                else {
+                                    $('#' + DataMgr.config.ContainerClientID).html(data);
+                                    PopulateDataTable(LanguageCode,5);
+                                    showMessageWithTitle(titleSuccess, result.message, "success", 3000);
+                                }
+                            }, error: function (jqXHR, textStatus, errorThrown) {
+                                handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                            }
+                        });
+                    } else {
+                        showMessageWithTitle(titleFailure, result.message, "error",20000);
+                    }
+                },
+                ResetControls: function () {
+                    var mode = DataMgr.config.mode;
+                    if (mode == 0) {
+                        var validateObj = $('#myform');
+                        validateObj.find('input:text, input:password, input:file, select, textarea').not('.ignored').val('');
+                        validateObj.find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected');
+                        validateObj.find('input[type="number"]').val(0);
+                        validateObj.find('select').find('option:first').attr('selected', true).siblings().attr('selected', false);
+                        validateObj.find("[data-valmsg-summary=true]").removeClass("validation-summary-errors").addClass("validation-summary-valid").find("ul").empty();
+                        validateObj.find("[data-valmsg-replace]").removeClass("field-validation-error").addClass("field-validation-valid").empty();
+                        DataMgr.InitializeCotrols();
+                    } else {
+                        var key = DataMgr.config.key;
+                        DataMgr.GetDetails(key);
+                    }
+                },
+                UpdateListOrder: function (id, listorder) {
+                    this.config.method = "UpdateListOrder";
+                    this.config.type = "POST";
+                    this.config.dataType = "json";
+                    this.config.data = JSON.stringify({ "id": id, "listorder": listorder });
+                    this.config.url = DataMgr.config.baseURL + this.config.method;
+                    this.config.ajaxCallMode = 2;
+                    this.ajaxCall(this.config);
+                },
+                DragNDrop: function () {
+                    //Important: Phai set id cho tr => tr-id
+                    // Initialise the second table specifying a dragClass and an onDrop function that will display an alert
+                    $("#dataTable").tableDnD({
+                        onDragClass: "myDragClass",
+                        onDrop: function (table, row) {
+                            var rows = table.tBodies[0].rows;
+                            var debugStr = "Row dropped was " + row.id + ". New order: ";
+                            for (var i = 0; i < rows.length; i++) {
+                                DataMgr.UpdateListOrder(rows[i].id, i + 1);
+                                debugStr += rows[i].id + " ";
+                            }
+                            //$("#debugArea").html(debugStr);
+                        },
+                        //onDragStart: function (table, row) {
+                           // $("#debugArea").html("Started dragging row " + row.id);
+                        //}
+                    });
+
+                    $("#dataTable tr").hover(function () {
+                        $(this.cells[0]).addClass('showDragHandle');
+                    }, function () {
+                        $(this.cells[0]).removeClass('showDragHandle');
+                    });
+
+                    // Setup the "Up" links
+                    $(".rowUp").click(function () {
+                        var row = $(this).closest("tr");
+                        var table = row.parents('table');
+
+                        // Get the previous element in the DOM
+                        var previous = row.prev();
+
+                        // Check to see if it is a row
+                        if (previous.is("tr")) {
+                            // Move row above previous
+                            row.detach();
+                            previous.before(row);
+
+                            // draw the user's attention to it
+                            row.fadeOut();
+                            row.fadeIn();
+                        }
+                        // else - already at the top
+                        GetSortableOrderingTable(table.attr("id"), row.attr("id"));
+
+                    });
+
+                    // Setup the "Up" links
+                    $(".rowDown").click(function () {
+                        var row = $(this).closest("tr");
+                        var table = row.parents('table');
+
+                        // Get the previous element in the DOM
+                        var next = row.next();
+
+                        // Check to see if it is a row
+                        if (next.is("tr")) {
+                            // Move row above previous
+                            row.detach();
+                            next.after(row);
+
+                            // draw the user's attention to it
+                            row.fadeOut();
+                            row.fadeIn();
+                        }
+                        // else - already at the bottom
+
+                        DataMgr.GetSortableOrderingTable(table.attr("id"), row.attr("id"));
+                    });
+                },
+                GetSortableOrderingTable: function (selected_table, selected_row) {
+                    var table = $('#' + selected_table)[0];
+                    var row = $('#' + selected_row)[0];
+                    var rows = table.tBodies[0].rows;
+
+                    var debugStr = "Row dropped was " + row.id + ". New order: ";
+
+                    for (var i = 0; i < rows.length; i++) {
+                        DataMgr.UpdateListOrder(rows[i].id, i + 1);
+                        debugStr += rows[i].id + " ";
+                    }
+                   // $("#debugArea").html(debugStr);
+                },
+                SortList: function () {
+                    $(".sortable").sortable({
+                        placeholder: "ui-state-highlight",
+                        helper: 'clone',
+                        sort: function (e, ui) {
+                            $(ui.placeholder).html(Number($(".sortable > li:visible").index(ui.placeholder)) + 1);
+                        },
+                        update: function (event, ui) {
+                            var lis = $(this).children('li');
+                            lis.each(function () {
+                                var lis = $(this);
+                                var newVal = $(this).index() + 1;
+                                $(this).find('div.sortable-number').html(newVal);
+                            });
+
+                            //  var ordering = $(this).sortable('toArray').toString();
+                            var ordering = $(".sortable").sortable('serialize');
+                           // alert(ordering);
+                        }
+                    });
+                    $(".sortable").disableSelection();
+                    //$(".sortable li").hover(function () {
+                    //    $(this).css('border', '3px solid black');
+                    //});
+                }
+            };
+            DataMgr.init();
+        }
+
+        var Controller = 'ContentItem';
+        var BaseURL =  "/" + Controller + "/";
+        var base_settings = {
+            ContainerClientID: "MainBody",
+            BaseURL: BaseURL
+        };
+        $.createDataBuilder(base_settings);
+
+    })(jQuery);
+    </script>
+}
+
+

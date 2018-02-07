@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = LanguageResource.CreateShippingMethod;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Business.ShippingMethodEntry
+
+<div class="panel panel-default">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmCreateShippingMethod", name = "frmCreateShippingMethod", }))
+    {
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateShippingMethod" data-url='@Url.Action("Create", "ShippingMethod")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save add create createShippingMethod" data-mode="create" data-form="frmCreateShippingMethod" data-url='@Url.Action("Create", "ShippingMethod")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.CreateShippingMethod</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.AntiForgeryToken()
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.ShippingMethodName, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.ShippingMethodName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ShippingMethodName)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <div class="checkbox-slider--a">
+                                        <label>
+                                            <input type="checkbox" id="IsActive" name="IsActive" checked="checked" value="true"><span></span>
+                                        </label>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.IsActive)
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateShippingMethod" data-url='@Url.Action("Create", "ShippingMethod")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save add create createShippingMethod" data-mode="create" data-form="frmCreateShippingMethod" data-url='@Url.Action("Create", "ShippingMethod")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

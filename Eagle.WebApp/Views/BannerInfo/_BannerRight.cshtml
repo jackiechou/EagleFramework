@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Contents.Banners.BannerInfoDetail>
+<div class="bannergroup">
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <div class="banneritem">
+                <a href="@item.Link" title="@item.BannerTitle" target="@item.Target">
+                    <img alt="@item.AltText" title="@item.BannerTitle" src="@item.FileUrl" data-image="@item.FileUrl" data-description="@item.BannerContent" width="279">
+                </a>
+                <div class="clr"></div>
+            </div>
+        }
+    }
+</div>

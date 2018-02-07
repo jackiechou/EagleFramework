@@ -1,0 +1,77 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.FunctionName_GroupManagement;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="PaneContainer" class="pane-container">
+    <!--start content ----------------------------------------------------------->
+    <div id="ContentPane" class="content-pane">
+        <!--Site map runs from main script ----------------------------->
+        <div class="row">
+            <div class="col-md-4 padding-left-5">
+                <div id="SiteMap" class="navbar-header site-map"></div>
+            </div>
+            <div class="col-md-8 padding-right-5"></div>
+        </div>
+
+        <div class="row">
+            <div id="BodyPaneContainer" class="body-pane-container">
+                <div id="HeaderContainer" class="header-container">
+                    <div class="row">
+                        <div class="col-md-10 no-padding-left">
+                            <h4>@ViewBag.Title</h4>
+                        </div>
+                        <div class="col-md-2 no-padding-right">
+                            <div class="top-toolbar">
+                                @*TopActionButtons*@
+                                <input type="button" class="btn btn-default createRoleGroupForm" value="@LanguageResource.Create" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="MainContainer" class="main-container">
+                    @Html.Partial("_MessagePartial")
+
+                    <div id="bodyContent" class="row">
+                        <div id="LeftContent" class="col-md-4 left-content">
+                            <div id="divEdit">
+                                @Html.Partial("../Sys/Group/_Create")
+                            </div>
+                        </div>
+
+                        <div id="RightContent" class="col-md-8 right-content">
+                            <div id="MainBody" class="form-horizontal main_box">
+                                <div id="gridcontainer" class="gridContainer">
+                                    @Html.Partial("../Sys/Group/_Search")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  
+                    @section Scripts{
+                        <script type="text/javascript">
+                            //LANGUAGE RESOURCE
+                            window.Create = '@Html.Raw(LanguageResource.Create)';
+                            window.CreateSuccess = '@Html.Raw(LanguageResource.CreateSuccess)';
+                            window.CreateFailure = '@Html.Raw(LanguageResource.CreateFailure)';
+                            window.Edit = '@Html.Raw(LanguageResource.Edit)';
+                            window.UpdateSuccess = '@Html.Raw(LanguageResource.UpdateSuccess)';
+                            window.UpdateFailure = '@Html.Raw(LanguageResource.UpdateFailure)';
+                            window.UpdateStatus = '@Html.Raw(LanguageResource.UpdateStatus)';
+                            window.UpdateStatusSuccess = '@Html.Raw(LanguageResource.UpdateStatusSuccess)';
+                            window.UpdateStatusFailure = '@Html.Raw(LanguageResource.UpdateStatusFailure)';
+                            //URL
+                            window.SearchRoleGroupUrl = '@Url.Action("Search", "Group")';
+                        </script>
+                        <script src="~/Scripts/app/modules/group.js"></script>
+                    }
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    <!--end content -------------------------------------------------------------->
+
+</div>

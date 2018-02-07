@@ -1,0 +1,33 @@
+﻿@model Eagle.Services.Dtos.Business.VendorInfoDetail
+
+<div class="about-us-cotnainer-homepage">
+    @if (Model !=null)
+    {
+        <div class="article-container">        
+            <div class="article-body">               
+                <div class="article-content col-md-7 ">
+                    <div class="headline">
+                        <h3>
+                            @Model.VendorName
+                        </h3>
+                    </div>
+                    @if (Model != null)
+                    {
+                        @Html.Raw(Model.Summary)
+                    }
+
+                    <div class="link_info">
+                        <a href='@Url.Action("Index", "Booking")' class="contact-us-link ">
+                            @LanguageResource.Services
+                        </a>
+                        <a href='@Url.Action("Index", "Production")' class="contact-us-link ">
+                            @LanguageResource.Product
+                        </a>
+                    </div>
+                </div>
+                <div class="article-image col-md-5 hidden-xs">
+                </div>
+            </div>
+        </div>
+    }
+</div>

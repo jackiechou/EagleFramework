@@ -1,0 +1,24 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.AboutUs;
+    Layout = ThemeViewEngine.DesktopSubLayout;
+}
+
+<div id="page" class="row">
+    <div class="page-content container content-sm">
+        <div class="col-md-4 md-margin-bottom-50">
+            @Html.Action("SignIn", "Cust")
+        </div>
+        <div class="col-md-8 md-margin-bottom-50">
+            @Html.Action("SignUp", "Cust")
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        window.SelectRegion = '@LanguageResource.SelectRegion';
+    </script>
+    <script src="~/Themes/Booking/Content/js/app/cust.js"></script>
+}

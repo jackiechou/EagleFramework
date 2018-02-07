@@ -1,0 +1,218 @@
+﻿@{
+    ViewBag.Title = "Chat";
+}
+<h2>Chat</h2>
+<div id="divContainer">
+    <div id="divLogin" class="login">
+        <div class="panel panel-default">
+            <div class="panel-heading text-bold">
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.Login</h4>
+            </div>
+
+            <div class="panel-body padding-top-0">
+                <div id="formBody" class="form-horizontal">
+                    <div class="form-container">
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <div style="margin-bottom: 25px" class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input id="displayName" name="displayName" type="text" class="form-control" value="" placeholder="@LanguageResource.DisplayName">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="g-recaptcha" data-theme="dark" data-sitekey="6Lc_Pz4UAAAAAFWq_uUZcjc7ovn6nMflBiJ5sAzN"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <div class="row submit-row">
+                    <input type="button" class="btn btn-primary btn-block submit-form loginUser startChat" data-form="frmUserLogin" value="@LanguageResource.StartChat" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="divChat" class="chatRoom">
+        <div class="panel panel-default">
+            <div class="panel-heading text-bold">
+                <div class='page-header margin-top-5 margin-bottom-0'>
+                    <div id="state pull-right"></div>
+                    <h4><span class="glyphicon glyphicon-comment"></span> @Html.Raw(LanguageResource.Welcome) [<span id='spanUser' class="spanUser"></span>]</h4>
+                </div>
+            </div>
+
+            <div class="panel-body body-panel">
+                <div class="form-horizontal">
+                    <div id="divChatWindow" class="chatWindow">
+                        <ul id="discussion" class="discussion chat"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer clearfix">
+                <div class="row">
+                    <div class="col-md-10">
+                        <textarea id="txtMessage" name="txtMessage" placeholder="Enter message" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class='col-md-2'>
+                        <input type="button" class="btn btn-warning btn-lg btn-block sendMessage" data-form="frmChat" value="@LanguageResource.Send" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <input id="hiddenDisplayName" name="hiddenDisplayName" type="hidden" />
+</div>
+
+@section HeadScripts{
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?hl=vi"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+
+    <!--Add script to update the page and send messages.-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            setScreen(false);
+
+            var tryingToReconnect = false;
+            var timeout = null;
+            var interval = 10000;
+            var connection = $.hubConnection();
+            var hubProxy = connection.createHubProxy('chatHub');
+            connection.qs = { 'version': '1.0' };
+            connection.logging = true;
+            connection.stateChanged(function (change) {
+                if (change.newState === $.signalR.connectionState.connected) {
+                    $('#state').css('background-color', 'green').html('The server is online');
+                    clearTimeout(timeout);
+                    timeout = null;
+                } else if (change.newState === $.signalR.connectionState.reconnecting) {
+                    tryingToReconnect = true;
+                    console.log("reconnecting...");
+                    timeout = setTimeout(function () {
+                        $('#state').css('backgroundColor', 'yellow').html('The server is unreachable...');
+                    }, interval);
+                }
+                else if (change.newState === $.signalR.connectionState.reconnected) {
+                    tryingToReconnect = false;
+                    console.log("Reconnected");
+                }
+                else if (change.newState === $.signalR.connectionState.disconnected) {
+                    if (!tryingToReconnect) {
+                        // notifyclient about disconnection
+                        setTimeout(function () {
+                            connection.start({ transport: 'longPolling' })();
+                        }, 5000); // Restart connection after 5 seconds.
+                    }
+                    $('#state').css('background-color', 'red').html('The server is disconnected...');
+                }
+            });
+
+
+            hubProxy.on('sendMessage', function (name, message) {
+                console.log('begin to send messsage');
+                // Add the message to the page.
+                $('.discussion').append('<li><div class="message"><span class="userName"><strong>'
+                + htmlEncode(name) + '</strong></span>: '
+                + htmlEncode(message) + '</li>');
+            });
+
+            var sendMessage = function () {
+                var message = $("#txtMessage").val();
+                var displayName = $('#spanUser').html();
+
+                if (message.length > 0) {
+                    console.log(displayName + ' -----   ' + message);
+                    // Call the Send method on the hub.
+                    hubProxy.invoke("send", displayName, message).fail(function (error) {
+                        console.log('Invocation of connect failed. ' + error);
+                    });
+                    // Clear text box and reset focus for next comment.
+                    $('#txtMessage').val('').focus();
+                }
+            };
+
+            // Set initial focus to message input box.
+            $('#message').focus();
+            // Start the connection.
+            console.log('Connecting Hub...');
+            connection.start({ transport: 'longPolling' }).done(function () {
+                console.log('Hub connected, connection ID=' + connection.id);
+
+                //Register Events
+                $(".startChat").click(function () {
+                    var name = $("#displayName").val();
+                    var email = $('#email').val();
+
+                    if (name.length > 0 && email.length > 0) {
+                        setScreen(true);
+                        $('#spanUser').html(name);
+
+                        hubProxy.invoke("send", name, email).done(function () {
+                            console.log('Invocation of connect succeeded');
+                        }).fail(function (error) {
+                            console.log('Invocation of connect failed. ' + error);
+                        });
+                       
+                    } else {
+                        alert("Please enter your details");
+                    }
+                });
+
+
+            }).fail(function (a) {
+                setScreen(false);
+                console.log('Could not connect to Hub.' + a);
+            });
+
+            $('.sendMessage').click(function () {
+                sendMessage();
+            });
+
+            $("#txtMessage").keypress(function (e) {
+                var code = (e.keyCode ? e.keyCode : e.which);
+                if (code === 13) {
+                    sendMessage();
+                }
+            });
+        });
+
+
+      
+
+        //Variable --------------------------------------------------------//
+        var loadMesgCount = 10;
+        var topPosition = 0;
+        var refreshId = null;
+
+        //function scrollTop(ctrId) {
+        //    var height = $('#' + ctrId).find('#divMessage')[0].scrollHeight;
+        //    $('#' + ctrId).find('#divMessage').scrollTop(height);
+        //}
+
+        // Start All Chat ------------------------------------------------//
+        function setScreen(isLogin) {
+            console.log(isLogin);
+            if (isLogin) {
+                $("#divChat").show();
+                $("#divLogin").hide();
+            } else {
+                $("#divChat").hide();
+                $("#divLogin").show();
+            }
+        }
+
+        // This optional function html-encodes messages for display in the page.
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+
+       
+    </script>
+}

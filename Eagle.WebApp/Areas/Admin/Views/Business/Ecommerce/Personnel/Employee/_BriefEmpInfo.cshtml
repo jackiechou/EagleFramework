@@ -1,0 +1,50 @@
+﻿
+@model Eagle.Services.Dtos.Business.Personnel.EmployeeInfoDetail
+<div id="briefInfo">
+    <div class="box2 accordion-group">
+        <div class="accordion-heading toolbar">
+            <a href="#top_accordion" data-parent="#accordion2" data-toggle="collapse" class="accordion-toggle">
+                <span class="pull-right"><i class="glyphicon glyphicon-chevron-up icon-white"></i></span>
+                <span class="heading-title">@LanguageResource.CurrentInfo</span>
+            </a>
+        </div>
+        <div class="accordion-body collapse in" id="top_accordion">
+            <div class="accordion-inner">
+                <div class="accordion-content">
+                    <!--start row-->
+                    <div class="row">
+                        <div class="col-md-2">
+                           @Html.LabelFor(model => model.EmployeeNo)
+                        </div>
+                        <div class="col-md-4 bottom_line">
+                            <label class="reset-label">@Html.DisplayFor(model => model.EmployeeNo)</label>
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.JoinedDate)
+                        </div>
+                        <div class="col-md-4 bottom_line">
+                            <label class="reset-label">@Html.DisplayFor(model => model.JoinedDate)</label>
+                        </div>
+                    </div>
+                    <!--end row-->
+                    <!--start row-->
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Contact.Mobile)
+                        </div>
+                        <div class="col-md-4 bottom_line">
+                            <label class="reset-label">@Html.DisplayFor(model => model.Contact.Mobile)</label>
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Status)
+                        </div>
+                        <div class="col-md-4 bottom_line">                            
+                            <label class="reset-label">@Html.DisplayFor(model => model.Status)</label>
+                        </div>
+                    </div>
+                    <!--end row-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

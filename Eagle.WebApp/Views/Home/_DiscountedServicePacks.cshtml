@@ -1,0 +1,58 @@
+﻿@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Services.Booking.ServicePackInfoDetail>
+<div id="discounted-service-container" class="discounted-service-banner carousel slide" data-interval="3000" data-ride="carousel">
+    <div class="carousel-inner" role="listbox">
+        <!-- Carousel Slides -->
+        @if (Model.Any())
+        {
+            int i = 0;
+            foreach (var item in Model)
+            {
+                string status = ((i == 0) ? "item active" : "item");
+                string style = string.Empty;
+                if (!string.IsNullOrEmpty(item.FileUrl))
+                {
+                    style = string.Format("style=background-image:url({0});", item.FileUrl);
+                }
+
+                <div class="@status" @style>
+                    <div class="container item-container">
+                        <div class="col-md-7 md-margin-bottom-50">
+                            <div class="title">
+                                <h2 class="package-title">@item.PackageName</h2>
+                                <p>@((item.Description != null && item.Description.Length > 200) ? item.Description.Substring(0, 200) + "..." : item.Description)</p><br>
+                                <a class="btn btn-u btn-brd btn-brd-hover btn-u-light button" data-id="@item.PackageId" title="@item.PackageName" href='@Url.Action("Details", "Service", new {id = item.PackageId})'>
+                                    @LanguageResource.ShopNow
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="overflow-h">
+                                <span class="percent-numb">@item.DiscountRate</span>
+                                <div class="percent-off">
+                                    <span class="discount-percent">
+                                        @((item.Discount.IsPercent) ? "%" : string.Format("{0} {1}", item.Discount.DiscountRate, item.CurrencyCode))
+                                    </span>
+                                    <span class="discount-off">@LanguageResource.SaleOff</span>
+                                </div>
+                                <div class="new-offers shop-bg-green rounded-x">
+                                    <p>new</p>
+                                    <span>@((item.TotalFee == 0) ? @LanguageResource.ContactUs : @Html.FormatValue(item.TotalFee, "{0:c}"))</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                i++;
+            }
+        }
+        else
+        {
+            <div class="item active"></div>
+        }
+    </div>
+    <!-- Carousel Buttons Next/Prev -->
+    <div class="control-box">
+        <a data-slide="prev" href="#discounted-service-container" class="left carousel-control"><i class="fa fa-chevron-left"></i></a>
+        <a data-slide="next" href="#discounted-service-container" class="right carousel-control"><i class="fa fa-chevron-right"></i></a>
+    </div>
+</div>

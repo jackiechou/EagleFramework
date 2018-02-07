@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Contents.Articles.NewsInfoDetail>
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model)
+    {
+        <div class="tab-post-list-wrap clearfix">
+            <div class="tab-post-thumb pull-left">
+                <figure>
+                    <a data-id="@item.NewsId" title="@item.Title" href='@Url.Action("Details", "Article", new {id = item.NewsId})'>
+                        @if (!string.IsNullOrEmpty(item.FrontImageUrl))
+                        {
+                            <img src='@item.FrontImageUrl' alt='@item.Title' class="pull-left img-responsive thumb margin10 img-thumbnail">
+                        }
+                        else
+                        {
+                            <img src="/Images/150x90.png" alt='@item.Title' class="pull-left img-responsive thumb margin10 img-thumbnail">
+                        }
+                    </a>
+
+                </figure>
+            </div>
+            <div class="tab-post-title">
+                <h6>
+                    <a data-id="@item.NewsId" title="@item.Title" href='@Url.Action("Details", "Article", new {id = item.NewsId})'>@item.Title</a>
+                </h6>
+                <span>@string.Format("{0:dd-MM-yyyy}",item.PostedDate)</span>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="tab-post-list-wrap clearfix">
+        <div class="tab-post-thumb pull-left">
+            <figure>
+                <a href='#' title='@Html.Raw(LanguageResource.NotFound)'>
+                    <img src="/Images/150x90.png" alt='@Html.Raw(LanguageResource.NotFound)' class="pull-left img-responsive thumb margin10 img-thumbnail">
+                </a>
+
+            </figure>
+        </div>
+        <div class="tab-post-title">
+            <h6>
+                <a href='#' title='@Html.Raw(LanguageResource.NotFound)'>@Html.Raw(LanguageResource.NotFound)</a>
+            </h6>
+        </div>
+    </div>
+}

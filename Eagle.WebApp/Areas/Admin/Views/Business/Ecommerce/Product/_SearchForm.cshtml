@@ -1,0 +1,72 @@
+﻿@model Eagle.Services.Dtos.Business.ProductSearchEntry
+
+<div class="panel panel-default search-panel">
+    <div id="formMessage" class="form-message">
+        @Html.AntiForgeryToken()
+        @Html.Partial("_MessagePartial")
+        @Html.ValidationSummary(true, "", new {@class = "alert alert-danger"})
+    </div>
+    <div class="panel-heading text-bold">
+        <div class="row">
+            <div class="col-md-10">
+                <h5>@Html.Raw(LanguageResource.List)</h5>
+            </div>
+            <div class="col-md-2 text-right">
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-default create-form" onclick="location.href = '@Url.Action("Create", "Product")'">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="panel-heading">
+            <h5>@Html.Raw(LanguageResource.Search)</h5>
+        </div>
+        @using (Html.BeginForm(null, null, FormMethod.Get, new {id = "frmSearch", name = "frmSearch", @class = "form-horizontal"}))
+        {
+            <div class="container-fluid padding-10">
+                <div class="row padding-bottom-10">
+                    @Html.Label("ProductCategoryId", LanguageResource.Search, new {@class = "control-label col-md-2"})
+                    <div class="col-md-4">
+                        <input type="text" name="ProductName" id="ProductName" class="form-control" placeholder="@LanguageResource.ProductName"/>
+                    </div>
+                    @Html.Label("ProductCategoryId", LanguageResource.Select, new {@class = "control-label col-md-2"})
+                    <div class="col-md-4">
+                        @Html.EnumDropDownListFor(model => model.Status, string.Format("--- {0} ---", LanguageResource.Select), new {@class = "form-control"})
+                    </div>
+
+                </div>
+                <div class="row padding-bottom-10">
+                    @Html.Label("ProductCategoryId", LanguageResource.ProductCategory, new {@class = "control-label col-md-2"})
+                    <div class="col-md-4">
+                        <input id="ProductCategoryId" name="ProductCategoryId" value="0" class="easyui-combotree form-control cbxCategoryTree" data-url='@Url.Action("GetProductCategorySelectTree", "ProductCategory")' style="width: 100%;">
+                    </div>
+                    @Html.Label("DateRangePicker", LanguageResource.DateRange, new {@class = "control-label col-md-2"})
+                    <div class="col-md-4">
+                        <input type="text" name="DateRangePicker" id="DateRangePicker" data-datepicker="datepicker" class="small form-control" data-link-format="MM/YYYY"/>
+                        <input type="hidden" id="FromDate" name="FromDate"/>
+                        <input type="hidden" id="ToDate" name="ToDate"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        <button type="button" class="btn btn-primary search" data-form="frmSearch" data-mode="search">
+                            <span class="glyphicon glyphicon-search" role="button"></span> @LanguageResource.Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        <div id="search-result" class="row no-padding-left no-padding-right">
+            @{
+                Html.RenderAction("Search", "Product");
+            }
+        </div>
+        <div id="page-containter" data-page="1" class="no-padding-left"></div>
+    </div>
+</div>

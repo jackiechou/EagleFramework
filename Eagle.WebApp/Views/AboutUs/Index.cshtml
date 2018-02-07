@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = LanguageResource.AboutUs;
+    Layout = Eagle.Services.Skins.ThemeViewEngine.DesktopSubLayout;
+}
+
+<div id="page" class="row">
+    <div class="page-content container content-xs">
+        <div class="row">
+            <div class="col-md-8 article-content aboutus_page">
+                @Html.Action("GetVendorInfo", "AboutUs")
+            </div>
+            <div class="col-md-4 md-margin-bottom-10">
+                @Html.Action("GetServicePackages", "AboutUs")
+            </div>
+        </div>
+    </div>
+    <!--=== Sponsors ===-->
+    @Html.Action("GetPartners", "Partner")
+    <!--=== End Sponsors ===-->
+</div>
+
+@section Scripts
+{
+    <script src="~/Themes/Booking/Content/js/app/partner.js"></script>
+}

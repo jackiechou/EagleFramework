@@ -1,0 +1,197 @@
+﻿
+@using Eagle.Core.Settings
+@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Services.Booking.ServicePackInfoDetail>
+
+<div class="content">
+    @if (Model != null && Model.Any())
+    {
+        var serviceInfo = Model.ElementAt(0);
+        <article class="featured">
+            <div class="cover">
+                <a href="@Url.Action("Details", "Service", new {id = serviceInfo.PackageId})" title="@serviceInfo.PackageName">
+                    @if (!string.IsNullOrEmpty(serviceInfo.FileUrl))
+                    {
+                        <img src='@serviceInfo.FileUrl' alt='@serviceInfo.PackageId' class="media-object">
+                    }
+                    else
+                    {
+                        <img src="/Images/150x90.png" alt='@serviceInfo.PackageId' class="media-object">
+                    }
+                </a>
+            </div>
+            <div class="right-content">
+                <div class="package-detail">
+                    <a href="@Url.Action("Details", "Service", new {id = serviceInfo.PackageId})" title="@serviceInfo.PackageName">
+                        <h5 class="dotdot">
+                            @serviceInfo.PackageName
+                        </h5>                        
+                    </a>
+                    <div class="rating-container">
+                        <div class="star-rating" id="starRating_@serviceInfo.PackageId" star-id="@serviceInfo.PackageId" star-url='@Url.Action("CreateServicePackRating", "Service")' rating-type="service">
+                            <span class="fa fa-star-o" data-rating="1" title="Did not like it"></span>
+                            <span class="fa fa-star-o" data-rating="2" title="it was okay"></span>
+                            <span class="fa fa-star-o" data-rating="3" title="Liked it"></span>
+                            <span class="fa fa-star-o" data-rating="4" title="Really liked it"></span>
+                            <span class="fa fa-star-o" data-rating="5" title="It was amazing"></span>
+                            <input type="hidden" name="ratingValue" id="ratingValue_@serviceInfo.PackageId" input-id="@serviceInfo.PackageId" class="rating-value" value="@serviceInfo.Rating">
+                        </div>
+                    </div>
+                    <div class="summary-container">
+                        <div class="summary dotdot">
+                            @if (!string.IsNullOrEmpty(serviceInfo.Description))
+                            {
+                                @Html.Raw(Eagle.Common.Utilities.StringUtils.StripHtml(serviceInfo.Description))
+                            }
+                            else
+                            {
+                                var strDescription = Eagle.Common.Utilities.StringUtils.StripHtml(serviceInfo.Specification);
+                                @Html.Raw(strDescription)
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="booking-box">
+                    <div class="select-quantity">
+                        <label class="qty-label">@LanguageResource.Qty</label>
+                        <div class="qty-container">
+                            <input type="text" class="select-quantity-input quantity qty" value="1"
+                                   id="qty-@Model.ElementAt(0).PackageId" name="qty-@Model.ElementAt(0).PackageId">
+                            <div class="quantity-control">
+                                <span id="add-qty-service-@Model.ElementAt(0).PackageId" 
+                                      class="select-quantity-plus increment-by-one"></span>
+                                <span class="select-quantity-minus decrement-by-one"></span>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="button-booking add-item-to-cart" data-id="@serviceInfo.PackageId" data-type="@ItemType.ServicePackage">@LanguageResource.AddToCart</div>
+                </div>
+                <div class="button-group">
+                    <div class="read-more-wrapper">
+                        <a data-id="@serviceInfo.PackageId" title="@serviceInfo.PackageName" href="@Url.Content("~/Service/Details/" + serviceInfo.PackageId)">
+                            <div class="read-more-box">
+                                <span class="read-more">@LanguageResource.ReadMore</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="service-caption">
+                    @if (serviceInfo.Category != null)
+                    {
+                        <div class="service-category">
+                            <span class="service-category-title">@LanguageResource.Category :</span>
+                            <span class="service-category-text">@serviceInfo.Category.CategoryName</span>
+                        </div>
+                    }
+                    @if (serviceInfo.Type != null)
+                    {
+                        <div class="service-type">
+                            <span class="service-type-title">@LanguageResource.Type :</span>
+                            <span class="service-type-text">@serviceInfo.Type.TypeName</span>
+                        </div>
+                    }
+                    <div class="price-block">
+                        <div class="price">
+                            <span class="price-title">@LanguageResource.Price :</span>
+                            <span class="price-tag">@((serviceInfo.TotalFee == 0) ? @LanguageResource.ContactUs : @Html.FormatValue(serviceInfo.TotalFee, "{0:c}"))</span>
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+        </article>
+
+        <aside class="right-articles">
+            @{
+                int maxNum = ((Model.Count() < 3)) ? Model.Count() : 3;
+                for (int i = 1; i < maxNum; i++)
+                {
+                    serviceInfo = Model.ElementAt(i);
+                    <article>
+                        <div class="article-container">
+                            @if (!string.IsNullOrEmpty(serviceInfo.FileUrl))
+                            {
+                                <img src='@serviceInfo.FileUrl' alt='@serviceInfo.PackageId' class="media-object" />
+                            }
+                            else
+                            {
+                                <img src="/Images/150x90.png" alt='@serviceInfo.PackageId' class="media-object" />
+                            }
+                            <div class="right-content">
+                                <div class="right-content-container">
+                                   <a href="@Url.Action("Details", "Service", new {id = serviceInfo.PackageId })">
+                                       <h4 class="dotdot">@serviceInfo.PackageName</h4>
+                                    </a>
+                                    <div class="rating-container">
+                                        <div class="star-rating" id="starRating_@serviceInfo.PackageId" star-id="@serviceInfo.PackageId" star-url='@Url.Action("CreateServicePackRating", "Service")' rating-type="service">
+                                            <span class="fa fa-star-o" data-rating="1" title="Did not like it"></span>
+                                            <span class="fa fa-star-o" data-rating="2" title="it was okay"></span>
+                                            <span class="fa fa-star-o" data-rating="3" title="Liked it"></span>
+                                            <span class="fa fa-star-o" data-rating="4" title="Really liked it"></span>
+                                            <span class="fa fa-star-o" data-rating="5" title="It was amazing"></span>
+                                            <input type="hidden" name="ratingValue" id="ratingValue_@serviceInfo.PackageId" input-id="@serviceInfo.PackageId" class="rating-value" value="@serviceInfo.Rating">
+                                        </div>
+                                    </div>
+                                    <div class="description dotdot">
+                                        @serviceInfo.Description
+                                    </div>
+                                    <div class="booking-box">
+                                        <div class="select-quantity">
+                                            <label class="qty-label">@LanguageResource.Qty</label>
+                                            <div class="qty-container">
+                                                <input type="text" class="select-quantity-input" value="1">
+                                                <div class="quantity-control">
+                                                    <span class="select-quantity-plus increment-by-one"></span>
+                                                    <span class="select-quantity-minus decrement-by-one"></span>
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                        <div class="button-booking add-item-to-cart" data-id="@serviceInfo.PackageId" data-type="@ItemType.ServicePackage">@LanguageResource.AddToCart</div>
+                                    </div>
+                                    <div class="button-group">
+                                        <div class="read-more-wrapper">
+                                            <a data-id="@serviceInfo.PackageId" title="@serviceInfo.PackageName" href="@Url.Content("~/Service/Details/" + serviceInfo.PackageId)">
+                                                <div class="read-more-box">
+                                                    <span class="read-more">@LanguageResource.ReadMore</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="caption">
+                                    @if (serviceInfo.Category != null)
+                                    {
+                                        <div class="service-category">
+                                            <span class="service-category-title">@LanguageResource.Category :</span>
+                                            <span class="service-category-text">@serviceInfo.Category.CategoryName</span>
+                                        </div>
+                                    }
+                                    @if (serviceInfo.Type != null)
+                                    {
+                                        <div class="service-type">
+                                            <span class="service-type-title">@LanguageResource.Type :</span>
+                                            <span class="service-type-text">@serviceInfo.Type.TypeName</span>
+                                        </div>
+                                    }
+                                    <div class="price-block">
+                                        <div class="price">
+                                            <span class="price-title">@LanguageResource.Price :</span>
+                                            <span class="price-tag">@((serviceInfo.TotalFee == 0) ? @LanguageResource.ContactUs : @Html.FormatValue(serviceInfo.TotalFee, "{0:c}"))</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </article>
+                }
+            }
+
+            <div class="left-box">
+                <a href="@Url.Action("GetServicesByCategoryId", "Service", new { categoryId = serviceInfo.CategoryId })" class="view-all">@Html.Raw(LanguageResource.ViewAll)</a>
+            </div>
+        </aside>
+        
+    }
+</div>

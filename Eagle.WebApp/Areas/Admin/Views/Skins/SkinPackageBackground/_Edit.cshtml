@@ -1,0 +1,145 @@
+﻿@{
+    ViewBag.Title = LanguageResource.EditSkinPackageBackground;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Skins.SkinPackageBackgroundEditEntry
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditSkinPackageBackground", name = "frmEditSkinPackageBackground", autocomplete = "off", @class = "form-horizontal" }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditSkinPackageBackground" data-id="@Model.BackgroundId" data-url='@Url.Action("Edit", "SkinPackageBackground")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editSkinPackageBackground" data-mode="edit" data-form="frmEditSkinPackageBackground" data-id="@Model.BackgroundId" data-url='@Url.Action("Edit", "SkinPackageBackground")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditSkinPackageBackground</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="container-fluid">
+                    <div class="form-container">
+                        <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                        <div class="form-body-container">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.TypeId, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.TypeId, null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.TypeId)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.PackageId, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <select id="PackageId" name="PackageId" data-id="@Model.PackageId" data-url='@Url.Action("PopulateSkinPackageSelectList", "SkinPackageBackground")' class="form-control"></select>
+                                        @Html.ValidationMessageFor(model => model.PackageId)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label(LanguageResource.Photo, new {@class = "control-label col-md-2"})
+                                    <div class="col-md-10">
+                                        <div class="file-container">
+                                            <div class="row">
+                                                <div class="col-md-8 no-padding-left">
+                                                    <input type="file" id="File" name="File" accept="image/gif, image/jpg, image/jpeg, image/png, image/gif" class="btn btn-default form-control"/>
+                                                    @Html.HiddenFor(model => model.BackgroundFile)
+                                                    @Html.ValidationMessageFor(model => model.File)
+
+                                                    @Html.HiddenFor(model => model.BackgroundId)
+                                                    @Html.ValidationMessageFor(model => model.BackgroundId)
+                                                </div>
+                                                <div class="col-md-4 no-padding-left">
+                                                    <input type="button" class="btn btn-warning resetFile" value="@LanguageResource.Reset"/>
+                                                </div>
+                                            </div>
+                                            <div id="image-holder">
+                                                @if (!string.IsNullOrEmpty(Model.FileUrl))
+                                                {
+                                                    <img src='@Model.FileUrl' class="thumb-image" width='450' height='250'/>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IsExternalLink, new {@class = "control-label col-md-2"})
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            @{
+                                                if (Model.IsExternalLink)
+                                                {
+                                                    <div class="col-md-1 no-padding-left">
+                                                        <input type="checkbox" id="IsExternalLink" name="IsExternalLink" data-target="target" data-toggle="toggle" data-on="@LanguageResource.Yes" data-off="@LanguageResource.No" data-width="100px" data-size="small" data-onstyle="success" data-offstyle="default" data-class="fast" class="chekbox-toggle" value="true" checked="checked">
+                                                    </div>
+                                                    <div id="target" class="col-md-11 no-padding-left no-padding-right">
+                                                        @Html.TextBoxFor(model => model.BackgroundLink, new {@class = "form-control", placeholder = @LanguageResource.BackgroundLink, @readonly = "readonly"})
+                                                        @Html.ValidationMessageFor(model => model.BackgroundLink)
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-md-1 no-padding-left">
+                                                        <input type="checkbox" id="IsExternalLink" name="IsExternalLink" data-target="target" data-toggle="toggle" data-on="@LanguageResource.Yes" data-off="@LanguageResource.No" data-width="100px" data-size="small" data-onstyle="success" data-offstyle="default" data-class="fast" class="chekbox-toggle" value="false">
+                                                    </div>
+                                                    <div id="target" class="col-md-11 no-padding-left no-padding-right" style="display: none">
+                                                        @Html.TextBoxFor(model => model.BackgroundLink, new {@class = "form-control", placeholder = @LanguageResource.BackgroundLink})
+                                                        @Html.ValidationMessageFor(model => model.BackgroundLink)
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.IsActive, new {@class = "control-label col-md-2"})
+                                    <div class="col-md-10">
+                                        <div class="checkbox-slider--a">
+                                            <label>
+                                                @{
+                                                    if (@Model.IsActive)
+                                                    {
+                                                        <input type="checkbox" id="IsActive" name="IsActive" checked="checked" value="true"><span></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" id="IsActive" name="IsActive" value="false"><span></span>
+                                                    }
+                                                }
+                                            </label>
+                                        </div>
+
+                                        @Html.ValidationMessageFor(model => model.IsActive)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditSkinPackageBackground" data-id="@Model.BackgroundId" data-url='@Url.Action("Edit", "SkinPackageBackground")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editSkinPackageBackground" data-mode="edit" data-form="frmEditSkinPackageBackground" data-id="@Model.BackgroundId" data-url='@Url.Action("Edit", "SkinPackageBackground")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+                                                    }

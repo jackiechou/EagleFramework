@@ -1,0 +1,26 @@
+﻿@using Eagle.Core.Pagination
+@model IPagedList<Eagle.Services.Dtos.Services.Event.EventInfoDetail>
+<div class="bg-image-v2 event homepage-6">
+    <div class="container">
+        @{
+            if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="headline-center-v2 margin-bottom-10">
+                        <h2>
+                            <a data-id="@item.EventId" title="@item.EventTitle" href='@Url.Action("Details", "EventInfo", new {id = item.EventId})'>
+                                @item.EventTitle
+                            </a>
+                        </h2>
+                        <span class="bordered-icon"><i class="fa fa-th-large"></i></span>
+                        <p>@Html.Raw(HttpUtility.HtmlDecode(item.EventMessage))</p><br><br>
+                        <a data-id="@item.EventId" title="@item.EventTitle" href='@Url.Action("Details", "EventInfo", new {id = item.EventId})' class="btn-u btn-brd btn-brd-hover btn-u-light">
+                            @Html.Raw(LanguageResource.Details)
+                        </a>
+                    </div><!--/Headline Center V2-->
+                }
+            }
+        }
+    </div><!--/container-->
+</div>

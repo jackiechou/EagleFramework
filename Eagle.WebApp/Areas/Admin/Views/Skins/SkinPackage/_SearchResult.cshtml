@@ -1,0 +1,122 @@
+﻿@using System.Globalization
+@using Eagle.Common.Utilities
+@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@model IPagedList<Eagle.Services.Dtos.Skins.SkinPackageInfoDetail>
+
+<div class="table-responsive">
+    <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+        <thead>
+        <tr>
+            <th class="text-center">@LanguageResource.SequenceNo</th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().PackageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().PackageSrc)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Type.TypeName)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().IsSelected)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().IsActive)
+            </th>
+            <th class="table-actions text-center no-sort">@LanguageResource.Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (Model.Any())
+        {
+            int i = 0;
+            foreach (var item in Model)
+            {
+                i++;
+                <tr>
+                    <td class="text-center">
+                        @i
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PackageName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PackageSrc)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Type.TypeName)
+                    </td>
+                    <td class="text-center">
+                        <div class="inner-center">
+                            <div class="checkbox-slider--b">
+                                <label>
+                                    @{
+                                        if (item.IsSelected)
+                                        {
+                                            <button type="button" class="btn btn-success changeSelectedItem" data-id="@item.PackageId" data-url='@Url.Action("UpdateSelectedPackage", "SkinPackage")' data-warning="@LanguageResource.DoYouWantToContinue">
+                                                <span class="glyphicon glyphicon-check"></span>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-default changeSelectedItem" data-id="@item.PackageId" data-url='@Url.Action("UpdateSelectedPackage", "SkinPackage")' data-warning="@LanguageResource.DoYouWantToContinue">
+                                                <span class="glyphicon glyphicon-unchecked"></span>
+                                            </button>
+                                        }
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="inner-center">
+                            <div class="checkbox-slider--a">
+                                <label>
+                                    @{
+                                        if (item.IsActive)
+                                        {
+                                            <input type="checkbox" id="@string.Format("Status-{0}", item.PackageId)" name="@($"Status-{item.PackageId" class="changeStatus" data-id="@item.PackageId" data-url='@Url.Action("UpdateStatus", "SkinPackage")' data-warning="@LanguageResource.DoYouWantToContinue" checked="checked" value="true"><span></span>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" id="@string.Format("Status-{0}", item.PackageId)" name="@($"Status-{item.PackageId" class="changeStatus" data-id="@item.PackageId" data-url='@Url.Action("UpdateStatus", "SkinPackage")' data-warning="@LanguageResource.DoYouWantToContinue" value="false"><span></span>
+                                        }
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="table-actions text-center center no-sort">
+                        <a data-id="@item.PackageId" title="@Html.Raw(LanguageResource.Edit)" class="btn btn-small btn-primary editItem" data-container="divEdit" data-url='@Url.Action("Edit", "SkinPackage")'><span class="icon-edit"></span></a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">@LanguageResource.NoRecordFound</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+
+@if (Model != null && Model.Any())
+{
+    <div class="datagrid-pager row">
+        <div class="datagrid-pagination pull-right text-right">
+            @Html.PagedListPager(Model, page => Url.Action("Search", "SkinPackage", new { page, sourceEvent = "Result" }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 10,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "search-result" }))
+        </div>
+    </div>
+}

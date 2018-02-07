@@ -1,0 +1,25 @@
+﻿@model Eagle.Services.Dtos.Business.VendorInfoDetail
+<div class="welcome-container">
+    <div class="welcome-container-inner">
+        @if (Model != null)
+        {
+            <div class="image-container">
+                <div class="image-container-inner">
+                    <a href='@Url.Action("Details", "VendorInfo", new {id = Model.VendorId})'>
+                        <img src='@Model.FileUrl' class="thumb-image" />
+                    </a>
+                </div>
+            </div>
+            <div class="vendor-details">
+                @Html.Raw(Model.TermsOfService)
+            </div>
+            <hr>
+            <div class="vendor-contact">
+                <span>For more information please contact </span>
+                <span class="email">@Model.Email </span>
+                <span class="or-conjunction">or </span>
+                <span class="phone">@Model.Telephone</span>
+            </div>
+        }
+    </div>
+</div>

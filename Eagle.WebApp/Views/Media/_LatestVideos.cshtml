@@ -1,0 +1,78 @@
+﻿@using System.Text
+@using Eagle.Core.Configuration
+@using Eagle.Core.Settings
+@model IEnumerable<Eagle.Services.Dtos.Contents.Media.MediaFileInfoDetail>
+<div id="video-gallery" class="video-gallery">
+    @if (Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            if (item.DocumentFileInfo != null)
+            {
+                var sb = new StringBuilder();
+                sb.AppendFormat(!string.IsNullOrEmpty(item.DocumentFileInfo.FileTitle) ? string.Format("data-title='{0}' ", item.DocumentFileInfo.FileTitle) : string.Format("data-title='{0}' ", item.DocumentFileInfo.FileName));
+                sb.AppendFormat(!string.IsNullOrEmpty(item.DocumentFileInfo.FileDescription) ? string.Format("data-description='{0}' ", item.DocumentFileInfo.FileDescription) : string.Format("data-title='{0}' ", item.DocumentFileInfo.FileName));
+
+
+                if (item.SmallPhotoInfo != null && item.SmallPhotoInfo.FileUrl != null)
+                {
+                    sb.AppendFormat("data-thumb='{0}' ", item.SmallPhotoInfo.FileUrl);
+                }
+                else
+                {
+                    sb.AppendFormat("data-thumb='/images/no-image.png' ");
+                }
+
+                if (item.LargePhotoInfo != null && item.LargePhotoInfo.FileUrl != null)
+                {
+                    sb.AppendFormat("data-image='{0}' ", item.LargePhotoInfo.FileUrl);
+                }
+                else
+                {
+                    sb.AppendFormat("data-image='/images/no-image.png' ");
+                }
+
+                if (!string.IsNullOrEmpty(item.DocumentFileInfo.FileCode))
+                {
+                    sb.AppendFormat("data-videoid='{0}' ", item.DocumentFileInfo.FileCode);
+                }
+
+                if (item.DocumentFileInfo.StorageType == StorageType.YouTube)
+                {
+                    sb.AppendFormat("data-type='{0}' ", MediaFileType.YOUTUBE);
+                }
+                else if (item.DocumentFileInfo.StorageType == StorageType.Vimeo)
+                {
+                    sb.AppendFormat("data-type='{0}' ", MediaFileType.VIMEO);
+                }
+                else if (item.DocumentFileInfo.StorageType == StorageType.Wistia)
+                {
+                    sb.AppendFormat("data-type='{0}' ", MediaFileType.WISTIA);
+                }
+                else if (item.DocumentFileInfo.StorageType == StorageType.SoundCloud)
+                {
+                    sb.AppendFormat("data-type='{0}' ", MediaFileType.SOUNDCLOUD);
+                }
+                else
+                {
+                    sb.AppendFormat("data-type='{0}' ", MediaFileType.HTML5VIDEO);
+
+                    if (item.DocumentFileInfo.FileExtension.ToLower() == ".ogv")
+                    {
+                        sb.AppendFormat("data-videoogv='{0}' ", item.DocumentFileInfo.FileSource);
+                    }
+                    else if (item.DocumentFileInfo.FileExtension.ToLower() == ".webm")
+                    {
+                        sb.AppendFormat("data-videowebm='{0}' ", item.DocumentFileInfo.FileSource);
+                    }
+                    else
+                    {
+                        sb.AppendFormat("data-videomp4='{0}' ", item.DocumentFileInfo.FileUrl);
+                    }
+                }
+
+                <div @Html.Raw(sb.ToString())></div>
+            }
+        }
+    }
+</div>

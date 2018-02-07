@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = LanguageResource.CreateMediaType;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Contents.Media.MediaTypeEntry
+
+<div class="panel panel-default">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmCreateMediaType", name = "frmCreateMediaType",   }))
+    {
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateMediaType" data-url='@Url.Action("Create", "MediaType")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save add create createMediaType" data-mode="create" data-form="frmCreateMediaType" data-url='@Url.Action("Create", "MediaType")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.CreateMediaType</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.AntiForgeryToken()
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(true, "", new {@class = "alert alert-danger"})
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+                        <div class="form-horizontal">
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TypeName, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.TypeName,  new { @class = "form-control"  })
+                                    @Html.ValidationMessageFor(model => model.TypeName)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                   @Html.TextAreaFor(model => model.Description, new { rows = 6, columns = 40, maxlength = 4000, @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Description)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                   @Html.RadioButtonSwitchEnumFor(model => model.Status, MediaTypeStatus.Active)
+                                   @Html.ValidationMessageFor(model => model.Status)
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class='btn-toolbar pull-right'>
+                        <div class='btn-group'>
+                            <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateMediaType" data-url='@Url.Action("Create", "MediaType")' value="@LanguageResource.Reset" />
+                            <input type="button" class="btn btn-primary save add create createMediaType" data-mode="create" data-form="frmCreateMediaType" data-url='@Url.Action("Create", "MediaType")' value="@LanguageResource.Save" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+    }
+</div>

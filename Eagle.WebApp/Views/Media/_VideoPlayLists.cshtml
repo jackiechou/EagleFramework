@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Contents.Media.MediaPlayListInfoDetail>
+<section id="blog-section">
+    <h3 class="title-widget-sidebar">@Html.Raw(LanguageResource.MediaPlayList)</h3>
+    <div class="row">
+        @if (Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <div class="col-lg-3 col-md-3">
+                    <aside>
+                        <a class="getFilesByPlayList" href="#" data-id="@item.PlayListId" data-url='@Url.Action("GetMediaFilesByPlayList", "Media")'>
+                            <img src='@item.FrontImageUrl' data-id="@item.PlayListId" data-url='@Url.Action("GetMediaFilesByPlayList", "Media")' alt='@item.PlayListAlias' class="img-responsive">
+                        </a>
+                        <div class="content-title">
+                            <div class="text-center">
+                                <h4><a class="getFilesByPlayList" href="#" data-id="@item.PlayListId" data-url='@Url.Action("GetMediaFilesByPlayList", "Media")'>@item.PlayListName</a></h4>
+                            </div>
+                        </div>
+                        <div class="content-footer">
+                            <span>
+                                <a class="read-more getFilesByPlayList" href="#" data-id="@item.PlayListId" data-url='@Url.Action("GetMediaFilesByPlayList", "Media")'><span class="glyphicon glyphicon-plus-sign"> @Html.DisplayUpperTitle(LanguageResource.ReadMore)</span></a>
+                            </span>
+                        </div>
+                    </aside>
+                </div>
+            }
+        }
+    </div>
+</section>

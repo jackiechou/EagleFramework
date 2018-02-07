@@ -1,0 +1,36 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.BannerManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+@section TopButtons{
+    <div class="btn-group" data-toggle="buttons">
+        <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Index", "Banner")'">
+            <span class="glyphicon glyphicon-globe"></span> @LanguageResource.Banner
+        </button>
+        <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("Index", "BannerPosition")'">
+            <span class="glyphicon glyphicon-record"></span> @LanguageResource.BannerPosition
+        </button>
+        <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("Index", "BannerType")'">
+            <span class="glyphicon glyphicon-tags"></span> @LanguageResource.BannerType
+        </button>
+    </div>
+}
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody" class="container-fluid">
+                @Html.Action("Reset", "Banner")
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.BannerSearchUrl = '@Url.Action("Search", "Banner")';
+    </script>
+
+    <script type="text/javascript" src="~/Scripts/app/modules/banner.js"></script>
+}

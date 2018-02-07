@@ -1,0 +1,16 @@
+﻿<div class="category-home-block">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="block left border-right-grey">
+                @{
+                    Html.RenderAction("GetServiceCategoriesBySingleType", "Home");
+                }
+            </div>
+            <div class="block right">
+                @{
+                    Html.RenderAction("GetServiceCategoriesByFullType", "Home");
+                }
+            </div>
+        </div>
+    </div>
+</div>

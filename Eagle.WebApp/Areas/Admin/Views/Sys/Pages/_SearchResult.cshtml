@@ -1,0 +1,63 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@using Eagle.Core.Settings
+@using Eagle.Entities.SystemManagement
+@model IPagedList<Eagle.Services.Dtos.SystemManagement.PageDetail>
+<ul id="sortable" class="list-group">
+    @{ int i = 0; }
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            i++;
+            <li id="@item.PageId" data-position="@i" data-list-order="@item.ListOrder" class="ui-state-default list-group-item">
+                <div class="row">
+                    <div class="col-md-8 no-padding-left">
+                        <span class="glyphicon glyphicon-resize-vertical"></span> @item.PageName
+                    </div>
+                    <div class="col-md-1 no-padding-left">
+                        <a data-id="@item.PageId" data-container="divEdit" data-url='@Url.Action("Edit", "Page")' title="@Html.Raw(LanguageResource.Edit)" class="badge editItem"><i class="icon-edit icon-white pull-right"></i></a>
+                    </div>
+                    <div class="col-md-3 no-padding-right">
+                        <div class="checkbox-slider--a">
+                            <label>
+                                @{
+                                    if (item.IsActive == PageStatus.Active)
+                                    {
+                                        <input type="checkbox" data-id="@item.PageId" data-url='@Url.Action("UpdateStatus", "Page")' class="changeStatus" id="IsActive" name="IsActive" checked="checked" value="true"><span></span>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" data-id="@item.PageId" data-url='@Url.Action("UpdateStatus", "Page")' class="changeStatus" id="IsActive" name="IsActive" value="false"><span></span>
+                                    }
+                                }
+                            </label>
+                        </div>
+                    </div>
+                   
+                </div>
+            </li>
+            }
+        }
+        else
+        {
+            <li class="ui-state-default list-group-item"><span class="glyphicon glyphicon-resize-vertical"></span> @LanguageResource.NoDataFound</li>
+        }
+</ul>
+
+@if (Model != null && Model.Any())
+{
+    <div class="datagrid-pager row">
+        <div class="datagrid-pagination pull-right text-right">
+            @Html.PagedListPager(Model, page => Url.Action("Search", "Page", new { page, sourceEvent = "SearchResult" }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 4,
+                    //DisplayPageCountAndCurrentLocation = true,
+                    //PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    //DisplayItemSliceAndTotal = true,
+                    //ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "search-result" }))
+        </div>
+    </div>
+}

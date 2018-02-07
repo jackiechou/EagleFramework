@@ -1,0 +1,43 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.Media;
+    Layout = ThemeViewEngine.DesktopSubLayout;
+}
+
+<div id="page" class="row">
+    <div class="page-content container content-sm">
+        <div class="latest-videos margin-bottom-20">
+            <div class="video-container">
+                @Html.Action("GetLatestVideos", "Media")
+            </div>
+        </div>
+        <div class="video-other row">
+            <div class="col-md-8 padding-left-0">
+                <div id="playlist-container" class="playlist-container">
+                    @Html.Action("GetVideoPlayLists", "Media")
+                </div>
+            </div>
+            <div class="col-md-4 padding-left-0">
+                <div id="album-container" class="album-container">
+                    @Html.Action("GetVideoAlbums", "Media")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <!-- Include Unite Gallery core files -->
+    <script src="~/Scripts/plugins/unitegallery/js/unitegallery.min.js"></script>
+    <link href="~/Scripts/plugins/unitegallery/css/unite-gallery.css" rel="stylesheet" />
+
+    <!-- include Unite Gallery Theme Files -->
+    <script src="~/Scripts/plugins/unitegallery/themes/video/ug-theme-video.js"></script>
+
+    <!-- include one of the video skins -->
+    <link href='~/Scripts/plugins/unitegallery/themes/video/skin-right-thumb.css' rel='stylesheet' type='text/css' />
+
+    @*<script src="~/Scripts/plugins/unitegallery/themes/default/ug-theme-default.js"></script>*@
+    <script src="@Url.Content("~/Scripts/app/theme/default/media.js")"></script>
+}

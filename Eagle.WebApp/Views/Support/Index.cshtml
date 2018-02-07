@@ -1,0 +1,37 @@
+﻿@using Eagle.Core.HtmlHelper
+@using Eagle.Services.Dtos.Contents.Articles
+@using Eagle.Services.Skins
+@using Eagle.WebApp.Themes
+@model Eagle.Services.Dtos.Business.VendorInfoDetail
+@{
+    ViewBag.Title = LanguageResource.HowToBuy;
+    Layout = ThemeViewEngine.DesktopSubLayout;
+}
+
+<div id="page" class="row">
+    <div class="page-content container content-sm">
+        <div class="article-body row">
+            <div class="article-left col-md-12">
+                <div class="news-container">
+                    <div class="top-news-thumbnails">
+                        @Html.Partial("../Support/_HowToBuy", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="article-body row">
+            <div class="article-right col-md-12">
+                <div class="news-container">
+                    <div class="top-news-thumbnails">
+                        @Html.Partial("../Support/_RefundPolicy", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@section Scripts
+    {
+        <script src="@Url.Content("~/Scripts/app/theme/default/support.js")"></script>
+    }*@

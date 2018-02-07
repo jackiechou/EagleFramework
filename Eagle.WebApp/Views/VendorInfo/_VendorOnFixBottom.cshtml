@@ -1,0 +1,46 @@
+﻿@using System.Text
+@model Eagle.Services.Dtos.Business.VendorInfoDetail
+
+<div class="container">
+    <section class="company">
+        @if (Model != null)
+        {
+            <header>
+                <h3 class="text-center">@Html.Raw(Model.CopyRight)</h3>
+            </header>
+
+            if (Model.Addresses != null && Model.Addresses.Any())
+            {
+                foreach (var item in Model.Addresses)
+                {
+                    
+                    <span class="address">
+                        @string.Format("{0}: {1} {2} {3}", LanguageResource.Address, item.Address.Street, item.Address.Province.ProvinceName, item.Address.Region.RegionName)
+                    </span>
+                }
+            }
+
+           
+                <span class="phone">
+                    @{
+                        StringBuilder sb = new StringBuilder();
+                        if (!string.IsNullOrEmpty(Model.Telephone))
+                        {
+                            sb.AppendFormat("{0} : {1}", LanguageResource.Telephone, Model.Telephone);
+                        }
+
+                        if (!string.IsNullOrEmpty(Model.Hotline))
+                        {
+                            sb.AppendFormat("/ {0} : {1}", LanguageResource.Hotline, Model.Hotline);
+                        }
+
+                        var contactPhone = sb.ToString();
+                    }
+
+                    @contactPhone
+                </span>
+           
+                        }
+                  
+    </section>
+</div>

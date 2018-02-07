@@ -1,0 +1,51 @@
+﻿<div class="sub-container">
+    <div class="sub-header-container">
+        <div class="sub-heading-title">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <input type="checkbox" id="AllPages" name="AllPages" data-toggle="toggle" data-on="@LanguageResource.AllPages" data-off="@LanguageResource.SomePages" data-width="100px" data-size="small" data-onstyle="success" data-offstyle="default" data-class="fast" class="chekbox-toggle" value="false">
+                    </div>
+                </div>
+                <div class="col-md-2 text-right">
+                    <div class="top-toolbar margin-top-10">
+                        <input type="button" class="btn btn-default btn-xs reset btnReset" data-mode="edit" data-form="frmEditModule" value="@LanguageResource.Reset" />
+                        <input type="submit" class="btn btn-primary btn-xs edit" data-mode="edit" data-form="frmEditModule" data-url='@Url.Action("Edit", "Module")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sub-body-container container-fluid">
+        <div class="form-group">
+            <!--start row-->
+            <div id="dual-list-box" class="row page-container dual-list-box">
+                <div class="col-md-5">
+                    <h4><span id="flash-text" class="unselected-title">@LanguageResource.AvailableItems</span></h4>
+                    <input class="input-from filter form-control filter-unselected" type="text" placeholder="Filter" style="margin-bottom: 5px;">
+                    @Html.ListBox("AvailablePages", ViewData["AvailablePages"] as MultiSelectList, new { @class = "unselected form-control", multiple = "multiple", size = 10 })
+                </div>
+                <div class="col-md-2 center-block" style="margin-top: 80px">
+                    <button type="button" class="btn btn-default col-md-8 col-md-offset-2 atr push-all" data-type="atr" style="margin-bottom: 10px;">
+                        <span class="glyphicon glyphicon-list"></span> <span class="glyphicon glyphicon-chevron-right"></span>
+                    </button>
+                    <button type="button" class="btn btn-default col-md-8 col-md-offset-2 str push-item" data-type="str" style="margin-bottom: 20px;">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </button>
+                    <button type="button" class="btn btn-default col-md-8 col-md-offset-2 stl pull-item" data-type="stl" style="margin-bottom: 10px;">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </button>
+                    <button type="button" class="btn btn-default col-md-8 col-md-offset-2 atl pull-all" data-type="atl" style="margin-bottom: 10px;">
+                        <span class="glyphicon glyphicon-chevron-left"></span> <span class="glyphicon glyphicon-list"></span>
+                    </button>
+                </div>
+                <div class="module-on-page-container col-md-5">
+                    <h4><span class="selected-title">@LanguageResource.SelectedItems</span></h4>
+                    <input class="input-to filter form-control filter-selected" type="text" placeholder="Filter" style="margin-bottom: 5px;">
+                    @Html.ListBox("SelectedPages", ViewData["SelectedPages"] as MultiSelectList, new { @class = "selected form-control", multiple= "multiple", size = 10 })
+                </div>
+            </div>
+            <!--end row-->
+        </div>
+    </div>
+</div>

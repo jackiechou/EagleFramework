@@ -1,0 +1,87 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@model IPagedList<Eagle.Services.Dtos.SystemManagement.Identity.RoleInfoDetail>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+            <th class="text_center">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().RoleId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().RoleName)
+            </th>
+            <th class="text_center">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().IsActive)
+            </th>
+            <th class="table-actions text_center no-sort">@LanguageResource.Actions</th>
+        </tr>
+        @{int i = 0;}
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                i++;
+                <tr>
+                    <td id="@item.RoleId" class="text_center">
+                        @i
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoleName)
+                    </td>
+                    <td class="text_center">
+                        <div class="chk-center">
+                            <div class="checkbox-slider--b">
+                                <label>
+                                    @{
+                                        if (item.IsActive != null && item.IsActive == true)
+                                        {
+                                            <input type="checkbox" data-id="@item.RoleId" data-url='@Url.Action("UpdateStatus", "Role")' class="changeStatus" id="IsActive" name="IsActive" checked="checked" value="true"><span></span>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" data-id="@item.RoleId" data-url='@Url.Action("UpdateStatus", "Role")' class="changeStatus" id="IsActive" name="IsActive" value="false"><span></span>
+                                        }
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="table-actions text_center no-sort">
+                        @*<a data-id="@item.RoleId" data-groupid="@item.GroupId" title="@LanguageResource.Reset" class="btn btn-small btn-warning resetItem"><i class="glyphicon glyphicon-align-center icon-trash"></i></a> *@
+                        <a data-id="@item.RoleId" data-container="divEdit" data-url='@Url.Action("Edit", "Role")' data-groupid="@item.RoleId" title="@Html.Raw(LanguageResource.Edit)" class="btn btn-small btn-primary editItem "><span class="icon-edit"></span></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        @{
+                            Html.RenderAction("LoadGroupsByRole", "Role", new {roleId = @item.RoleId});
+                        }
+                    </td>
+                </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4">@LanguageResource.NoDataFound</td>
+                </tr>
+            }
+    </table>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="datagrid-pager row">
+        <div class="datagrid-pagination pull-right text-right">
+            @Html.PagedListPager(Model, page => Url.Action("Search", "Role", new { filter = Model, page, sourceEvent = "Result" }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 10,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "dataGrid" }))
+        </div>
+    </div>
+}

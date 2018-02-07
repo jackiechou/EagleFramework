@@ -1,0 +1,13 @@
+﻿
+<div class="scrollable-content scrollable-nice box-md scrollable-small">
+    <ul class="no-border notifications-box" id="ul_icon">
+    </ul>
+</div>
+<script>
+    var html = '';
+    for (var i = 0; i < arrIcon.length; i++) {
+        html += '<li><span class="bg-danger icon-notification glyph-icon ' + arrIcon[i] + '"></span></li>';
+    }
+    $('#ul_icon').html(html);
+</script>
+    

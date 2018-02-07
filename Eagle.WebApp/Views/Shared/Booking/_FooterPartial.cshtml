@@ -1,0 +1,36 @@
+﻿<!--=== Shop Subscribe ===-->
+<div class="shop-subscribe">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6 col-xs-6">
+                <a href='@Url.Action("Index", "Production")'>
+                    <h2>@Html.Raw(LanguageResource.BookingNow)</h2>
+                </a>
+            </div>
+            <div class="col-md-6 col-xs-6">
+                <div class="col-lg-2 col-md-3 pull-right">
+                    <a class="btn orange-box-shadow" href='@Url.Action("Index", "Production")' target="_blank">
+                        <span><i class="fa fa-shopping-cart"></i> @LanguageResource.Products</span>
+                    </a>
+                </div>
+                <div class="col-lg-2 col-md-3 padding-left-0 padding-right-20 pull-right">
+                    <a class="btn green-box-shadow" href='@Url.Action("Index", "Service")' target="_blank">
+                        <span><i class="fa fa-credit-card"></i> @LanguageResource.Services</span>
+                    </a>
+                </div>
+                <div class="col-lg-2 col-md-3 pull-right">
+                    <a class="btn blue-box-shadow" href='@Url.Action("Index", "Booking")' target="_blank">
+                        <span><i class="fa fa-envelope-o"></i> @LanguageResource.Mail</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div><!--/end container-->
+</div>
+<!--=== End Shop Suvbscribe ===-->
+
+<div class="footer-v4">
+    @Html.Action("GetVendorInfoOnFooter", "VendorInfo")
+</div>

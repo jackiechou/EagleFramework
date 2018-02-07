@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = LanguageResource.CreateNotificationSender;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Services.Message.NotificationSenderEntry
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmCreateNotificationSender", name = "frmCreateNotificationSender", }))
+{<div class="panel panel-default">
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateNotificationSender" data-url='@Url.Action("Create", "NotificationSender")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save add create createNotificationSender" data-mode="create" data-form="frmCreateNotificationSender" data-url='@Url.Action("Create", "NotificationSender")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.CreateNotificationSender</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.AntiForgeryToken()
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="container-fluid">
+                    <div class="form-container">
+                        <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                        <div class="form-body-container">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.SenderName, new {@class = "control-label col-md-2"})
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(model => model.SenderName, new {@class = "form-control"})
+                                        @Html.ValidationMessageFor(model => model.SenderName)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ContactName, new {@class = "control-label col-md-2"})
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(model => model.ContactName, new {@class = "form-control"})
+                                        @Html.ValidationMessageFor(model => model.ContactName)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Signature, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.Signature, new { rows = 2, columns = 40, @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Signature)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.MailServerProviderId, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.MailServerProviderId, null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.MailServerProviderId)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Mobile, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Mobile)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.MailAddress, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(model => model.MailAddress, new { @class = "form-control email", type = "email" })
+                                        @Html.ValidationMessageFor(model => model.MailAddress)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.Password, new {@class = "control-label col-md-2"})
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(model => model.Password, new {@class = "form-control", type = "password"})
+                                        @Html.ValidationMessageFor(model => model.Password)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.ConfirmedPassword, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(model => model.ConfirmedPassword, new { @class = "form-control", type = "password" })
+                                        @Html.ValidationMessageFor(model => model.ConfirmedPassword)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        <div class="checkbox-slider--a">
+                                            <label>
+                                                <input type="checkbox" id="IsActive" name="IsActive" checked="checked" value="true"><span></span>
+                                            </label>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.IsActive)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateNotificationSender" data-url='@Url.Action("Create", "NotificationSender")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save add create createNotificationSender" data-mode="create" data-form="frmCreateNotificationSender" data-url='@Url.Action("Create", "NotificationSender")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

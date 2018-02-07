@@ -1,0 +1,28 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.Order;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody" class="container-fluid">
+                <div id="divList" class="search-panel">
+                    @Html.Partial("../Business/Ecommerce/Order/_SearchForm");
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <link href="~/Scripts/plugins/bootstrap-plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script type="text/javascript" src="~/Scripts/app/modules/order.js"></script>
+}

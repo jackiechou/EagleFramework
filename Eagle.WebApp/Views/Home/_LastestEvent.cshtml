@@ -1,0 +1,48 @@
+﻿@using Eagle.Core.Pagination
+@model IPagedList<Eagle.Services.Dtos.Services.Event.EventInfoDetail>
+@if (Model != null && Model.Any())
+{
+    <div id="carousel-event-generic" class="event-home-page carousel slide" data-ride="carousel">
+        <div class="container carousel-inner">
+            @{
+                int i = 0;
+                foreach (var item in Model)
+                {
+                    string classCss =  ((i == 0) ? "item active" : "item");
+                    <div class="@classCss">
+                        <div class="event-container">
+
+                            <div class="event-header">
+                                <h2>
+                                    <a data-id="@item.EventId" title="@item.EventTitle" href='@Url.Action("Details", "EventInfo", new {id = item.EventId})'>
+                                        @item.EventTitle
+                                    </a>
+                                </h2>
+                                <span class="bordered-icon"><i class="fa fa-th-large"></i></span>
+                            </div>
+                            <div class="event-body">
+                                @Html.Raw(HttpUtility.HtmlDecode(item.EventMessage))
+                            </div>
+                            <div class="event-footer">
+                                <p>
+                                    <a data-id="@item.EventId" title="@item.EventTitle" href='@Url.Action("Details", "EventInfo", new {id = item.EventId})' class="btn btn-u">
+                                        @Html.Raw(LanguageResource.Details)
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    i++;
+                }
+            }
+        </div>
+        <div class="carousel-arrow">
+            <a class="right carousel-control-v2" href="#carousel-event-generic" data-slide="next">
+                <i class="rounded-x fa fa-angle-right"></i>
+            </a>
+            <a class="left carousel-control-v2" href="#carousel-event-generic" data-slide="prev">
+                <i class="rounded-x fa fa-angle-left"></i>
+            </a>
+        </div>
+    </div>
+}

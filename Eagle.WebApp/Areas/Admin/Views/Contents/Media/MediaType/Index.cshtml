@@ -1,0 +1,29 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.MediaTypeManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody" class="container-fluid">
+                <div id="divEdit">
+                    @Html.Action("Create", "MediaType")
+                </div>
+                <div id="divList">
+                    @Html.Action("List", "MediaType")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="FooterContainer"><div class="bottom-toolbar"></div></div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.MediaTypeListUrl = '@Url.Action("List", "MediaType")';
+    </script>
+    <script type="text/javascript" src="~/Scripts/app/modules/media-type.js"></script>
+}

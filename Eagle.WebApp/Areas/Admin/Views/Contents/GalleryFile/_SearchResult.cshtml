@@ -1,0 +1,104 @@
+﻿@using Eagle.Core.Settings
+@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@model IPagedList<Eagle.Services.Dtos.Contents.Galleries.GalleryFileInfoDetail>
+
+<div class="panel panel-default search-panel">
+    <div class="panel-heading text-bold">
+        <div class="row">
+            <div class="col-md-4 no-padding-left">
+                @Html.Raw(LanguageResource.Result)
+            </div>
+            <div class="col-md-8 no-padding-right">
+                <div class="btn-toolbar pull-right" role="toolbar">
+                    <button type="button" class="btn btn-default reset" data-form="frmSearch" data-mode="search">
+                        <small><span class="glyphicon glyphicon-refresh reset"></span></small>
+                    </button>
+                    <button type="button" class="btn btn-default search" data-form="frmSearch" data-mode="search">
+                        <small><span class="glyphicon glyphicon-search"></span></small>
+                    </button>
+                    <button type="button" class="btn btn-default populate-add-form" data-url='@Url.Action("Create","GalleryFile")'>
+                        <small><span class="glyphicon glyphicon-plus"></span></small>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-responsive table-bordered table-condensed table-hover table-striped">
+            <thead>
+            <tr>
+                <th class="bg-color-grey">
+                    @LanguageResource.Photo
+                </th>
+                <th class="bg-color-grey">
+                    @LanguageResource.Status
+                </th>
+                <th class="bg-color-grey table-actions text_center">@LanguageResource.Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    if (item.File != null)
+                    {
+                        <tr>
+                            <td>
+                                <img src='@item.File.FileUrl' width="50" height="50" alt="@item.File.FileTitle" />
+                            </td>
+                            <td class="text-center">
+                                <div class="inner-center">
+                                    <div class="checkbox-slider--a">
+                                        <label>
+                                            @{
+                                                if (item.Status == GalleryFileStatus.Active)
+                                                {
+                                                    <input type="checkbox" id="Status-@item.GalleryFileId" name="Status-@item.GalleryFileId"  data-collectionid="@item.CollectionId" data-fileid="@item.FileId" data-url='@Url.Action("UpdateStatus", "GalleryFile")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeStatus" checked="checked" value="true"><span></span>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" id="Status-@item.GalleryFileId" name="Status-@item.GalleryFileId" data-collectionid="@item.CollectionId" data-fileid="@item.FileId" data-url='@Url.Action("UpdateStatus", "GalleryFile")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeStatus" value="false"><span></span>
+                                                }
+                                            }
+                                        </label>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="table-actions text_center no-sort">
+                                <a title="@LanguageResource.Delete" data-collectionid="@item.CollectionId" data-fileid="@item.FileId" data-form="frmSearch" data-url='@Url.Action("Delete", "GalleryFile")' data-warning="@LanguageResource.DoYouWantToDeleteItem" class="btn btn-small btn-warning deleteItem"><i class="glyphicon glyphicon-align-center icon-trash"></i></a>
+                                <a title="@LanguageResource.Edit" data-collectionid="@item.CollectionId" data-fileid="@item.FileId" data-form="frmSearch" data-url='@Url.Action("Edit", "GalleryFile")' class="btn btn-small btn-primary editItem" data-container="divEdit"><i class="glyphicon glyphicon-align-center icon-edit"></i></a>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+            else
+            {
+                <tr class="text-center">
+                    <td colspan="4" class="text-center"> @LanguageResource.NoDataFound</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer">
+        @if (Model != null && Model.Any())
+        {
+            <div class="datagrid-pager row">
+                <div class="datagrid-pagination pull-right text-right">
+                    @Html.PagedListPager(Model, page => Url.Action("Search", "GalleryFile", new { filter = Model, page, sourceEvent = "Result" }),
+                        PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                        {
+                            MaximumPageNumbersToDisplay = 10,
+                            DisplayPageCountAndCurrentLocation = true,
+                            PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                            DisplayItemSliceAndTotal = true,
+                            ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                        }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "search-result" }))
+                </div>
+            </div>
+        }
+    </div>
+</div>

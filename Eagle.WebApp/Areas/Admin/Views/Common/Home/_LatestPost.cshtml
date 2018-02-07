@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Contents.Articles.NewsInfoDetail>
+
+<div class="box box-danger">
+    <div class="box-header with-border">
+        <h4 class="box-title">@LanguageResource.LatestPosts</h4>
+    </div>
+    <!-- /.box-header -->
+    <div class="dashboard-latest-posts">        
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-2 new-img">
+                            @if (!string.IsNullOrEmpty(item.FrontImageUrl))
+                            {
+                                <img src='@item.FrontImageUrl' alt='@item.Title' class="pull-left img-responsive thumb margin10 img-thumbnail">
+                            }
+                            else
+                            {
+                                <img src="/Images/150x90.png" alt='@item.Title' class="pull-left img-responsive thumb margin10 img-thumbnail">
+                            }
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-10 no-padding-left no-padding-right new-info">
+                            <strong>@item.Headline</strong> 
+                            <p>
+                                <small>@LanguageResource.By:</small> @string.Format("{0}", item.FullName) - <small>@LanguageResource.Date:</small> @string.Format("{0:dd MMM yyyy}", item.CreatedDate) - <small>@LanguageResource.Time:</small> @string.Format("{0:HH:mm}", item.CreatedDate)
+                            </p>
+                            <small>In: </small>@item.CategoryName
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="not-found col-xs-12 col-sm-12 col-md-12">@LanguageResource.NoDataFound</div>
+            }
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer text-center">
+        <a href="@Url.Action("Index","News")" class="uppercase">View All</a>
+    </div>
+    <!-- /.box-footer -->
+</div>
+
+<style>
+    
+</style>

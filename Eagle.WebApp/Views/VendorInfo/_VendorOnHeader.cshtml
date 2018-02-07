@@ -1,0 +1,17 @@
+﻿
+@using System.Text
+@model Eagle.Services.Dtos.Business.VendorInfoDetail
+@if (Model != null)
+{
+    <div class="logo">
+        <a class="logo-img" href="/">
+            <img src="@Model.FileUrl" alt="@Model.VendorName" width="431" height="135"/>
+        </a>
+    </div>
+}
+else
+{
+    <div class="logo">
+        <p>@LanguageResource.NotFound</p>
+    </div>
+}

@@ -1,0 +1,127 @@
+﻿@model Eagle.Services.Dtos.Contents.Articles.NewsCategoryEditEntry
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "myform", name = "myform", autocomplete = "off", @class = "form-horizontal" }))
+{
+    <div id="alertMessageBox">
+        @if (ViewBag.DisplayErrorMessage == true)
+        {
+            <div class="@ViewBag.CssClass    ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>@ViewBag.SortMessage!</strong>
+                <div class="padding-left">
+                    @Html.Raw(Server.HtmlDecode(ViewBag.Message))
+                </div>
+            </div>
+        }
+    </div>
+    <div class="box">
+        <div class="row">
+            <div id="right_accordion" class="accordion-group">
+                <div class="accordion-heading toolbar">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#form_accordion">
+                        <span class="glyphicon glyphicon-pencil icon-state-white pull-right"></span>
+                        <span class="heading-title">
+                            @LanguageResource.EditCategory
+                        </span>
+                    </a>
+                </div>
+                <div id="form_accordion" class="accordion-body collapse in">
+                    <div class="accordion-inner">
+                        <div class="accordion-content">
+                            <!--/row-->
+                            <div class="row">
+                                <div class="footbar">
+                                    <input type="button" value="@LanguageResource.btnReset" class="btn btn-warning reset" />
+                                    <input type="button" value="@LanguageResource.btnSave" class="btn btn-primary edit" />
+                                </div>
+                            </div>
+                            <!--End.row-->
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @Html.RequiredLabelFor(model => model.ParentId)
+                                    <div id="tree" data-toggle="context"></div>
+                                    @Html.HiddenFor(model => model.CategoryId, new {@id = "CategoryId"})
+                                    @Html.HiddenFor(model => model.ParentId)
+                                    @Html.ValidationMessageFor(model => model.ParentId)
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            @Html.RequiredLabelFor(model => model.CategoryName)
+                                        </div>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.CategoryName, null, new {@class = "form-control"})
+                                            @Html.ValidationMessageFor(model => model.CategoryName)
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            @Html.LabelFor(model => model.CategoryImage)
+                                        </div>
+                                        <div class="col-md-9">
+                                            <button class="btn btn-default iconpicker" data-icon="@Model.CategoryImage" data-arrow-class="btn-success" role="iconpicker"></button>
+                                            <input type="hidden" id="CategoryImage" name="CategoryImage" class="form-control" value="@Model.CategoryImage">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            @Html.LabelFor(model => model.NavigateUrl)
+                                        </div>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.NavigateUrl, null, new {@class = "form-control"})
+                                            @Html.ValidationMessageFor(model => model.NavigateUrl)
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            @Html.LabelFor(model => model.Description)
+                                        </div>
+                                        <div class="col-md-9">
+                                            @Html.TextAreaFor(model => model.Description, new {rows = 2, columns = 40, @class = "form-control"})
+                                            @Html.ValidationMessageFor(model => model.Description)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            @Html.LabelFor(model => model.Status)
+                                        </div>
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.Status, null, new {@class = "form-control"})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/row-->
+                            <div class="row">
+                                <div class="footbar">
+                                    <input type="button" value="@LanguageResource.btnReset" class="btn btn-warning reset"/>
+                                    <input type="button" value="@LanguageResource.btnSave" class="btn btn-primary edit"/>
+                                </div>
+                            </div>
+                            <!--End.row-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- fancytree -->
+    <link href="~/Scripts/plugins/fancytree/skin-win8/ui.fancytree.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/fancytree/jquery.fancytree.js"></script>
+    <script src="~/Scripts/plugins/fancytree/jquery.fancytree.dnd.js"></script>
+    <script src="~/Scripts/plugins/fancytree/jquery.fancytree.edit.js"></script>
+
+    <link href="~/Scripts/plugins/contextmenu/jquery.contextMenu.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/contextmenu/jquery.contextMenu.js"></script>
+    <script src="~/Scripts/plugins/fancytree/extensions/contextmenu/js/jquery.fancytree.contextMenu.js"></script>
+
+    <!-- Bootstrap-Iconpicker -->
+    <link href="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/css/bootstrap-iconpicker.min.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/iconset/iconset-glyphicon.min.js"></script>
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/iconset/iconset-fontawesome-4.2.0.min.js"></script>
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/bootstrap-iconpicker.min.js"></script>
+    <script src="~/Scripts/app/modules/news-category.js"></script>
+}
+

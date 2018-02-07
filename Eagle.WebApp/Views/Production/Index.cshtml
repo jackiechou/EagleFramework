@@ -1,0 +1,61 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.Product;
+    Layout = ThemeViewEngine.DesktopMainLayout;
+}
+
+<div class="search-panel">
+    <div class="advanced-search">
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-3">
+                    @{
+                        Html.RenderAction("LoadSearchForm", "Production");
+                    }
+                </div>
+                <div class="col-md-9">
+                    <div class="discounted-products">
+                        @{
+                            Html.RenderAction("GetDiscountedProducts", "Production");
+                        }
+                    </div>
+                    <div id="search-result">
+                        @{
+                            Html.RenderAction("Search", "Production");
+                        }
+                    </div>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel slide" data-ride="carousel" data-type="multi" data-interval="3000" id="manufacturer-slide">
+                        <div class="carousel-inner" role="listbox"></div>
+                        <div class="control-box">
+                            <a href="#manufacturer-slide" class="carousel-control left" role="button" data-slide="prev" title="go back">‹</a>
+                            <a href="#manufacturer-slide" class="carousel-control right" role="button" data-slide="next" title="more">›</a>
+                        </div><!-- /.control-box -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("Shared/Booking/_QuickMenu")
+@section Scripts
+{
+    <script type="text/javascript">
+        window.ProductSearchUrl = '@Url.Action("Search", "Production")';
+        window.GetProductCategorySelectTree = '@Url.Action("GetProductCategorySelectTree", "Production")';
+        window.GetManufacturerUrl = '@Url.Action("GetManufacturers", "Supplier")';
+    </script>
+    <link rel="stylesheet" href="/Scripts/plugins/nivo-slider/themes/default/default.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/Scripts/plugins/nivo-slider/nivo-slider.css" type="text/css" media="screen" />
+    <script src="~/Scripts/plugins/nivo-slider/jquery.nivo.slider.js"></script>
+
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+
+    <!-- magnific popup -->
+    <link href="~/Scripts/plugins/magnific-popup/magnific-popup.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script type="text/javascript" src="~/Themes/Booking/Content/js/app/production.js"></script>
+}

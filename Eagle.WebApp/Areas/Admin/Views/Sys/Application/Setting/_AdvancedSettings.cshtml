@@ -1,0 +1,111 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@model IEnumerable<Eagle.Services.Dtos.SystemManagement.ApplicationSettingDetail>
+
+<div class="panel panel-default search-form-panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-10">
+                <h5>@Html.Raw(LanguageResource.List)</h5>
+            </div>
+            <div class="col-md-2 text-right">
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-success populateCreateSettingFormPopup" data-title="@LanguageResource.CreateSetting" data-url='@Url.Action("CreateSetting", "Application")'>
+                        <span class="glyphicon glyphicon-plus-sign"></span> @LanguageResource.CreateSetting
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().SettingName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().SettingValue)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().IsSecured)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().IsActive)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            int index = i + 1;
+                            <tr>
+                                <td class="text-center">
+                                    @*@index*@
+                                    <a data-id="@item.SettingId" title="@LanguageResource.Delete" class="btn btn-small btn-warning delete deleteItem deleteSetting" data-container="divEdit" data-url='@Url.Action("DeleteSetting", "Application")' data-warning="@LanguageResource.DoYouWantToDeleteItem"><span class="glyphicon glyphicon-align-center icon-trash"></span></a>
+                                    <a data-id="@item.SettingId" title="@Html.Raw(LanguageResource.Edit)" class="btn btn-small btn-primary editItem populateEditSettingFormPopup" data-container="divEdit" data-title="@LanguageResource.EditSetting" data-url='@Url.Action("EditSetting", "Application")'><span class="icon-edit"></span></a>
+                                </td>
+                                <td data-code="@item.SettingId">
+                                    @Html.DisplayFor(modelItem => item.SettingName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SettingValue)
+                                </td>
+                                <td class="text-center">
+                                    <div class="inner-center">
+                                        <div class="checkbox-slider--b">
+                                            <label>
+                                                @{
+                                                    if (item.IsSecured)
+                                                    {
+                                                        <input type="checkbox" id="IsSecured-@item.SettingId" name="IsSecured-@item.SettingId" data-id="@item.SettingId" data-url='@Url.Action("UpdateSettingSecure", "Application")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeSettingSecure" checked="checked" value="true"><span></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" id="IsSecured-@item.SettingId" name="IsSecured-@item.SettingId" data-id="@item.SettingId" data-url='@Url.Action("UpdateSettingSecure", "Application")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeSettingSecure" value="false"><span></span>
+                                                    }
+                                                }
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="inner-center">
+                                        <div class="checkbox-slider--a">
+                                            <label>
+                                                @{
+                                                    if (item.IsActive == Eagle.Core.Settings.ApplicationSettingStatus.Active)
+                                                    {
+                                                        <input type="checkbox" id="IsActive-@item.SettingId" name="IsActive-@item.SettingId" data-id="@item.SettingId" data-url='@Url.Action("UpdateSettingStatus", "Application")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeSettingStatus" checked="checked" value="true"><span></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" id="IsActive-@item.SettingId" name="IsActive-@item.SettingId" data-id="@item.SettingId" data-url='@Url.Action("UpdateSettingStatus", "Application")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeSettingStatus" value="false"><span></span>
+                                                    }
+                                                }
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center">@LanguageResource.NoRecordFound</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer"></div>
+</div>

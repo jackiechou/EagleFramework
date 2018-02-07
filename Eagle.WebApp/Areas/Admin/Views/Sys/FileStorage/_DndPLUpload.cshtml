@@ -1,0 +1,337 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.FileStorage.FileModel
+@*<link type="text/css" rel="stylesheet" href="~/Content/themes/base/minified/jquery-ui.min.css"  media="screen"/>*@
+<link href="~/Scripts/plugins/plupload/js/jquery.ui.plupload/css/jquery.ui.plupload.css" rel="stylesheet" />  
+@*<script type="text/javascript" src="~/Scripts/jquery-1.11.1.js" charset="UTF-8"></script>
+<script type="text/javascript" src="~/Scripts/jquery-ui.js"  charset="UTF-8"></script>*@
+
+<!-- production -->
+<script type="text/javascript" src="~/Scripts/plugins/plupload/js/plupload.full.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="~/Scripts/plugins/plupload/js/jquery.ui.plupload/jquery.ui.plupload.js"></script>
+
+
+
+    <script type="text/javascript">
+        // Initialize the widget when the DOM is ready
+        $(function () {
+            var fileId = $("input[type=hidden][name=fileId]").val();
+            var folderKey = $("input[type=hidden][name=folderKey]").val();
+
+            var uploader = $("#uploader");
+            uploader.plupload({
+                // General settings
+                runtimes: 'html5,flash,silverlight,html4',
+                url: "/Handlers/UploadMultipleFileHandler.ashx?folderKey=" + folderKey + "&fileId=" + fileId,
+
+                // Maximum file size
+                max_file_size: '10mb',
+
+                chunk_size: '1mb',
+
+                // Resize images on clientside if we can
+                resize: {
+                    width: 200,
+                    height: 200,
+                    quality: 90,
+                    crop: true // crop to exact dimensions
+                },
+
+                // Specify what files to browse for
+                filters: [
+                    { title: "Image files", extensions: "jpg,gif,png" },
+                    { title: "Zip files", extensions: "zip,avi" }
+                ],
+                // Rename files by clicking on their titles
+                rename: true,
+
+                // Sort files
+                sortable: true,
+
+                // Enable ability to drag'n'drop files onto the widget (currently only HTML5 supports that)
+                dragdrop: true,
+
+                // Views to activate
+                views: {
+                    list: true,
+                    thumbs: true, // Show thumbs
+                    active: 'thumbs'
+                },
+
+                // Flash settings
+                flash_swf_url: '/Scripts/plugins/plupload/js/Moxie.swf',
+
+                // Silverlight settings
+                silverlight_xap_url: '/Scripts/plugins/plupload/js/Moxie.xap',
+                // PreInit events, bound before any internal events
+                //preinit: {
+                    //Init: function (up, info) {
+                    //    log('[Init]', 'Info:', info, 'Features:', up.features);
+                    //},
+                    //UploadFile: function (up, file) {
+                       // log('[UploadFile]', file);
+                        // You can override settings before the file is uploaded
+                        // up.setOption('url', 'upload.php?id=' + file.id);
+                        // up.setOption('multipart_params', {param1 : 'value1', param2 : 'value2'});
+                    //}
+                //},
+                init: {
+                    FilesRemoved: function (up, files) {
+                        // Called when files are removed from queue
+                        //log('[FilesRemoved]');
+
+                        plupload.each(files, function (file) {
+                            //log('  File:', file);
+                            var fileId = $('#' + file.id).attr("fileid");
+                            DeleteFile(fileId);
+                        });
+                    },
+                    FileUploaded: function (up, file, info) {
+                        // Called when file has finished uploading
+                        // log('[FileUploaded] File:', file, "Info:", info);
+                        //$('#' + file.id).append('<div class="plupload_file_id"><input id="' + file.id + '_response" type="hidden" value="' + info.response + '" /></div>');
+                        $('#' + file.id).attr("fileid", info.response);
+
+                        //check permission for delete event
+                        //if (FDelete != 1)
+                        //    $('#' + file.id).children('div.plupload_file_action').children('div').removeClass('plupload_action_icon');
+                    },
+                    //FilesAdded: function (up, files) {
+                    //Called when files are added to queue
+                    //log('[FilesAdded]');
+                    //plupload.each(files, function (file) {
+                    // log('  File:', file);                          
+                    //});
+                    //},
+                    Error: function (up, args) {
+                        // Called when error occurs                       
+                        //if (args.file) {
+                        //    log('[Error] File:', args.file);
+                        //} else {
+                        log('[Error] ', args);
+                        //}
+
+                    }
+
+
+                    //    var deleteHandle = function(uploaderObject, fileObject) {
+                    //        return function (event) {
+                    //            alert("aaaaaaa");
+                    //            //DeleteFile(fileId);
+                    //            //event.preventDefault();
+                    //            //uploaderObject.removeFile(fileObject);
+                    //            //$(this).closest("div#" + fileObject.id).remove();
+                    //        };
+                    //    };
+
+                    //    for (var i in files) {
+                    //        $('#filelist').append($('<div id="' + files[i].id + '">' + files[i].name + ' (' + plupload.formatSize(files[i].size) + ') <a href="#" id="deleteFile' + files[i].id + '">Remove</a></div>'));
+                    //        $('#deleteFile' + files[i].id).click(deleteHandle(up, files[i]));
+                    //    }   
+
+
+                    //PostInit: function () {
+                    //    // Called after initialization is finished and internal event handlers bound
+                    //    log('[PostInit]');
+
+                    //    document.getElementById('uploadfiles').onclick = function () {
+                    //        uploader.start();
+                    //        return false;
+                    //    };
+                    //},
+
+                    //Browse: function (up) {
+                    //    // Called when file picker is clicked
+                    //    log('[Browse]');
+                    //},
+
+                    //Refresh: function (up) {
+                    //    // Called when the position or dimensions of the picker change
+                    //    log('[Refresh]');
+                    //},
+
+                    //StateChanged: function (up) {
+                    //    // Called when the state of the queue is changed
+                    //    log('[StateChanged]', up.state == plupload.STARTED ? "STARTED" : "STOPPED");
+                    //},
+
+                    //QueueChanged: function (up) {
+                    //    // Called when queue is changed by adding or removing files
+                    //    log('[QueueChanged]');
+                    //},
+
+                    //OptionChanged: function (up, name, value, oldValue) {
+                    //    // Called when one of the configuration options is changed
+                    //    log('[OptionChanged]', 'Option Name: ', name, 'Value: ', value, 'Old Value: ', oldValue);
+                    //},
+                    //// BeforeUpload: function (up, file) {
+                    //     // Called right before the upload for a given file starts, can be used to cancel it if required
+                    //     //log('[BeforeUpload]', 'File: ', file);
+
+
+                    //     //// set an array of file names that are in the list
+                    //     //$.each(files, function (i, file) {
+                    //     //    // check for duplicate entries
+                    //     //    if ($.inArray(file.name, files_in_list) >= 0) {
+                    //     //        up.removeFile(file);
+                    //     //        return; // <-- don't process the rest of the loop for this file
+                    //     //    }
+                    //     //    // the rest is executed if file is NOT a duplicate
+                    //     //    files_in_list.push(file.name);
+                    //     //    //code to update your ui list of selected files goes here
+                    //     //});
+                    //// },
+                    //UploadProgress: function (up, file) {
+                    // Called while file is being uploaded
+                    //log('[UploadProgress]', 'File:', file, "Total:", up.total);
+                    //},
+
+                    //FileFiltered: function (up, file) {
+                    //    // Called when file successfully files all the filters
+                    //    log('[FileFiltered]', 'File:', file);
+                    //},
+
+                    //ChunkUploaded: function(up, file, info) {
+                    //    // Called when file chunk has finished uploading
+                    //    log('[ChunkUploaded] File:', file, "Info:", info);
+                    //},
+
+                    //UploadComplete: function(up, files) {
+                    //    // Called when all files are either uploaded or failed
+                    //    log('[UploadComplete]');
+                    //},
+
+                    //Destroy: function(up) {
+                    //    // Called when uploader is destroyed
+                    //    log('[Destroy] ');
+                    //},
+
+                    //QueueChanged: function (up, files) {
+
+                    ////#doc-filelist is the id of dive, which shows the Queue
+                    //$('#doc-filelist').html('');
+
+                    //$.each(uploader.files,function(i,file){
+                    //    $('#doc-filelist').append(
+                    //    '<divid="'+file.id+'">'+
+                    //    file.name+'('+plupload.formatSize(file.size)+')<b></b>'+
+                    //    '<spanclass="remove_file"data-file="'+i+'">X</span>'+
+                    //    '</div>');
+                    //});
+
+                    //if(uploader.files.length==0){
+                    //    $('#uploadfiles').addClass('disabled');
+                    //}
+
+                    //console.log(uploader.files);
+                    //}
+
+                }
+            });
+
+            function DeleteFile(fileId) {
+                var baseUrl = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+                $.ajax({
+                    type: "POST",
+                    url: baseUrl + "/Handlers/DeleteFile.ashx?fileId=" + fileId,
+                    success: function (result) {
+                        //  console.log(result);
+                        alert(result);
+                    },
+                    error: function () {
+                        console.log("There was error in deleting file!");
+                    }
+                });
+            }
+            //uploader.bind('UploadProgress', function () {
+            //    alert("aaaaaaaaaa");
+            //    //if (uploader.total.uploaded == uploader.files.length)
+            //    //    $('form').submit();
+            //});
+
+            // bind uploaded event and display the image
+            // response.response returns the last response from server
+            // which is the URL to the image that was sent by OnUploadCompleted
+            //uploader.bind("FileUploaded", function (upload, file, response) {
+            //    alert("aaaaaaaaaa");
+            //    // remove the file from the list
+            //   // upload.removeFile(file);
+            //   // var result = response.response;
+            //  //  showMessageWithTitle("success", result, "success", 3000);
+            //});
+
+            //// Error handler displays client side errors and transfer errors
+            //// when you click on the error icons
+            //uploader.bind("Error", function (upload, error) {
+            //    showMessageWithTitle("Error", error.message, "error", 3000);
+            //});
+
+            //// only allow 5 files to be uploaded at once
+            //uploader.bind("FilesAdded", function (up, filesToBeAdded) {
+            //    if (up.files.length > 5) {
+            //        up.files.splice(4, up.files.length - 5);
+            //        console.log("Only 5 files max are allowed per upload. Extra files removed.", 3000, true);
+            //        return false;
+            //    }
+            //    return true;
+            //});
+
+            ////The plUpload labels are not customizable explicitly
+            ////so if you want to do this you have to directly manipulate the DOM
+            //setTimeout(function () {
+            //    $(".plupload_header_title").text("Upload Images")
+            //    $(".plupload_header_text").html("Add images to upload and click start. Images are resized to 600 pixels height and can't be larger than 1 meg.")
+            //}, 200);
+
+            function log() {
+                var str = "";
+
+                plupload.each(arguments, function (arg) {
+                    var row = "";
+
+                    if (typeof (arg) != "string") {
+                        plupload.each(arg, function (value, key) {
+                            // Convert items in File objects to human readable form
+                            if (arg instanceof plupload.File) {
+                                // Convert status to human readable
+                                switch (value) {
+                                    case plupload.QUEUED:
+                                        value = 'QUEUED';
+                                        break;
+
+                                    case plupload.UPLOADING:
+                                        value = 'UPLOADING';
+                                        break;
+
+                                    case plupload.FAILED:
+                                        value = 'FAILED';
+                                        break;
+
+                                    case plupload.DONE:
+                                        value = 'DONE';
+                                        break;
+                                }
+                            }
+
+                            if (typeof (value) != "function") {
+                                row += (row ? ', ' : '') + key + '=' + value;
+                            }
+                        });
+
+                        str += row + " ";
+                    } else {
+                        str += arg + " ";
+                    }
+                });
+
+                var log = $('#log');
+                log.append(str + "\n");
+                log.scrollTop(log[0].scrollHeight);
+            }
+        });
+</script>
+
+@Html.Hidden("folderKey")
+@Html.Hidden("fileId")
+<div id="log"></div>
+<div id="uploader">
+    <p>Your browser doesn't have Flash, Silverlight or HTML5 support.</p>
+</div>

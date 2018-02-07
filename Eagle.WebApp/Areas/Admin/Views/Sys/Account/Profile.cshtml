@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = LanguageResource.Profile;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+@using Eagle.Services.Skins
+@model Eagle.Services.Dtos.SystemManagement.Identity.UserInfoDetail
+<div class="container-fluid">
+    @if (Model != null)
+    {
+
+        <div class="row margin-top-10">
+            <div class="col-md-2">
+                @if (Model.Profile.Contact.DocumentInfo != null)
+                {
+                    <img src="@Url.Content(Model.Profile.Contact.DocumentInfo.FileUrl)" width="150" height="150" class="img-rounded img-responsive" alt="@Model.Profile.Contact.DocumentInfo.FileTitle">
+                }
+                else
+                {
+                    <img src='@Url.Content("~/Images/noavatar.jpg")' width="150" height="150" class="img-rounded img-responsive" alt="no-avatar">
+                }
+            </div>
+            <div class="col-md-4">
+                <blockquote>
+                    <p>@Model.Profile.Contact.FullName</p> <small><cite title='@Model.Profile.Contact.Title'>@Model.Profile.Contact.JobTitle <i class="glyphicon glyphicon-map-marker"></i></cite></small>
+                </blockquote>
+            </div>
+        </div>
+
+        <div class="row margin-top-15">
+            @*<div class="col-md-8">*@
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class='page-header margin-top-5 margin-bottom-0'>
+                        @*<div class='btn-toolbar pull-right'>
+                                <div class="btn-group">
+                                    <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
+                                        <span class="icon-cog icon-white"></span> @LanguageResource.More <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#"><span class="icon-wrench"></span> @LanguageResource.Modify</a></li>
+                                        <li><a href="#"><span class="icon-trash"></span> Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>*@
+                        <h3 class="panel-title">@Model.Profile.Contact.FullName</h3>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <table class="table table-user-information">
+                            <tbody>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.Profile.Contact.DisplayName)</td>
+                                    <td>@Model.Profile.Contact.DisplayName</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.User.UserName)</td>
+                                    <td>@Model.User.UserName</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.Profile.Contact.Mobile)</td>
+                                    <td>@Model.Profile.Contact.Mobile</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.Profile.Contact.Dob)</td>
+                                    <td>@Model.Profile.Contact.Dob</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.Profile.Contact.Sex)</td>
+                                    <td>@Html.DisplayEnumFor(model => model.Profile.Contact.Sex)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.Profile.Addresses.FirstOrDefault().Address)</td>
+                                    <td>@Model.Profile.Addresses.FirstOrDefault().Location</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(model => model.Profile.Contact.Email)</td>
+                                    <td><a href='@($"mailto:{Model.Profile.Contact.Email}")'>@Model.Profile.Contact.Email</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        @*<a data-original-title="Broadcast Message" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>*@
+                        <span class="btn-group pull-right">
+                            <a href="#" type="button" class="btn btn-sm btn-warning" title='@Html.Raw(LanguageResource.EditUser)'><i class="glyphicon glyphicon-edit"></i></a>
+                            @*<a href="#" type="button" class="btn btn-sm btn-danger" title="=@LanguageResource.EditUser"><i class="glyphicon glyphicon-remove"></i></a>*@
+                        </span>
+                    </div>
+                </div>
+            </div>
+            @*</div>
+                <div class="col-md-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-10 margin-top-5 no-padding-left">
+                                    <h3 class="panel-title">Recently Tasks</h3>
+                                </div>
+                                <div class="col-md-2 text-right no-padding-right">
+                                    <a href="#" data-original-title="Add task" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-plus"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                Các hoạt động của user
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+
+
+    }
+    else
+    {
+        <div class="row">
+            @LanguageResource.NoData
+        </div>
+    }
+</div>

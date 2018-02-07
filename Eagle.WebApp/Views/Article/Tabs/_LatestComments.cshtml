@@ -1,0 +1,82 @@
+﻿@using System.Text
+@using System.Threading
+@using Eagle.Core.Settings
+@model IEnumerable<Eagle.Services.Dtos.Contents.Articles.NewsCommentInfoDetail>
+
+<ul>
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <li class="tab-post-list-wrap">
+                <a href='#'>
+                    @Html.Raw(item.CommentName)
+                </a>
+                <span>on</span>
+                @if (item.News != null)
+                {
+                    <a href="#">@Html.Raw(item.News.Title)</a>
+                }
+                @if (item.CreatedDate != null)
+                {
+                    <small>
+                        <abbr title="@item.CreatedDate">
+                            @{
+                                var postDate = item.CreatedDate.Value;
+                                var currentDate = DateTime.UtcNow;
+
+                                TimeSpan span = currentDate.Subtract(postDate);
+                                var sb = new StringBuilder();
+
+
+                                if (Thread.CurrentThread.CurrentCulture.Name == LanguageType.Vietnamese)
+                                {
+                                    sb.AppendFormat("{0} ", LanguageResource.Ago);
+                                }
+
+                                var totalDays = span.Days;
+                                if (totalDays > 0)
+                                {
+                                    sb.AppendFormat("{0} {1} ", totalDays, LanguageResource.Days);
+                                }
+
+                                var totalHours = span.Hours;
+                                if (totalHours > 0)
+                                {
+                                    sb.AppendFormat("{0} {1} ", totalHours, LanguageResource.Hours);
+                                }
+
+                                var totalMinutes = span.Minutes;
+                                if (totalMinutes > 0)
+                                {
+                                    sb.AppendFormat("{0} {1} ", totalMinutes, LanguageResource.Minutes);
+                                }
+
+                                var totalSeconds = span.Seconds;
+                                if (totalSeconds > 0)
+                                {
+                                    sb.AppendFormat("{0} {1} ", totalSeconds, LanguageResource.Seconds);
+                                }
+
+                                if (Thread.CurrentThread.CurrentCulture.Name == LanguageType.English)
+                                {
+                                    sb.AppendFormat("{0} ", LanguageResource.Ago);
+                                }
+                            }
+                            @Html.Raw(sb.ToString())
+                        </abbr>
+                    </small>
+                }
+                <p>
+                    @Html.Raw(item.CommentText)
+                </p>
+            </li>
+        }
+    }
+    else
+    {
+        <li class="recent-post">
+            <p>@Html.Raw(LanguageResource.NotFound)</p>
+        </li>
+    }
+</ul>

@@ -1,0 +1,57 @@
+﻿@using Eagle.Core.HtmlHelper
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.SystemManagement.PageSearchEntry
+
+@using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearchPage", name = "frmSearchPage", @class = "form-horizontal", enctype = "multipart/form-data", role = "form", autocomplete = "off", }))
+{
+    <div class="panel panel-info search-panel">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-6 no-padding-left">
+                    <h5>@Html.Raw(LanguageResource.Search)</h5>
+                </div>
+                <div class="col-md-4 no-padding-right">
+                    <span class="medium">
+                        @Html.RadioButtonSwitchEnum("PageType", typeof(PageType), 1)
+                    </span>
+                </div>
+                <div class="col-md-2 no-padding-left create-new">
+                    <button type="button" class="btn btn-primary" onclick='window.location.href="@Url.Action("Index", "Page")"'>@LanguageResource.Create</button>
+                </div>   
+            </div>
+        </div>
+        <div class="panel-body">
+
+            <div id="page-containter" data-page="1" class="no-padding-left">
+                <div id="search-form" class="row padding-bottom-5">
+                    <div class="input-group no-padding-left no-padding-right">
+                        <select id="cbxPage" data-style="btn-info" class="form-control first-form-control input-group-btn" autocomplete="off">
+                            <option value="" selected="selected">Search ...</option>
+                        </select>
+                        <input type="hidden" id="PageId" name='PageId' value="" />
+                        <input type="hidden" id="SearchText" name='SearchText' value="" />
+                        <span class="input-group-btn">
+                            <button type="button" data-url='@Url.Action("Search", "Page")' data-live-search="true" class="btn btn-default search">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+
+                <div id="search-result" class="row no-padding-left no-padding-right"></div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="context-menu" class="dropdown clearfix">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+            <li><a data-action="edit" tabindex="-1" href="#">@Html.Raw(LanguageResource.Edit)</a></li>
+            <li><a data-action="lock" tabindex="-1" href="#">@Html.Raw(LanguageResource.Lock)</a></li>
+            <li><a data-action="unlock" tabindex="-1" href="#">@Html.Raw(LanguageResource.UnLock)</a></li>
+            <li class="divider"></li>
+            <li><a data-action="listmodule" tabindex="-1" href="#">@Html.Raw(LanguageResource.ModuleList)</a></li>
+        </ul>
+    </div>
+}

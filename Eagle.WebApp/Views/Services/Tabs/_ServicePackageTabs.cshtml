@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Common.TreeDetail>
+@if (Model != null)
+{
+    foreach (var category in Model)
+    {
+        <div class="row tab-list-category">
+            <div class="right-tabs clearfix">
+                <h3 class="row-home-title" data-id="@category.id">
+                    @category.name
+                    @if (category.children.Count > 0)
+                    {
+                        <ul class="nav nav-tabs title-tab tab-span">
+                            @for (int i = 0; i < category.children.Count; i++)
+                            {                             
+                                <li @((i == 0) ? "class='active'" : "")>                                 
+                                    <a data-toggle="tab" class="categorytab" data-id='@string.Format("#tab{0}",category.children[i].id)'
+                                       data-url="@Url.Action("GeServicePackageTabsByCategoryId", "Service", new { categoryId = category.children[i].id, page = 1, pageSize = 5 })">
+                                        @category.children[i].name
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    }                       
+                </h3>
+                <div class="tab-content">                   
+                    <div class="tab-pane in active" id='@string.Format("tab{0}", category.id)'>
+                        @{
+                        var categoryId = (category.children.Count > 0) ? category.children.ElementAt(0).id : category.id;
+                        Html.RenderAction("GeServicePackageTabContentsByCategoryId", "Service", new { categoryId = categoryId, page = 1, pageSize = 5 });
+                    }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-list-category-clearfix"></div>
+    }
+}

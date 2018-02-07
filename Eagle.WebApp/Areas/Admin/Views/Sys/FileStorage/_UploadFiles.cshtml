@@ -1,0 +1,196 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.FileStorage.FileModel
+@*<link href="~/Scripts/plugins/uploadfile/css/jquery.Jcrop.css" rel="stylesheet" />*@
+<link href="~/Scripts/plugins/uploadfile/css/uploadfile.css" rel="stylesheet" />
+@*<link rel="stylesheet" href="smoothness/jquery-ui-1.9.2.custom.css" type="text/css"/>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="~/Scripts/plugins/uploadfile/js/jquery-ui-1.9.2.custom.min.js"></script>*@
+<script src="~/Scripts/plugins/uploadfile/js/jquery.uploadfile.js"></script>
+@*<script src="~/Scripts/plugins/uploadfile/js/jquery.Jcrop.min.js"></script>*@
+
+<form id = "uploadForm" name = "uploadForm" data-ajax="true" data-ajax-method="POST" enctype = "multipart/form-data" novalidate="novalidate">
+<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">@Html.Raw(LanguageResource.Upload)</h3>
+    </div>
+    <div class="modal-body">
+        <div id="alertMessagePopUp">
+            @if (ViewBag.DisplayErrorMessage == true)
+            {
+                <div class="@ViewBag.CssClass">
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                    <strong>@ViewBag.SortMessage!</strong>
+                    <div class="padding-left">
+                        @Html.Raw(Server.HtmlDecode(ViewBag.Message))
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="upload-form" id="uploader">           
+            <input type="hidden" id="folderKey" name="folderKey" value="@Model.FolderKey" />
+            @*<input type="hidden" id="fileId" name="fileId" value="@Model.FileId"/>*@
+            <div class="upload_wrapper">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>@Html.Raw(LanguageResource.FileTitle)</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input id="fileName" type="text" data-val="false" style="width: 510px !important;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>@Html.Raw(LanguageResource.FileDescription)</label>
+                    </div>
+                    <div class="col-md-4">
+                        <textarea id="fileDescription" aria-multiline="true" rows="3" style="width: 510px !important;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>@Html.Raw(LanguageResource.UploadedFileList)</label>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="fileuploader">Upload files here</div>
+                        <div id="fileuploader_queue"></div>
+                    </div>
+                </div>
+                <div class="row">
+                     <div class="col-md-2">&nbsp;</div>
+                    <div class="col-md-4">
+                        <div id="eventsmessage"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="modal-footer">
+   <div class="ajax-file-upload-green" id="startUpload">Start Upload</div> 
+</div>
+</form>
+
+<script type="text/javascript">
+    $(function () {
+        $("form").validate({ ignore: "*" });
+        // $("form").validate().settings.ignore = "*";
+
+        var fileId = $("input[type=hidden][name=fileId]").val();
+        var folderKey = $("input[type=hidden][name=folderKey]").val();
+        var image_extensions = ['.jpg', '.JPG', '.gif', '.GIF', '.png', '.PNG', '.jpeg', '.JPEG'];
+        var UploadFileServiceUrl = '/Handlers/UploadFile.ashx?folderKey=' + $("input[type=hidden][name=folderKey]").val()
+           + '&fileId=' + $("input[type=hidden][name=fileId]").val()
+        + '&fileTitle=' + $("input[type=hidden][name=fileTitle]").val()
+        + '&fileDescription=' + $("input[type=hidden][name=fileDescription]").val();
+        var DeleteFileServiceUrl = '/Handlers/DeleteFile.ashx';
+        var DownloadFileServiceUrl = '/Handlers/DownloadFile.ashx?fileId=' + $("input[type=hidden][name=fileId]").val();
+
+        var setting = {
+            fileName: "myfile",
+            url: UploadFileServiceUrl,
+            //allowedTypes:"png,gif,jpg,jpeg",
+            //multiple:true,
+            maxFileSize: 1024*1024*100,
+            //uploadFolderHttp: "http://www.meet-now.org/jquery-upload-file-master-dhz/uploads/",
+            //thumbnailFolderHttp: "http://www.meet-now.org/jquery-upload-file-master-dhz/uploads/thumbnails/",
+            maxFileCount: 1,//max number of files to upload
+            dragDrop: true,            
+            autoSubmit: false,     
+            showStatusAfterSuccess: true,
+            showAbort: false,
+            showDelete: true,
+            showDone: false,//hide the done button
+            showFileCounter:true,
+            showProgress: true,
+            uploadButtonClass: "ajax-file-upload-green",
+
+            //dragdropWidth: 800,//width of drop zone
+            // statusBarWidth: 800,//width of statusbar
+           
+            // showQueueDiv: "fileuploader_queue",//what div to show the Queue in
+             showDownload: true,//display download button
+            // createThumbnail: true,//dhz added
+            // thumbnailFixedTo: "Height",//dhz added
+            // thumbnailHeight: 105,//dhz added
+            // thumbnailWidth: 75,//dhz added
+
+            // uploadedImageKeepOriginal: false,//dhz added
+            // uploadedImageMaxHeight: 600,//if original image is higher than this value then it will be resized (if uploadedImageKeepOriginal=false)
+            // uploadedImageMaxWidth: 800,//if original image is wider than this value then it will be resized (if uploadedImageKeepOriginal=false)
+
+            showPreview: true,//for image
+            previewHeight: "50px",//for image
+            previewWidth: "auto",//auto for image
+
+            returnType: "json",//important if we use delete
+            showQueueDiv: "fileuploader_queue",//what div to show the Queue in
+                       
+          
+            abortStr: "@Html.Raw(LanguageResource.Abort)",
+            dragDropStr: "<span><b>@Html.Raw(LanguageResource.DragNDrop)</b></span>",
+            cancelStr: "@Html.Raw(LanguageResource.Cancel)",
+            doneStr: "@Html.Raw(LanguageResource.Done)",
+            multiDragErrorStr: "@Html.Raw(LanguageResource.PleaseDragNDrop)",
+            extErrorStr: "@Html.Raw(LanguageResource.InvalidFileExtension)",
+            sizeErrorStr: "@Html.Raw(LanguageResource.OverFileSize)",
+            uploadErrorStr: "@Html.Raw(LanguageResource.UploadError)",          
+            onSelect:function(files)
+            {
+                files[0].name;
+                return true; //to allow file submission.
+            },
+            //onSubmit:function(files)
+            //{               
+            //    $("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
+            //},
+            onSuccess:function(files,data,xhr)
+            {
+                //save data
+                $("input[type=hidden][name=fileId]").val(JSON.stringify(data));
+                //pass data to main form
+                $("input[type=hidden][name=FileIds]").val(JSON.stringify(data));                
+                //$("#eventsmessage").html($("#eventsmessage").html()+'<font color="green">'+files+'</font>'+"<br/>Success for: "+JSON.stringify(data));          
+                //$('.ajax-file-upload-statusbar').delay(2000).slideUp('slow');
+            },
+            afterUploadAll:function()
+            {
+                $("#eventsmessage").html($("#eventsmessage").html() + "<br/>All files are uploaded");
+                setTimeout(function () {
+                    $(".modalUpload").modal('hide');
+                }, 1000);
+            },
+            onError: function(files,status,errMsg)
+            {
+                $("#eventsmessage").html($('#eventsmessage').html() + '<br/><font color="red">Error for: </font>' + JSON.stringify(files));      
+            },           
+            deleteCallback: function (data, pd) {
+                //for (var i = 0; i < data.length; i++) {
+                //    $.post(DeleteFileServiceUrl, { fileId: data[i] },
+                //    function (resp, textStatus, jqXHR) {
+                //        alert(JSON.stringify(data[i]) + "File Deleted");
+                //    });
+                //}
+                var fileId = $("input[type=hidden][name=fileId]").val();
+                $.post(DeleteFileServiceUrl, { fileId: fileId },
+                    function (resp, textStatus, jqXHR) {
+                        $("#eventsmessage").html("File " + fileId + " Deleted");
+                    });
+                pd.statusbar.hide(); //You choice to hide/not.
+            },
+
+            downloadCallback:function(files,pd){
+                //location.href = s.pluginPath + "/php/download.php?uploadFolder=" + s.uploadFolder + "&filename=" + filename[0];
+                location.href = DownloadFileServiceUrl
+                //location.href="download.php?filename="+files[0];
+            },
+            //showCrop: true,//dhz add functionality to plugin
+            //cropCallback: function (filename, pd, s) {//dhz add functionality to plugin
+            //    $("#eventsmessage").html("Cropped " + filename);
+            //},//dhz add functionality to plugin
+        };
+
+        var uploadObj = $("#fileuploader").uploadFile(setting);
+
+        $("#startUpload").click(function () {
+            uploadObj.startUpload();
+        });
+});
+</script>

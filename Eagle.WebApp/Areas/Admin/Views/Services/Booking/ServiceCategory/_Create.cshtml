@@ -1,0 +1,80 @@
+﻿@using Eagle.Core.HtmlHelper
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Services.Booking.ServiceCategoryEntry
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "myform", name = "myform", autocomplete = "off", @class = "form-horizontal" }))
+{
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading text-bold">
+                <div class='page-header margin-top-5 margin-bottom-0'>
+                    <div class='btn-toolbar pull-right'>
+                        <div class='btn-group'>
+                            <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="myform" data-url='@Url.Action("Create", "ServiceCategory")' value="@LanguageResource.Reset" />
+                            <input type="button" class="btn btn-primary save add create createServiceCategory" data-mode="create" data-form="myform" data-url='@Url.Action("Create", "ServiceCategory")' value="@LanguageResource.Save" />
+                        </div>
+                    </div>
+                    <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.CreateServiceCategory</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="container-fluid">
+                    <div class="form-container">
+                        <div id="formMessage" class="form-message">
+                            @Html.AntiForgeryToken()
+                            @Html.Partial("_MessagePartial")
+                            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+                        </div>
+                        <div id="formBody" class="form-horizontal">
+                            <div class="form-container">
+                                <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                                <div class="form-body-container">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.CategoryName, new {@class = "control-label col-md-2"})
+                                            <div class="col-md-7">
+                                                @Html.TextBoxFor(model => model.CategoryName, null, new {@class = "form-control"})
+                                                @Html.ValidationMessageFor(model => model.CategoryName)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.TypeId, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.RadioButtonSwitchEnumFor(model => model.TypeId)
+                                                @Html.ValidationMessageFor(model => model.TypeId)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.ParentId, new {@class = "control-label col-md-2"})
+                                            <div class="col-md-10">
+                                                <input id="ParentId" name="ParentId" value="0" class="easyui-combotree form-control cbxParentTree" data-url='@Url.Action("GetServiceCategorySelectTree", "ServiceCategory")' style="width: 100%;">
+                                                @Html.ValidationMessageFor(model => model.ParentId)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.RadioButtonSwitchEnumFor(model => model.Status, ServiceCategoryStatus.Active)
+                                                @Html.ValidationMessageFor(model => model.Status)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class='btn-toolbar pull-right'>
+                        <div class='btn-group'>
+                            <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="myform" data-url='@Url.Action("Create", "ServiceCategory")' value="@LanguageResource.Reset" />
+                            <input type="button" class="btn btn-primary save add create createServiceCategory" data-mode="create" data-form="myform" data-url='@Url.Action("Create", "ServiceCategory")' value="@LanguageResource.Save" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

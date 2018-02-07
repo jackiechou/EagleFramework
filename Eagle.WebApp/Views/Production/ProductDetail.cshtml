@@ -1,0 +1,243 @@
+﻿@model Eagle.Services.Dtos.Business.ProductInfoDetail
+@{
+    ViewBag.Title = LanguageResource.Product;
+    Layout = Eagle.Services.Skins.ThemeViewEngine.DesktopMainLayout;
+}
+
+<!--=== Shop Product ===-->
+<div class="shop-product">
+    <div class="container">
+
+        <div class="row">
+            @if (Model != null)
+            {
+                var productAlbums = (List<Eagle.Services.Dtos.Business.ProductEditEntry>)ViewBag.ProductAlbums;
+                var arProductAlbums = productAlbums.Select(m => m.FileUrl).ToList();
+
+                <div class="col-sm-5">
+                    <div id="carousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-outer">
+
+                            <div class="carousel-inner modify-carousel-inner">
+                                <div class="item active">
+                                    @if (arProductAlbums.Any())
+                                    {
+                                        <img src="@Url.Content(arProductAlbums.First())">
+                                    }
+                                    else
+                                    {
+                                        <img class="image-attach" src="@Model.LargePhotoUrl" alt="@Model.ProductName">
+                                    }
+                                </div>
+                                @foreach (var image in arProductAlbums.Skip(1))
+                                {
+                                    <div class="item">
+                                        <img src="@Url.Content(image)">
+                                    </div>
+                                }
+                            </div>
+                            <!-- sag sol -->
+                            <a class='left carousel-control' href='#carousel' data-slide='prev'>
+                                <span class='glyphicon glyphicon-chevron-left'></span>
+                            </a>
+                            <a class='right carousel-control' href='#carousel' data-slide='next'>
+                                <span class='glyphicon glyphicon-chevron-right'></span>
+                            </a>
+                        </div>
+                        <ol id="thumbcarousel" class="carousel-indicators mCustomScrollbar meartlab">
+                            @if (arProductAlbums.Count() > 1)
+                            {
+                                int countImage = 0;
+                                foreach (var image in arProductAlbums.Take(5))
+                                {
+                                    <li data-target='#carousel'>
+                                        <img src="@Url.Content(image)" />
+                                    </li><!-- /item -->
+                                    countImage++;
+                                }
+                            }
+                        </ol>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="shop-product-heading">
+                        <h2>@Model.ProductName</h2>
+                    </div><!--/end shop product social-->
+                    <div class="rating-container">
+                        <div class="star-rating" id="starRating_@Model.ProductId" star-id="@Model.ProductId" star-url='@Url.Action("CreateProductRating", "Production")' rating-type="product">
+                            <span class="fa fa-star-o" data-rating="1" title="Did not like it"></span>
+                            <span class="fa fa-star-o" data-rating="2" title="it was okay"></span>
+                            <span class="fa fa-star-o" data-rating="3" title="Liked it"></span>
+                            <span class="fa fa-star-o" data-rating="4" title="Really liked it"></span>
+                            <span class="fa fa-star-o" data-rating="5" title="It was amazing"></span>
+                            <input type="hidden" name="ratingValue" id="ratingValue_@Model.ProductId" input-id="@Model.ProductId" class="rating-value" value="@Model.Rating">
+                            | <a class="toggle-accordion active" accordion-id="#accordion" href="#accordion">@string.Format("{0} {1}", ViewBag.ProductComments, LanguageResource.Comments)</a>
+                        </div>
+
+                    </div>
+                    <div class="clearboth"></div>
+                    <p>
+                        @Model.ShortDescription
+                    </p><br>
+
+                    <ul class="list-inline shop-product-prices margin-bottom-30">
+                        @if (Model.NetPrice != null && Model.NetPrice > 0)
+                        {
+                            <li class="shop-red">@Html.FormatValue(Model.NetPrice + Model.TaxRate, "{0:c}")</li>
+                            if (Model.DiscountRate != null && Model.DiscountRate > 0 && Model.NetPrice > 0)
+                            {
+                                <li class="line-through">@Html.FormatValue(Model.NetPrice + Model.TaxRate - Model.DiscountRate, "{0:c}")</li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="price-tag">
+                                <span class="text-danger">@LanguageResource.Price :</span>
+                                <span class="text-muted">@LanguageResource.ContactUs</span>
+                            </li>
+                        }
+                    </ul><!--/end shop product prices-->
+                    @*<h3 class="shop-product-title">Size</h3>
+                        <ul class="list-inline product-size margin-bottom-30">
+                            <li>
+                                <input type="radio" id="size-1" name="size">
+                                <label for="size-1">S</label>
+                            </li>
+                            <li>
+                                <input type="radio" id="size-2" name="size">
+                                <label for="size-2">M</label>
+                            </li>
+                            <li>
+                                <input type="radio" id="size-3" name="size" checked>
+                                <label for="size-3">L</label>
+                            </li>
+                            <li>
+                                <input type="radio" id="size-4" name="size">
+                                <label for="size-4">XL</label>
+                            </li>
+                        </ul><!--/end product size-->
+
+                        <h3 class="shop-product-title">Color</h3>
+                        <ul class="list-inline product-color margin-bottom-30">
+                            <li>
+                                <input type="radio" id="color-1" name="color">
+                                <label class="color-one" for="color-1"></label>
+                            </li>
+                            <li>
+                                <input type="radio" id="color-2" name="color" checked>
+                                <label class="color-two" for="color-2"></label>
+                            </li>
+                            <li>
+                                <input type="radio" id="color-3" name="color">
+                                <label class="color-three" for="color-3"></label>
+                            </li>
+                        </ul><!--/end product color-->*@
+
+                    <h3 class="shop-product-title">
+                        @if (Model.UnitsInStock != null && Model.UnitsInStock > 0)
+                        {
+                            <a href="#">@LanguageResource.Available</a>
+                        }
+                        else
+                        {
+                            <a href="#"> @LanguageResource.OutOfStock</a>
+                        }
+                    </h3>
+                    <div class="margin-bottom-40">
+
+                        @if (Model.GrossPrice != null && Model.GrossPrice > 0)
+                        {
+                            @Html.Partial("Cart/_AddToCart", Model)
+                        }
+
+                        <button type="button" class="btn btn-u btn-u-sea-shop btn-u-lg" id="view-cart" onclick="location.href = '@Url.Action("Index", "Cart")'">
+                            @LanguageResource.ViewCart
+                        </button>
+                    </div><!--/end product quantity-->
+                    @*<ul class="list-inline add-to-wishlist add-to-wishlist-brd">
+                            <li class="wishlist-in">
+                                <i class="fa fa-heart"></i>
+                                <a href="#">Add to Wishlist</a>
+                            </li>
+                            <li class="compare-in">
+                                <i class="fa fa-exchange"></i>
+                                <a href="#">Add to Compare</a>
+                            </li>
+                        </ul>*@
+                    <p class="wishlist-category">
+                        <strong>@LanguageResource.Categories:</strong> @Model.ProductCategory.CategoryName
+                    </p>
+                    <div class="list-inline shop-product-social">
+                        @Html.Partial("../Shared/_SocialLinks")
+                    </div>
+                </div>
+
+                <input type="hidden" name="comparativeCategoryId" id="comparativeCategoryId" value="@Model.CategoryId">
+                <input type="hidden" name="comparativePrice" id="comparativePrice" value="@Model.NetPrice">
+                <input type="hidden" name="ProductId" id="ProductId" value="@Model.ProductId">
+            }
+        </div>
+
+        <!--=== Description - Specification - Comment Reviews ===-->
+        @Html.Partial("Production/_ProductContentDetail", Model)
+
+        <div class="panel panel-default padding-10" id="accordion">
+            <h4 class="shop-product-title" style="display:inline-block;">
+                Comment
+            </h4>
+            <div class="pull-right">
+                <a href="#accordion" class="all-accordion active" accordion-id="#accordion" aria-expanded="false"></a>
+            </div>
+            <div class="post panel-collapse collapse" id="postComments" name="postComments" data-parent="#accordion">
+                @{
+                    Html.RenderAction("CreateComment", "Production", new { productId = Model.ProductId });
+                }
+                <hr />
+            </div>
+            <div class="view" name="viewComments" id="viewComments">
+                @{
+                    Html.RenderAction("GetComments", "Production", new { productId = Model.ProductId });
+                }
+            </div>
+        </div>
+
+        <div class="panel panel-default padding-10">
+
+            <div class="form-inline">
+                <h4 class="form-group">Sản phẩm so sánh: </h4>
+                <div id="listcompare" class="form-group"></div>
+                <button type="button" class="btn btn-success products-by-category" id="compare-products">
+                    Compare
+                </button>
+            </div>
+            <br />
+            <div class="product-container">
+                <!-- Wrapper for slides -->
+                <div class="carousel slide" data-ride="carousel" data-type="multi" id="manufacturer-slide" style="margin-bottom: 0px !important">
+                    <div class="carousel-inner" role="listbox"></div>
+                    <div class="control-box">
+                        <a href="#manufacturer-slide" class="carousel-control left" role="button" data-slide="prev" title="go back">‹</a>
+                        <a href="#manufacturer-slide" class="carousel-control right" role="button" data-slide="next" title="more">›</a>
+                    </div><!-- /.control-box -->
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("Shared/Booking/_QuickMenu")
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.ProductCommentSearchUrl = '@Url.Action("GetComments", "Production")';
+        window.ProductsByCategoryUrl = '@Url.Action("ProductsByCategory", "Production")';
+        window.GetComparativeProductsUrl = '@Url.Action("GetComparativeProducts", "Production")';
+    </script>
+    @*<script src='https://www.google.com/recaptcha/api.js' async defer></script>*@
+
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.default.mobile.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/kendo/js/kendo.all.min.js")"></script>
+    <script src="~/Themes/Booking/Content/js/app/production-detail.js"></script>
+
+}

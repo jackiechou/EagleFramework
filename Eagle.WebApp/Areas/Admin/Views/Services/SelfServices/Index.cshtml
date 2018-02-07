@@ -1,0 +1,13 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = @Html.Raw(LanguageResource.SelfServices);
+    Layout = ThemeViewEngine.AdminSharedLayout;
+}
+
+<div class="content-wrapper">
+    <div id="MainBody" class="main_box">  
+        <div id="BirthdayContainer">
+            @Html.Partial("../Services/SelfServices/_BirthdayServices")  
+        </div>
+    </div>
+</div>

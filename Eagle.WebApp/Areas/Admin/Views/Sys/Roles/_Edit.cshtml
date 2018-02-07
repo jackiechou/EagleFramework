@@ -1,0 +1,75 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.Identity.RoleEditEntry
+<div class="panel panel-primary create-panel">
+    <div class="panel-heading text-bold"><h7>@LanguageResource.Edit</h7></div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new {@id = "frmEditRole", name = "frmEditRole"}))
+        {
+            @Html.ValidationSummary("", new { @class = "alert alert-danger" })
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(false, "", new {@class = "text-danger"})
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RoleName, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.RoleName, new {@class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.RoleName, "", new {@class = "text-danger"})
+
+                        @Html.TextBoxFor(model => model.RoleId, new {@style = "position:absolute; top:-9999px; left:-9999px"})
+                        @Html.ValidationMessageFor(model => model.RoleId)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RoleCode, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.RoleCode, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RoleCode)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Description, new {rows = 2, columns = 40, maxlength = 4000, @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("GroupId", LanguageResource.Group, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.Partial("../Sys/Roles/_EditGroup")
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IsActive, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        <div class="checkbox-slider--b">
+                            <label>
+                                @{
+                                    if (Model.IsActive != null && Model.IsActive == true)
+                                    {
+                                        <input type="checkbox" id="IsActive" name="IsActive" class="checkbox" value="true" checked="checked"><span></span>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" id="IsActive" name="IsActive" class="checkbox" value="false"><span></span>
+                                    }
+                                }
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="formFooter" class="form-footer form-group">
+                    <div class="bottom-toolbar">
+                        <input type="button" id="btnReset" data-container="divEdit" data-form="frmEditRole" data-mode="edit" data-url='@Url.Action("Edit", "Role")' value="@LanguageResource.btnReset" class="btn btn-warning reset" />
+                        <input type="button" id="btnEdit" data-container="divEdit" data-form="frmEditRole" data-mode="edit" data-url='@Url.Action("Edit", "Role")' value="@LanguageResource.btnSave" class="btn btn-primary edit" />
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>

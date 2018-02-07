@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = LanguageResource.EditPaymentMethod;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Business.PaymentMethodEditEntry
+
+<div class="panel panel-default">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditPaymentMethod", name = "frmEditPaymentMethod", autocomplete = "off", @class = "form-horizontal" }))
+    {
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditPaymentMethod" data-id="@Model.PaymentMethodId" data-url='@Url.Action("Edit", "PaymentMethod")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editPaymentMethod" data-mode="edit" data-form="frmEditPaymentMethod" data-id="@Model.PaymentMethodId" data-url='@Url.Action("Edit", "PaymentMethod")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditPaymentMethod</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.PaymentMethodName, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.PaymentMethodName, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.PaymentMethodName)
+
+                                    @Html.HiddenFor(model => model.PaymentMethodId)
+                                    @Html.ValidationMessageFor(model => model.PaymentMethodId)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IsCreditCard, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <div class="checkbox-slider--b">
+                                        <label>
+                                            @{
+                                                if (Model.IsCreditCard)
+                                                {
+                                                    <input type="checkbox" id="IsCreditCard" name="IsCreditCard" checked="checked" value="true"><span></span>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" id="IsCreditCard" name="IsCreditCard" value="false"><span></span>
+                                                }
+                                            }
+                                        </label>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.IsCreditCard)
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.RadioButtonSwitchEnumFor(model => model.IsActive)
+                                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditPaymentMethod" data-id="@Model.PaymentMethodId" data-url='@Url.Action("Edit", "PaymentMethod")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editPaymentMethod" data-mode="edit" data-form="frmEditPaymentMethod" data-id="@Model.PaymentMethodId" data-url='@Url.Action("Edit", "PaymentMethod")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

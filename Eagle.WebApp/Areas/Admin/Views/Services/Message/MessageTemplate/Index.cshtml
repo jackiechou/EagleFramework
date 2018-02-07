@@ -1,0 +1,48 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.MessageTemplate;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+<div class="box-container">
+    <div class="heading-bar-container">
+        <div class="heading-bar-inner">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>@LanguageResource.MessageTemplate</h6>
+                </div>
+                <div class="col-md-8 text-right">
+                    <div class="btn-group" data-toggle="buttons">
+                        <button type="button" class="btn btn-default load-back-form" data-url='@Url.Action("Index", "MessageTemplate")'>
+                            <span class="glyphicon glyphicon-backward"></span> @LanguageResource.Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body-container">
+        <div id="bodyContent" class="row">
+            <div id="MainBody" class="form-horizontal main_box">
+                <div id="divEdit">
+                    @Html.Action("Create", "MessageTemplate")
+                </div>
+                <div id="gridcontainer" class="gridContainer">
+                    @Html.Action("LoadSearchForm", "MessageTemplate")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.MessageTemplateSearchUrl = '@Url.Action("Search", "MessageTemplate")';
+    </script>
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/ckeditor/ckfinder/ckfinder.js"></script>
+    <script src="~/Scripts/app/modules/message-template.js"></script>
+}

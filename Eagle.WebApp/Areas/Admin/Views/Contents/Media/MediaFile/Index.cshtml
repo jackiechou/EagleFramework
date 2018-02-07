@@ -1,0 +1,34 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.MediaFile);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody">
+                <div id="divEdit">
+                    @Html.Action("Create", "MediaFile")
+                </div>
+                <div id="divList">
+                    @Html.Partial("../Contents/Media/MediaFile/_Search")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.MediaFileSearchUrl = '@Url.Action("Search", "MediaFile")';
+        window.GetMediaTopicTreeUrl = '@Url.Action("GetMediaTopicSelectTree", "MediaFile")';
+    </script>
+    <link href="~/Scripts/plugins/multiple-select/multiple-select.css" rel="stylesheet"/>
+    <script src="~/Scripts/plugins/multiple-select/multiple-select.js"></script>
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <script type="text/javascript" src="~/Scripts/app/modules/media-file.js"></script>
+}

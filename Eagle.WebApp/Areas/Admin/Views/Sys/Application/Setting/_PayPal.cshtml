@@ -1,0 +1,46 @@
+﻿@using Eagle.Core.Settings
+@model IEnumerable<Eagle.Services.Dtos.SystemManagement.ApplicationSettingDetail>
+<!-- Start PayPal -->
+<ul id="tabstrip" class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#sandbox-container" data-mode="sanbox" data-url='@Url.Action("EditPaypalSetting", "Application", new {mode = "sandbox"})' data-toggle="tab">@LanguageResource.Sandbox</a></li>
+    <li><a href="#live-container" data-mode="live" data-url='@Url.Action("EditPaypalSetting", "Application", new {mode = "live"})' data-toggle="tab">@LanguageResource.Live</a></li>
+    <li class="pull-right">
+       @if (Model != null && Model.Any())
+       {
+            @*<input type="checkbox" id="chkPalMode" data-size="small" data-height="22" data-toggle="toggle" data-on="@LanguageResource.Live" data-off="@LanguageResource.Sandbox" />*@
+           <div class="btn-toolbar" role="toolbar">
+               <div class="btn-group" role="group" data-toggle="buttons">
+                   @foreach (var item in Model)
+                   {
+                       if (item.SettingName.ToUpper() == "PAYPAL_SANDBOX")
+                       {
+                           string checkedSandboxStatus = item.IsActive == ApplicationSettingStatus.Active ? "checked" : string.Empty;
+                           string buttonSandboxState= item.IsActive == ApplicationSettingStatus.Active ? "btn btn-success active" : "btn btn-default";
+
+                           <label class="@buttonSandboxState">
+                               <input type="radio" id="payPalMode_Sandbox" name="payPalMode" data-url='@Url.Action("UpdatePaypalMode", "Application")' value="sandbox" @checkedSandboxStatus/>@LanguageResource.Sandbox
+                           </label>
+                       }
+                       else
+                       {
+                           string checkedLiveStatus = item.IsActive == ApplicationSettingStatus.Active ? "checked" : string.Empty;
+                           string buttonLiveState = item.IsActive == ApplicationSettingStatus.Active ? "btn btn-success active" : "btn btn-default";
+
+                           <label class="@buttonLiveState">
+                               <input type="radio" id="payPalMode_Live" name="payPalMode" data-url='@Url.Action("UpdatePaypalMode", "Application")' value="live" @checkedLiveStatus/>@LanguageResource.Live
+                           </label>
+                       }
+                   }
+               </div>
+           </div>
+        }
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="sandbox-container">
+        @Html.Action("EditPaypalSetting", "Application")
+    </div>
+    <div class="tab-pane" id="live-container"></div>
+</div>
+<!-- End PayPal -->

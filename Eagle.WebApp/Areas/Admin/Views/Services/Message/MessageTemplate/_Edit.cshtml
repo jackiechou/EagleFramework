@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = LanguageResource.EditMessageTemplate;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Services.Message.MessageTemplateEditEntry
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditMessageTemplate", name = "frmEditMessageTemplate", }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-id="@Model.TemplateId" data-mode="edit" data-form="frmEditMessageTemplate" data-url='@Url.Action("Edit", "MessageTemplate")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save edit editMessageTemplate" data-id="@Model.TemplateId" data-mode="edit" data-form="frmEditMessageTemplate" data-url='@Url.Action("Edit", "MessageTemplate")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditMessageTemplate</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="container-fluid">
+                    <div class="form-container">
+                        <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                        <div class="form-body-container">
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li id="tab-1" class="active"><a href="#pane-1" data-toggle="tab">@LanguageResource.Basics</a></li>
+                                <li id="tab-2"><a href="#pane-2" data-toggle="tab">@LanguageResource.Extension</a></li>
+                            </ul>
+
+                            <div id="myTabContent" class="tab-content responsive">
+                                <div class="tab-pane  fade in active" id="pane-1">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.NotificationTypeId, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-5">
+                                                <input id="NotificationTypeId" name="NotificationTypeId" value="@Model.NotificationTypeId" class="easyui-combotree form-control cbxParentTree" data-url='@Url.Action("GetNotificationTypeSelectTree", "NotificationType")' style="width: 99%;">
+                                                @Html.ValidationMessageFor(model => model.NotificationTypeId)
+                                            </div>
+                                            @Html.RequiredLabelFor(model => model.MessageTypeId, new { @class = "control-label col-md-2"})
+                                            <div class="col-md-2">
+                                                <select id="MessageTypeId" name="MessageTypeId" data-id="@Model.MessageTypeId" data-url='@Url.Action("PopulateMessageTypeSelectList", "NotificationType")' class="form-control"></select>
+                                                @Html.ValidationMessageFor(model => model.MessageTypeId)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.TemplateName, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-5">
+                                                @Html.TextBoxFor(model => model.TemplateName, new {@class = "form-control"})
+                                                @Html.ValidationMessageFor(model => model.TemplateName)
+
+                                                @Html.HiddenFor(model => model.TemplateId)
+                                                @Html.ValidationMessageFor(model => model.TemplateId)
+                                            </div>
+                                            @Html.RequiredLabelFor(model => model.Status, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-2">
+                                                <div class="checkbox-slider--a">
+                                                    <label>
+                                                        @{
+                                                            if (@Model.Status)
+                                                            {
+                                                                <input type="checkbox" id="Status" name="Status" checked="checked" value="true"><span></span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="checkbox" id="Status" name="Status" value="false"><span></span>
+                                                            }
+                                                        }
+                                                    </label>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.Status)
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.TemplateSubject, new {@class = "control-label col-md-2"})
+                                            <div class="col-md-10">
+                                                @Html.TextBoxFor(model => model.TemplateSubject, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.TemplateSubject)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.TemplateBody, new {@class = "control-label col-md-2"})
+                                            <div class="col-md-10">
+                                                @Html.TextAreaFor(model => model.TemplateBody, new {rows = 2, columns = 40, @class = "form-control ckeditor"})
+                                                @Html.ValidationMessageFor(model => model.TemplateBody)
+                                            </div>
+                                        </div>                             
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pane-2">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.TemplateCode, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.TemplateCode, new { rows = 15, columns = 40, @class = "form-control ckeditor" })
+                                            @Html.ValidationMessageFor(model => model.TemplateCode)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-id="@Model.TemplateId" data-mode="edit" data-form="frmEditMessageTemplate" data-url='@Url.Action("Edit", "MessageTemplate")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save edit editMessageTemplate" data-id="@Model.TemplateId" data-mode="edit" data-form="frmEditMessageTemplate" data-url='@Url.Action("Edit", "MessageTemplate")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

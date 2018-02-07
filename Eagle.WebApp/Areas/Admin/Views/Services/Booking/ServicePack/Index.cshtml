@@ -1,0 +1,21 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.ServicePackManagement;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+<div id="MainContainer" class="container-fluid">
+    @Html.Action("LoadSearchForm", "ServicePack")
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.ServicePackSearchUrl = '@Url.Action("Search", "ServicePack")';
+        window.ServicePackIndexUrl = '@Url.Action("Index", "ServicePack")';
+    </script>
+
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <script type="text/javascript" src="~/Scripts/app/modules/service-pack-search.js"></script>
+}

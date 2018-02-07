@@ -1,0 +1,37 @@
+﻿@model Eagle.Services.Dtos.Business.ManufacturerInfoDetail
+@{
+    ViewBag.Title = LanguageResource.Product;
+    Layout = Eagle.Services.Skins.ThemeViewEngine.DesktopMainLayout;
+}
+
+<div id="page" class="row">
+    <div class="page-content container content-sm">
+        @if (Model != null)
+        {
+            <div class="col-md-3 md-margin-bottom-40">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>@Model.ManufacturerName</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="photo-thumbnail">
+                            <img class='photo img-rounded img-responsive' width="150" height="150" src='@Model.FileUrl' alt='@Model.ManufacturerName'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="container-fluid">
+                    @{
+                        Html.RenderAction("GetProductsByManufacturer", "Production", new { manufacturerId = Model.ManufacturerId });
+                    }
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript" src="~/Themes/Booking/Content/js/app/manufacturer.js"></script>
+}

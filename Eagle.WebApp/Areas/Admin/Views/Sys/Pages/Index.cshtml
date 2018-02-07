@@ -1,0 +1,43 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.Page);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="content_box" class="row">
+    <div id="left_box" class="left-box col-md-4">
+        <div id="divPageList">
+            @Html.Partial("../Sys/Pages/_SearchForm")
+        </div>
+        <div class="clearboth"></div>
+    </div>
+    <div id="right_box" class="right-box col-md-8">
+        <div id="divEdit">
+            @Html.Action("Create", "Page")
+        </div>
+
+        <div id="divModuleList"></div>
+    </div>
+</div>
+
+@section Scripts{
+    <link href="~/Scripts/plugins/bootstrap-plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/ckeditor/ckfinder/ckfinder.js"></script>
+
+    <!-- Bootstrap-Iconpicker -->
+    <link href="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/css/bootstrap-iconpicker.min.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/iconset/iconset-glyphicon.min.js"></script>
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/iconset/iconset-fontawesome-4.2.0.min.js"></script>
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/bootstrap-iconpicker.min.js"></script>
+    <script type="text/javascript">
+        window.GetAutoCompletePagesUrl = '@Url.Action("GetAutoCompletePages", "Page")';
+        window.GetAutoCompleteDetailsUrl = '@Url.Action("GetAutoCompleteDetails", "Page")';
+        window.UpdatePagePermissionUrl = '@Url.Action("UpdatePagePermission", "Page")';
+        window.PleaseInputPageName = '@Html.Raw(LanguageResource.PleaseInputPageName)';
+    </script>
+    <script src="~/Scripts/app/modules/page.js"></script>
+    
+}
+

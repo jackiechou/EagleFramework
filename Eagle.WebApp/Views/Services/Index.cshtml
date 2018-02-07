@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = LanguageResource.Service;
+    Layout = Eagle.Services.Skins.ThemeViewEngine.DesktopSubLayout;
+}
+
+<div id="page" class="row">
+    <div class="page-content container content-xs">
+        <div class="col-md-12 service_page" id="list-service-packs">
+            <div class="service_category_single">
+                @Html.Action("GetServicePackagesByType", "Service", new { typeId = Eagle.Core.Settings.ServiceType.Single })
+            </div>
+        </div>
+    </div>
+    @*<div class="col-md-12">
+        <div class="row-home" style="display: none">
+            @Html.Partial("../Services/_ServiceCategory")
+        </div>
+    </div>*@
+</div>
+@Html.Partial("Shared/Booking/_QuickMenu")
+@section Scripts
+{
+    <script type="text/javascript">
+        window.GetServiceCategorySelectTreeUrl = '@Url.Action("GetServiceCategoryTree", "Service")';
+        window.GetServicePacksByCategoryId = '@Url.Action("GetLastestServices", "Service")';
+        window.GeListByCategoryId = '@Url.Action("GeServicePackageTabContentsByCategoryId", "Service")';
+    </script>
+
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui-custom.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon-custom.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <script src="~/Themes/Booking/Content/js/app/service.js"></script>
+}

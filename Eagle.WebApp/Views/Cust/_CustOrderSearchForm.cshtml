@@ -1,0 +1,28 @@
+﻿@model Eagle.Services.Dtos.Business.Transaction.OrderSearchBaseEntry
+@using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+{
+    <div class="panel panel-primary search-panel">
+        <div class="panel-heading text-bold">@LanguageResource.Search</div>
+        <div class="panel-body">
+
+            @Html.Partial("_MessagePartial")
+            @Html.ValidationSummary()
+
+            <div class="container-fluid">
+                <div class="row margin-bottom-15">
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.SearchText, new { @class = "form-control", placeholder = @LanguageResource.Keywords })
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-default glyphicon glyphicon-search search" data-url='@Url.Action("Search", "CustOrder")' data-form="frmSearch" data-mode="search"> @Html.Raw(LanguageResource.Search)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div id="search-result" class="row">
+                @Html.Action("Search", "CustOrder")
+            </div>
+        </div>
+    </div>
+}

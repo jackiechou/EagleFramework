@@ -1,0 +1,53 @@
+﻿@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Services.Booking.BookingSingleKindEntry
+
+<div class="panel panel-default panel-table panel-option">
+    <div class="panel-heading">
+        <h6>@Html.Raw(LanguageResource.ChoosePackage)</h6>
+        <ul>
+            <li><label class="control-label col-md-2" id="Packages_0_Label_CategoryId" name="Packages_0_Label_CategoryId">@LanguageResource.Category (<span class="color-red required" aria-required="true">*</span>)</label></li>
+            <li><label class="control-label col-md-4" id="Packages_0_Label_PackageId" name="Packages_0_Label_PackageId">@LanguageResource.Package (<span class="color-red required" aria-required="true">*</span>)</label></li>
+            <li><label class="control-label col-md-4" id="Packages_0_Label_EmployeeId" name="Packages_0_Label_EmployeeId">@LanguageResource.Employee (<span class="color-red required" aria-required="true">*</span>)</label>
+            </li>
+            <li><span class="col-md-2">&nbsp;</span></li>
+        </ul> 
+    </div>
+    <div class="panel-body">
+        <ul id="Packages" name="Packages" data-array="Packages" class='package-container'>
+            <li id="row0" data-id="0" data-array="Packages[0]">
+                <div class="form-group" data-id="CategoryId" data-name="CategoryId">                    
+                    <div id ="category" class="col-md-12">
+                        <select id="Packages_0_CategoryId" name="Packages[0].CategoryId" class="easyui-combotree form-control" data-index="0" data-url='@Url.Action("GetServiceCategorySelectTree", "Booking")' style="width: 100%;"></select>
+                    </div>
+                </div>
+                <div class="form-group" data-id="PackageSelect" data-name="PackageId">                    
+                    <div class="dropdown col-md-12" id="Packages_0_PackageSelect" name="Packages[0].PackageSelect" data-index="0" data-typeid="@ServiceType.Single" data-url='@Url.Action("PopulatePackagesByCategory", "Booking")'>
+                        <a class="btn btn-default btn-select dropdown-toggle" data-toggle="dropdown" role="button" href="javascript:void(0);">
+                            <input type="hidden" class="btn btn-select-input" id="Packages_0_PackageId" name="Packages[0].PackageId" required="required" />
+                            <span class="btn btn-select-text">@LanguageResource.SelectPackage</span>
+                            <span class='btn btn-select-arrow glyphicon glyphicon-chevron-down'></span>
+                        </a>
+                        <ul id="Packages_0" class="dropdown-menu" role="menu"></ul>
+                    </div>
+                    <span class="help-block field-validation-valid" data-valmsg-for="Packages[0].PackageId" data-valmsg-replace="true"></span>
+                </div>
+                <div class="form-group" data-id="EmployeeId" data-name="EmployeeId">                   
+                    <div id="employee-container" class="col-md-12">
+                        <select id="Packages_0_EmployeeId" name="Packages[0].EmployeeId" class="form-control employee-select" data-index="0" data-url='@Url.Action("PopulateEmployeesByPackage", "Booking")' required="required">
+                            <option value="" selected>@LanguageResource.SelectEmployee</option>
+                        </select>
+                    </div>
+                    <span class="help-block field-validation-valid" data-valmsg-for="Packages[0].EmployeeId" data-valmsg-replace="true"></span>
+                </div>
+                <div class="form-group text-right actions">
+                    <button type="button" data-title="Delete" data-optionid="0" data-index="0" disable="true" class='btn btn-warning glyphicon glyphicon-trash row-remove disable'></button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <button type="button" id="addPackage" data-index="0" data-form="myForm" class="btn btn-sm btn-primary pull-right row-add">@LanguageResource.AddNewItem</button>
+        </div>
+    </div>
+</div>

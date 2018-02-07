@@ -1,0 +1,30 @@
+﻿@using Eagle.Services.Skins
+
+@{
+    ViewBag.Title = LanguageResource.ServiceDiscount;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody" class="container-fluid">
+                <div id="divEdit">
+                    @Html.Action("Create", "ServiceDiscount")
+                </div>
+                <div id="divList">
+                    @Html.Action("LoadSearchForm", "ServiceDiscount")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.ServiceDiscountSearchUrl = '@Url.Action("Search", "ServiceDiscount")';
+    </script>
+    <link href="~/Scripts/plugins/bootstrap-plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script type="text/javascript" src="~/Scripts/app/modules/service-discount.js"></script>
+}
+

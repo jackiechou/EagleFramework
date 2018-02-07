@@ -1,0 +1,92 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.Identity.UserEntry
+<div class="menu-permission-panel">
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2 class="panel-title">@LanguageResource.UserPermission</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 toggle-header">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-2 text-center">
+                <span>@LanguageResource.IsDefaultRole</span>
+            </div>
+            <div class="col-xs-2 text-center">
+                <span>@LanguageResource.IsTrialUsed</span>
+            </div>
+            <div class="col-xs-2 text-center">
+                <span>@LanguageResource.EffectiveDate</span>
+            </div>
+            <div class="col-xs-2 text-center">
+                <span>@LanguageResource.ExpiryDate</span>
+            </div>
+        </div>
+        <div id="feature-1" class="panel-body-border collapse in">
+
+            @if (Model.UserRoles != null && Model.UserRoles.Any())
+            {
+                int i = 0;
+                foreach (var item in Model.UserRoles)
+                {
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-4 col">
+                                <div class="checkbox-slider--b">
+                                    <label>
+                                        <input type="checkbox" id="UserRoles[@i].IsAllowed" name="UserRoles[@i].IsAllowed" data-id="@item.Role.RoleId" value="false"><span class="padding-left-10">@item.Role.RoleName</span>
+                                    </label>
+                                </div>
+                                <input type="hidden" id="UserRoles[@i].RoleId" name="UserRoles[@i].RoleId" value="@item.Role.RoleId"/>
+                            </div>
+                            <div class="col-xs-2 col">
+                                <div class="inner-center">
+                                    <div class="btn-group btn-group-vertical btn-radio" data-toggle="buttons">
+                                        @{
+                                            if (item.IsDefaultRole != null && item.IsDefaultRole == true)
+                                            {
+                                                <label class="btn active">
+                                                    <input type="radio" id="UserRoles[@i].IsDefaultRole" name="UserRoles.IsDefaultRole" autocomplete="off" checked><span class="glyphicon glyphicon-unchecked unchecked"></span> <span class="glyphicon glyphicon-check checked"></span>
+                                                </label>
+                                            }
+                                            else
+                                            {
+                                                <label class="btn">
+                                                    <input type="radio" id="UserRoles[@i].IsDefaultRole" name="UserRoles.IsDefaultRole" autocomplete="off"><span class="glyphicon glyphicon-unchecked unchecked"></span> <span class="glyphicon glyphicon-check checked"></span>
+                                                </label>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col">
+                                <div class="inner-center">
+                                    <div class="checkbox-slider--c">
+                                        <label>
+                                            <input type="checkbox" id="UserRoles[@i].IsTrialUsed" name="UserRoles[@i].IsTrialUsed" value="false"><span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col">
+                                @Html.DatePicker("UserRoles[" + @i + "].EffectiveDate", DateTime.UtcNow.ToString("dd/MM/yyyy"), false, new {@class = "form-control datepicker", placeholder = "dd/MM/yyyy"})
+                            </div>
+                            <div class="col-xs-2 col">
+                                @Html.DatePicker("UserRoles[" + @i + "].ExpiryDate", null, false, new {@class = "form-control datepicker", placeholder = "dd/MM/yyyy"})
+                            </div>
+                        </div>
+                        <div class="row">
+                            @Html.Action("LoadGroupForm", "User", new { roleId = @item.Role.RoleId })
+                        </div>
+                    </div>
+                    i++;
+                }
+            }
+
+        </div>
+    </div>
+</div>

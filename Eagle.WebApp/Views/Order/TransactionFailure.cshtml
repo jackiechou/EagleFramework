@@ -1,0 +1,75 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.Transaction;
+    Layout = ThemeViewEngine.DesktopMainLayout;
+}
+@model List<Eagle.Services.Dtos.Common.Error>
+
+<div class="container">
+    <div class="row text-center">
+        <div class="transaction-container">
+            <div class="transaction-header">
+                <div class="transaction-headline">
+                    <h3><span class="title-danger">Your transaction could not be processed!</span></h3>
+                </div>
+            </div>
+            <div class="transaction-body">
+                <div class="transaction-image">
+                    <img src='/Themes/Booking/Content/img/failure-transaction.png' class="thumb-image" width='250' height='250' />
+                </div>
+                <div class="transaction-caption">
+                    <h4>Sorry for inconvenience!</h4>
+                </div>
+                <div class="transaction-content bd-callout bd-callout-warning bg-faded">
+                    <div class="row">
+                        <div class="col-md-3 text-left">
+                            <strong>Reason:</strong>
+                        </div>
+                        <div class="col-md-9">
+                            <p class="text-danger text-left">The system is currently unavailable. Your payment could not be completed.</p>
+                            @{
+                                if (Model != null)
+                                {
+                                    <p class="text-warning text-left">@LanguageResource.Details:</p>
+                                    <ul>
+                                        @foreach (var item in Model)
+                                        {
+                                            <li class="text-danger text-left">@item.ErrorMessage</li>
+                                        }
+                                    </ul>
+                                }
+                            }
+                        </div>
+                    </div>
+                    
+                    @if (Model != null) { 
+                        <div class="row">
+                            <div class="col-md-3 text-left">
+                                <strong>@LanguageResource.Details:</strong>
+                            </div>
+                            <div class="col-md-9">
+                                <ul>
+                                    @foreach (var item in Model)
+                                    {
+                                        <li class="text-danger text-left">@item.ErrorMessage</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                    
+                    <div class="row">
+                        <div class="col-md-3 text-left">
+                            <strong>Suggestion</strong>
+                        </div>
+                        <div class="col-md-9">
+                            <p class="text-left"><a class="backurl" href='@Url.Action("Index", "Production")'>Please try again.</a></p>
+                            <p class="text-warning text-left">If the problem persists, please contact Customer Service.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="transaction-footer"></div>
+        </div>
+    </div>
+</div>

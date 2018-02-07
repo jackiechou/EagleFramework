@@ -1,0 +1,28 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.TransactionMethodManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody" class="container-fluid">
+                <div id="divEdit">
+                    @Html.Partial("../Business/Ecommerce/Transaction/TransactionMethod/_Create")
+                </div>
+                <div id="divList">
+                    @Html.Action("LoadSearchForm", "TransactionMethod")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.TransactionMethodSearchUrl = '@Url.Action("Search", "TransactionMethod")';
+    </script>
+    <script src="~/Scripts/autoNumeric.js"></script>
+    <script type="text/javascript" src="~/Scripts/app/modules/transaction-method.js"></script>
+}

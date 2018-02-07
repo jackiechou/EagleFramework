@@ -1,0 +1,58 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.NewsCategoryManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainBody" class="main_box">
+    <div id="divEdit">
+        @Html.Action("Create", "NewsCategory", null)
+    </div>
+    <div id="divList">
+        @Html.Action("List", "NewsCategory", new { page = 1, pageSize = 10 })
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        //links
+        window.CreateNewsCategoryUrl = '@Url.Action("Create", "NewsCategory")';
+        window.EditNewsCategoryUrl = '@Url.Action("Edit", "NewsCategory")';
+        window.ListNewsCategoryUrl = '@Url.Action("List", "NewsCategory")';
+        window.IndexNewsCategoryUrl = '@Url.Action("Index", "NewsCategory")';
+        window.DeleteNewsCategoryUrl = '@Url.Action("Delete", "NewsCategory")';
+        window.GetCategoryTreeGridUrl = '@Url.Action("GetNewsCategoryTreeGrid", "NewsCategory")';
+        window.GetNewsCategoryTreeUrl = '@Url.Action("GetNewsCategoryTree", "NewsCategory")';
+        window.UpdateNewsCategoryListOrderUrl = '@Url.Action("UpdateNewsCategoryListOrder", "NewsCategory")';
+    </script>
+
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <!-- fancytree -->
+    <link href="~/Scripts/plugins/fancytree/skin-win8/ui.fancytree.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/fancytree/jquery.fancytree.js"></script>
+    <script src="~/Scripts/plugins/fancytree/jquery.fancytree.dnd.js"></script>
+    <script src="~/Scripts/plugins/fancytree/jquery.fancytree.edit.js"></script>
+
+    <link href="~/Scripts/plugins/contextmenu/jquery.contextMenu.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/contextmenu/jquery.contextMenu.js"></script>
+    <script src="~/Scripts/plugins/fancytree/extensions/contextmenu/js/jquery.fancytree.contextMenu.js"></script>
+
+    <!-- Bootstrap-Iconpicker -->
+    <link href="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/css/bootstrap-iconpicker.min.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/iconset/iconset-glyphicon.min.js"></script>
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/iconset/iconset-fontawesome-4.2.0.min.js"></script>
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/bootstrap-iconpicker.min.js"></script>
+
+    <!-- jstree -->
+    <link href="~/Scripts/plugins/jstree/themes/proton/style.min.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/jstree/jstree.min.js"></script>
+    <script src="~/Scripts/plugins/jstree/jstreegrid.js"></script>
+
+    <!-- pagination -->
+    <link href="~/Scripts/plugins/pagination/simplePagination.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/pagination/jquery.simplePagination.js"></script>
+    <script src="~/Scripts/app/modules/news-category.js"></script>
+}

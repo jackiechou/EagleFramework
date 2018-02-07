@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = LanguageResource.EditCurrency;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Business.CurrencyEditEntry
+
+<div class="panel panel-default">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditCurrency", name = "frmEditCurrency", autocomplete = "off", @class = "form-horizontal" }))
+    {
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditCurrency" data-id="@Model.CurrencyId" data-url='@Url.Action("Edit", "Currency")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editCurrency" data-mode="edit" data-form="frmEditCurrency" data-id="@Model.CurrencyId" data-url='@Url.Action("Edit", "Currency")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditCurrency</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.CurrencyName, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.CurrencyName, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.CurrencyName)
+
+                                    @Html.HiddenFor(model => model.CurrencyId)
+                                    @Html.ValidationMessageFor(model => model.CurrencyId)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.CurrencyCode, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.CurrencyCode, new { @class = "form-control", required = "required", @readonly= "true" })
+                                    @Html.ValidationMessageFor(model => model.CurrencyCode)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.RadioButtonSwitchEnumFor(model => model.IsActive)
+                                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditCurrency" data-id="@Model.CurrencyId" data-url='@Url.Action("Edit", "Currency")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editCurrency" data-mode="edit" data-form="frmEditCurrency" data-id="@Model.CurrencyId" data-url='@Url.Action("Edit", "Currency")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+                                                }
+</div>

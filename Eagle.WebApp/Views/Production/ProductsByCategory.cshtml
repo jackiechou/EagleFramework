@@ -1,0 +1,45 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.Product;
+    Layout = ThemeViewEngine.DesktopMainLayout;
+}
+@model Eagle.Services.Dtos.Business.ProductByCategory
+
+<div class="search-panel">
+    <div class="advanced-search">
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="filter-by-block">
+                        <h1>Categories</h1>
+                        <div class="panel-body">
+                            <ul id="categoryTree" data-url='@Url.Action("GetProductCategorySelectTree", "Production")'></ul>
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="col-md-9">                   
+                    <div id="search-result">
+                        @{
+                            Html.RenderAction("GetProductsByCategory", "Production", new { categoryId = Model.Category.CategoryId });
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        window.GetProductCategorySelectTree = '@Url.Action("GetProductCategorySelectTree", "Production")';
+        window.GetProductsByCategoryUrl = '@Url.Action("GetProductsByCategory", "Production")';
+        window.UpdateRatingUrl = '@Url.Action("CreateProductRating", "Production")';
+    </script>
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <script src="~/Themes/Booking/Content/js/app/production-by-category.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js' type="text/javascript"></script>
+}

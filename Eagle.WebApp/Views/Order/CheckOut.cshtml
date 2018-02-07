@@ -1,0 +1,105 @@
+﻿@using Eagle.Services.Common
+@model Eagle.Services.Dtos.Business.Transaction.ShoppingCheckOut
+
+@{
+    ViewBag.Title = LanguageResource.Checkout;
+    Layout = Eagle.Services.Skins.ThemeViewEngine.DesktopMainLayout;
+}
+
+<div class="checkout-container container">
+    @using (Html.BeginForm("Checkout", "CustOrder", FormMethod.Post, new { id = "checkout-form", name = "checkout-form" }))
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading text-bold">
+                <div class="row">
+                    <div class="col-md-10 no-padding-left">
+                        <h2 class="title"><span class="glyphicon glyphicon-star"></span> @Html.Raw(LanguageResource.YourCart)</h2>
+                    </div>
+                    <div class="col-md-2 no-padding-right">
+                        <a class="backurl" href='@Url.Action("Index", "Production")'>
+                            <i class="fa fa-shopping-cart"></i> @Html.Raw(LanguageResource.BuyMore)
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-container">
+                    <div id="formMessage" class="form-message">
+                        @Html.AntiForgeryToken()
+                        @Html.Partial("_MessagePartial")
+                        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <div class="form-container">
+                        <div class="form-horizontal">
+                            @Html.Partial("../Order/_Billing", Model.Cart)
+                            @Html.Partial("../Order/_Discount")
+                            <input type="hidden" name="Cart.OrderCode" value="@Model.Cart.OrderCode" />
+                            <input type="hidden" id="current-currency" value="@Model.Cart.CurrencyCode" />
+
+                            <div class="row">
+                                <div class="checkout-shipping">
+                                    <div class="header-tags">
+                                        <div class="overflow-h">
+                                            <h2>
+                                                <span>@Html.Raw(LanguageResource.Checkout)</span>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                @Html.Partial("../Order/_CustomerInfo")
+                                            </div>
+                                            <div class="col-md-6">
+                                                @Html.Partial("../Order/_Delivery")
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="payment-container">
+                                    <div class="header-tags">
+                                        <div class="overflow-h">
+                                            <h2>
+                                                <span>@LanguageResource.Payment</span>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    <section>
+                                        <div class="padding-0">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    @Html.Action("PopulateTransactionMethods", "CustOrder")
+                                                    @Html.Action("PopulatePaymentMethods", "CustOrder")
+                                                    @Html.Action("PopulateShippingMethods", "CustOrder")
+                                                </div>
+                                                <div class="col-md-6">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-offset-6">
+                        <button type="button" class="btn btn-primary" id="check-out" data-form="checkout-form">
+                            @LanguageResource.Checkout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+  
+</div>
+@section Scripts
+{
+    <script src="~/Themes/Booking/Content/js/app/check-out.js"></script>
+}

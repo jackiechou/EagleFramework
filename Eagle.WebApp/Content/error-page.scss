@@ -1,0 +1,68 @@
+/* Animate Background Image */
+
+@-webkit-keyframes aitf {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+#wrapper-error-page {
+    position: relative;
+    margin: 0 auto;
+    background: rgba(56,56,58,0.38);
+
+    #container-error-page {
+        max-width: 975px;
+        margin: 0 auto;
+        padding-right: 10px;
+        padding-left: 10px;
+        text-align: left;
+        min-height: 700px;
+       
+        h3 {
+            margin: 0;
+            padding: 10px 0;
+        }
+        #body {
+            width: 950px;
+            min-height: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+
+            .text-effect {
+                text-transform: uppercase;
+                letter-spacing: .1 em;
+                display: inline-block;
+                border: 4px double rgba(37,220,220,.2);
+                border-width: 4px 0;
+                padding: 1.5em 0em;
+                position: relative;
+                margin: 0 auto;
+
+                span {
+                    font: 700 4em/1 "Oswald", sans-serif;
+                    letter-spacing: 0;
+                    padding: .25em 0 .325em;
+                    display: block;
+                    margin: 0 auto;
+                    text-shadow: 0 0 80px rgba(255,255,255,.1);
+                    /* Clip Background Image */
+                    background: url(../images/animated_text_fill.png) repeat-y;
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    /* Animate Background Image */
+                    -webkit-text-fill-color: transparent;
+                    -webkit-animation: aitf 80s linear infinite;
+                    /* Activate hardware acceleration for smoother animations */
+                    -webkit-transform: translate3d(0,0,0);
+                    -webkit-backface-visibility: hidden;
+                }
+            }
+        }
+    }
+}

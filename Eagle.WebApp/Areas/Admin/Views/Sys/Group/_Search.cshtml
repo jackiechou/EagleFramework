@@ -1,0 +1,34 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@using Eagle.Services.Dtos.SystemManagement.Identity
+@model Eagle.Services.Dtos.SystemManagement.Identity.GroupSearchResult
+<div class="panel panel-primary create-panel">
+    <div class="panel-heading text-bold">@LanguageResource.Search</div>
+    <div class="panel-body">
+        <div id="SearchFitler" class="row margin-bottom-15">
+            @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary("", new { @class = "alert alert-danger" })
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-cog"></span> @LanguageResource.Search
+                        </span>
+                        @Html.TextBoxFor(model => model.Filter.GroupName, new { @class = "form-control", placeholder = @LanguageResource.GroupName })
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-refresh reset" data-form="frmSearch" data-mode="search"></span>
+                        </span>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-search search" data-container="SearchResult" data-form="frmSearch" data-url='@Url.Action("Search", "Group")' data-mode="search"></span>
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+        <div id="SearchResult" class="row">
+            @{
+                Html.RenderAction("Search", "Group", new { page = 1 });
+            }
+        </div>
+    </div>
+</div>

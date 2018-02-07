@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Contents.Galleries.GalleryFileInfoDetail>
+
+@if (Model != null && Model.Any())
+{
+    <div id="gallery" class="gallery">
+        @foreach (var item in Model)
+        {
+            if (item != null)
+            {
+                if (File.Exists(Server.MapPath(item.File.FileUrl)))
+                {
+                    <a href='@item.File.FileUrl'>
+                        <img src='@item.File.FileUrl' alt="@item.File.FileTitle" />
+                    </a>
+                }
+            }
+        }
+    </div>
+}
+else
+{
+    <div class="gallery">
+        <p>@LanguageResource.NotFound</p>
+    </div>
+}

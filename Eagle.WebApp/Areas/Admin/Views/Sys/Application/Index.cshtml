@@ -1,0 +1,108 @@
+﻿@using Eagle.Core.Configuration
+@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.Application);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="tab-container">
+    <div class="row">
+        <div class="col-sm-3 no-padding-right">
+            <ul id="nav-tabs-wrapper" class="nav nav-tabs nav-stacked well tabs-left">
+                <li class="active"><a href="#advanced-setting-container" data-toggle="tab">@LanguageResource.AdvancedSettings <span class="sub_icon glyphicon glyphicon-dashboard"></span></a></li>
+                <li><a href="#cache-container" data-toggle="tab">@LanguageResource.Cache <span class="sub_icon glyphicon glyphicon-remove-circle"></span></a></li>
+                <li><a href="#date-time-config-container" data-toggle="tab">@LanguageResource.DateTimeConfig <span class="sub_icon fa fa-calendar-times-o"></span></a></li>
+                <li><a href="#file-config-container" data-toggle="tab">@LanguageResource.FileConfig <span class="sub_icon fa fa-file"></span></a></li>
+                <li><a href="#page-config-container" data-toggle="tab">@LanguageResource.PageConfig <span class="sub_icon fa fa-pagelines"></span></a></li>
+                <li><a href="#order-container" data-toggle="tab">@LanguageResource.Order <span class="sub_icon fa fa-first-order"></span></a></li>
+                <li><a href="#currency-container" data-toggle="tab">@LanguageResource.Currency <span class="sub_icon glyphicon glyphicon-euro"></span></a></li>
+                <li><a href="#language-container" data-toggle="tab">@LanguageResource.Language <span class="sub_icon glyphicon glyphicon-flag"></span></a></li>
+                <li><a href="#address-container" data-toggle="tab">@LanguageResource.Address <span class="sub_icon glyphicon glyphicon-bookmark"></span></a></li>
+                <li><a href="#recaptcha-container" data-toggle="tab">@LanguageResource.Recaptcha <span class="sub_icon glyphicon glyphicon-check"></span></a></li>
+                <li><a href="#twitter-container" data-toggle="tab">@LanguageResource.Twitter <span class="sub_icon fa fa-twitter"></span></a></li>
+                <li><a href="#facebook-container" data-toggle="tab">@LanguageResource.Facebook <span class="sub_icon fa fa-facebook"></span></a></li>
+                <li><a href="#paygate-container" data-toggle="tab">@LanguageResource.PayGate <span class="sub_icon glyphicon glyphicon-shopping-cart"></span></a></li>
+                <li><a href="#paypal-container" data-toggle="tab">@LanguageResource.PayPal <span class="sub_icon fa fa-cart-plus"></span></a></li>
+                <li><a href="#delivery-container" data-toggle="tab">@LanguageResource.Delivery <span class="sub_icon fa fa-anchor"></span></a></li>
+                <li><a href="#smtp-container" data-toggle="tab">@LanguageResource.Smtp.ToUpper() <span class="sub_icon glyphicon glyphicon-cog"></span></a></li>
+                <li><a href="#notification-container" data-toggle="tab">@LanguageResource.Notification <span class="sub_icon fa fa-newspaper-o"></span></a></li>
+                <li><a href="#rating-container" data-toggle="tab">@LanguageResource.Ratings <span class="sub_icon glyphicon glyphicon-star"></span></a></li>
+                <li><a href="#product-filtered-price-range-container" data-toggle="tab">@LanguageResource.ProductFilteredPriceRange <span class="sub_icon fa fa-filter"></span></a></li>
+                <li><a href="#product-price-range-container" data-toggle="tab">@LanguageResource.ProductPriceRange <span class="sub_icon glyphicon glyphicon-book"></span></a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 no-padding-left">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="advanced-setting-container">
+                    @Html.Action("GetAdvancedSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="cache-container">
+                    @Html.Action("GetCacheSetting", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="date-time-config-container">
+                    @Html.Action("GetDateTimeConfigSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="file-config-container">
+                    @Html.Action("GetFileConfigSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="page-config-container">
+                    @Html.Action("GetPageConfigSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="order-container">
+                    @Html.Action("GetOrderSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="currency-container">
+                    @Html.Action("GetCurrencySettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="language-container">
+                    @Html.Action("GetLanguageSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="address-container">
+                    @Html.Action("GetAddressSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="recaptcha-container">
+                    @Html.Action("GetRecaptchaSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="twitter-container">
+                    @Html.Action("GetTwitterSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="facebook-container">
+                    @Html.Action("GetFacebookSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="paygate-container">
+                    @Html.Action("GetPayGateSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="paypal-container">
+                    @Html.Action("GetPayPal", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="delivery-container">
+                    @Html.Action("GetDeliverySettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="notification-container">
+                    @Html.Action("GetNotificationSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="smtp-container">
+                    @Html.Action("GetSmtpSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="rating-container">
+                    @Html.Action("GetRateSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="product-filtered-price-range-container">
+                    @Html.Action("GetProductFilteredPriceRangeSettings", "Application")
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="product-price-range-container">
+                    @Html.Action("GetProductPriceRangeSettings", "Application")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="~/Themes/Booking/Content/css/plugins/bootstrap-vertical-tabs.min.css" rel="stylesheet" />
+@section Scripts
+{
+    <script type="text/javascript">
+        window.ApplicationHomePage = '@Url.Action("Index", "Application")';
+        window.GetAdvancedSettingsUrl = '@Url.Action("GetAdvancedSettings", "Application")';
+    </script>
+    <script src="@Url.Content("~/Scripts/app/modules/application.js")"></script>
+}

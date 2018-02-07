@@ -1,0 +1,47 @@
+﻿@model Eagle.Services.Dtos.Services.Booking.ServiceBookingSearchEntry
+
+<div class="panel panel-default search-panel">
+    <div class="panel-heading">
+        <h5>@Html.Raw(LanguageResource.Search)</h5>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+        {
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-cog"></span> @LanguageResource.Search
+                        </span>
+                        <span class="input-group-addon">
+                            @Html.TextBoxFor(model => model.SearchText, new { @class = "form-control", placeholder = @LanguageResource.CustomerName })
+                        </span>
+                        <span class="input-group-addon">
+                            <input type="text" name="DateRangePicker" id="DateRangePicker" data-datepicker="datepicker" class="small form-control" data-link-format="MM/YYYY" />
+                            <input type="hidden" id="FromDate" name="FromDate" />
+                            <input type="hidden" id="ToDate" name="ToDate" />
+                        </span>
+                        <span class="input-group-addon">
+                            @Html.EnumDropDownListFor(model => model.OrderDetailStatus,  string.Format("--- {0} ---", LanguageResource.Select), new {@class = "form-control"})
+                        </span>
+                        <span class="input-group-addon reset" role="button" data-form="frmSearch" data-mode="search">
+                            <span class="glyphicon glyphicon-refresh"></span>
+                        </span>
+                        <span class="input-group-addon">
+                            <button type="button" class="btn btn-primary search" data-form="frmSearch" data-mode="search">
+                                <span class="glyphicon glyphicon-search" role="button"></span> @LanguageResource.Search
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        <div id="search-result" class="row">
+            @{
+                Html.RenderAction("Search", "ServiceBookingOrder");
+            }
+        </div>
+    </div>
+</div>

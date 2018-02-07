@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = LanguageResource.EditServiceDiscount;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Services.Booking.ServiceDiscountEditEntry
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditServiceDiscount", name = "frmEditServiceDiscount", autocomplete = "off", @class = "form-horizontal" }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditServiceDiscount" data-id="@Model.DiscountId" data-url='@Url.Action("Edit", "ServiceDiscount")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editServiceDiscount" data-mode="edit" data-form="frmEditServiceDiscount" data-url='@Url.Action("Edit", "ServiceDiscount")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditServiceDiscount</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="container-fluid">
+                    <div class="form-container">
+                        <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                        <div class="form-body-container">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.DiscountCode, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(model => model.DiscountCode, new { @class = "form-control", placeholder = LanguageResource.DiscountCode })
+                                        @Html.ValidationMessageFor(model => model.DiscountCode)
+                                    </div>
+                                    @Html.RequiredLabelFor(model => model.DiscountType, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.EnumDropDownListFor(model => model.DiscountType, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DiscountType)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Quantity, new {@class = "control-label col-md-2"})
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(model => model.Quantity, new {@class = "form-control number", placeholder = LanguageResource.Quantity })
+                                        @Html.ValidationMessageFor(model => model.Quantity)
+
+                                        @Html.HiddenFor(model => model.DiscountId)
+                                        @Html.ValidationMessageFor(model => model.DiscountId)
+                                    </div>
+                                    @Html.Label("DateRange", LanguageResource.DateRange, new {@class = "control-label col-md-2"})
+                                    <div class="col-md-4">
+                                        <input type="text" name="DateRange" id="DateRange" data-datepicker="datepicker" class="small form-control" data-link-format="MM/YYYY"/>
+                                        <input type="hidden" id="StartDate" name="StartDate" value="@Model.StartDate"/>
+                                        <input type="hidden" id="EndDate" name="EndDate" value="@Model.EndDate"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.DiscountRate, new {@class = "control-label col-md-2", type = "number"})
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(model => model.DiscountRate, new {@class = "form-control number", placeholder = LanguageResource.DiscountRate })
+                                        @Html.ValidationMessageFor(model => model.DiscountRate)
+                                    </div>
+                                    @Html.LabelFor(model => model.IsPercent, new {@class = "control-label col-md-2"})
+                                    <div class="col-md-4">
+                                        <div class="checkbox-slider--a">
+                                            <label>
+                                                @{
+                                                    if (Model.IsPercent)
+                                                    {
+                                                        <input type="checkbox" id="IsPercent" name="IsPercent" checked="checked" value="true"><span></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" id="IsPercent" name="IsPercent" value="false"><span></span>
+                                                    }
+                                                }
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Description, new {@class = "control-label col-md-2"})
+                                    <div class="col-md-4">
+                                        @Html.TextAreaFor(model => model.Description, new {rows = 2, columns = 40, @class = "form-control"})
+                                        @Html.ValidationMessageFor(model => model.Description)
+                                    </div>
+                                    @Html.LabelFor(model => model.IsActive, new {@class = "control-label col-md-2"})
+                                    <div class="col-md-4">
+                                        @Html.RadioButtonSwitchEnumFor(model => model.IsActive)
+                                        @Html.ValidationMessageFor(model => model.IsActive)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditServiceDiscount" data-id="@Model.DiscountId" data-url='@Url.Action("Edit", "ServiceDiscount")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editServiceDiscount" data-mode="edit" data-form="frmEditServiceDiscount" data-id="@Model.DiscountId" data-url='@Url.Action("Edit", "ServiceDiscount")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+

@@ -1,0 +1,67 @@
+﻿@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Business.ProductInfoDetail>
+<div id="discounted-products" class="row">
+    <div class="slider-wrapper theme-default col-md-12">
+        @if (Model != null && Model.Any())
+        {
+            int i = 0, j = 0;
+            <div id="discounted-products-slider" class="nivoSlider">
+                @foreach (var item in Model)
+                {
+                    <a data-id="@item.ProductId" title="@item.ProductName" href='@Url.Action("Details", "Production", new {id = item.ProductId})'>
+                        @if (!string.IsNullOrEmpty(item.SmallPhotoUrl))
+                        {
+                            <img src='@item.LargePhotoUrl' data-thumb='@item.SmallPhotoUrl' alt='@item.ProductName' title='#htmlcaption_@i' class="slide-image">
+                        }
+                        else
+                        {
+                            <img src="/Images/150x90.png" data-thumb="/Images/150x90.png" alt='@item.ProductName' title='#htmlcaption_@i' class="slide-image">
+                        }
+                    </a>
+                    i++;
+                }
+            </div>
+
+            foreach (var product in Model)
+            {
+                <div id="htmlcaption_@j" class="nivo-html-caption">
+                    <a data-id="@product.ProductId" title="@product.ProductName" href='@Url.Action("Details", "Production", new {id = product.ProductId})'>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <h6>@product.ProductName</h6>
+                                <p class="small dotdot">@(product.ShortDescription != null && product.ShortDescription.Length > 200 ? product.ShortDescription.Substring(0, 200) + "..." : product.ShortDescription)</p><br>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <div class="shop-bg-green">
+                                    <span class="percent-numb">
+                                        @if (product.ProductDiscount.IsPercent)
+                                        {
+                                            string.Format("{0} % {1}", product.ProductDiscount.DiscountRate, LanguageResource.SaleOff);
+                                        }
+                                        else
+                                        {
+                                            string.Format("-{0} {1} {2}", product.ProductDiscount.DiscountRate, product.CurrencyCode, LanguageResource.SaleOff);
+                                        }
+                                    </span>
+                                </div>
+                                <div class="new-offers">
+                                    <span class="price-tag">@LanguageResource.Price @(product.GrossPrice == 0 ? LanguageResource.ContactUs : Html.FormatValue(product.GrossPrice, "${0:c}"))</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row rating-container">
+                            <div class="star-rating" id="starRating_@product.ProductId" star-id="@product.ProductId" star-url='@Url.Action("CreateProductRating", "Production")' rating-type="product">
+                                <span class="fa fa-star-o" data-rating="1" title="Did not like it"></span>
+                                <span class="fa fa-star-o" data-rating="2" title="it was okay"></span>
+                                <span class="fa fa-star-o" data-rating="3" title="Liked it"></span>
+                                <span class="fa fa-star-o" data-rating="4" title="Really liked it"></span>
+                                <span class="fa fa-star-o" data-rating="5" title="It was amazing"></span>
+                                <input type="hidden" name="ratingValue" id="ratingValue_@product.ProductId" input-id="@product.ProductId" class="rating-value" value="@product.Rating">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                j++;
+            }
+        }
+    </div>
+</div>

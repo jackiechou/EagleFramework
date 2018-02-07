@@ -1,0 +1,99 @@
+﻿<input type="file" multiple="multiple" id="fUpload" />
+
+<div id="file-list"></div>
+<style type="text/css">
+    /**************** FILE UPLOAD *********************/
+    .table-upload {
+        min-width: 350px;
+        border-top: solid 1px #ccc;
+        border-left: solid 1px #ccc;
+    }
+
+        .table-upload td {
+            padding: 5px 10px;
+            border-right: solid 1px #ccc;
+            border-bottom: solid 1px #ccc;
+        }
+
+    .header-row {
+        background: #606264;
+        height: 30px;
+        line-height: 30px;
+        color: #fff;
+    }
+
+    /**************** END FILE UPLOAD *********************/
+</style>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //we apply an event to automatically list of files when the user select the files
+        // the files will be built inside a table that includes the file name, size and the upload status.
+        $("input#fUpload").change(function () {
+            var fileList = "";
+            if ($(this).prop("files").length > 0) {
+                fileList  = "<table class=\"table-upload\" cellpadding=\"0\" cellspacing=\"0\">";
+                fileList  = "<tr class=\"header-row\">";
+                fileList  = "<td class=\"header-filename\">File Name</td>";
+                fileList  = "<td class=\"header-filesize\">Size</td>";
+                fileList  = "<td class=\"header-status\">Status</td>";
+                fileList  = "</tr>";
+                for (i = 0; i < $(this).prop("files").length; i++  ) {
+                    fileList  = "<tr id=\"row-file" + i + "\" class=\"row-file\">";
+                    fileList  = "<td class=\"row-filename\">" +  $(this).prop("files")[i].name +  "</td>";
+                    fileList  = "<td class=\"row-filesize\">" +  ($(this).prop("files")[i].size / 1048576).toFixed(2) +  " MB</td>";
+                    fileList  = "<td id=\"row-status" + i + "\" class=\"row-status\">&#160;</td>";
+                    fileList  = "</tr>";
+                }
+                fileList  = "</table>";
+            }
+
+            if (fileList.length > 0) {
+                $("#file-list").html(fileList);
+                $("#file-list").slideDown();
+            }
+
+            for (i = 0; i < $(this).prop("files").length; i++  ) {
+                uploadImage(i);
+            }
+        });
+    });
+
+    //This will be the function to post image to generic handler
+    //the parameter position will be used to identify which image file is going to be upload
+    function uploadImage(position) {
+        //we include a random number just to make sure it is unique and not cache.
+        var randomnumber = Math.floor(Math.random() * 10001);
+
+        //we use the FormData object to build the file uploads
+        var form_data = new FormData();
+        var objFiles = $("input#fUpload").prop("files");
+        form_data.append("file", objFiles[position]);
+
+        //we set the status saying the site is currently uploading the file. Note: you can remove the image ajax animated loading if you do not have it and just leave the text information base only. Make sure you set the URL for the generic handler path correctly.
+        $("#row-status").html("<img src='ajax-loading.gif'/> Uploading..");
+        $.ajax({
+            url: "/handlers/uploadhandler.ashx?rdm=" + randomnumber,
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'post',
+            success: function (response) {
+                //if the post is success it will go here
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                //if there is an error it will be here
+                //to display an error message you can use xhr.responseText
+            },
+            complete: function () {
+                //Once the call to generic handler is complete, this will be called.
+                //In this case, we want tell the user that the upload is completed.
+                $("#row-status").html("Completed");
+            }
+        })
+    }
+
+</script>
+

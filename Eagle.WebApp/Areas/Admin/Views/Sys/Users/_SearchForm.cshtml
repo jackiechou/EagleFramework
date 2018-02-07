@@ -1,0 +1,115 @@
+﻿@using Eagle.Core.HtmlHelper
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.SystemManagement.Identity.UserSearchEntry
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmSearchUser", name = "frmSearchUser", @class = "form-horizontal", enctype = "multipart/form-data", role = "form", autocomplete = "off", }))
+{
+    <div class="panel panel-default search-form-panel">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-11">
+                    <h5>@Html.Raw(LanguageResource.Search)</h5>
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-default search" data-url='@Url.Action("Search", "User")'>
+                        <span class="glyphicon glyphicon-search"></span> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div id="user-containter" data-page="1" class="no-padding-left">
+                <div id="search-form" class="row padding-bottom-5">
+
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.RoleId, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.RoleId, null, new { @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.GroupId, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            <select id="GroupId" name="GroupId" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.KeyName, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                           @Html.TextBoxFor(model => model.KeyName, null, new { @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.Email, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Phone, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Phone)
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Mobile, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Mobile)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-2">
+                           @Html.LabelFor(model => model.IsApproved, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.IsApproved, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.IsApproved)
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.IsSuperUser, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.IsSuperUser, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.IsSuperUser)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.IsLockedOut, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.IsLockedOut, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.IsLockedOut)
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-11"></div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-primary search" data-url='@Url.Action("Search", "User")'>
+                        <span class="glyphicon glyphicon-search"></span> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

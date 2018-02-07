@@ -1,0 +1,86 @@
+﻿@using System.Collections
+@model IEnumerable<Eagle.Services.Dtos.SystemManagement.MenuPageDetail>
+
+<div class='navbar yamm navbar-default'>
+    <div class='container'>
+        @if (Model != null)
+        {
+            string menuLink = string.Empty;
+            var parentList = Model.Where(p => p.ParentId == null || p.ParentId == 0).ToList();
+            if (parentList.Any())
+            {
+                <ul class='nav navbar-nav'>
+                    @foreach (var node in parentList)
+                    {
+                        var icon = (!string.IsNullOrEmpty(node.IconClass)) ? "<i class='glyphicon " + node.IconClass + "'></i>" : "<i class='icon-menu-list'></i>";
+                        if (node.Page.IsExtenalLink != null && node.Page.IsExtenalLink == true)
+                        {
+                            menuLink = node.Page.PageUrl;
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(node.Page.PagePath))
+                            {
+                                menuLink = node.Page.PagePath.ToLower();
+                            }
+                        }
+                        menuLink += "/" + node.MenuCode;
+
+                        if (node.HasChild != null && node.HasChild == true)
+                        {
+                            <li id="@node.PageId" class='dropdown'>
+                                <a href='@menuLink' data-toggle='dropdown' class='dropdown-toggle menu-item'>
+                                    @icon
+                                    @node.MenuTitle
+                                    @if (node.HasChild != null && node.HasChild == true)
+                                    {
+                                        <b class='caret'></b>
+                                    }
+                                </a>
+
+                                @*@if (node.HasChild != null && node.HasChild == true)
+                                {
+                                    string subMenuLink = string.Empty;
+                                    var list = node.Children.Where(p => p.ParentId == node.MenuId).ToList();
+                                    if (list.Any())
+                                    {
+                                        foreach (var item in list)
+                                        {
+                                            var subIcon = (!string.IsNullOrEmpty(item.IconClass)) ? "<i class='glyphicon " + item.IconClass + "'></i>" : "<i class='icon-menu-list'></i>";
+                                            if (item.Page.IsExtenalLink != null && item.Page.IsExtenalLink == true)
+                                            {
+                                                subMenuLink = item.Page.PageUrl;
+                                            }
+                                            else
+                                            {
+                                                if (!string.IsNullOrEmpty(item.Page.PagePath))
+                                                {
+                                                    subMenuLink = item.Page.PagePath.ToLower();
+                                                }
+                                            }
+                                            subMenuLink += "/" + item.MenuCode;
+                                        }
+                                    }
+                                }*@
+                            </li>
+                        }
+                        else
+                        {
+                            <li id="@node.PageId">
+                                <a href='@menuLink' data-toggle='dropdown' class='dropdown-toggle menu-item'>
+                                    @icon
+                                    @node.MenuTitle
+                                    @if (node.HasChild != null && node.HasChild == true)
+                                    {
+                                        <b class='caret'></b>
+                                    }
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            }
+        }
+
+    </div>
+</div>

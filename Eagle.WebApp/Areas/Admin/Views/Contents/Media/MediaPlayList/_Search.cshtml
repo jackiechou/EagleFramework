@@ -1,0 +1,49 @@
+﻿@model Eagle.Services.Dtos.Contents.Media.MediaPlayListSearchEntry
+<div class="panel panel-primary search-panel search-mediaplaylist">
+    <div class="panel-heading text-bold">
+        <div class="row">
+            <div class="col-md-10">
+                <h5>@Html.Raw(LanguageResource.List)</h5>
+            </div>
+            <div class="col-md-2 text-right">
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-default back-form" onclick="location.href = '@Url.Action("Index", "MediaPlayList")'">
+                        <span class="glyphicon glyphicon-home"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+        {
+            @Html.ValidationSummary("", new { @class = "alert alert-danger" })
+            <div class="row margin-bottom-15">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        @Html.TextBoxFor(model => model.SearchText, new { @class = "form-control", placeholder = @LanguageResource.CollectionName })
+                    </span>
+                    <span class="input-group-addon">
+                        <select id="SearchTypeId" name="SearchTypeId" class="form-control cbxCType" data-url='@Url.Action("PoplulateMediaTypeSelectList", "MediaPlayList")'></select>
+                    </span>
+                    <span class="input-group-addon">
+                        <input id="SearchTopicId" name="SearchTopicId" value="0" data-url='@Url.Action("GetMediaTopicSelectTree", "MediaPlayList")' class="easyui-combotree form-control cbxTopicTree" style="width: 99%;">
+                    </span>
+                    <span class="input-group-addon">
+                        @Html.EnumDropDownListFor(model => model.SearchStatus, LanguageResource.PleaseSelect, new { @class = "form-control" })
+                    </span>
+                    <span class="input-group-addon reset">
+                        <span class="glyphicon glyphicon-refresh" role="button" data-form="frmSearch" data-mode="reset"></span>
+                    </span>
+                    <span class="input-group-addon search">
+                        <span class="glyphicon glyphicon-search" role="button" data-form="frmSearch" data-mode="search"></span>
+                    </span>
+                </div>
+            </div>
+            <div id="search-result" class="row">
+                @Html.Action("Search", "MediaPlayList")
+            </div>
+        }
+    </div>
+</div>

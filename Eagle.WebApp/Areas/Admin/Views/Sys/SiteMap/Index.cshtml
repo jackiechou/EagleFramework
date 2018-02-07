@@ -1,0 +1,58 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.SiteMapManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading text-bold">
+        <div class='page-header margin-top-5 margin-bottom-0'>
+            <div class='btn-toolbar pull-right'>
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-default back-form" onclick="location.href = '@Url.Action("Index", "SiteMap")'">
+                        <span class="glyphicon glyphicon-home"></span>
+                    </button>
+                </div>
+            </div>
+            <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.SiteMap</h4>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div id="MainBody" class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="divList">
+                        @Html.Partial("../Sys/SiteMap/_TreeList")
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div id="divEdit">
+                        @Html.Action("Create", "SiteMap")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        //links
+        window.CreateSiteMapUrl = '@Url.Action("Create", "SiteMap")';
+        window.EditSiteMapUrl = '@Url.Action("Edit", "SiteMap")';
+        window.DeleteSiteMapUrl = '@Url.Action("Delete", "SiteMap")';
+        window.GetSiteMapSelectTreeUrl = '@Url.Action("GetSiteMapSelectTree", "SiteMap")';
+    </script>
+
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <!-- Bootstrap-Iconpicker -->
+    <link href="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/css/bootstrap-iconpicker.min.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/iconset/iconset-glyphicon.min.js"></script>
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/iconset/iconset-fontawesome-4.2.0.min.js"></script>
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-iconpicker/js/bootstrap-iconpicker.min.js"></script>
+    <script src="~/Scripts/app/modules/sitemap.js"></script>
+}

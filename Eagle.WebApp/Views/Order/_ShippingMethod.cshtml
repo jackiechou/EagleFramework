@@ -1,0 +1,39 @@
+﻿@model List<Eagle.Services.Dtos.Business.ShippingMethodInfo>
+
+<!-- Accordion -->
+<div class="accordion-v2">
+    <div id="shipping-method-container" class="shipping-method-container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapseShippingMethod">
+                        <i class="fa fa-truck"></i> @LanguageResource.ShippingMethod
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseShippingMethod" class="panel-collapse collapse in">
+                <div class="shipping-method-inner">
+                    @{
+                        if (Model != null && Model.Any())
+                        {
+                            int j = 0;
+                            foreach (var item in Model)
+                            {
+                                <div class="form-group">
+                                    <label class="radio-inline">
+                                        <input type="radio" id="ShipmentInfo.ShippingMethodId_@j"
+                                               name="ShipmentInfo.ShippingMethodId"
+                                               data-url='@Url.Action("CalculateShippingFee", "CustOrder")'
+                                               value="@item.ShippingMethod.ShippingMethodId" checked='@(j == 0)'/> @item.ShippingMethod.ShippingMethodName
+                                    </label>
+                                </div>
+                                j++;
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Accordion -->

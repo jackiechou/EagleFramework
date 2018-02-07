@@ -1,0 +1,92 @@
+﻿@model Eagle.Services.Dtos.Contents.Documentation.DocumentationEntry
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent" class="row">
+
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmDocumentation", name = "frmDocumentation", @class = "form-horizontal", enctype = "multipart/form-data", role = "form", autocomplete = "off", }))
+            {
+                <div id="FormContainer" class="form-container">
+                    <div id="FormHeader" class="form-header">
+                        <div class="topbar">
+                            <div class="row topbar-inner">
+                                <div class="col-md-12">
+                                    <h6>@LanguageResource.CreateDocumentation</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="FormBody" class="form-body">
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h6>@LanguageResource.Create</h6>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class='btn-toolbar pull-right'>
+                                                    <div class='btn-group'>
+                                                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmDocumentation" data-url='@Url.Action("Create", "Documentation")' value="@Html.Raw(LanguageResource.Reset)" />
+                                                        <input type="button" class="btn btn-primary save add create createDocumentation" data-mode="create" data-form="frmDocumentation" data-url='@Url.Action("Create", "Documentation")' value="@Html.Raw(LanguageResource.Save)" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="formMessage" class="form-message">
+                                            @Html.AntiForgeryToken()
+                                            @Html.Partial("_MessagePartial")
+                                            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+                                        </div>
+                                        <div id="formBody" class="container-fluid">
+                                            <div class="form-container">
+                                                <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                                                <div class="form-body-container">
+                                                    <div class="form-horizontal">
+
+                                                        <div class="form-group">
+                                                            @Html.Label(LanguageResource.File, new { @class = "control-label col-md-2" })
+                                                            <div class="col-md-10">
+                                                                <div class="file-container">
+                                                                    <div class="row">
+                                                                        <div class="col-md-8 no-padding-left">
+                                                                            <input type="file" id="File" name="File" accept=".csv,.xlsx,.xls,.doc,.docx,.ppt,.pptx,.txt,.pdf,application/msword, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/vnd.ms-powerpoint,text/plain" class="btn btn-default form-control" />
+                                                                        </div>
+                                                                        <div class="col-md-4 no-padding-left">
+                                                                            <input type="button" class="btn btn-warning resetFile" value="@LanguageResource.Reset" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <div class="row">
+                                            <div class='btn-toolbar pull-right'>
+                                                <div class='btn-group'>
+                                                    <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmDocumentation" data-url='@Url.Action("Create", "Documentation")' value="@Html.Raw(LanguageResource.Reset)" />
+                                                    <input type="button" class="btn btn-primary save add create createDocumentation" data-mode="create" data-form="frmDocumentation" data-url='@Url.Action("Create", "Documentation")' value="@Html.Raw(LanguageResource.Save)" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

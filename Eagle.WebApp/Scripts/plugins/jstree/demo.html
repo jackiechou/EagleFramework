@@ -1,0 +1,240 @@
+<html>
+	<head>
+		<title>jstree treegrid plugin demo</title>		
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/themes/default/style.min.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/jstree.min.js"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstreegrid/3.6.2/jstreegrid.js"></script>
+        <style type="text/css">
+            @import url('http://getbootstrap.com/dist/css/bootstrap.css');
+        </style>
+</head>
+	<body>
+		<h2>jstree Grid Demo</h2>
+		<div id="treeGrid">
+		</div>
+<script type="text/javascript">
+    (function ($) {
+        // This is for the context menu to bind with operations on the right clicked node
+        function customMenu(node)
+        {
+            // The default set of all items
+            var control;
+            var items = {
+                //createItem: {
+                //    'label': 'edit',
+                //    'action' : function () { /* action */ }
+                //},
+                //'delete' : {
+                //    'label': 'delete',
+                //    'action' : function () { /* action */ }
+                //}
+                createItem: {
+                    label: "Create",
+                    icon: "glyphicon glyphicon-pencil",
+                    action: function(node) { return { createItem: this.create(node) }; }
+                },
+                editItem: {
+                    label: "Edit",
+                    icon: "glyphicon glyphicon-pencil",
+                    action: function (grid, tree, node, val, col, t, target) {
+                        var obj = t.get_node(node);
+                        alert(obj);
+                        return { editItem: this.edit(node) };
+                    }
+                },
+                renameItem: {
+                    label: "Rename",
+                    icon: "glyphicon glyphicon-pencil",
+                    action: function(node) { return { renameItem: this.rename(node) }; }
+                },
+                deleteItem: {
+                    label: "Delete",
+                    icon: "glyphicon glyphicon-pencil",
+                    action: function(node) { return { deleteItem: this.remove(node) }; },
+                    "separator_after": true
+                },
+                copyItem: {
+                    label: "Copy",
+                    action: function(node) {
+                        $(node).addClass("copy");
+                        return { copyItem: this.copy(node) };
+                    }
+                },
+                cutItem: {
+                    label: "Cut",
+                    action: function(node) {
+                        $(node).addClass("cut");
+                        return { cutItem: this.cut(node) };
+                    }
+                },
+                pasteItem: {
+                    label: "Paste",
+                    action: function(node) {
+                        $(node).addClass("paste");
+                        return { pasteItem: this.paste(node) };
+                    }
+                }
+            };
+
+            //only remove the class for cut or copy if the current operation is to paste
+            if ($(node).hasClass("paste")) {
+                control = 0;
+                // Let's loop through all elements and try to find if the paste operation was done already
+                $("#{$id_arr[$k]}").find("li").each(function (index, element) {
+                    if ($(element).hasClass("copy")) $(this).removeClass("copy");
+                    if ($(element).hasClass("cut")) $(this).removeClass("cut");
+                    if ($(element).hasClass("paste")) $(this).removeClass("paste");
+                });
+            }
+            switch (control) {
+                //Remove the paste item from the context menu
+                case 0:
+                    switch ($(node).attr("rel")) {
+                        case "drive":
+                            delete items.renameItem;
+                            delete items.deleteItem;
+                            delete items.cutItem;
+                            delete items.copyItem;
+                            delete items.pasteItem;
+                            break;
+                        case "default":
+                            delete items.pasteItem;
+                            break;
+                    }
+                    break;
+                    //Remove the paste item from the context menu only on the node that has either copy or cut added class
+                case 1:
+                    if ($(node).hasClass("cut") || $(node).hasClass("copy")) {
+                        switch ($(node).attr("rel")) {
+                            case "drive":
+                                delete items.renameItem;
+                                delete items.deleteItem;
+                                delete items.cutItem;
+                                delete items.copyItem;
+                                delete items.pasteItem;
+                                break;
+                            case "default":
+                                delete items.pasteItem;
+                                break;
+                        }
+                    }
+                    else //Re-enable it on the clicked node that does not have the cut or copy class
+                    {
+                        switch ($(node).attr("rel")) {
+                            case "drive":
+                                delete items.renameItem;
+                                delete items.deleteItem;
+                                delete items.cutItem;
+                                delete items.copyItem;
+                                break;
+                        }
+                    }
+                    break;
+
+                    //initial state don't show the paste option on any node
+                default: switch ($(node).attr("rel")) {
+                    case "drive":
+                        delete items.renameItem;
+                        delete items.deleteItem;
+                        delete items.cutItem;
+                        delete items.copyItem;
+                        delete items.pasteItem;
+                        break;
+                    case "default":
+                        delete items.pasteItem;
+                        break;
+                }
+                    break;
+            }
+
+            return items;
+        }
+
+        var data = [
+            {
+                id: 1,
+                text: 'Nhom tin tuc 01',
+                data: { ParentId: '0', Status: 1, spanclass: 'root' },
+                type: "default",
+                state: { opened: true }
+            },
+            {
+                id: 2,
+                text: 'Nhom tin tuc 02',
+                data: { ParentId: '0', Status: 1, spanclass: "first" },
+                children: [
+                    { id: 3, text: 'Nhom tin tuc con 03', data: { ParentId: '2', Status: 1 } },
+                    { id: 4, text: 'Nhom tin tuc con 04', data: { ParentId: '2', Status: 1 } }
+                ],
+                type: "default",
+                state: { opened: true }
+            },
+            {
+                id: 5,
+                text: 'Nhom tin tuc 05',
+                data: { ParentId: '0', Status: 1 },
+                type: "default",
+                state: { opened: true }
+            }
+        ];
+
+        //$("div#treeGrid").bind("loaded_grid.jstree", function () {
+        //    $("span#status").text("loaded");
+        //}).on("select_cell.jstree-grid", function (e, data) {
+        //    $("span#clicked").html("clicked " + data.column + " of value " + data.value);
+        //}).on('update_cell.jstree-grid', function (e, data) {
+        //    $("span#changed").html("changed " + data.col + " from " + data.old + " to " + data.value);
+        //});
+
+        $('#treeGrid').jstree({
+            plugins: ['json', 'grid', 'types', 'dnd', 'contextmenu'],
+            core:
+            {
+                themes: { variant: 'small' },
+                data: data,
+                check_callback: true
+            },
+            grid:
+           {
+               columns: [
+                   { header: 'CategoryName', width: 300 },
+                   { header: 'Id', width: 300, value: function (node) { return (node.id); } },
+                   { header: 'ParentId', width: 100, value: 'ParentId' },
+                   { header: 'Status', width: 100, value: 'Status' },
+                   { header: 'Actions', width: 200, value: 'Actions' }
+               ]
+               //width: 100
+           },
+            types: {
+                default: {
+                    icon: "glyphicon glyphicon-folder-open"
+                }
+            },
+            contextmenu: {
+                items: customMenu
+            },
+            resizable: true,
+            dnd: {
+                drop_finish : function () { 
+                }, 
+                drag_finish : function () { 
+                }, 
+                drag_check : function (data) { 
+                    return { 
+                        after : true, 
+                        before : true, 
+                        inside : true 
+                    }; 
+                } 
+            },
+            "icons": true,
+            "expand_selected_onload": true
+        }).on('loaded.jstree', function () {
+            $("div#treeGrid").jstree('open_all');
+        });
+    })(jQuery);
+</script>
+	</body>
+</html>
+		

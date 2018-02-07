@@ -1,0 +1,12 @@
+﻿<div class="row">
+    <div id="LeftContent" class="col-md-3 left-content">
+        @Html.Partial("../Contents/Documentation/_SearchForm")
+    </div>
+    <div id="RightContent" class="col-md-9 right-content">
+        <div id="MainBody" class="form-horizontal main_box">
+            <div id="gridcontainer" class="gridContainer">
+                @Html.Action("Search", "Documentation")
+            </div>
+        </div>
+    </div>
+</div>

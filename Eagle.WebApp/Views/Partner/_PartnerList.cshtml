@@ -1,0 +1,26 @@
+﻿@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Business.VendorPartnerInfoDetail>
+
+<div class="container content partner">
+    <div class="heading heading-v1 margin-bottom-10">
+        <h2>@Html.Raw(LanguageResource.Partners)</h2>
+    </div>
+
+    @if (Model.Any())
+    {
+        <ul class="list-inline owl-slider owl-slider-v2">
+            @foreach (var item in Model)
+            {
+                <li class="item">
+                    @if (!string.IsNullOrEmpty(item.FileUrl))
+                    {
+                        <img src='@item.FileUrl' alt='@item.PartnerName' class="img-responsive thumb img-thumbnail">
+                    }
+                    else
+                    {
+                        <img src="/Images/150x90.png" alt='@item.PartnerName' class="img-responsive thumb img-thumbnail">
+                    }
+                </li>
+            }
+       </ul>
+    }
+</div>

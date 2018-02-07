@@ -1,0 +1,98 @@
+﻿@using Eagle.Core.Session
+@using Eagle.Services.Dtos.Business
+<div class="header-v5 header-static">
+    <!-- Topbar v3 -->
+    <div class="topbar-v3">
+        <div class="search-open">
+            <div class="container">
+                <input type="text" class="form-control" placeholder="Search">
+                <div class="search-close">
+                    <i class="icon-close"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="container top-menu">
+            <div class="row">
+                <div class="col-sm-6">
+                    <!-- Topbar Navigation -->
+                    <div class="top-menu lang-img" data-url='@Url.Action("GetTopMenu", "MenuDesktop")'></div><!--/end left-topbar-->
+                </div>
+                <div class="col-sm-6">
+                    <ul class="list-inline right-topbar pull-right">
+
+                        @if (HttpContext.Current.Session[SessionKey.CustomerInfo] != null)
+                        {
+                            <li class="show_popup">
+                                @{
+                                    var custInfo = (CustomerInfoDetail) HttpContext.Current.Session[SessionKey.CustomerInfo];
+                                    <i class="fa fa-user"> @string.Format("{0} {1}", custInfo.FirstName, custInfo.LastName)</i>
+                                }
+                            </li>
+                            <li>
+                                <a href="@Url.Action("SignOut", "Cust", new { @DesiredUrl = HttpContext.Current.Request.Url.AbsoluteUri })"> @LanguageResource.SignOut  <span class="glyphicon glyphicon-log-out pull-right"></span></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                @Html.ActionLink(LanguageResource.HowToBuy, "Index", "Support")
+                                @Html.Raw(" | ")
+                                @Html.ActionLink(LanguageResource.Register, "Index", "Cust")
+                                @Html.Raw(" | ")
+                                @Html.ActionLink(LanguageResource.Login, "Index", "Cust")
+                                @Html.Raw(" | ")
+                            </li>
+                        }
+                    </ul>
+
+                </div>
+                <div class="popup_customer">
+                    <ul>
+                        <li><a href="@Url.Action("SignIn", "Cust")">@LanguageResource.UpdatePassword</a></li>
+                        <li><a href="@Url.Action("MyProfile", "Cust")">@LanguageResource.MyProfile</a></li>
+                        <li><a href="@Url.Action("SignOut", "Cust")">@LanguageResource.SignOut</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Quick Menu -->
+            
+            <!-- End Quick Menu -->
+        </div><!--/container-->
+    </div>
+    <!-- End Topbar v3 -->
+    <!-- Navbar -->
+    <div class="navbar navbar-default mega-menu" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img id="logo-header" src="/Themes/Booking/Content/img/logo.png" alt="Logo">
+                </a>
+            </div>
+            <div class="collapse navbar-collapse navbar-responsive-collapse">
+                <!-- Quick Menu -->
+                <div id="QuickTopMenu" class="quick-top-menu-container cart-container pull-right" data-url='@Url.Action("LoadCartInfo", "Cart")'></div>
+                <!-- End Quick Menu -->
+
+                <!-- Nav Menu -->
+                <div id="MainMenu" class="main-menu-container" data-url='@Url.Action("GetMainMenu", "MenuDesktop")'></div>
+                <!-- End Nav Menu -->
+            </div>
+
+        </div>
+    </div>
+    <!-- End Navbar -->
+</div>
+
+
+@*<div class="vendor-container">
+@{
+    Html.RenderAction("GetVendorOnHeader", "VendorInfo");
+}
+</div>*@

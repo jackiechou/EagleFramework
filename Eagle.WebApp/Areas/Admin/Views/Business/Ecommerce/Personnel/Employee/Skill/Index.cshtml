@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = Html.Raw(LanguageResource.Skill);
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody" class="container-fluid">
+                <div id="divEdit">
+                    @Html.Partial("../Business/Ecommerce/Personnel/Employee/Skill/_Create")
+                </div>
+                <div id="divList">
+                    <div id="search-result" class="row">
+                        @{
+                            Html.RenderAction("SearchSkill", "Employee");
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.SkillSearchUrl = '@Url.Action("SearchSkill", "Employee")';
+    </script>
+    <script type="text/javascript" src="~/Scripts/app/modules/employee-skill.js"></script>
+}

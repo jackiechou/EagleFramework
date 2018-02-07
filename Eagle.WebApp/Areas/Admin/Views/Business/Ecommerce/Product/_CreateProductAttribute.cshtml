@@ -1,0 +1,58 @@
+﻿@model Eagle.Services.Dtos.Business.ProductEntry
+
+<div class="panel panel-primary panel-table">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-6">
+                <h5><span class="glyphicon glyphicon-adjust"></span> @LanguageResource.ProductAttribute</h5>
+            </div>
+            <div class="col-md-6">
+                <div class="row padding-top-4 pull-right">
+                    <button type="button" class="btn btn-sm btn-success btn-create row-add" data-mode="create">
+                        <span class="glyphicon glyphicon-plus" role="button"></span> @LanguageResource.AddNewItem
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="panel panel-default panel-table dynamic-container" id="Attributes" name="Attributes" data-array="Attributes" data-mode="create">
+            <div class="panel-heading">
+                <div class="row dynamic-heading">
+                    <div class="col-md-4 text-center">@LanguageResource.AttributeName</div>
+                    <div class="col-md-4 text-center">@LanguageResource.IsActive</div>
+                    <div class="col-md-4 text-center"><label class="glyphicon glyphicon-cog"></label></div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="dynamic-container-inner">
+                    <div id="row0" data-id="0" data-array="Attributes[0]" class="dynamic-row padding-10">
+                        <div class="dynamic-main-row row">
+                            <div class="dynamic-col col-md-4" data-name="AttributeName">
+                                <input id="Attributes[0].AttributeName" name="Attributes[0].AttributeName" type="text" value="" placeholder='@LanguageResource.AttributeName' class="form-control attribute-name" />
+                            </div>
+                            <div class="dynamic-col col-md-4 text-center" data-name="IsActive">
+                                <input type="checkbox" id="Attributes[0].IsActive" name="Attributes[0].IsActive" checked="checked" value="1" class="form-control attribute-isactive ignored" />
+                            </div>
+                            <div class="dynamic-col col-md-4 text-center">
+                                <button type="button" data-title="LoadOptionForm" data-index="0" data-mode="create" class='btn btn-default glyphicon glyphicon-plus options-load'></button>
+                                <button type="button" data-title="Edit" class='btn btn-success glyphicon glyphicon-pencil row-edit'></button>
+                                <button type="button" data-title="Delete" class='btn btn-warning glyphicon glyphicon-trash row-remove'></button>
+                            </div>
+                        </div>
+                        <div class="dynamic-sub-row row" data-name="OptionContainer">
+                            <div class="padding-left-right-160 padding-top-bottom-10 attribute-0-option-container" id="Attributes[0].OptionContainer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <button type="button" class="btn btn-sm btn-success btn-create pull-right row-add">
+                <span class="glyphicon glyphicon-plus" role="button"></span> @LanguageResource.AddNewItem
+            </button>
+        </div>
+    </div>
+</div>

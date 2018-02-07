@@ -1,0 +1,92 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@model IPagedList<Eagle.Services.Dtos.Services.Event.EventInfoDetail>
+
+<div class="panel panel-default search-form-panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-10">
+                <h5>@Html.Raw(LanguageResource.List)</h5>
+            </div>
+            <div class="col-md-2 text-right">
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-default back-form" onclick="location.href = '@Url.Action("Index", "Event")'">
+                        <span class="glyphicon glyphicon-home"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="dataTable" class="table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+                <thead>
+                    <tr>
+                        <th class="text_center">@LanguageResource.SequenceNo</th>
+                        <th class="text_center">@LanguageResource.EventTitle</th>
+                        <th class="text_center">@LanguageResource.StartDate</th>
+                        <th class="text_center">@LanguageResource.CreatedDate</th>
+                        <th class="text_center">@LanguageResource.Status</th>
+                        <th class="table-actions text_center no-sort">@LanguageResource.Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   @if (Model.Any())
+                   {
+                       int i = 0;
+                       foreach (var item in Model)
+                       {
+                           i++;
+                            <tr>
+                                <td class="text-center">
+                                    @i
+                                </td>
+                                <td>
+                                  @item.EventTitle
+                                </td>
+                                <td class="text-center">
+                                     @string.Format("{0}:dd-MM-yyyy", item.StartDate)
+                                </td>
+                                <td class="text-center">
+                                     @string.Format("{0}:dd-MM-yyyy", item.CreatedDate)
+                                </td>
+                                <td class="text-center">
+                                    <div class="changeStatus" data-id="@item.EventId" data-url='@Url.Action("UpdateStatus", "Event")' data-warning="@LanguageResource.DoYouWantToContinue">
+                                        @Html.RadioButtonSwitchEnumFor(modelItem => item.Status)
+                                    </div>
+                                </td>
+                                <td class="table-actions text-center no-sort">
+                                    <a data-id="@item.EventId" title="@Html.Raw(LanguageResource.Edit)" onclick="location.href = '@Url.Action("Edit", "Event", new { id = item.EventId })'"  class="btn btn-small btn-success editItem "><span class="icon-edit"></span></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                            <tr class="row">
+                                <td colspan="5" class="text-center">@LanguageResource.NoDataFound</td>
+                            </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer">
+        @if (Model != null && Model.Any())
+        {
+            <div class="datagrid-pager row">
+                <div class="datagrid-pagination pull-right text-right">
+                    @Html.PagedListPager(Model, page => Url.Action("Search", "Event", new { filter = Model, page, sourceEvent = "Result" }),
+                        PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                        {
+                            MaximumPageNumbersToDisplay = 10,
+                            DisplayPageCountAndCurrentLocation = true,
+                            PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                            DisplayItemSliceAndTotal = true,
+                            ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                        }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "search-result" }))
+                </div>
+            </div>
+        }
+    </div>
+</div>

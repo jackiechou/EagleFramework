@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = LanguageResource.AboutUs;
+}
+@model Eagle.Services.Dtos.Business.CustomerEditEntry
+
+<div id="profile-basis">
+    <div class="margin-top-15">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditCustomer", name = "frmEditCustomer", autocomplete = "off", @class = "form-horizontal" }))
+        {
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class='btn-toolbar pull-right'>
+                        <div class='btn-group'>
+                            <button type="button" data-mode="edit" data-form="frmEditCustomer" data-id="@Model.CustomerId" data-url='@Url.Action("EditProfile", "Cust")' class="btn btn-default edit editProfile">
+                                <span class="glyphicon glyphicon-edit"></span> @Html.Raw(LanguageResource.Edit)
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="panel-title">@string.Format("{0} - {1} ", Model.FirstName, Model.CustomerNo)</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="formMessage" class="form-message">
+                        @*@Html.AntiForgeryToken()*@
+                        @Html.Partial("_MessagePartial")
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div id="formBody" class="form-horizontal">
+                        <div class="form-container">
+                            <div class="form-body-container">
+                                <div class="form-horizontal">
+                                    <table class="table table-user-information">
+                                        <tbody>
+                                            <tr>
+                                                <td>@Html.RequiredLabelFor(model => model.FirstName)</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", required = "required" })
+                                                    @Html.ValidationMessageFor(model => model.FirstName)
+
+                                                    @Html.HiddenFor(model => model.CustomerId)
+                                                    @Html.ValidationMessageFor(model => model.CustomerId)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.LabelFor(model => model.LastName)</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.LastName)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.LabelFor(model => model.ContactName)</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.ContactName, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.ContactName)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.RequiredLabelFor(model => model.Email)</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", type = "email" })
+                                                    @Html.ValidationMessageFor(model => model.Email)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.RequiredLabelFor(model => model.Gender)</td>
+                                                <td>
+                                                    @Html.RadioButtonSwitchEnumFor(model => model.Gender)
+                                                    @Html.ValidationMessageFor(model => model.Gender)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.LabelFor(model => model.BirthDay)</td>
+                                                <td>
+                                                    @Html.DatePickerFor(model => model.BirthDay)
+                                                    @Html.ValidationMessageFor(model => model.BirthDay)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.LabelFor(model => model.Mobile)</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.Mobile)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.LabelFor(model => model.WorkPhone)</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.WorkPhone, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.WorkPhone)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.LabelFor(model => model.HomePhone)</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.HomePhone, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.HomePhone)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.LabelFor(model => model.PassPortNo)</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.PassPortNo, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.PassPortNo)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.LabelFor(model => model.IdCardNo)</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.IdCardNo, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.IdCardNo)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    @Html.HiddenFor(model => model.AddressId)
+                                                    @Html.Partial("../Cust/_EditCustAddress", Model)
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <span class="btn-group pull-right margin-right-10 ">
+                            <button type="button" data-mode="edit" data-form="frmEditCustomer" data-id="@Model.CustomerId" data-url='@Url.Action("EditProfile", "Cust")' class="btn btn-default edit editProfile">
+                                <span class="glyphicon glyphicon-edit"></span> @Html.Raw(LanguageResource.Edit)
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>

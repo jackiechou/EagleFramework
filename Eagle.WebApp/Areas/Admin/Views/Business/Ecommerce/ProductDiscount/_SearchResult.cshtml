@@ -1,0 +1,141 @@
+﻿@using System.Globalization
+@using Eagle.Common.Utilities
+@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@model IPagedList<Eagle.Services.Dtos.Business.ProductDiscountDetail>
+
+<div class="panel panel-default search-form-panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-10">
+                <h5>@Html.Raw(LanguageResource.List)</h5>
+            </div>
+            <div class="col-md-2 text-right">
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-default back-form" onclick="location.href = '@Url.Action("Index", "ProductDiscount")'">
+                        <span class="glyphicon glyphicon-home"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            @LanguageResource.SequenceNo
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().DiscountCode)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().DiscountRate)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Quantity)
+                        </th>
+                        <th class="text-center">
+                            @LanguageResource.DateRange
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().IsActive)
+                        </th>
+                        <th class="table-actions text_center no-sort">@LanguageResource.Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            i++;
+                            <tr>
+                                <td class="text-center">
+                                    @i
+                                </td>
+                                <td class="text-center" data-code="@item.DiscountId">
+                                    @Html.DisplayFor(modelItem => item.DiscountCode)
+                                </td>
+                                <td class="text-center">
+                                    @{
+                                        if (item.IsPercent)
+                                        {
+                                             string.Format("{0} %", item.DiscountRate);
+                                        }
+                                        else
+                                        {
+                                            @item.DiscountRate
+                                            ;
+                                        }
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td class="text-center">
+                                    @if (item.StartDate != null)
+                                    {
+                                        DateTime startDate = Convert.ToDateTime(item.StartDate);
+                                        DateTime endDate = Convert.ToDateTime(item.EndDate);
+
+                                        <span> @LanguageResource.From @string.Format("{0}/{1}/{2}", startDate.Day, startDate.Month, startDate.Year)} @LanguageResource.To} @string.Format("{0}/{1}/{2}", endDate.Day, endDate.Month, endDate.Year)}</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <div class="inner-center">
+                                        <div class="checkbox-slider--a">
+                                            <label>
+                                                @{
+                                                    if (item.IsActive == Eagle.Core.Settings.ProductDiscountStatus.Active)
+                                                    {
+                                                        <input type="checkbox" id="IsActive-@item.DiscountId" name="IsActive-@item.DiscountId" data-id="@item.DiscountId" data-url='@Url.Action("UpdateStatus", "ProductDiscount")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeStatus" checked="checked" value="true"><span></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" id="IsActive-@item.DiscountId" name="IsActive-@item.DiscountId" data-id="@item.DiscountId" data-url='@Url.Action("UpdateStatus", "ProductDiscount")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeStatus" value="false"><span></span>
+                                                    }
+                                                }
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="table-actions text-center center no-sort">
+                                    <a data-id="@item.DiscountId" title="@LanguageResource.Delete" class="btn btn-small btn-warning delete deleteItem" data-container="divEdit" data-url='@Url.Action("Delete", "ProductDiscount")' data-warning="@LanguageResource.DoYouWantToDeleteItem"><span class="glyphicon glyphicon-align-center icon-trash"></span></a>
+                                    <a data-id="@item.DiscountId" title="@Html.Raw(LanguageResource.Edit)" class="btn btn-small btn-primary editItem" data-container="divEdit" data-url='@Url.Action("Edit", "ProductDiscount")'><span class="icon-edit"></span></a>
+                                </td>
+                            </tr>
+
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="8" class="text-center">@LanguageResource.NoRecordFound</td>
+                                                        </tr>
+                                                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer">
+        @if (Model != null && Model.Any())
+        {
+            <div class="datagrid-pager row">
+                <div class="datagrid-pagination pull-right text-right">
+                    @Html.PagedListPager(Model, page => Url.Action("Search", "ProductDiscount", new { page, sourceEvent = "Result" }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 10,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "search-result" }))
+                </div>
+            </div>
+        }
+    </div>
+</div>

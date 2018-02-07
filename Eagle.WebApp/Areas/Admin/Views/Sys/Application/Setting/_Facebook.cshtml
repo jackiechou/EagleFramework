@@ -1,0 +1,83 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.Settings.SettingItemEditEntry
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmFacebookSetting", name = "frmFacebookSetting", @class = "form-horizontal", enctype = "multipart/form-data" }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class='btn-toolbar pull-right'>
+                <div class='btn-group'>
+                    <input type="button" class="btn btn-default resetFacebookSetting" data-form="frmFacebookSetting" data-url='@Url.Action("GetFacebookSettings", "Application")' value="@LanguageResource.Reset" />
+                    <input type="button" class="btn btn-primary editFacebookSetting" data-form="frmFacebookSetting" data-url='@Url.Action("EditFacebookSetting", "Application")' value="@LanguageResource.Save" />
+                </div>
+            </div>
+            <h6><strong>@LanguageResource.FacebookSetting</strong></h6>
+        </div>
+        <div class="panel-body">
+            <div id="formMessage" class="form-message">
+                @Html.AntiForgeryToken()
+                <div id="alertMessageBox-frmFacebookSetting" aria-hidden="true" aria-labelledby="alertMessage" role="dialog" class="modal hide fade">
+                    <div class="modal-body">
+                        <div id="alertMessage">
+                            @if (ViewBag.DisplayErrorMessage == true)
+                            {
+                                <div class="@ViewBag.CssClass">
+                                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                    <strong>@ViewBag.SortMessage !</strong> @ViewBag.Message
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+            </div>
+            <div id="formBody" class="container-fluid">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+                        <div class="form-horizontal">
+
+                            @if (Model != null)
+                            {
+                                @Html.HiddenFor(model => model.ApplicationSetting.SettingId)
+                                @Html.HiddenFor(model => model.ApplicationSetting.SettingName)
+                                @Html.HiddenFor(model => model.ApplicationSetting.IsSecured)
+                                @Html.HiddenFor(model => model.ApplicationSetting.IsActive)
+                                @Html.ValidationMessageFor(model => model.ApplicationSetting.SettingId)
+
+                                int i = 0;
+                                foreach (var item in Model.Settings)
+                                {
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">@item.KeyName </label>
+                                        <div class="col-md-10">
+                                            <input type="hidden" name="Settings[@i].KeyName" value="@item.KeyName" />
+                                            <span class="field-validation-valid text-danger help-block" data-valmsg-for="Settings[@i].KeyName" data-valmsg-replace="false">*</span>
+
+                                            <input type="text" name="Settings[@i].KeyValue" value="@item.KeyValue" class="form-control">
+                                            <span class="field-validation-valid text-danger help-block" data-valmsg-for="Settings[@i].KeyValue" data-valmsg-replace="false">*</span>
+                                        </div>
+                                    </div>
+                                    i++;
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default resetFacebookSetting" data-form="frmFacebookSetting" data-url='@Url.Action("GetFacebookSettings", "Application")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary editFacebookSetting" data-form="frmFacebookSetting" data-url='@Url.Action("EditFacebookSetting", "Application")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

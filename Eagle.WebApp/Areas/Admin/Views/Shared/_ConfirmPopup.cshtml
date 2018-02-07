@@ -1,0 +1,9 @@
+﻿<div id="confirm" class="modal hide fade" style="width: 300px;margin: auto auto;z-index:14005">
+    <div class="modal-body">
+        @Html.Raw(LanguageResource.DoYouWantToContinue)
+    </div>
+    <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-primary" data-value="1">@Html.Raw(LanguageResource.Yes)</button>
+        <button type="button" data-dismiss="modal" class="btn" data-value="0">@Html.Raw(LanguageResource.Cancel)</button>
+    </div>
+</div>

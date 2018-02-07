@@ -1,0 +1,51 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.Documentation);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="heading-bar-container">
+        <div class="heading-bar-inner">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>@LanguageResource.Document</h6>
+                </div>
+                <div class="col-md-8 text-right">
+                    <button type="button" class="btn btn-success showDocumentationPopUp" data-title="@LanguageResource.CreateDocumentation"  data-url='@Url.Action("Create", "Documentation")'>
+                        <span class="glyphicon glyphicon-plus-sign"></span> @LanguageResource.CreateDocumentation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body-container">
+        <div id="bodyContent" class="row">
+            @Html.Partial("../Contents/Documentation/_Reset")
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        //links
+        window.CreateDocumentationUrl = '@Url.Action("Create", "Documentation")';
+        window.EditDocumentationUrl = '@Url.Action("Edit", "Documentation")';
+        window.SearchDocumentationUrl = '@Url.Action("Search", "Documentation")';
+        window.IndexDocumentationUrl = '@Url.Action("Index", "Documentation")';
+        window.DeleteDocumentationUrl = '@Url.Action("Delete", "Documentation")';
+    </script>
+
+    <!-- libs -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.default.mobile.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugins/bootstrap-plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugins/kendo/js/kendo.all.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/modules/documentation.js")"></script>
+}

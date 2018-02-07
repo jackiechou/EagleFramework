@@ -1,0 +1,22 @@
+﻿@using Eagle.Core.Settings
+<div class="panel panel-default search-panel">
+    <div class="panel-heading">
+        <div class='page-header margin-top-5 margin-bottom-0'>
+            <div class='btn-toolbar pull-right'>
+                @Html.RadioButtonSwitchEnum("ServicePackType", typeof(ServiceType), 1)
+            </div>
+            <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.TreeList</h4>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="container-fluid">
+            <ul id="tree"></ul>
+            @Html.Hidden("SelectTree")
+        </div>
+    </div>
+    <div class="panel-footer"></div>
+</div>
+
+<div id="context-menu" class="easyui-menu" style="width:150px;">
+    <div class="remove-item" data-url='@Url.Action("Delete","ServiceCategory")' data-options="iconCls:'icon-remove'">Remove</div>
+</div>

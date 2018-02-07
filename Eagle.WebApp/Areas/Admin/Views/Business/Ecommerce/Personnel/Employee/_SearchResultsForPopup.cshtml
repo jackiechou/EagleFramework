@@ -1,0 +1,69 @@
+﻿@model List<Eagle.Services.Dtos.Business.Personnel.EmployeeInfoDetail>
+@if (Model.Count > 0)
+{
+    <div class="table-responsive">
+        <table id="tblResults" class="pagedTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>
+                        @Html.LabelFor(model => model.First().EmployeeNo, new { @class = "center" })
+                    </th>
+                    <th>
+                        @Html.LabelFor(model => model.First().Contact.FirstName, new { @class = "center" })
+                    </th>
+                    <th>
+                        @Html.LabelFor(model => model.First().Company.CompanyName, new { @class = "center" })
+                    </th>
+                    <th>
+                        @Html.LabelFor(model => model.First().JobPosition.PositionName, new { @class = "center" })
+                    </th>
+                    @*<th style="display:none">*@
+                    <th>
+                        @Html.LabelFor(model => model.First().JoinedDate, new { @class = "center" })
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{int i = 0;}
+                @foreach (var employee in Model)
+                {
+                    i++;
+                    <tr id="@i">
+                        <td>
+                            @i
+                        </td>
+                        <td id="@employee.EmployeeId">
+                            <a onclick="ChooseEmployee('@employee.EmployeeId')" class="cursor-pointer">@employee.EmployeeNo</a>
+                        </td>
+                        <td>
+                            @employee.Contact.FirstName
+                        </td>
+                        <td>
+                            @employee.Company.CompanyName
+                        </td>
+                        <td>
+                            @employee.JobPosition.PositionName
+                        </td>                      
+                        <td>
+                            @Html.DisplayFor(modelItem => employee.JoinedDate)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    if (ViewBag.FirstRequest != true)
+    {
+        <p style="text-align:center">@Html.Raw(LanguageResource.NotFound)!</p>
+    }
+}
+
+<script type="text/javascript">
+    (function ($) {  
+        ShowDataTable(LanguageCode, "#tblResults");
+    })(jQuery);
+</script>

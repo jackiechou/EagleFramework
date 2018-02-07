@@ -1,0 +1,122 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@model IPagedList<Eagle.Services.Dtos.Services.Booking.ServicePackDetail>
+
+<div class="panel panel-default search-form-panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-10">
+                <h5>@Html.Raw(LanguageResource.List)</h5>
+            </div>
+            <div class="col-md-2 text-right">
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-default back-form" onclick="location.href = '@Url.Action("Index", "ServiceBookingOrder")'">
+                        <span class="glyphicon glyphicon-home"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            @LanguageResource.SequenceNo
+                        </th>
+                        <th class="text-center">
+                            @LanguageResource.BookingDate
+                        </th>
+                        <th class="text-center">
+                            @LanguageResource.EmployeeName
+                        </th>
+                        <th class="text-center">
+                            @LanguageResource.CustomerName
+                        </th>
+                        <th class="text-center">
+                            @LanguageResource.ServicePackName
+                        </th>
+                        <th class="text-center">
+                            @LanguageResource.Status
+                        </th>
+                        <th class="table-actions text_center no-sort">@LanguageResource.Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            i++;
+                            <tr>
+                                <td class="text-center">
+                                    @i
+                                </td>
+                                <td class="text-center">
+                                    <span> @string.Format("{0}/{1}/{2}", item.StartDate.Day, item.StartDate.Month, item.StartDate.Year)</span>
+                                </td>
+                                <td>
+                                    <span>  @string.Format("{0} {1}", item.Employee.Contact.FirstName, item.Employee.Contact.LastName)</span>
+                                </td>
+                                <td>
+                                    <span> @Html.DisplayFor(modelItem => item.Customer.CustomerName)</span>
+                                </td>
+                                <td data-code="@item.BookingId">
+                                    <div class="heading-container">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h6>@item.ServicePack.PackageName</h6>
+                                            </div>
+                                            <div class="col-md-4 pull-right text-right">@string.Format("{0} {1}", item.ServicePack.TotalFee, item.ServicePack.CurrencyCode)</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <small>@string.Format("{0} : {1} hr(s) {2} minute(s) {3} second(s)", LanguageResource.Duration, item.EndDate.Hour - item.StartDate.Hour,item.EndDate.Minute - item.StartDate.Minute, item.EndDate.Second - item.StartDate.Second)</small>
+                                            </div>
+                                            <div class="col-md-4 pull-right text-right"><small>@string.Format("{0} : {1}", LanguageResource.Status, item.Status)</small></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="changeStatus" data-id="@item.BookingId" data-url='@Url.Action("UpdateStatus", "ServiceBooking")' data-warning="@LanguageResource.DoYouWantToContinue">
+                                        @Html.RadioButtonSwitchEnumFor(modelItem => item.Status)
+                                    </div>
+                                </td>
+                                <td class="table-actions text-center center no-sort">
+                                    <a data-id="@item.BookingId" title="@Html.Raw(LanguageResource.Edit)" class="btn btn-small btn-primary editItem" data-container="divEdit" data-url='@Url.Action("Edit", "ServiceBooking")'><span class="icon-edit"></span></a>
+                                </td>
+                            </tr>
+
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="8" class="text-center">@LanguageResource.NoRecordFound</td>
+                                                        </tr>
+                                                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer">
+        @if (Model != null && Model.Any())
+        {
+            <div class="datagrid-pager row">
+                <div class="datagrid-pagination pull-right text-right">
+                    @Html.PagedListPager(Model, page => Url.Action("Search", "ServiceBooking", new { page, sourceEvent = "Result" }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 10,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "search-result" }))
+                </div>
+            </div>
+        }
+    </div>
+</div>

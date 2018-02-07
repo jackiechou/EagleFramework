@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Contents.Media.MediaAlbumInfoDetail>
+<div class="widget-sidebar">
+    <h3 class="title-widget-sidebar">@Html.Raw(LanguageResource.MediaAlbum)</h3>
+    <div class="content-widget-sidebar">
+        <ul>
+            @if (Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <li class="recent-post">
+                        <div class="post-img">
+                            <a class="getFilesByAlbum" href="#" title="@item.AlbumName" data-id="@item.AlbumId" data-url='@Url.Action("GetMediaFilesByAlbum", "Media")'>
+                                <img src='@item.FrontImageUrl' alt='@item.AlbumName' class="pull-left img-responsive thumb margin10 img-thumbnail">
+                            </a>
+                        </div>
+                        <a class="getFilesByAlbum" href="#" data-id="@item.AlbumId" data-url='@Url.Action("GetMediaFilesByAlbum", "Media")'>
+                            <h5 class="album-name">@item.AlbumName</h5>
+                        </a>
+                        <p><small><i class="fa fa-calendar" data-original-title="" title=""></i> @item.CreatedDate</small></p>
+                        <a class="btn btn-blog pull-right getFilesByAlbum" href="#" title="@item.AlbumName" data-id="@item.AlbumId" data-url='@Url.Action("GetMediaFilesByAlbum","Media")'>@Html.DisplayUpperTitle(LanguageResource.ReadMore)</a>
+                    </li>                 
+                }
+            }
+            else
+            {
+                <li class="recent-post">
+                    <div>@Html.Raw(LanguageResource.NotFound)</div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

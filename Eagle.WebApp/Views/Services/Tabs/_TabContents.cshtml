@@ -1,0 +1,68 @@
+﻿@using Eagle.Core.Settings
+@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Services.Booking.ServicePackInfoDetail>
+
+<div class="content container-service">
+    @if (Model != null && Model.Any())
+    {
+
+        <div class="top">
+            @{
+                //int maxNum = ((Model.Count() < 4)) ? Model.Count() : 4;
+                for (int i = 0; i < Model.Count(); i++)
+                {
+                   var serviceInfo = Model.ElementAt(i);
+                    <article class="item-service">
+                        <header>
+                            <div class="content">
+                                @if (!string.IsNullOrEmpty(serviceInfo.FileUrl))
+                                {
+                                    <div class="product-img thumbnail-img product-img-brd">
+                                        <img src='@serviceInfo.FileUrl' alt='@serviceInfo.PackageId' class="media-object full-width img-responsive img-vertical">
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="product-img thumbnail-img product-img-brd">
+                                        <img src="/Images/150x90.png" alt='@serviceInfo.PackageId' class="media-object full-width img-responsive img-vertical">
+                                    </div>
+                                }
+                                <div class="booking-box">
+                                    @if (serviceInfo.TotalFee > 0)
+                                    {
+                                    <div class="select-quantity">
+                                        <label class="qty-label">@Html.FormatValue(serviceInfo.TotalFee, "{0:c}")</label>                                        
+                                        <div class="qty-container">
+                                            <input type="text" class="select-quantity-input" value="1">
+                                            <div class="quantity-control">
+                                                <span class="select-quantity-plus increment-by-one"></span>
+                                                <span class="select-quantity-minus decrement-by-one"></span>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
+                                       
+                                    </div>
+                                    <div class="button-booking add-item-to-cart" data-id="@serviceInfo.PackageId" data-type="@ItemType.ServicePackage">@LanguageResource.AddToCart</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="select-quantity-contactus">
+                                            <label class="qty-label">@LanguageResource.ContactUs</label>                                        
+                                        </div>
+                                    }
+                                </div>
+                                <h4><a href='@Url.Action("Details", "Service", new {id = serviceInfo.PackageId })'>
+                                    @serviceInfo.PackageName
+                                </a>
+                                </h4>
+                                <p class="dotdot">                                    
+                                    @serviceInfo.Description                                   
+                                </p>
+                            </div>
+                        </header>
+                    </article>
+                }
+            }
+        </div>
+        
+    }
+</div>

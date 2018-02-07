@@ -1,0 +1,86 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@using Eagle.Core.Settings
+@using Eagle.Services.Dtos.SystemManagement
+
+@model IPagedList<Eagle.Services.Dtos.SystemManagement.ModuleDetail>
+<ul id="list-module" class="list-group no-padding">
+    @{ int i = 0; }
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            i++;
+            <li id="@item.ModuleId" data-text="@item.ModuleName" data-position="@i" data-list-order="@item.ViewOrder" class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7">
+                        <span class="glyphicon glyphicon-resize-vertical"></span> @item.ModuleName
+                    </div>
+                    <div class="col-md-5 no-padding-left">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <a data-id="@item.ModuleId" data-container="divEdit" data-url='@Url.Action("EditPermission", "Module")' title="@Html.Raw(LanguageResource.EditPermission)" class="btn btn-blue-light btn-sm editPermissionItem"><span class="glyphicon glyphicon-eye-open"></span></a>
+                            </span>
+                            <span class="input-group-addon">
+                                <a data-id="@item.ModuleId" data-container="divEdit" data-url='@Url.Action("Edit", "Module")' title="@Html.Raw(LanguageResource.Edit)" class="btn btn-orange-lighter btn-sm editItem"><span class="glyphicon glyphicon-edit"></span></a>
+                            </span>
+                            <span class="input-group-addon">
+                                <div class="checkbox-slider--a  pull-right">
+                                    <label>
+                                        @{
+                                            if (item.IsActive == ModuleStatus.Active)
+                                            {
+                                                <input type="checkbox" id="IsActive-@item.ModuleId" name="IsActive-@item.ModuleId" data-id="@item.ModuleId" data-url='@Url.Action("UpdateStatus", "Module")' class="changeStatus" checked="checked" value="true"><span></span>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" id="IsActive-@item.ModuleId" name="IsActive-@item.ModuleId" data-id="@item.ModuleId" data-url='@Url.Action("UpdateStatus", "Module")' class="changeStatus" value="false"><span></span>
+                                            }
+                                        }
+                                    </label>
+                                </div>
+                            </span>
+                        </div>
+                        @*<a data-id="@item.ModuleId" data-container="divEdit" data-url='@Url.Action("EditPermission", "Module")' title="@Html.Raw(LanguageResource.EditPermission)" class="btn btn-blue-light btn-sm editPermissionItem"><span class="glyphicon glyphicon-eye-open pull-right"></span></a>
+                        <a data-id="@item.ModuleId" data-container="divEdit" data-url='@Url.Action("Edit", "Module")' title="@Html.Raw(LanguageResource.Edit)" class="btn btn-orange-lighter btn-sm editItem"><span class="glyphicon glyphicon-edit pull-right"></span></a>
+                        <div class="checkbox-slider--a  pull-right">
+                            <label>
+                                @{
+                                    if (item.IsActive == ModuleStatus.Active)
+                                    {
+                                        <input type="checkbox" id="IsActive-@item.ModuleId" name="IsActive-@item.ModuleId" data-id="@item.ModuleId" data-url='@Url.Action("UpdateStatus", "Module")' class="changeStatus" checked="checked" value="true"><span></span>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" id="IsActive-@item.ModuleId" name="IsActive-@item.ModuleId" data-id="@item.ModuleId" data-url='@Url.Action("UpdateStatus", "Module")' class="changeStatus" value="false"><span></span>
+                                    }
+                                }
+                            </label>
+                        </div>*@
+                    </div>
+                </div>
+            </li>
+            }
+        }
+        else
+        {
+            <li class="ui-state-default list-group-item"><span class="glyphicon glyphicon-resize-vertical"></span> @LanguageResource.NoDataFound</li>
+        }
+</ul>
+
+@if (Model != null && Model.Any())
+{
+    <div class="datagrid-pager panel-footer row">
+        <div class="datagrid-pagination pull-right text-right">
+            @Html.PagedListPager(Model, page => Url.Action("Search", "Module", new  { page, sourceEvent = "SearchResult" }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 4,
+                    //DisplayPageCountAndCurrentLocation = true,
+                    //PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    //DisplayItemSliceAndTotal = true,
+                    //ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "search-result" }))
+        </div>
+    </div>
+}

@@ -1,0 +1,242 @@
+﻿@{
+    ViewBag.Title = Html.Raw(Eagle.Resources.LanguageResource.Upload);
+    Layout = ThemeViewEngine.AdminPopUpLayout;
+}
+@using Eagle.Services.Skins
+@model Eagle.Services.Dtos.SystemManagement.FileStorage.FileModel
+
+
+<script type="text/javascript" src="~/Content/Admin/js/bootstrap-filestyle.js"></script>
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "uploadForm", name = "uploadForm", @class = "form-horizontal", enctype = "multipart/form-data", @novalidate = "novalidate" }))
+{ 
+    <input type="hidden" id="ItemId" name="ItemId" value="@Model.ItemId" />
+    <input type="hidden" id="ItemTag" name="ItemTag" value="@Model.ItemTag"/>
+    <input type="hidden" id="FileIds" name="FileIds" value="@Model.FileIds" />
+    <input type="hidden" id="FolderKey" name="FolderKey" value="@Model.FolderKey" />
+    
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">@Html.Raw(LanguageResource.Upload)</h3>
+    </div>
+    <div class="modal-body">
+        <div id="alertMessagePopUp">
+            @if (ViewBag.DisplayErrorMessage == true)
+            {
+                <div class="@ViewBag.CssClass">
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                    <strong>@ViewBag.SortMessage!</strong>
+                    <div class="padding-left">
+                        @Html.Raw(Server.HtmlDecode(ViewBag.Message))
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="upload-form" id="uploader">   
+            <div class="upload_wrapper">                  
+                <div class ="upload-toolbar"><a href="#" class="btn btn-small btn-primary pull-right button-add-file"><i class="glyphicon glyphicon-plus"></i>Add New File</a></div>
+                <div class="clearboth"></div>
+                <ul id ="container" class="sortable">                                                   
+                </ul>                                                
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input class="ajax-file-upload-green" id="btnStartUpload" type="button" value="@Html.Raw(LanguageResource.StartUpload)"/>
+    </div>      
+}
+<style type="text/css">
+    ul.sortable {
+        list-style:none;
+    }
+    .ajax-file-upload-green {
+    background-color: #77b55a;
+    border-radius: 4px;
+    border-width:1px;
+    border-color:rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    box-shadow:0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: arial;
+    font-size: 13px;
+    font-weight: normal;
+    margin: 0 5px 0 0;
+    padding: 4px 15px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #5b8a3c;
+    vertical-align: top;
+}
+    fieldset {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        margin: 10px 0;
+    }
+    legend {
+        color: #999999;
+        background-color: #258282;
+        margin-bottom: 10px !important;
+        height:32px;
+    }
+    h5 {
+        padding:3px 6px;
+    }
+</style>
+
+
+<script type="text/javascript">
+    (function ($) {
+        $("form").validate({ ignore: "*" });
+        // $("form").validate().settings.ignore = "*";
+        //-------------------------------------------------------------------------------------------------------
+        //Upload multitple ----------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------
+
+        addNode("container");
+        $(document).on("click", ".button-add-file", function () {
+            addNode("container");
+        });
+
+        $(document).one("click", "#btnStartUpload", function (event) {
+            //disable the default form submission
+            event.preventDefault();
+
+            if ($('input[type="file"][class="fileUpload"]').val() != '') {
+                uploadFiles();
+            } else {
+                showMessageWithTitle("alertMessagePopUp", "@LanguageResource.Warning", "@LanguageResource.PleaseSelectFile", "warning", 20000);          
+            }
+            return false;
+        });
+
+
+
+        //$('input[type="file"]').bind('invalid', function () {
+        //    return false;
+        //});
+
+        //document.getElementById('uploader').onsubmit = function () {
+        //    var formdata = new FormData(); //FormData object
+        //    var fileInput = document.getElementById('fileInput');
+        //    //Iterating through each files selected in fileInput
+        //    for (i = 0; i < fileInput.files.length; i++) {
+        //        //Appending each file to FormData object
+        //        formdata.append(fileInput.files[i].name, fileInput.files[i]);
+        //    }
+        //    //Creating an XMLHttpRequest and sending
+        //    var xhr = new XMLHttpRequest();
+        //    xhr.open('POST', '/Home/Upload');
+        //    xhr.send(formdata);
+        //    xhr.onreadystatechange = function () {
+        //        if (xhr.readyState == 4 && xhr.status == 200) {
+        //            alert(xhr.responseText);
+        //        }
+        //    }
+        //    return false;
+        //}
+
+        //function uploadFile(files) {
+        //    // Uploading - for Firefox, Google Chrome and Safari
+        //    var xhr = new XMLHttpRequest();
+        //    var data = new FormData();
+
+        //    for (var i = 0; i < files.length; i++) {
+        //        data.append(files[i].name, files[i]);
+        //    }
+
+        //    var base_url = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+        //    xhr.open("POST", base_url + "/Handlers/UploadMultipleFileHandler.ashx");
+        //    xhr.send(data);
+        //}      
+
+        function uploadFiles() {
+            //grab all form data  
+            var formData = new FormData($("#uploadForm")[0]);
+            var url = '/Admin/FileManager/UploadMulitpleFiles';
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data, statusCode, xhr) {
+                    if (data.message == "timeout")
+                        window.location.reload();
+                    else {
+                        $("input[name=ItemId]:hidden").val(data.ItemId);
+                        $("input[name=ItemTag]:hidden").val(data.ItemTag);
+                        $("input[name=FileIds]:hidden").val(data.FileIds);
+
+                        setTimeout(function () {
+                            $(".modalUpload").modal('hide');
+                        }, 1000);
+
+                        $("#btnReloadDownloadFileList").trigger('click', [data.ItemId, data.ItemTag, data.FileIds]);
+                    }
+                }, error: function (jqXHR, textStatus, errorThrown) {
+                    handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                }
+            });
+        }       
+
+        function addNode(ul_id) {
+            var itemIndex = $("#container input.iHidden").length;
+
+            var strHTML = '<div class="form-horizontal">'
+                             + '<fieldset class="the-fieldset">'
+                             + '<legend><h5 class="pull-left">@Html.Raw(LanguageResource.Uploader) ' + (itemIndex+1) + '</h5>'
+                                    + '<input id="FileId_' + itemIndex + '" type="hidden" value="" class="iHidden"  name="FileUploadList[' + itemIndex + '].FileId" />'
+                                    + '<a title="Delete" class="btn-delete ico-delete pull-right" style="text-decoration:none;margin:5px 5px" href="#" onClick="deleteNode(\'' + ul_id + '\',\'' + ul_id + '_li_' + itemIndex + '\');"></a>'
+                             + '</legend>'
+                             + '<div class="form-group sortable-number">'
+                                    + '<div class="row">'
+                                        + '<div class="col-md-2">@Html.Raw(LanguageResource.FileTitle)</div>'
+                                        + '<div class="col-md-4"><input type="text" id="FileTitle_' + itemIndex + '" name="FileUploadList[' + itemIndex + '].FileTitle" value="" size="50" class="col-md-12"/></div>'
+                                         + '<div class="col-md-2">@Html.Raw(LanguageResource.Attachment)</div>'
+                                       + '<div class="col-md-4" style="overflow:hidden;"><input id="FileUploadName_' + itemIndex + '" name="FileUploadList[' + itemIndex + '].FileUploadName"  type="file" required="required" class="col-md-12 filestyle fileUpload" data-icon="true" data-input="true" data-buttonText="Browse" data-size="sm" data-disabled="false" data-buttonBefore="false" data-badge="false"/></div>'
+                                   + '</div>'
+                                   + '<div class="row">'
+                                        + '<div class="col-md-2">@Html.Raw(LanguageResource.Description)</div>'
+                                        + '<div class="col-md-10"><textarea id="FileDescription_' + itemIndex + '" name="FileUploadList[' + itemIndex + '].FileDescription" cols="40" rows="2" class="col-md-11"></textarea></div>'
+                                   + '</div>'
+                               + '</div>'
+                            + '</fieldset>'
+                        + '</div>';
+
+            var newListItem = $('<li/>', {
+                html: strHTML,
+                "id": ul_id + "_" + "li_" + itemIndex,
+                "class": "li-state"
+            });
+            newListItem.appendTo("ul#" + ul_id);
+        }
+
+
+        function sort() {
+            $(".sortable").sortable({
+                placeholder: "ui-state-highlight",
+                helper: 'clone',
+                sort: function (e, ui) {
+                    $(ui.placeholder).html(Number($(".sortable > li:visible").index(ui.placeholder)) + 1);
+                },
+                update: function (event, ui) {
+                    var lis = $(this).children('li');
+                    lis.each(function () {
+                        var lis = $(this);
+                        var newVal = $(this).index() + 1;
+                        $(this).find('div.sortable-number').html(newVal);
+                    });
+                }
+            });
+            $(".sortable").disableSelection();
+        }
+    })(jQuery);
+
+    function deleteNode(ul_id, li_id) {
+        var ul = document.getElementById(ul_id);
+        var li = document.getElementById(li_id);
+        if (li_id != null && li_id != 'container_li_0') { 
+            ul.removeChild(li);
+        }
+    }
+</script>

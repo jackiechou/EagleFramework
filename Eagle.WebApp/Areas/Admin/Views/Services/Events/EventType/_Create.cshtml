@@ -1,0 +1,73 @@
+﻿@using Eagle.Core.HtmlHelper
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Services.Event.EventTypeEntry
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "myform", name = "myform", autocomplete = "off", @class = "form-horizontal" }))
+{
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading text-bold">
+                <div class='page-header margin-top-5 margin-bottom-0'>
+                    <div class='btn-toolbar pull-right'>
+                        <div class='btn-group'>
+                            <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="myform" data-url='@Url.Action("Create", "EventType")' value="@LanguageResource.Reset" />
+                            <input type="button" class="btn btn-primary save add create createEventType" data-mode="create" data-form="myform" data-url='@Url.Action("Create", "EventType")' value="@LanguageResource.Save" />
+                        </div>
+                    </div>
+                    <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.CreateEventType</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="container-fluid">
+                    <div class="form-container">
+                        <div id="formMessage" class="form-message">
+                            @Html.AntiForgeryToken()
+                            @Html.Partial("_MessagePartial")
+                            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+                        </div>
+                        <div id="formBody" class="form-horizontal">
+                            <div class="form-container">
+                                <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                                <div class="form-body-container">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.TypeName, new {@class = "control-label col-md-2"})
+                                            <div class="col-md-7">
+                                                @Html.TextBoxFor(model => model.TypeName, null, new {@class = "form-control"})
+                                                @Html.ValidationMessageFor(model => model.TypeName)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.ParentId, new {@class = "control-label col-md-2"})
+                                            <div class="col-md-10">
+                                                <input id="ParentId" name="ParentId" value="0" class="easyui-combotree form-control cbxParentTree" data-url='@Url.Action("GetEventTypeSelectTree", "EventType")' style="width: 100%;">
+                                                @Html.ValidationMessageFor(model => model.ParentId)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.RadioButtonSwitchEnumFor(model => model.Status, EventTypeStatus.Active)
+                                                @Html.ValidationMessageFor(model => model.Status)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class='btn-toolbar pull-right'>
+                        <div class='btn-group'>
+                            <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="myform" data-url='@Url.Action("Create", "EventType")' value="@LanguageResource.Reset" />
+                            <input type="button" class="btn btn-primary save add create createEventType" data-mode="create" data-form="myform" data-url='@Url.Action("Create", "EventType")' value="@LanguageResource.Save" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

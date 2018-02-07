@@ -1,0 +1,126 @@
+﻿[
+  {
+    "outputFile": "Themes/Default/Content/login.css",
+    "inputFile": "Themes/Default/Content/login.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/report.css",
+    "inputFile": "Themes/Default/Content/report.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/style-validate.css",
+    "inputFile": "Themes/Default/Content/style-validate.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/style.css",
+    "inputFile": "Themes/Default/Content/style.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/style_custom.css",
+    "inputFile": "Themes/Default/Content/style_custom.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/style_desktop.css",
+    "inputFile": "Themes/Default/Content/style_desktop.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/style_error.css",
+    "inputFile": "Themes/Default/Content/style_error.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/style_full_layout.css",
+    "inputFile": "Themes/Default/Content/style_full_layout.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/style_main_layout.css",
+    "inputFile": "Themes/Default/Content/style_main_layout.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/assets/bootstrap-datepicker.css",
+    "inputFile": "Themes/Default/Content/assets/bootstrap-datepicker.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/assets/bootstrap-theme.css",
+    "inputFile": "Themes/Default/Content/assets/bootstrap-theme.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/assets/bootstrap.css",
+    "inputFile": "Themes/Default/Content/assets/bootstrap.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/assets/jquery-ui.css",
+    "inputFile": "Themes/Default/Content/assets/jquery-ui.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/assets/util.css",
+    "inputFile": "Themes/Default/Content/assets/util.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/assets/titatoggle.css",
+    "inputFile": "Themes/Default/Content/assets/titatoggle.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/styles/default.css",
+    "inputFile": "Themes/Default/Content/styles/default.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/styles/home-responsive.css",
+    "inputFile": "Themes/Default/Content/styles/home-responsive.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/styles/dark.css",
+    "inputFile": "Themes/Default/Content/styles/dark.scss"
+  },
+  {
+    "outputFile": "Themes/Booking/Content/css/app.css",
+    "inputFile": "Themes/Booking/Content/css/app.scss"
+  },
+  {
+    "outputFile": "Themes/Booking/Content/css/shop.blocks.css",
+    "inputFile": "Themes/Booking/Content/css/shop.blocks.scss"
+  },
+  {
+    "outputFile": "Themes/Booking/Content/css/shop.plugins.css",
+    "inputFile": "Themes/Booking/Content/css/shop.plugins.scss"
+  },
+  {
+    "outputFile": "Themes/Booking/Content/css/shop.style.css",
+    "inputFile": "Themes/Booking/Content/css/shop.style.scss"
+  },
+  {
+    "outputFile": "Themes/Booking/Content/css/custom.css",
+    "inputFile": "Themes/Booking/Content/css/custom.scss"
+  },
+  {
+    "outputFile": "Themes/Booking/Content/css/footers/footer-v4.css",
+    "inputFile": "Themes/Booking/Content/css/footers/footer-v4.scss"
+  },
+  {
+    "outputFile": "Themes/Booking/Content/css/headers/header-v5.css",
+    "inputFile": "Themes/Booking/Content/css/headers/header-v5.scss"
+  },
+  {
+    "outputFile": "Themes/Booking/Content/css/style_icon.css",
+    "inputFile": "Themes/Booking/Content/css/style_icon.scss"
+  },
+  {
+    "outputFile": "Themes/Default/Content/assets/style_icon.css",
+    "inputFile": "Themes/Default/Content/assets/style_icon.scss"
+  },
+  {
+    "outputFile": "Themes/Booking/Content/css/custom-responsive.css",
+    "inputFile": "Themes/Booking/Content/css/custom-responsive.scss"
+  },
+  {
+    "outputFile": "Themes/Booking/Content/css/plugins/bootstrap-vertical-tabs.css",
+    "inputFile": "Themes/Booking/Content/css/plugins/bootstrap-vertical-tabs.scss"
+  },
+  {
+    "outputFile": "Content/error-page.css",
+    "inputFile": "Content/error-page.scss"
+  },
+  {
+    "outputFile": "Themes/Booking/Content/css/validate.css",
+    "inputFile": "Themes/Booking/Content/css/validate.scss"
+  }
+]

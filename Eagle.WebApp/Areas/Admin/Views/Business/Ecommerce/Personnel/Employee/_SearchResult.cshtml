@@ -1,0 +1,137 @@
+﻿@using Eagle.Core.Configuration
+@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@model IPagedList<Eagle.Services.Dtos.Business.Personnel.EmployeeInfoDetail>
+
+<div class="panel panel-default search-form-panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-10">
+                <h5>@Html.Raw(LanguageResource.List)</h5>
+            </div>
+            <div class="col-md-2 text-right">
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-default back-form" onclick="location.href = '@Url.Action("Index", "Employee")'">
+                        <span class="glyphicon glyphicon-home"></span>
+                    </button>
+                    <button type="button" class="btn btn-default search">
+                        <span class="glyphicon glyphicon-th-list"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            @LanguageResource.SequenceNo
+                        </th>
+                        <th class="center">
+                           @LanguageResource.Avatar
+                        </th>
+                        <th>
+                            @LanguageResource.FullName
+                        </th>
+                        <th>
+                            @LanguageResource.EmergencyAddress
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
+                        </th>
+                        <th class="table-actions text_center no-sort">@LanguageResource.Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            int index = i + 1;
+                            <tr>
+                                <td class="text-center">
+                                    @index
+                                </td>
+                                <td class="text-center">
+                                    @if (item.Contact.Photo != null && !string.IsNullOrEmpty(item.Contact.FileUrl))
+                                    {
+                                        string[] validImageTypes = GlobalSettings.ImageExtensions;
+                                        string extension = Path.GetExtension(item.Contact.FileUrl);
+
+                                        if (!string.IsNullOrEmpty(extension) && validImageTypes.Contains(extension))
+                                        {
+                                            <img alt="@item.Contact.FullName" title="@item.Contact." src="@item.Contact.FileUrl"
+                                                 width="50" height="50" />
+                                        }
+                                    }
+                                </td>
+                                <td data-code="@item.EmployeeId">
+                                    <div class="heading-container">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h6>@string.Format("{0} {1}", item.Contact.FirstName, item.Contact.LastName)</h6>
+                                            </div>
+                                            <div class="col-md-4 pull-right text-right">@string.Format("{0} : {1}", LanguageResource.EmployeeNo, item.EmployeeNo)</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <small>@string.Format("{0} : {1}", LanguageResource.Email, item.Contact.Email)</small>
+                                            </div>
+                                            <div class="col-md-4 pull-right text-right">
+                                                <small>
+                                                    @(!string.IsNullOrEmpty(item.Contact.Mobile)? $"{LanguageResource.Mobile} : {item.Contact.Mobile}" : null)
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="width: 200px; overflow-x: hidden;">
+                                    @(item.EmergencyAddress != null ? item.EmergencyAddress.Location : null)
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="changeStatus" data-id="@item.EmployeeId" data-url='@Url.Action("UpdateStatus", "Employee")' data-warning="@LanguageResource.DoYouWantToContinue">
+                                    @Html.RadioButtonSwitchEnumFor(modelItem => item.Status)
+                                </div>
+                            </td>
+                            <td class="table-actions text-center center no-sort">
+                                <a data-id="@item.EmployeeId" title="@LanguageResource.Delete" class="btn btn-small btn-warning delete deleteItem" data-container="divEdit" data-url='@Url.Action("Delete", "Employee")' data-warning="@LanguageResource.DoYouWantToDeleteItem"><span class="glyphicon glyphicon-align-center icon-trash"></span></a>
+                                <a data-id="@item.EmployeeId" title="@Html.Raw(LanguageResource.Edit)" class="btn btn-small btn-primary editItem" data-container="divEdit" data-url='@Url.Action("Edit", "Employee")'><span class="icon-edit"></span></a>
+                            </td>
+                        </tr>
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center">@LanguageResource.NoRecordFound</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer">
+        @if (Model != null && Model.Any())
+        {
+            <div class="datagrid-pager row">
+                <div class="datagrid-pagination pull-right text-right">
+                    @Html.PagedListPager(Model, page => Url.Action("Search", "Employee", new { page, sourceEvent = "Result" }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 10,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "search-result" }))
+                </div>
+            </div>
+        }
+    </div>
+</div>

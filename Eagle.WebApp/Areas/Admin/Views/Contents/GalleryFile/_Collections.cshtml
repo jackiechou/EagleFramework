@@ -1,0 +1,10 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Contents.Galleries.GalleryCollectionInfoDetail>
+<ul id="SearchCollectionId" class="nav nav-tabs nav-stacked well tabs-left">
+    @if (Model != null && Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <li><a href="#container-@item.CollectionId" data-toggle="tab">@item.CollectionName</a></li>
+        }
+    }
+</ul>

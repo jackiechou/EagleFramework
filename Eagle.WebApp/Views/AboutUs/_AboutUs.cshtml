@@ -1,0 +1,32 @@
+﻿@model Eagle.Services.Dtos.Business.VendorInfoDetail
+
+<div class="about-us-cotnainer">
+    @if (Model !=null)
+    {
+        <div class="article-container">
+            <div class="article-header">
+                <div class="headline">
+                    <h3>
+                        @Model.VendorName
+                    </h3>
+                </div>
+            </div>
+            <div class="article-body">
+                <div class="article-image">
+                    <img src='@Model.FileUrl' class="thumb-image" />
+                </div>
+                <div class="article-content">
+                    @if (Model != null)
+                    {
+                        @Html.Raw(Model.Description)
+                    }
+                </div>
+            </div>
+            <div class="article-footer">
+                <a href='@Url.Action("Index", "ContactUs")'  class="contact-us-link ">
+                    @LanguageResource.ContactUs
+                </a>
+            </div>
+        </div>
+    }
+</div>

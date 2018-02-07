@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Business.ManufacturerInfoDetail>
+
+@if (Model != null && Model.Any())
+{
+    int i;
+    int paging = Model.Count() % 3 < 0 ? Model.Count() / 3 : (Model.Count() / 3) + 1;
+
+    for (i = 0; i < paging; i++)
+    {
+        string status = ((i == 0) ? "row item active" : "row item");
+        <div class='@status'>
+            @foreach (var item in Model.Skip(i * 3).Take(3))
+            {
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <a class='photo_link' data-id="@item.ManufacturerId" data-group='@item.CategoryId' href='@Url.Action("Details", "Supplier", new {id = item.ManufacturerId})' title="@item.ManufacturerName" >
+                            <img class='photo img-responsive' src='@item.FileUrl' alt='@item.ManufacturerName'>
+                        </a>
+                    </div>
+                    <div class="caption">
+                        <h4>@item.ManufacturerName</h4>
+                        <hr>
+                        <a class="btn btn-default btn-mini" data-id="@item.ManufacturerId" data-group='@item.CategoryId'  title="@item.ManufacturerName" href='@Url.Action("Details", "Supplier", new {id = item.ManufacturerId})'>&raquo; @LanguageResource.ReadMore</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}

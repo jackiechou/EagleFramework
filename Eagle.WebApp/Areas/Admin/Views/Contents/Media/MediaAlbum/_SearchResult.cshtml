@@ -1,0 +1,98 @@
+﻿@using System.Linq
+@using Eagle.Core.Pagination.Extension
+@using Eagle.Core.Settings
+@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Contents.Media.MediaAlbumInfoDetail>
+<div class="table-responsive">
+    <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+        <thead>
+            <tr>
+                <th class="text-center">
+                    @LanguageResource.SequenceNo
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().AlbumName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Type.TypeName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Topic.TopicName)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
+                </th>
+                <th class="table-actions text_center no-sort">@LanguageResource.Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                int i = 0;
+                foreach (var item in Model)
+                {
+                    int index = i + 1;
+                    <tr>
+                        <td class="text-center">
+                            @index
+                        </td>
+                        <td data-id="@item.AlbumId">
+                            @Html.DisplayFor(modelItem => item.AlbumName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type.TypeName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Topic.TopicName)
+                        </td>
+                        <td class="text-center">
+                            <div class="inner-center">
+                                <div class="checkbox-slider--a">
+                                    <label>
+                                        @{
+                                            if (item.Status == MediaAlbumStatus.Active)
+                                            {
+                                                <input type="checkbox" id="Status-@item.AlbumId" name="Status-@item.AlbumId}")" data-id="@item.AlbumId" data-url='@Url.Action("UpdateStatus", "MediaAlbum")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeStatus" checked="checked" value="true"><span></span>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" id="Status-@item.AlbumId" name="Status-@item.AlbumId}")" data-id="@item.AlbumId" data-url='@Url.Action("UpdateStatus", "MediaAlbum")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeStatus" value="false"><span></span>
+                                            }
+                                        }
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="table-actions text-center center no-sort">
+                            <a data-id="@item.AlbumId" title="@LanguageResource.Delete" class="btn btn-small btn-warning delete deleteItem" data-container="divEdit" data-url='@Url.Action("Delete", "MediaAlbum")' data-warning="@LanguageResource.DoYouWantToDeleteItem"><span class="glyphicon glyphicon-align-center icon-trash"></span></a>
+                            <a data-id="@item.AlbumId" title="@Html.Raw(LanguageResource.Edit)" class="btn btn-small btn-primary editItem" data-container="divEdit" data-url='@Url.Action("Edit", "MediaAlbum")'><span class="icon-edit"></span></a>
+                        </td>
+                    </tr>
+                                                    i++;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="5" class="text-center">@LanguageResource.NoRecordFound</td>
+                                                </tr>
+                                            }
+        </tbody>
+    </table>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="datagrid-pager row">
+        <div class="datagrid-pagination pull-right text-right">
+            @Html.PagedListPager(Model, page => Url.Action("Search", "MediaAlbum", new { filter = Model, page, sourceEvent = "Result" }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 10,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "search-result" }))
+        </div>
+    </div>
+}

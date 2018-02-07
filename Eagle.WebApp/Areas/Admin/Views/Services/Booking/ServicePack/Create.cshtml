@@ -1,0 +1,226 @@
+﻿@using Eagle.Core.Configuration
+@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.CreateServicePack;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+@using Eagle.Core.HtmlHelper
+@model Eagle.Services.Dtos.Services.Booking.ServicePackEntry
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmCreateServicePack", name = "frmCreateServicePack", }))
+{
+    <div class="pcakage-container">
+        <div class="panel panel-default">
+            <div class="panel-heading text-bold">
+                <div class='page-header margin-top-5 margin-bottom-0'>
+                    <div class='btn-toolbar pull-right'>
+                        <div class='btn-group'>
+                            <a class="btn btn-default backurl" href='@Url.Action("Index", "ServicePack")'>
+                                <span class="glyphicon glyphicon-home"></span> @LanguageResource.Back
+                            </a>
+                            <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateServicePack" data-url='@Url.Action("Create", "ServicePack")' value="@LanguageResource.Reset"/>
+                            <input type="button" class="btn btn-primary save add create createServicePack" data-mode="create" data-form="frmCreateServicePack" data-url='@Url.Action("Create", "ServicePack")' value="@LanguageResource.Save"/>
+                        </div>
+                    </div>
+                    <h4>
+                        @LanguageResource.CreateServicePack
+                    </h4>
+                </div>
+            </div>
+
+            <div class="panel-body padding-top-0">
+                <div id="formMessage" class="form-message">
+                    @Html.AntiForgeryToken()
+                    @Html.Partial("_MessagePartial")
+                    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+                </div>
+
+                <div id="formBody" class="form-horizontal">
+                    <div class="form-container">
+                        <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                        <div class="form-body-container">
+                            <div class="form-horizontal">
+                                <ul class="nav nav-tabs" id="myTab">
+                                    <li id="tab-1" class="active"><a href="#pane-1" data-toggle="tab">@LanguageResource.Basic</a></li>
+                                    <li id="tab-2"><a href="#pane-2" data-toggle="tab">@LanguageResource.Description</a></li>
+                                    <li id="tab-3"><a href="#pane-3" data-toggle="tab">@LanguageResource.Specification</a></li>
+                                    <li id="tab-4"><a href="#pane-4" data-toggle="tab">@LanguageResource.PackageOption</a></li>
+                                    <li id="tab-5"><a href="#pane-5" data-toggle="tab">@LanguageResource.Employee</a></li>
+                                </ul>
+                                <div id="myTabContent" class="tab-content responsive">
+                                    
+                                    <div class="tab-pane  fade in active" id="pane-1">
+
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.PackageName, new {@class = "control-label col-md-1"})
+                                            <div class="col-md-5">
+                                                @Html.TextBoxFor(model => model.PackageName, new {@class = "form-control", placeholder = LanguageResource.ServicePackName})
+                                                @Html.ValidationMessageFor(model => model.PackageName)
+                                            </div>
+                                            @Html.RequiredLabelFor(model => model.TypeId, new {@class = "control-label col-md-1"})
+                                            <div class="col-md-5">
+                                                @Html.DropDownListFor(model => model.TypeId, null, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.TypeId)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.DurationId, new {@class = "control-label col-md-1"})
+                                            <div class="col-md-5">
+                                                <select id="DurationId" name="DurationId" data-id="1" data-url='@Url.Action("PoplulateServicePackDurationSelectList", "ServicePack")' class="form-control"></select>
+                                                @Html.ValidationMessageFor(model => model.DurationId)
+                                            </div>
+                                            @Html.RequiredLabelFor(model => model.CategoryId, new {@class = "control-label col-md-1"})
+                                            <div class="col-md-5">
+                                                <input id="CategoryId" name="CategoryId" value="0" class="easyui-combotree form-control" data-url='@Url.Action("GetServiceCategorySelectTree", "ServicePack")' style="width: 100%;">
+                                                @Html.ValidationMessageFor(model => model.CategoryId)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.PackageFee, new {@class = "control-label col-md-1"})
+                                            <div class="col-md-5">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(model => model.PackageFee, new {@class = "form-control number", placeholder = LanguageResource.ServicePackFee})
+                                                    <span class="input-group-addon">
+                                                        @Html.DisplayFor(model => model.CurrencyCode)
+                                                    </span>
+                                                </div>
+                                                @Html.HiddenFor(item => item.CurrencyCode)
+                                                @Html.ValidationMessageFor(model => model.PackageFee)
+                                            </div>
+                                            @Html.RequiredLabelFor(model => model.TaxRateId, new {@class = "control-label col-md-1"})
+                                            <div class="col-md-2">
+                                                @Html.DropDownListFor(model => model.TaxRateId, null, new {@class = "form-control"})
+                                                @Html.ValidationMessageFor(model => model.TaxRateId)
+                                            </div>
+                                            @Html.RequiredLabelFor(model => model.Capacity, new {@class = "control-label col-md-1 padding-left-0"})
+                                            <div class="col-md-1">
+                                                @Html.TextBoxFor(model => model.Capacity, new {@class = "form-control text-right", type = "number", placeholder = LanguageResource.Capacity})
+                                                @Html.ValidationMessageFor(model => model.Capacity)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.TotalFee, new {@class = "control-label col-md-1"})
+                                            <div class="col-md-5">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(model => model.TotalFee, new {@class = "form-control number", placeholder = LanguageResource.ServicePackTotalFee})
+                                                    <span class="input-group-addon">
+                                                        @Html.DisplayFor(model => model.CurrencyCode)
+                                                    </span>
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.TotalFee)
+                                            </div>
+                                            @Html.LabelFor(model => model.DiscountId, new {@class = "control-label  col-md-1"})
+                                            <div class="col-md-5">
+                                                @Html.DropDownListFor(model => model.DiscountId, null, new {@class = "form-control"})
+                                                @Html.ValidationMessageFor(model => model.DiscountId)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.Status, new {@class = "control-label col-md-1"})
+                                            <div class="col-md-5">
+                                                @Html.RadioButtonSwitchEnumFor(model => model.Status)
+                                                @Html.ValidationMessageFor(model => model.Status)
+                                            </div>
+                                            @Html.Label(LanguageResource.Photo, new {@class = "control-label col-md-1"})
+                                            <div class="col-md-5">
+                                                <div class="file-container">
+                                                    <div class="row">
+                                                        <div class="col-md-8 no-padding-left">
+                                                            <input type="file" id="File" name="File" accept="image/gif, image/jpg, image/jpeg, image/png, image/gif" class="btn btn-default form-control"/>
+                                                            @Html.ValidationMessageFor(model => model.File)
+                                                        </div>
+                                                        <div class="col-md-4 no-padding-left">
+                                                            <input type="button" class="btn btn-warning resetFile" value="@LanguageResource.Reset"/>
+                                                        </div>
+                                                    </div>
+                                                    <div id="image-holder"> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tab-pane fade" id="pane-2">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Description, new {@class = "control-label col-md-1"})
+                                            <div class="col-md-11">                                              
+                                                @Html.TextAreaFor(model => model.Description, new {rows = 15, columns = 40, @class = "form-control", placeholder = LanguageResource.Description})
+                                                @Html.ValidationMessageFor(model => model.Description)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tab-pane fade" id="pane-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Specification, new { @class = "control-label  col-md-1"})
+                                            <div class="col-md-11">
+                                                @Html.TextAreaFor(model => model.Specification, new { rows = 15, columns = 40, @class = "form-control", placeholder = LanguageResource.Specification })
+                                                @Html.ValidationMessageFor(model => model.Specification)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="pane-4">
+                                        @Html.Partial("../Services/Booking/ServicePack/_CreatePackageOption")
+                                    </div>
+
+                                    <div class="tab-pane fade" id="pane-5">
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.SelectedProviders, new {@class = "control-label col-md-1"})
+                                            <div class="col-md-11">
+                                                <div class="row">
+                                                    @Html.Partial("../Services/Booking/ServicePack/_ServicePackProvider")
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class='btn-toolbar pull-right'>
+                        <div class='btn-group'>
+                            <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateServicePack" data-url='@Url.Action("Create", "ServicePack")' value="@LanguageResource.Reset" />
+                            <input type="button" class="btn btn-primary save add create createServicePack" data-mode="create" data-form="frmCreateServicePack" data-url='@Url.Action("Create", "ServicePack")' value="@LanguageResource.Save" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        window.ServicePackSearchUrl = '@Url.Action("Search", "ServicePack")';
+        window.ServicePackIndexUrl = '@Url.Action("Index", "ServicePack")';
+        
+        //UPLOAD IN EDIOR
+        window.ReadImageBrowserUrl = '@Url.Action("Read", "ImageBrowser")';
+        window.CreateImageBrowserDirectoryUrl = '@Url.Action("CreateDirectory", "ImageBrowser")';
+        window.DestroyImageBrowserUrl = '@Url.Action("Destroy", "ImageBrowser")';
+        window.ThumbnailImageBrowserUrl = '@Url.Action("Thumbnail", "ImageBrowser")';
+        window.UploadImageBrowserUrl = '@Url.Action("Upload", "ImageBrowser")';
+        window.UploadServicePackImageFolder = '@Url.Content(GlobalSettings.ServicePackUploadImagePath)';
+
+        window.ReadFileBrowserUrl = '@Url.Action("Read", "FileBrowser")';
+        window.CreateFileBrowserDirectoryUrl = '@Url.Action("CreateDirectory", "FileBrowser")';
+        window.DestroyFileBrowserUrl = '@Url.Action("Destroy", "FileBrowser")';
+        window.ThumbnailFileBrowserUrl = '@Url.Action("Thumbnail", "FileBrowser")';
+        window.UploadFileBrowserUrl = '@Url.Action("Upload", "FileBrowser")';
+        window.UploadServicePackFileFolder = '@Url.Content(GlobalSettings.ServicePackUploadDocumentPath)';
+    </script>
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.default.mobile.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/kendo/js/kendo.all.min.js")"></script>
+    <script type="text/javascript" src="~/Scripts/app/modules/service-pack.js"></script>
+}

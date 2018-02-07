@@ -1,0 +1,49 @@
+﻿@using Eagle.Core.Session
+@using Eagle.Services.Dtos.Business
+<div class="header-v5 header-static">
+    <!-- Topbar v3 -->
+    <div class="topbar-v3">
+        <div class="container">
+            <div class="pull-left">
+                <a class="logo" href="#">
+                    <img id="logo-header" src="/Themes/Booking/Content/img/logo.png" alt="Logo">
+                </a>
+            </div>
+            <div class="pull-right">
+                <div class="company-header-info">
+                    <span class="telephone">Đường dây nóng <span>(08) 5511999</span></span>
+                    <span class="address">Địa chỉ: 44 Thống Nhất, Phường Tân Thành, Quận Tân Phú, Hồ Chí Minh</span>
+                </div>
+            </div>
+         </div>
+    </div>
+    <!-- End Topbar v3 -->
+    <!-- Navbar -->
+    <div class="navbar navbar-default mega-menu" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+               
+            </div>
+            <div class="collapse navbar-collapse navbar-responsive-collapse">              
+                <!-- Nav Menu -->
+                <div id="MainMenu" class="main-menu-container" data-url='@Url.Action("GetMainMenu", "MenuDesktop")'></div>
+                <!-- End Nav Menu -->
+            </div>
+
+        </div>
+    </div>
+    <!-- End Navbar -->
+</div>
+
+
+@*<div class="vendor-container">
+@{
+    Html.RenderAction("GetVendorOnHeader", "VendorInfo");
+}
+</div>*@

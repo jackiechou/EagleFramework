@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Contents.Banners.BannerInfoDetail>
+<div class="banner">
+    <div class="slider-wrapper">
+        <div id="banner-top" style="display:none;">
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <img alt="@item.BannerTitle" title="@item.BannerTitle" src="@item.FileUrl" data-image="@item.FileUrl" data-description="@item.BannerContent" />
+                }
+            }
+            else
+            {
+                <p>@LanguageResource.NotFound</p>
+            }
+        </div>
+    </div>
+</div>

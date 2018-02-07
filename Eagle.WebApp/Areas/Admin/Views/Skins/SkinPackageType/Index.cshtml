@@ -1,0 +1,40 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.SkinPackageType;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+<div class="box-container">
+    <div class="heading-bar-container">
+        <div class="heading-bar-inner">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>@LanguageResource.SkinPackageType</h6>
+                </div>
+                <div class="col-md-8 text-right">
+                    <div class="btn-group" data-toggle="buttons">
+                        <button type="button" class="btn btn-default back-form" onclick="location.href = '@Url.Action("Index", "SkinPackageType")'">
+                            <span class="glyphicon glyphicon-backward"></span> @LanguageResource.Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body-container">
+        <div id="bodyContent" class="row">
+            <div id="divEdit">
+                @Html.Action("Create", "SkinPackageType")
+            </div>
+            <div id="gridcontainer" class="gridContainer">
+                @Html.Action("LoadSearchForm", "SkinPackageType")
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.SkinPackageTypeSearchUrl = '@Url.Action("Search", "SkinPackageType")';
+    </script>
+    <script src="~/Scripts/app/modules/skin-package-type.js"></script>
+}

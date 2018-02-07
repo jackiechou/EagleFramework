@@ -1,0 +1,159 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@model IPagedList<Eagle.Services.Dtos.Business.Transaction.OrderInfoDetail>
+
+<!--Table Search v1-->
+<div class="table-search-v1 margin-bottom-20">
+    <div class="panel table-responsive">
+        @if (Model.Any())
+        {
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-1 no-padding-left no-padding-right">
+                        @LanguageResource.SequenceNo
+                    </div>
+                    <div class="col-sm-7 text-center">
+                        @LanguageResource.Order
+                    </div>
+                    <div class="col-sm-3 no-padding-left no-padding-right">@LanguageResource.Status</div>
+                </div>
+                <ul class="list-group order-list-group" id="list-group-accordion">
+                    @{
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            int index = i + 1;
+                            DateTime startDate = Convert.ToDateTime(item.OrderDate);
+                            string orderDate;
+
+                            if (item.DueDate != null)
+                            {
+                                DateTime endDate = Convert.ToDateTime(item.DueDate);
+                                orderDate = string.Format("{0} {1:00}/{2:00}/{3:00} {4} {5:00}/{6:00}/{7:00}", LanguageResource.From, startDate.Day, startDate.Month, startDate.Year, LanguageResource.To, endDate.Day, endDate.Month, endDate.Year);
+                            }
+                            else
+                            {
+                                orderDate = string.Format("{0:00}/{1:00}/{2:00}", startDate.Day, startDate.Month, startDate.Year);
+                            }
+
+                            <li class="list-group-item justify-content-between">
+                                <div class="list-group-heading @index/2" data-id="@item.OrderId" data-toggle="collapse" data-target="#item-@index" data-parent="#list-group-accordion">
+                                    <div class="row">
+                                        <div class="col-sm-1 no-padding-left no-padding-right">
+                                            @index
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="row">
+                                                <div class="col-sm-7">
+                                                    <span class="head-text">@LanguageResource.OrderNo :</span> @item.OrderNo
+                                                </div>    
+                                                <div class="col-sm-5">
+                                                    <span class="head-text">@LanguageResource.CustomerName :</span>
+                                                    <span class="label label-info margin-left-5">@string.Format("{0} {1}", item.Customer.FirstName, item.Customer.LastName)</span>
+                                                </div>    
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-7">
+                                                    <span class="head-text">@LanguageResource.OrderDate :</span> @orderDate
+                                                </div> 
+                                                <div class="col-sm-5">
+                                                    <div class="col-sm-4 no-padding-left no-padding-right">
+                                                        <span class="head-text">@LanguageResource.TotalItems </span>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <span class="badge badge-warning badge-pill">@item.OrderProducts.Count()</span>
+                                                    </div>
+                                                </div>    
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-7">
+                                                    <span class="head-text">@LanguageResource.Tax :</span> @item.Tax
+                                                </div> 
+                                                <div class="col-sm-5">
+                                                    <div class="col-sm-4 no-padding-left no-padding-right">
+                                                        <span class="head-text">@LanguageResource.Totals </span>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                      <span class="badge badge-success pull-left">@item.TotalFees</span> <span class="badge badge-pill margin-left-5">@item.CurrencyCode</span>
+                                                    </div>
+                                                </div>    
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 no-padding-left no-padding-right">
+                                            <div class="changeStatus" data-orderno="@item.OrderNo" data-url='@Url.Action("UpdateStatus", "Order")' data-warning="@LanguageResource.DoYouWantToContinue">
+                                                @Html.RadioButtonSwitchEnumFor(modelItem => item.Status)
+                                            </div>
+                                        </div>
+                                        @if (item.OrderProducts != null && item.OrderProducts.Any())
+                                        {
+                                            <div class="pull-right">
+                                                <i class="fa fa-chevron-right pull-right"></i>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="pull-right"></div>
+                                        }
+                                    </div>
+                                </div>
+
+                                @if (item.OrderProducts != null && item.OrderProducts.Any())
+                                {
+                                    <div id="item-@index" class="sub-items collapse">
+                                        @foreach (var order in item.OrderProducts)
+                                        {
+                                            if (order.Item != null)
+                                            {
+                                                <a href="javascript:void(0)" data-productid="@order.ProductId" class="list-group-item small">
+                                                    <h5 data-itemcode="@order.Item.ItemCode">
+                                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                                        @*<small class="badge">@product.Item.ItemCode</small>*@
+                                                        @order.Item.ItemName
+                                                        <span class="pull-right"> <small class="badge badge-warning">@order.Quantity</small> x 
+                                                            <small class="badge badge-info">@order.Item.GrossPrice</small>    
+                                                         <small>@order.Item.CurrencyCode</small></span>
+                                                    </h5>
+                                                </a>
+                                            }
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="sub-items collapse">@LanguageResource.NoRecordFound</div>
+                                }
+                            </li>
+                            i++;
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="panel-footer">
+                @if (Model != null && Model.Any())
+                {
+                    <div class="datagrid-pager row">
+                        <div class="datagrid-pagination pull-right text-right">
+                            @Html.PagedListPager(Model, page => Url.Action("Search", "CustOrder", new { page }),
+                                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                                {
+                                    MaximumPageNumbersToDisplay = 10,
+                                    DisplayPageCountAndCurrentLocation = true,
+                                    // PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                                    //DisplayItemSliceAndTotal = true,
+                                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "search-result" }))
+                        </div>
+                    </div>
+                }
+            </div>
+                        }
+                        else
+                        {
+                            <div class="panel-body">
+                                <div class="no-row">
+                                    @Html.Raw(LanguageResource.NotFoundOrder)
+                                </div>
+                            </div>
+                        }
+    </div>
+</div>

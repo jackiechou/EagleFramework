@@ -1,0 +1,194 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.FileStorage.FileModel
+<link href="~/Scripts/plugins/uploadfile/css/uploadfile.css" rel="stylesheet" />
+<form  enctype = "multipart/form-data" id="uploadform" name ="uploadform">
+    <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">@Html.Raw(LanguageResource.Upload)</h3>
+        </div>
+        <div class="modal-body">
+            <div id="alertMessagePopUp">
+                @if (ViewBag.DisplayErrorMessage == true)
+                {
+                    <div class="@ViewBag.CssClass    ">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                        <strong>@ViewBag.SortMessage     !</strong>
+                        <div class="padding-left">
+                            @Html.Raw(Server.HtmlDecode(ViewBag.Message))
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="upload-form" id="uploader">           
+                <input type="hidden" id="folderKey" name="folderKey" value="@Model.FolderKey" />
+                @*<input type="hidden" id="fileId" name="fileId" value="@Model.FileId"/>*@
+                <div class="upload_wrapper">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>@Html.Raw(LanguageResource.FileTitle)</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input id="fileName" name ="fileName" type="text" style="width: 510px !important;" />
+                        </div>
+                    </div>                   
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>@Html.Raw(LanguageResource.FileDescription)</label>
+                        </div>
+                        <div class="col-md-4">
+                            <textarea id="fileDescription" name ="fileDescription" aria-multiline="true" rows="3" style="width: 510px !important;" />
+                        </div>
+                    </div>
+                      <div class="row">
+                        <div class="col-md-2">
+                            <label>@Html.Raw(LanguageResource.File)</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input id="fileInput" name ="fileInput" type="file" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">&nbsp;</div>
+                        <div class="col-md-4">                        
+                            <div id="fileuploader_queue">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="modal-footer">   
+        <button id="btnUpload" type="button" class="btn btn-primary" data-value="1">@Html.Raw(LanguageResource.StartUpload)</button>
+        <button id="btnClose" type="button" data-dismiss="modal" class="btn" data-value="0">@Html.Raw(LanguageResource.Close)</button>
+    </div>
+</form>
+<script type="text/javascript">
+    $(function () {
+        //function DeleteFile() {
+        //    var fileId = $("input[type=hidden][name=fileId]").val();
+        //    var deleteFileServiceUrl = '/Handlers/DeleteFile.ashx';
+        //    $.post(deleteFileServiceUrl, { 'fileId': fileId },
+        //        function (resp, textStatus, jqXHR) {
+        //            $("#eventsmessage").html("File " + fileId + " Deleted");
+        //        });
+        //}
+
+        //function DownloadFile() {
+        //    var downloadFileServiceUrl = '/Handlers/DownloadFile.ashx?fileId=' + fileId;
+        //    location.href = downloadFileServiceUrl;
+        //}
+
+        function BindUploadedDataGrid(fileId) {
+            var data = { "fileId": fileId };
+            var serviceUrl = '/Admin/FileManager/GetUploadedFileList';
+            $.ajax({
+                type: "GET",
+                data: data,
+                url: serviceUrl,
+                success: function (data, statusCode, xhr) {
+                    if (data.message == "timeout")
+                        window.location.reload();
+                    else {
+                        $('#fileuploader_queue').html(data);
+                    }
+                }, error: function (jqXHR, textStatus, errorThrown) {
+                    handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                }
+            });
+        }
+
+       
+
+        $(document).on("click", "#btnUpload", function () {   
+            if ($('input[type=file][id=fileInput]').val() == '') {
+                showMessagePopUpWithTitle('@Html.Raw(LanguageResource.Error)', '@Html.Raw(LanguageResource.PleaseSelectFile)', "warning");             
+            }else {              
+                var fileInputId = 'fileInput';
+                var fileId = $("input[type=hidden][name=fileId]").val();
+                var folderKey = $("input[type=hidden][name=folderKey]").val();
+                var file_extensions = ['.jpg', '.JPG', '.gif', '.GIF', '.png', '.PNG', '.jpeg', '.JPEG'];
+                var fileTitle = $("input[type=hidden][name=fileTitle]").val();
+                var fileDescription = $("input[type=hidden][name=fileDescription]").val();
+                var width = null;
+                var height = null;
+                var fileId = null;
+
+                var formData = new FormData();
+                formData.append('folderKey', folderKey);
+                formData.append('fileKey', fileInputId);
+                formData.append('FileUpload', $('input[type=file]')[0].files[0]);
+                formData.append('fileTitle', fileTitle);
+                formData.append('fileDescription', fileDescription);
+                if (width != null && width > 0)
+                    formData.append('width', width);
+                if (height != null && height > 0)
+                    formData.append('height', height);
+
+                //fileId da ton tai trong database dung de cap nhat database ngay sau khi upload file
+                if (fileId != null && fileId > 0)
+                    formData.append('fileId', fileId);
+
+                 var uploadFileServiceUrl = '/Handlers/UploadFile.ashx';
+                $.ajax({
+                    type: "POST",
+                    url: uploadFileServiceUrl,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (data) {
+                        var fileId = JSON.stringify(data);
+                        //save data
+                        $("input[type=hidden][name=fileId]").val(fileId);
+                        //pass data to main form
+                        $("input[type=hidden][name=FileIds]").val(fileId);
+                        //show message                       
+                        showMessageWithTitle('success', '@Html.Raw(LanguageResource.UploadSuccess)', "success", 3000);
+                        //close popup
+                        //setTimeout(function () {
+                        //    $("#modalUpload").modal('hide');
+                        //}, 1000);
+                        //load uploaded data to grid
+                        BindUploadedDataGrid(fileId);
+                    },
+                    error: function () {
+                        showMessageWithTitle('error', '@Html.Raw(LanguageResource.UploadFileError)', "error", 3000);
+                    }
+                });
+            }
+        
+        });
+
+
+        var dialogConfirm = $("#dialog-confirm").dialog({
+            resizable: false,
+            height: 140,
+            modal: true,
+            buttons: {
+                "Delete": function () {
+                    $(this).dialog("close");
+                },
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+
+        $(document).on("click", "#btnDeleteFile", function () {
+            dialogConfirm.dialog("open");
+            var fileId = $(this).data('id');
+            var fileTitle = $(this).data('title');
+            var deleteFileServiceUrl = '/Handlers/DeleteFile.ashx';
+            $.post(deleteFileServiceUrl, { fileId: fileId },
+                function (resp, textStatus, jqXHR) {
+                    $("#event_message").html(fileTitle + "is deleted");
+                });
+        });
+
+
+        $(document).on("click", "#btnDownloadFile", function () {
+            var fileId = $(this).data('id');
+            var downloadFileServiceUrl = '/Handlers/DownloadFile.ashx?fileId=' + fileId;
+            location.href = downloadFileServiceUrl;
+        });
+});
+</script>

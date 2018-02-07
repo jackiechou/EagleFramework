@@ -1,0 +1,27 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.Identity.UserInfoDetail
+
+@{
+    if (Model != null)
+    {
+        <div class="row">
+            <div class="profile-userpic col-md-5">
+                @if (Model.Profile.Contact.DocumentInfo != null)
+                {
+                    <img src="@Url.Content(Model.Profile.Contact.DocumentInfo.FileUrl)" class="img-responsive" alt="@Model.Profile.Contact.DocumentInfo.FileTitle">
+                }else{
+                    <img src='@Url.Content("~/Images/noavatar.jpg")' class="img-responsive" alt="no-avatar">
+                }
+            </div>
+            <div class="profile-usertitle col-md-7">
+                <div class="profile-usertitle-container">
+                    <div class="profile-usertitle-name">
+                        @Model.Profile.Contact.FullName
+                    </div>
+                    <div class="profile-usertitle-job">
+                        @Model.Profile.Contact.JobTitle
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

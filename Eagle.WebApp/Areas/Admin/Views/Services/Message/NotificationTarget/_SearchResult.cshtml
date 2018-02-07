@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Services.Message.NotificationTargetDefaultInfoDetail>
+<div class="table-responsive">
+    <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+        <thead>
+            <tr>
+                <th class="text-center">@LanguageResource.SequenceNo</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().TargetName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().ContactName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().MailAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().MailServerProvider.MailServerProviderName)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().IsSelected)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().IsActive)
+                </th>
+                <th class="table-actions text-center no-sort">@LanguageResource.Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+         @if (Model.Any())
+         {
+             int i = 0;
+             foreach (var item in Model)
+             {
+                 i++;
+                 <tr>
+                     <td class="text-center">
+                         @i
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.TargetName)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.ContactName)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.MailAddress)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.MailServerProvider.MailServerProviderName)
+                     </td>
+                     <td class="text-center">
+                         <div class="inner-center">
+                             <div class="checkbox-slider--b">
+                                 <label>
+                                     @{
+                                         if (item.IsSelected)
+                                         {
+                                             <button type="button" class="btn btn-success changeSelectedItem" data-id="@item.NotificationTargetDefaultId" data-url='@Url.Action("UpdateSelectedNotificationTargetDefault", "NotificationTarget")' data-warning="@LanguageResource.DoYouWantToContinue">
+                                                 <span class="glyphicon glyphicon-check"></span>
+                                             </button>
+                                         }
+                                         else
+                                         {
+                                             <button type="button" class="btn btn-default changeSelectedItem" data-id="@item.NotificationTargetDefaultId" data-url='@Url.Action("UpdateSelectedNotificationTargetDefault", "NotificationTarget")' data-warning="@LanguageResource.DoYouWantToContinue">
+                                                 <span class="glyphicon glyphicon-unchecked"></span>
+                                             </button>
+                                         }
+                                     }
+                                 </label>
+                             </div>
+                         </div>
+                     </td>
+                     <td class="text-center">
+                         <div class="inner-center">
+                             <div class="checkbox-slider--a">
+                                 <label>
+                                     @{
+                                         if (item.IsActive)
+                                         {
+                                             <input type="checkbox" id="IsActive" name="IsActive" class="changeStatus" data-id="@item.NotificationTargetDefaultId" data-url='@Url.Action("UpdateStatus", "NotificationTarget")' data-warning="@LanguageResource.DoYouWantToContinue" checked="checked" value="true">
+                                             <span></span>
+                                         }
+                                         else
+                                         {
+                                             <input type="checkbox" id="IsActive" name="IsActive" class="changeStatus" data-id="@item.NotificationTargetDefaultId" data-url='@Url.Action("UpdateStatus", "NotificationTarget")' data-warning="@LanguageResource.DoYouWantToContinue" value="false">
+                                             <span></span>
+                                         }
+                                     }
+                                 </label>
+                             </div>
+                         </div>
+                     </td>
+                     <td class="table-actions text-center center no-sort">
+                         <a data-id="@item.NotificationTargetDefaultId" title="@Html.Raw(LanguageResource.Edit)" class="btn btn-small btn-primary editItem" data-container="divEdit" data-url='@Url.Action("Edit", "NotificationTarget")'><span class="icon-edit"></span></a>
+                     </td>
+                 </tr>
+                                             }
+                                         }
+                                         else
+                                         {
+                                            <tr>
+                                                <td colspan="7" class="text-center">@LanguageResource.NoRecordFound</td>
+                                            </tr>
+                                         }
+         
+        </tbody>
+    </table>
+</div>

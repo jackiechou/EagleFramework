@@ -1,0 +1,130 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@model IPagedList<Eagle.Services.Dtos.SystemManagement.ApplicationLanguageDetail>
+
+<div class="panel panel-default search-form-panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-10">
+                <h5>@Html.Raw(LanguageResource.List)</h5>
+            </div>
+            <div class="col-md-2 text-right">
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-default back-form" onclick="location.href = '@Url.Action("Index", "Language")'">
+                        <span class="glyphicon glyphicon-home"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            @LanguageResource.SequenceNo
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Language.LanguageName)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Language.LanguageCode)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().IsSelected)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            i++;
+                            <tr>
+                                <td class="text-center">
+                                    @i
+                                </td>
+                                <td data-code="@item.Language.LanguageCode">
+                                    @Html.DisplayFor(modelItem => item.Language.LanguageName)
+                                </td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.Language.LanguageCode)
+                                </td>
+                                <td class="text-center">
+                                    <div class="inner-center">
+                                        <div class="checkbox-slider--b">
+                                            <label>
+                                                @{
+                                                    if (item.IsSelected)
+                                                    {
+                                                        <button type="button" class="btn btn-success changeSelectedItem" data-code="@item.LanguageCode" data-url='@Url.Action("UpdateSelectedApplicationLanguage", "Language")' data-warning="@LanguageResource.DoYouWantToContinue">
+                                                            <span class="glyphicon glyphicon-check"></span>
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="button" class="btn btn-default changeSelectedItem" data-code="@item.LanguageCode" data-url='@Url.Action("UpdateSelectedApplicationLanguage", "Language")' data-warning="@LanguageResource.DoYouWantToContinue">
+                                                            <span class="glyphicon glyphicon-unchecked"></span>
+                                                        </button>
+                                                    }
+                                                }
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="inner-center">
+                                        <div class="checkbox-slider--a">
+                                            <label>
+                                                @{
+                                                    if (item.Status == Eagle.Core.Settings.ApplicationLanguageStatus.Active)
+                                                    {
+                                                        <input type="checkbox" id="IsActive-@item.LanguageCode" name="IsActive-@item.LanguageCode" data-code="@item.LanguageCode" data-url='@Url.Action("UpdateApplicationLanguageStatus", "Language")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeStatus" checked="checked" value="true"><span></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" id="IsActive-@item.LanguageCode" name="IsActive-@item.LanguageCode" data-code="@item.LanguageCode" data-url='@Url.Action("UpdateApplicationLanguageStatus", "Language")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeStatus" value="false"><span></span>
+                                                    }
+                                                }
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="5" class="text-center">@LanguageResource.NoRecordFound</td>
+                                                        </tr>
+                                                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer">
+        @if (Model != null && Model.Any())
+        {
+            <div class="datagrid-pager row">
+                <div class="datagrid-pagination pull-right text-right">
+                    @Html.PagedListPager(Model, page => Url.Action("Search", "Language", new { page, sourceEvent = "Result" }),
+                        PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                        {
+                            MaximumPageNumbersToDisplay = 10,
+                            DisplayPageCountAndCurrentLocation = true,
+                            PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                            DisplayItemSliceAndTotal = true,
+                            ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                        }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "dataGrid" }))
+                </div>
+            </div>
+        }
+    </div>
+</div>

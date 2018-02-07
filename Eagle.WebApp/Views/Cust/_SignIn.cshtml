@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = LanguageResource.Login;
+}
+@model Eagle.Services.Dtos.Business.CustomerLogin
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "loginform", name = "loginform", @class = "form-horizontal", role = "form", autocomplete = "off" }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <h4><span class="glyphicon glyphicon-star"></span> Log in to your account</h4>
+            </div>
+        </div>
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.AntiForgeryToken()
+                <div id="alertMessageBox-loginform" aria-hidden="true" aria-labelledby="alertMessage" role="dialog" class="modal hide fade message-box">
+                    <div class="modal-body">
+                        <div id="alertMessage">
+                            @if (ViewBag.DisplayErrorMessage == true)
+                            {
+                                <div class="@ViewBag.CssClass">
+                                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                    <strong>@ViewBag.SortMessage !</strong> @ViewBag.Message
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+            </div>
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <section>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                            @Html.TextBoxFor(m => m.Email, new {placeholder = Html.Raw(LanguageResource.Email), @class = "form-control", autocomplete = "false" })
+                            @Html.HiddenFor(model => model.DesiredUrl)
+                            <span class="input-group-addon default"><span class="glyphicon glyphicon-asterisk"></span></span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </section>
+                    <section>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                            @Html.TextBoxFor(m => m.Password, new {placeholder = Html.Raw(LanguageResource.Password), @class = "form-control", type = "password", autocomplete = "off" })
+                            <span class="input-group-addon default"><span class="glyphicon glyphicon-asterisk"></span></span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Password)
+                    </section>
+                    <section>
+                        <div class="margin-left-20">
+                            <label class="checkbox">
+                                <input type="checkbox" name="checkbox" /><i></i>@Html.Raw(LanguageResource.RememberMe)
+                            </label>
+                        </div>
+                    </section>
+
+                    <div class="row margin-bottom-5">
+                        <a href="javascript:void(0);" class="pull-right" onclick="$('login_form_holder').hide();$('forgot_form_holder').show();">Forgot your password?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <button id="login" type="button" tabindex="4" data-form="loginform" data-url='@Url.Action("LogIn","Cust")' data-destination='@Url.Action("MyProfile", "Cust")' class="btn btn-info btn-success login">@LanguageResource.Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="border-wings">
+        <span>or</span>
+    </div>
+
+    <div class="row columns-space-removes">
+        <div class="col-lg-6 margin-bottom-10">
+            <button type="button" class="btn-u btn-u-md btn-u-fb btn-block"><i class="fa fa-facebook"></i> Facebook Log In</button>
+        </div>
+        <div class="col-lg-6">
+            <button type="button" class="btn-u btn-u-md btn-u-tw btn-block"><i class="fa fa-twitter"></i> Twitter Log In</button>
+        </div>
+    </div>*@
+}

@@ -1,0 +1,129 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@using Eagle.Services.Dtos.Contents.Articles
+@model Eagle.Services.Dtos.Contents.Articles.NewsSearchResult
+
+<table id="dataTable" class="table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+    <thead>
+        <tr>
+            <th class="text_center">@LanguageResource.SequenceNo</th>
+            <th class="text_center">@LanguageResource.Headline</th>
+            <th class="text_center">@LanguageResource.PostedDate</th>
+            <th class="text_center">@LanguageResource.Status</th>
+            <th class="table-actions text_center no-sort">@LanguageResource.Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int i = 0; }
+        @if (Model.PagedList != null && Model.PagedList.Any())
+        {
+            foreach (var item in Model.PagedList)
+            {
+                i++;
+                <tr>
+                    <td class="text-center">
+                        @item.NewsId
+                    </td>
+                    <td>
+                        <div class="heading-container">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6>@item.Headline</h6>
+                                </div>
+                                <div class="col-md-4 pull-right text-right">@string.Format("{0} : {1}", LanguageResource.On, item.CreatedDate)</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <small>@string.Format("{0} : {1}", LanguageResource.In, item.CategoryName)</small>
+                                </div>
+                                <div class="col-md-4 pull-right text-right"><small>@string.Format("{0} : {1}", LanguageResource.By, item.FullName)</small></div>                               
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        @item.PostedDate
+                    </td>
+                    <td class="text-center">
+                        <div class="changeStatus" data-id="@item.NewsId" data-url='@Url.Action("UpdateStatus", "News")' data-warning="@LanguageResource.DoYouWantToContinue">
+                            @Html.RadioButtonSwitchEnumFor(modelItem => item.Status)
+                        </div>
+                    </td>
+                    <td class="table-actions text-center no-sort">
+                        <a data-id="@item.NewsId" title="@LanguageResource.Delete" data-url='@Url.Action("Delete", "News")' class="btn btn-small btn-warning deleteItem"><i class="glyphicon glyphicon-align-center icon-trash"></i></a>
+                        <a data-id="@item.NewsId" title="@Html.Raw(LanguageResource.Edit)" onclick="location.href='@Url.Action("Edit", "News", new { id = item.NewsId })'" class="btn btn-small btn-success editItem "><span class="icon-edit"></span></a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr class="row">
+                <td class="not-found col-xs-12 col-sm-12 col-md-12">@LanguageResource.NoDataFound</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.PagedList != null && Model.PagedList.Any())
+{
+    <div class="datagrid-pager row">
+        <div class="datagrid-goToPage col-md-4">
+            @Html.PagedListGoToPageForm(Model.PagedList, Url.Action("Search", "News", new { page = 1 }),
+                new GoToFormRenderOptions
+                {
+                    LabelFormat = "Go to page:",
+                    SubmitButtonFormat = "Go",
+                    InputFieldType = "number",
+                    Max = Model.PagedList.TotalPageCount
+                }, new AjaxOptions
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "gridcontainer"
+                })
+        </div>
+        <div class="datagrid-pagination col-md-8 pull-right text-right">
+            @Html.PagedListPager(Model.PagedList, page => Url.Action("Search", "News",new{ filter = Model, page, sourceEvent = "Result"}),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 10,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "gridcontainer" }))
+        </div>
+    </div>
+}
+@section Scripts
+{
+    <script type="text/javascript">
+        (function ($) {
+            $(document).on('keyup change', '#page', function () {
+                var selectedValue = $(this).val();
+                if (!this.checkValidity()) {
+                    this.value = '1';
+                };
+
+                var updatedUrl = window.SearchNewsPagingUrl + '?page=' + selectedValue;
+                $("a#goBtn").attr("href", updatedUrl);
+            });
+
+            $("#goBtn").click(function () {
+                var selectedValue = $("#page").val();
+                if (selectedValue != null) {
+                    $.ajax({
+                        url: '@Url.Action("Search", "News")',
+                        type: "GET",
+                        data: { 'page': selectedValue },
+                        success: function (data) {
+                            $("#gridcontainer").html(data);
+                        },
+                        error: function (jqXhr, textStatus, errorThrown) {
+                            handleAjaxErrors(jqXhr, textStatus, errorThrown);
+                        }
+                    });
+                }
+            });
+        })(jQuery);
+    </script>
+}

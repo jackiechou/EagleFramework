@@ -1,0 +1,47 @@
+﻿@model Eagle.Services.Dtos.Business.ProductTypeSearchEntry
+
+<div class="panel panel-default search-panel">
+    <div class="panel-heading">
+        <h5>@Html.Raw(LanguageResource.Search)</h5>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+        {
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-5 padding-left-5 padding-right-5">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-cog"></span> @LanguageResource.Search
+                            </span>
+                            <input id="ProductCategoryId" name="ProductCategoryId" value="0" class="easyui-combotree form-control cbxCategoryTree" data-url='@Url.Action("GetProductCategorySelectTree", "ProductCategory")' style="width: 80%;">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="TypeName" id="TypeName" class="form-control" placeholder="@LanguageResource.TypeName" />
+                    </div>
+                    <div class="col-md-2 padding-left-5 padding-right-5">
+                        @Html.EnumDropDownListFor(model => model.IsActive,  string.Format("--- {0} ---", LanguageResource.Select), new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-1 padding-left-5 padding-right-5">
+                        <div class="input-group">
+                            <div class="input-group-button">
+                                <button type="button" class="btn btn-primary search" data-form="frmSearch" data-mode="search">
+                                    <span class="glyphicon glyphicon-search" role="button"></span> @LanguageResource.Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        <div id="search-result" class="row no-padding-left no-padding-right">
+            @{
+                Html.RenderAction("Search", "ProductType");
+            }
+        </div>
+        <div id="page-containter" data-page="1" class="no-padding-left"></div>
+    </div>
+</div>

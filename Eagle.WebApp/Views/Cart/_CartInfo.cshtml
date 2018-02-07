@@ -1,0 +1,100 @@
+﻿@model Eagle.Services.Business.ShoppingCart
+
+@*Mapping with Shared/Booking/_TopQuickMenuPartial*@
+<a href="#"><i class="fa fa-shopping-cart"></i></a>
+<span class="badge badge-sea rounded-x" id="nn-cart-count">@Model.Count</span>
+
+<ul class="list-unstyled badge-open mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar" id="cart-info" data-mcs-theme="minimal-dark">
+    <div id="mCSB_1" class="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside" tabindex="0">
+        <div id="mCSB_1_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position: relative; top: 0; left: 0;" dir="ltr">
+            <button type="button" id="close-cart-info" class="close-cart-info">Close</button>
+            @if (Model != null && Model.Items.Any())
+            {
+                foreach (var item in Model.Items)
+                {
+                    <li class="cart-item">
+                        <img src="@item.Image" alt="@item.Name" class="mCS_img_loaded">
+                        <button type="button" data-id="@item.Id" class="remove-item-from-cart">×</button>
+                        <div class="overflow-h">
+                            <span>@item.Name</span>
+                            <small class="grossprice">@item.Quantity x @Html.FormatValue(item.NetPrice, "{0:c}") <strong>@Html.FormatValue(item.Amount, "{0:c}")</strong></small>
+                            @{
+                                if (item.Status == Eagle.Core.Settings.CartItemStatus.Available)
+                                {
+                                    if (item.UnitsInStock != null && item.UnitsInStock > 0)
+                                    {
+                                        <small class="hidden">@Html.Raw(LanguageResource.UnitsInStock): <strong  class="badge badge-info rounded-x">@item.UnitsInStock</strong></small>
+                                    }
+                                }
+                                else
+                                {
+                                    string cssClass;
+                                    switch (item.Status)
+                                    {
+                                        case Eagle.Core.Settings.CartItemStatus.Available:
+                                            cssClass = "label label-success hidden";
+                                            break;
+                                        case Eagle.Core.Settings.CartItemStatus.NotBeenSalesYet:
+                                            cssClass = "label label-warning";
+                                            break;
+                                        case Eagle.Core.Settings.CartItemStatus.OutOfStock:
+                                            cssClass = "label label-danger";
+                                            break;
+                                        case Eagle.Core.Settings.CartItemStatus.ExceedUnitOfStock:
+                                            cssClass = "label label-warning";
+                                            break;
+                                        default:
+                                            cssClass = "label label-primary hidden";
+                                            break;
+                                    }
+                                    <span class="item-status @cssClass">@item.Status.ToString()</span>
+                                }
+                            }                            
+                        </div>
+                    </li>
+                }
+                <li class="subtotal">
+                    <div class="overflow-h margin-bottom-10">
+                        <span>@Html.Raw(LanguageResource.Total)</span>
+                        <span class="pull-right subtotal-cost">@Html.FormatValue(Model.SubTotal, "{0:c}")</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href='javascript:void(0);' role="button" class="btn btn-u btn-brd btn-brd-hover btn-u-sea-shop btn-block clear-cart">@LanguageResource.ClearCart</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href='@Url.Action("Index", "Cart")' class="btn btn-u btn-u-sea-shop btn-block">@LanguageResource.ViewCart</a>
+                        </div>
+                    </div>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <div class="overflow-h">
+                        <span>@Html.Raw(LanguageResource.NoItemInShopCart)</span>
+                    </div>
+                </li>
+                <li class="subtotal">
+                    <div class="overflow-h margin-bottom-10">
+                        <span>@Html.Raw(LanguageResource.SubTotal)</span>
+                        <span class="pull-right subtotal-cost">@Html.FormatValue("0", "{0:c}")</span>
+                    </div>
+                </li>
+            }
+        </div>
+    </div>
+    <div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-minimal-dark mCSB_scrollTools_vertical" style="display: none;">
+        <div class="mCSB_draggerContainer">
+            <div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 50px; top: 0px;" oncontextmenu="return false;">
+                <div class="mCSB_dragger_bar" style="line-height: 50px;"></div>
+            </div>
+            <div class="mCSB_draggerRail"></div>
+        </div>
+    </div>
+</ul>
+<script type="text/javascript">
+        if ($("#nn-cart-count1") != null) {
+            $("#nn-cart-count1").html(@Model.Count);
+        }
+</script>

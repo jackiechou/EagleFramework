@@ -1,0 +1,156 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.CreateUser;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+@model Eagle.Services.Dtos.SystemManagement.Identity.UserEditEntry
+
+<div class="panel panel-primary edit-panel">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new {id = "frmEditUser", name = "frmEditUser", enctype = "multipart/form-data", autocomplete = "off"}))
+    {
+        @Html.AntiForgeryToken()
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <button type="button" class="btn btn-default load-back-form" onclick="location.href = '@Url.Action("Index", "User")'">
+                            <span class="glyphicon glyphicon-backward"></span> @LanguageResource.Back
+                        </button>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditUser" value="@LanguageResource.Reset"/>
+                        <input type="button" class="btn btn-primary edit" data-mode="edit" data-form="frmEditUser" data-url='@Url.Action("Edit", "User")' value="@LanguageResource.Save"/>
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditUser</h4>
+            </div>
+        </div>
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary("", new {@class = "alert alert-danger"})
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container edit-user">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body">
+                        <div class="row">
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li id="tab-1" class="active"><a href="#pane-1" data-toggle="tab">@LanguageResource.BasicInfo</a></li>
+                                <li id="tab-2"><a href="#pane-2" data-toggle="tab">@LanguageResource.Location</a></li>
+                                <li id="tab-3"><a href="#pane-3" data-toggle="tab">@LanguageResource.Role</a></li>
+                            </ul>
+
+                            <div id="myTabContent" class="tab-content responsive">
+                                <div class="tab-pane  fade in active" id="pane-1">
+                                    <div id="GeneralInfo">
+                                        <div class="heading text-right">
+                                            <h4><span class="label label-primary">@LanguageResource.Organizational</span></h4>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.UserName, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-4">
+                                                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @readonly = "readonly", autocomplete = "off", placeholder = LanguageResource.UserName })
+                                                @Html.ValidationMessageFor(model => model.UserName)
+
+                                                @Html.TextBoxFor(model => model.UserId, new { @style = "position:absolute; top:-9999px; left:-9999px" })
+                                                @Html.ValidationMessageFor(model => model.UserId)
+                                            </div>
+                                            @Html.LabelFor(model => model.PasswordQuestion, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-4">
+                                                @Html.DropDownListFor(model => model.PasswordQuestion, null, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.PasswordQuestion)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.PasswordSalt, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-4">
+                                                @Html.TextBoxFor(model => model.PasswordSalt, new { @class = "form-control", type = "password", autocomplete = "off", placeholder = LanguageResource.Password })
+                                                @Html.ValidationMessageFor(model => model.PasswordSalt)
+                                            </div>
+                                            @Html.LabelFor(model => model.PasswordAnswer, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-4">
+                                                @Html.TextBoxFor(model => model.PasswordAnswer, new { @class = "form-control", placeholder = LanguageResource.PasswordAnswer })
+                                                @Html.ValidationMessageFor(model => model.PasswordAnswer)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.RequiredLabelFor(model => model.ConfirmedPassword, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-4">
+                                                @Html.TextBoxFor(model => model.ConfirmedPassword, new { @class = "form-control", type = "password", autocomplete = "off" })
+                                                @Html.ValidationMessageFor(model => model.ConfirmedPassword)
+                                            </div>
+                                            @Html.LabelFor(model => model.StartDate, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-4">
+                                                @Html.DatePickerWithIconFor(model => model.StartDate)
+                                                @*@Html.ValidationMessageFor(model => model.StartDate, "*", new { @class = "text-danger" })*@
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.IsSuperUser, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-4">
+                                                <div class="checkbox-slider--b">
+                                                    <label>
+                                                        <input type="checkbox" id="IsSuperUser" name="IsSuperUser" value="@Model.IsSuperUser"><span></span>
+                                                    </label>
+                                                </div>
+
+                                                @Html.ValidationMessage("IsSuperUser", "*")
+                                            </div>
+                                            @Html.LabelFor(model => model.ExpiredDate, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-4">
+                                                @Html.DatePickerWithIconFor(model => model.ExpiredDate)
+                                                @*@Html.ValidationMessageFor(model => model.ExpiredDate, "*", new {@class = "text-danger"})*@
+                                            </div>
+                                        </div>
+
+                                        @Html.Action("LoadContactForm", "User", new {contactId = Model.Contact.ContactId})
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="pane-2">
+                                    @Html.Partial("../Sys/Users/Contact/_EmergencyAddressEdit", Model)
+                                    @Html.Partial("../Sys/Users/Contact/_PermanentAddressEdit", Model)
+                                </div>
+
+                                <div class="tab-pane fade" id="pane-3">
+                                    @Html.Action("LoadEditRoleForm", "User", new { userId = Model.UserId })  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="formFooter" class="form-footer form-group">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <button type="button" class="btn btn-default load-back-form" onclick="location.href = '@Url.Action("Index", "User")'">
+                            <span class="glyphicon glyphicon-backward"></span> @LanguageResource.Back
+                        </button>
+                        <input type="button" data-mode="edit" data-form="frmEditUser" value="@LanguageResource.btnReset" class="btn btn-default reset"/>
+                        <input type="button" data-mode="edit" data-form="frmEditUser" data-url='@Url.Action("Edit", "User")' value="@LanguageResource.btnSave" class="btn btn-primary edit"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        window.PopulateCountrySelectListUrl = '@Url.Action("PopulateCountrySelectList", "Contact")';
+        window.PopulateProvinceSelectListUrl = '@Url.Action("PopulateProvinceSelectList", "Contact")';
+        window.PopulateRegionSelectListUrl = '@Url.Action("PopulateRegionSelectList", "Contact")';
+        window.PopulateGroupDropDownListUrl = '@Url.Action("PopulateGroupDropDownList", "User")';
+        window.PopulateRoleDropDownListUrl = '@Url.Action("PopulateRoleDropDownList", "User")';
+        window.SearchUrl = '@Url.Action("Search", "User")';
+    </script>
+    <script src="~/Scripts/app/modules/user.js"></script>
+}

@@ -1,0 +1,261 @@
+﻿@{
+    ViewBag.Title = LanguageResource.CreateVendor;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Business.VendorEntry
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmCreateVendor", name = "frmCreateVendor", }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateVendor" data-url='@Url.Action("Create", "Vendor")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-success save add create createVendor" data-mode="create" data-form="frmCreateVendor" data-url='@Url.Action("Create", "Vendor")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.CreateVendor</h4>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="container-fluid">
+                <div class="panel with-nav-tabs panel-default">
+                    <div class="panel-heading">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab1" data-toggle="tab">@LanguageResource.BasicInfo</a></li>
+                            <li><a href="#tab2" data-toggle="tab">@LanguageResource.Address</a></li>
+                            <li><a href="#tab3" data-toggle="tab">@LanguageResource.OrganizationalStructure</a></li>
+                            <li><a href="#tab4" data-toggle="tab">@LanguageResource.FunctionalAreas</a></li>
+                            <li><a href="#tab5" data-toggle="tab">@LanguageResource.ShoppingHelp</a></li>
+                            <li><a href="#tab6" data-toggle="tab">@LanguageResource.RefundPolicy</a></li>
+                            <li><a href="#tab7" data-toggle="tab">@LanguageResource.TermsOfService</a></li>
+                            <li><a href="#tab8" data-toggle="tab">@LanguageResource.Logo</a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="tab-content no-border">
+
+                            <div class="tab-pane fade in active" id="tab1">
+                                <!--start row-->
+                                <div class="form-container">
+                                    <div id="formMessage" class="form-message">
+                                        @Html.AntiForgeryToken()
+                                        @Html.Partial("_MessagePartial")
+                                        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+                                    </div>
+
+                                    <div id="formBody" class="form-horizontal">
+                                        <div class="form-container">
+                                            <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                                            <div class="form-body-container">
+                                                <div class="form-horizontal">
+                                                    <div class="form-group">
+                                                        @Html.RequiredLabelFor(model => model.VendorName, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-10">
+                                                            @Html.TextBoxFor(model => model.VendorName, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.VendorName)
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.StoreName, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-10">
+                                                            @Html.TextBoxFor(model => model.StoreName, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.StoreName)
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Slogan, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-4">
+                                                            @Html.TextBoxFor(model => model.Slogan, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Slogan)
+                                                        </div>
+                                                        @Html.LabelFor(model => model.AccountNumber, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-4">
+                                                            @Html.TextBoxFor(model => model.AccountNumber, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.AccountNumber)
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Mobile, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-4">
+                                                            @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Mobile)
+                                                        </div>
+                                                        @Html.LabelFor(model => model.Telephone, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-4">
+                                                            @Html.TextBoxFor(model => model.Telephone, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Telephone)
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Hotline, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-4">
+                                                            @Html.TextBoxFor(model => model.Hotline, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Hotline)
+                                                        </div>
+                                                        @Html.LabelFor(model => model.SupportOnline, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-4">
+                                                            @Html.TextBoxFor(model => model.SupportOnline, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.SupportOnline)
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-4">
+                                                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Email)
+                                                        </div>
+                                                        @Html.LabelFor(model => model.Fax, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-4">
+                                                            @Html.TextBoxFor(model => model.Fax, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Fax)
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Keywords, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-4">
+                                                            @Html.TextBoxFor(model => model.Keywords, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Keywords)
+                                                        </div>
+                                                        @Html.LabelFor(model => model.Website, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-4">
+                                                            @Html.TextBoxFor(model => model.Website, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Website)
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.IsAuthorized, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-10">
+                                                            @Html.RadioButtonSwitchEnumFor(model => model.IsAuthorized, VendorStatus.Active)
+                                                            @Html.ValidationMessageFor(model => model.IsAuthorized)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end row-->
+                            </div>
+
+                            <div class="tab-pane fade" id="tab2">
+                                <!--start row-->
+                                @Html.Partial("../Business/Ecommerce/Vendor/_Address")
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Summary, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.Summary, new { rows = 6, columns = 40, maxlength = 4000, @class = "form-control ckeditor" })
+                                            @Html.ValidationMessageFor(model => model.Summary)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.Description, new { rows = 6, columns = 40, @class = "form-control ckeditor" })
+                                            @Html.HiddenFor(model => model.Description)
+                                            @Html.ValidationMessageFor(model => model.Description)
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end row-->
+                            </div>
+
+                            <div class="tab-pane fade" id="tab3">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.OrganizationalStructure, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.OrganizationalStructure, new { rows = 6, columns = 40, @class = "form-control ckeditor" })
+                                        @Html.HiddenFor(model => model.OrganizationalStructure)
+                                        @Html.ValidationMessageFor(model => model.OrganizationalStructure)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="tab4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.FunctionalAreas, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.FunctionalAreas, new { rows = 6, columns = 40, @class = "form-control ckeditor" })
+                                        @Html.HiddenFor(model => model.FunctionalAreas)
+                                        @Html.ValidationMessageFor(model => model.FunctionalAreas)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="tab5">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ShoppingHelp, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.ShoppingHelp, new { rows = 6, columns = 40, @class = "form-control ckeditor" })
+                                        @Html.HiddenFor(model => model.ShoppingHelp)
+                                        @Html.ValidationMessageFor(model => model.ShoppingHelp)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="tab6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.RefundPolicy, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.RefundPolicy, new { rows = 6, columns = 40, @class = "form-control ckeditor" })
+                                        @Html.HiddenFor(model => model.RefundPolicy)
+                                        @Html.ValidationMessageFor(model => model.RefundPolicy)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="tab7">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TermsOfService, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.TermsOfService, new { rows = 6, columns = 40, @class = "form-control ckeditor" })
+                                        @Html.ValidationMessageFor(model => model.TermsOfService)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="tab8">
+                                <!--start row-->
+                                <div class="form-group">
+                                    @Html.Label(LanguageResource.Logo, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="file-container">
+                                            <div class="row">
+                                                <div class="col-md-8 no-padding-left">
+                                                    <input type="file" id="File" name="File" accept="image/gif, image/jpg, image/jpeg, image/png, image/gif" class="btn btn-default form-control" />
+                                                    @Html.ValidationMessageFor(model => model.File)
+                                                </div>
+                                                <div class="col-md-4 no-padding-left">
+                                                    <input type="button" class="btn btn-warning resetFile" value="@LanguageResource.Reset" />
+                                                </div>
+                                            </div>
+                                            <div id="image-holder"> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end row-->
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class='btn-toolbar pull-right'>
+                                <div class='btn-group'>
+                                    <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateVendor" data-url='@Url.Action("Create", "Vendor")' value="@LanguageResource.Reset" />
+                                    <input type="button" class="btn btn-success save add create createVendor" data-mode="create" data-form="frmCreateVendor" data-url='@Url.Action("Create", "Vendor")' value="@LanguageResource.Save" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}

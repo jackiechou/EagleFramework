@@ -1,0 +1,42 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.ModuleEditEntry
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditModule", name = "frmEditModule", autocomplete = "off", @class = "form-horizontal" }))
+{ 
+    <div id="HeaderContainer" class="header-container">
+        <div class="row">
+            <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditModule</h4>
+        </div>
+    </div>
+
+    <div id="MainContainer" class="main-container">
+        @Html.Partial("_MessagePartial")
+        @Html.ValidationSummary()
+
+        <div class="form-container edit-module">
+            <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+            <div class="form-body">
+                <div class="row">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li id="tab-1" class="active"><a href="#pane-1" data-toggle="tab">@LanguageResource.ModuleInfo</a></li>
+                        <li id="tab-2"><a href="#pane-2" data-toggle="tab">@LanguageResource.ModuleLocation</a></li>
+                        <li id="tab-3"><a href="#pane-3" data-toggle="tab">@LanguageResource.ModuleCapability</a></li>
+                    </ul>
+
+                    <div id="myTabContent" class="tab-content responsive">
+                        <div class="tab-pane  fade in active" id="pane-1">
+                            @Html.Partial("../Sys/Modules/_EditModuleBasic")
+                        </div>
+
+                        <div class="tab-pane fade" id="pane-2">
+                            @Html.Action("EditModulePage", "Module", new { moduleId = Model.ModuleId, typeId = Model.ModuleTypeId })
+                        </div>
+
+                        <div class="tab-pane fade" id="pane-3">
+                            @Html.Partial("../Sys/Modules/ModuleCapabilities/_EditModuleCapability", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

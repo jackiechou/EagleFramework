@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = Html.Raw(Eagle.Resources.LanguageResource.ContentManagement);
+}
+@using Eagle.Core.HtmlHelper
+@model Eagle.Services.Dtos.SystemManagement.ContentItemDetail
+
+<div id="MainBody">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "myform", name = "myform", autocomplete = "off", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "alert alert-danger" })
+        @Html.HiddenFor(model => model.ContentItemId)
+        @Html.HiddenFor(model => model.ContentTypeId)
+       
+        @*@using (Html.Delayed("PopupBottomActionButtons"))
+        {
+            <button class="btn btn-primary @ViewBag.ActionButton">@Html.Raw(LanguageResource.Save)</button>
+
+        }*@
+        
+        @section PopupBottomActionButtons
+        {
+            <button class="btn btn-primary @ViewBag.ActionButton">@Html.Raw(LanguageResource.Save)</button>
+
+        }
+        
+        <div class="form-horizontal">
+            <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>  
+            <div class="form-group">            
+                <div class="col-sm-3">
+                    @Html.RequiredLabelFor(model => model.ContentKey)
+                </div>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => model.ContentKey, null, new { @class = "col-md-12 form-control" })
+                    @Html.ValidationMessageFor(model => model.ContentKey)
+                </div>               
+            </div>
+            <div class="form-group">               
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.Content)
+                </div>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => model.Content, null, new { @class = "col-md-12 tags form-control" })
+                    @Html.ValidationMessageFor(model => model.Content)
+                </div>               
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    (function ($) {
+        //Add and update post action
+        $(document).on("click", ".add-content", function () {
+            alert("aaaaaaaaa");
+            //if (!$("#myform").valid()) { // Not Valid
+            //    return false;
+            //} else {
+            //    DataMgr.AddData();
+            //}
+        });
+
+        $(document).on("click", ".edit-content", function () {
+            alert("bbbbbbbbbbbb");
+            //if (!$("#myform").valid()) { // Not Valid
+            //    return false;
+            //} else {
+            //    DataMgr.UpdateData();
+            //}
+        });
+    });
+</script>
+

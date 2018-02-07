@@ -1,0 +1,44 @@
+﻿@model Eagle.Services.Dtos.Services.Booking.ServicePackEntry
+
+<div class="panel panel-default panel-table panel-option">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col col-xs-6">
+                <h6><span class="glyphicon glyphicon-option-vertical"></span> @LanguageResource.PackageOption</h6>
+            </div>
+            <div class="col col-xs-6 text-right">
+                <button type="button" data-index="0" class="btn btn-sm btn-primary create-option add-row">@LanguageResource.AddNewItem</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table id="Options" name="Options" data-array="Options" class='dynamic-table table table-striped table-bordered table-hover table-sortable table-list option-table attribute-0-option-table'>
+            <thead class="thead-default">
+                <tr>
+                    <th class="text-center bg-color-grey">@LanguageResource.OptionName</th>
+                    <th class="text-center bg-color-grey">@LanguageResource.OptionValue</th>
+                    <th class="text-center bg-color-grey">@LanguageResource.IsActive</th>
+                    <th class="text-center bg-color-grey"><label class="glyphicon glyphicon-cog"></label></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="optionRow0" data-id="0" data-array="Options">
+                    <td data-name="OptionName"><input id="Options[0].OptionName" name="Options[0].OptionName" type="text" value="" placeholder='@LanguageResource.OptionName' class="form-control option-name" /></td>
+                    <td data-name="OptionValue"><input id="Options[0].OptionValue" name="Options[0].OptionValue" type="text" pattern="/\D/g" value="" placeholder='@LanguageResource.OptionValue' class="form-control number option-value" /></td>
+                    <td class="text-center" data-name="IsActive">
+                        <input type="checkbox" id="Options[0].IsActive" name="Options[0].IsActive" checked="checked" value="1" class="form-control option-isactive ignored" />
+                    </td>
+                    <td class="text-center actions">
+                        <button type="button" data-title="Edit" data-optionid="0" data-index="0" class='btn btn-success glyphicon glyphicon-pencil row-edit'></button>
+                        <button type="button" data-title="Delete" data-optionid="0" data-index="0" class='btn btn-warning glyphicon glyphicon-trash row-remove'></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <button type="button" data-index="0" class="btn btn-sm btn-primary pull-right create-option add-row">@LanguageResource.AddNewItem</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.ContractManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody" class="container-fluid">
+                <div id="divEdit">
+                    @Html.Action("Create", "Contract")
+                </div>
+                <div id="divList">
+                    @Html.Action("LoadSearchForm", "Contract")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script Scope="text/javascript">
+        window.ChooseEmployee = '@Html.Raw(LanguageResource.ChooseEmployee)';
+        window.ContractSearchUrl = '@Url.Action("Search", "Contract")';
+        window.EmployeeSearchUrl = '@Url.Action("SearchEmployee", "Contract")';
+    </script>
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <script type="text/javascript" src="~/Scripts/app/modules/contract.js"></script>
+}

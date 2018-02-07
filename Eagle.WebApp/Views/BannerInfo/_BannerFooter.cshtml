@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Contents.Banners.BannerInfoDetail>
+<div class="list-gallery">
+    <div class="footer-box">
+        <div class="title">
+            <h3>@LanguageResource.Gallery</h3>
+        </div>
+        <div class="content">
+            <ul>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <!-- start: item inner  -->
+                        <li class="item">
+                            <div class="box-images">
+                                <a href="javascript:void(0);" title="@item.BannerTitle" target="@item.Target">
+                                    <img alt="@item.AltText" title="@item.BannerTitle" src="@item.FileUrl" data-image="@item.FileUrl" data-description="@item.BannerContent" />
+                                </a>
+                            </div>
+                        </li>
+                        <!-- end: item inner  -->
+                    }
+                }
+            </ul>
+            <!-- end: owl carousel  -->
+        </div>
+        <!-- end: content -->
+    </div>
+</div>

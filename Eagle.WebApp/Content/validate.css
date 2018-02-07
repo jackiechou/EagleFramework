@@ -1,0 +1,36 @@
+﻿/*----------------------------------------------------------------------------
+ASP.NET MVC FRAMEWORK DEFAULT CSS CLASS NAMES - Styles for validation helpers
+-----------------------------------------------------------------------------*/
+.error,.field-validation-error{color:red}
+
+.input-validation-valid,.field-validation-valid,.validation-summary-valid{display:none}
+.input-validation-error{background-color:#fee;border:1px solid red; outline: none}
+.input-validation-error:focus{outline:none}
+input[type="text"].input-validation-error:focus, select.input-validation-error:focus{outline:none}
+
+.validation-summary-errors{color:red}
+.validation-summary-errors span{font-weight:700}
+.validation-summary-errors ul{list-style:disc inside}
+.validation-summary-errors ul li{font-weight:normal}
+.validation-summary-errors ul li label, .validation-summary-errors ul li span{display:inline !important; font-weight:normal}
+
+ label.error {
+    color: #FF0000;
+    font-weight: bold;
+    margin-top: 2px;
+    padding: 2px 8px;
+}
+
+label.valid {
+    background: url("/Content/Admin/img/valid.png") no-repeat scroll center center rgba(0, 0, 0, 0);
+    display: inline-block;
+    height: 24px;
+    text-indent: -9999px;
+    width: 24px;
+}
+
+/*.error{background-color:#ff0;}*/
+.errbox{width:400px;background-color:#ffffcc;
+border:1px solid red; font-weight:bold; margin:0 auto; padding:10px; text-align:center;}
+/* Ending Styles for validation helpers
+-----------------------------------------------------------*/

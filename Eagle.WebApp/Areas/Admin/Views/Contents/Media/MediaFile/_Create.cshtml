@@ -1,0 +1,223 @@
+﻿@{
+    ViewBag.Title = LanguageResource.CreateMediaFile;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Contents.Media.MediaFileEntry
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmCreateMediaFile", name = "frmCreateMediaFile", }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateMediaFile" data-url='@Url.Action("Create", "MediaFile")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save add create createMediaFile" data-mode="create" data-form="frmCreateMediaFile" data-url='@Url.Action("Create", "MediaFile")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.CreateMediaFile</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.AntiForgeryToken()
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="container-fluid">
+                    <div class="form-container">
+                        <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                        <div class="form-body-container">
+
+                            <div class="panel with-nav-tabs panel-info">
+                                <div class="panel-heading">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#tab1" data-toggle="tab">@LanguageResource.BasicInfo</a></li>
+                                        <li><a href="#tab2" data-toggle="tab">@LanguageResource.Media</a></li>
+                                        <li><a href="#tab3" data-toggle="tab">@LanguageResource.Album</a></li>
+                                        <li><a href="#tab4" data-toggle="tab">@LanguageResource.PlayList</a></li>
+                                    </ul>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="tab-content no-border">
+                                        <div class="tab-pane fade in active" id="tab1">
+                                            <!--start row-->
+                                            <div class="form-group">
+                                                @Html.RequiredLabelFor(model => model.FileTitle, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-4">
+                                                    @Html.TextBoxFor(model => model.FileTitle, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.FileTitle)
+                                                </div>
+                                                @Html.RequiredLabelFor(model => model.StorageType, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-2">
+                                                    <select id="TypeId" name="TypeId" data-url='@Url.Action("PoplulateMediaTypeSelectList", "MediaFile")' class="form-control"></select>
+                                                    @Html.ValidationMessageFor(model => model.TypeId)
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @Html.DropDownListFor(model => model.StorageType, null, new {@class = "form-control"})
+                                                    @Html.ValidationMessageFor(model => model.StorageType)
+                                                </div>  
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.FileDescription, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-4">
+                                                    @Html.TextAreaFor(model => model.FileDescription, new { rows = 2, columns = 40, maxlength = 150, @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.FileDescription)
+                                                </div>
+                                                @Html.RequiredLabelFor(model => model.TopicId, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-4">
+                                                    <input id="cbxTopicId" name="cbxTopicId" class="easyui-combotree form-control cbxTopicTree" data-url='@Url.Action("GetMediaTopicSelectTree", "MediaFile")' style="width: 99%;">
+                                                    <input type="hidden" id="TopicId" name="TopicId" value="0" />
+                                                    @Html.ValidationMessageFor(model => model.TopicId)
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Media, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-4">
+                                                    <div id="video-container" class="video-container">
+                                                        <div class="input-group input-group-sm">
+                                                            <input type="file" id="Media" name="Media" accept="video/mp4,video/x-m4v,video/*" placeholder="@LanguageResource.Browse" class="btn btn-default btn-file form-control video"/>
+                                                            <div class="input-group-addon resetVideo">
+                                                                <span class="glyphicon glyphicon-remove-sign"></span>
+                                                            </div>		
+                                                            @Html.ValidationMessageFor(model => model.Media)														
+                                                        </div>
+                                                        <div id="video-holder" class="video-holder"> </div>
+                                                    </div>
+                                                    <div id="video-source" class="video-source" style="display:none">
+                                                        @Html.TextBoxFor(model => model.FileUrl, new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => model.FileUrl)
+                                                    </div>
+                                                </div>
+                                                @Html.LabelFor(model => model.ComposerId, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-4">
+                                                    <div class="input-group input-group-sm">
+                                                        <div class="addon-sm">
+                                                            @Html.DropDownListFor(model => model.ComposerId, null, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.ComposerId)
+                                                        </div>
+                                                        <div class="input-group-addon create-Media-collection" onclick="location.href = '@Url.Action("Index", "MediaComposer")'">
+                                                            <span class="glyphicon glyphicon-plus"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Width, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-1">
+                                                    @Html.TextBoxFor(model => model.Width, new { type = "number", min = 0, max = 5000, @Value = "0", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.Width)
+                                                </div>
+                                                @Html.LabelFor(model => model.Height, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-1">
+                                                    @Html.TextBoxFor(model => model.Height, new { type = "number", min = 0, max = 5000, @Value = "0", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.Height)
+                                                </div>
+                                                @Html.LabelFor(model => model.Artist, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-4">
+                                                    @Html.TextBoxFor(model => model.Artist, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.Artist)
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.AutoStart, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-1">
+                                                    <div class="checkbox-slider--a">
+                                                        <label>
+                                                            <input type="checkbox" id="AutoStart" name="AutoStart" value="false"><span></span>
+                                                        </label>
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.AutoStart)
+                                                </div>
+                                                @Html.LabelFor(model => model.MediaLoop, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-1">
+                                                    <div class="checkbox-slider--a">
+                                                        <label>
+                                                            <input type="checkbox" id="MediaLoop" name="MediaLoop" value="false"><span></span>
+                                                        </label>
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.MediaLoop)
+                                                </div>
+                                                @Html.Label(LanguageResource.Photo, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-4">
+                                                    <div class="file-container">
+                                                        <div class="input-group input-group-sm">
+                                                            <input type="file" id="Photo" name="Photo" accept="image/gif, image/jpg, image/jpeg, image/png, image/gif" class="btn btn-default form-control" />
+                                                            <span class="input-group-addon resetPhoto">
+                                                                <span class="glyphicon glyphicon-remove-sign"></span>
+                                                            </span>
+                                                        </div>
+                                                        @Html.ValidationMessageFor(model => model.Photo)
+                                                        <div id="image-holder"> </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end row-->
+                                        </div>
+                                        <div class="tab-pane fade" id="tab2">
+                                            <!--start row-->
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Lyric, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+                                                    @Html.TextAreaFor(model => model.Lyric, new { rows = 6, columns = 40, maxlength = 4000, @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.Lyric)
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.FileDescription, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+                                                    @Html.TextAreaFor(model => model.FileDescription, new { rows = 6, columns = 40, maxlength = 4000, @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.FileDescription)
+                                                </div>
+                                            </div>
+                                            <!--end row-->
+                                        </div>
+
+                                        <div class="tab-pane fade" id="tab3">
+                                            <!--start row-->
+                                            @Html.LabelFor(model => model.Albums, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-4">
+                                                <select id="Albums" name="Albums" data-url='@Url.Action("PoplulateMediaAlbumMultiSelectList", "MediaFile")' multiple="multiple" class="form-control"></select>
+                                                @Html.ValidationMessageFor(model => model.Albums)
+                                            </div>
+                                            <!--end row-->
+                                        </div>
+
+                                        <div class="tab-pane fade" id="tab4">
+                                            <!--start row-->
+                                            @Html.LabelFor(model => model.PlayLists, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-4">
+                                                <select id="PlayLists" name="PlayLists" data-url='@Url.Action("PoplulateMediaPlayListMultiSelectList", "MediaFile")' multiple="multiple" class="form-control"></select>
+                                                @Html.ValidationMessageFor(model => model.PlayLists)
+                                            </div>
+                                            <!--end row-->
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateMediaFile" data-url='@Url.Action("Create", "MediaFile")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save add create createMediaFile" data-mode="create" data-form="frmCreateMediaFile" data-url='@Url.Action("Create", "MediaFile")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

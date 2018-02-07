@@ -1,0 +1,22 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.Services;
+    Layout = ThemeViewEngine.AdminMainLayout;
+}
+
+@section TitleSection {
+    <h4>@LanguageResource.Services</h4>
+}
+
+@section ContentSection
+{
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="margin-bottom-10">
+                @Html.Action("PopulateServiceMenu", "ServiceDashboard")
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+}

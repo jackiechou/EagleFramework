@@ -1,0 +1,41 @@
+﻿<div class="tab-row">
+    <h2 class="title-widget-sidebar text-capitalize">@Html.Raw(LanguageResource.PopularPosts)</h2>
+    <div class="befor-widget">
+        <div class="popular-post-tab">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs margin-bottom-20" role="tablist">
+                <li class="active">
+                    <a href="#popularPosts" aria-controls="popularPosts" role="tab"
+                        data-toggle="tab">@Html.Raw(LanguageResource.PopularPosts)</a>
+                </li>
+                <li>
+                    <a href="#latestPosts" aria-controls="latestPosts" role="tab"
+                        data-toggle="tab">@Html.Raw(LanguageResource.LatestPosts)</a>
+                </li>
+                <li>
+                    <a href="#comments" aria-controls="comments" role="tab"
+                        data-toggle="tab">@Html.Raw(LanguageResource.Comments)</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="popularPosts">
+                    <div class="tab-post-list">
+                       @Html.Action("GetPopularPosts", "Article", new { num = 4 })
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="latestPosts">
+                    <div class="tab-post-list">
+                        @Html.Action("GetLatestPosts", "Article", new { num = 4 })
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="comments">
+                    <div class="tab-post-list">
+                        @Html.Action("GetLatestComments", "Article", new { num = 4 })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

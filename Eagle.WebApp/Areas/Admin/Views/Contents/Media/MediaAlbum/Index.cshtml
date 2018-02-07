@@ -1,0 +1,32 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.MediaAlbumManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody" class="container-fluid">
+                <div id="divEdit">
+                    @Html.Action("Create", "MediaAlbum")
+                </div>
+                <div id="divList">
+                    @Html.Partial("../Contents/Media/MediaAlbum/_Search")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script Scope="text/javascript">
+        window.MediaAlbumSearchUrl = '@Url.Action("Search", "MediaAlbum")';
+        window.GetMediaTopicSelectTreeUrl = '@Url.Action("GetMediaTopicSelectTree", "MediaAlbum")';
+    </script>
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <script type="text/javascript" src="~/Scripts/app/modules/media-album.js"></script>
+}

@@ -1,0 +1,77 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.Identity.UserEntry
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
+        <div id="GroupList">
+            <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+                <thead>
+                    <tr>
+                        <th class="text_center bg-color-grey">@LanguageResource.GroupName</th>
+                        <th class="text_center bg-color-grey">
+                            @LanguageResource.IsDefaultGroup
+                        </th>
+                        <th class="text_center bg-color-grey">
+                            @LanguageResource.EffectiveDate
+                        </th>
+                        <th class="text_center bg-color-grey">
+                            @LanguageResource.ExpiryDate
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 0; }
+                    @if (Model != null && Model.UserRoleGroups.Any())
+                    {
+                        foreach (var item in Model.UserRoleGroups)
+                        {
+                            <tr>
+                                <td id="@item.RoleGroupId">
+                                    <div class="checkbox-slider--b">
+                                        <label>
+                                            <input type="checkbox" id="UserRoleGroups[@i].IsAllowed" name="UserRoleGroups[@i].IsAllowed" data-id="@item.RoleGroupId" value="false"><span class="padding-left-10">@item.RoleGroup.Group.GroupName</span>
+                                        </label>
+                                    </div>
+                                   <input type="hidden" id="UserRoleGroups[@i].GroupId" name="UserRoleGroups[@i].GroupId" value="@item.RoleGroupId"/>
+                                </td>
+                                <td>
+                                    <div class="inner-center">
+                                        <div class="btn-group btn-group-vertical btn-radio" data-toggle="buttons">
+                                            @{
+                                                if (item.IsDefault != null && item.IsDefault == true)
+                                                {
+                                                    <label class="btn active">
+                                                        <input type="radio" id="UserRoleGroups[@i].IsDefault" name="UserRoleGroups.IsDefault" autocomplete="off" checked><span class="glyphicon glyphicon-unchecked unchecked"></span> <span class="glyphicon glyphicon-check checked"></span>
+                                                    </label>
+                                                }
+                                                else
+                                                {
+                                                    <label class="btn">
+                                                        <input type="radio" id="UserRoleGroups[@i].IsDefault" name="UserRoleGroups.IsDefault" autocomplete="off"><span class="glyphicon glyphicon-unchecked unchecked"></span> <span class="glyphicon glyphicon-check checked"></span>
+                                                    </label>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    @Html.DatePicker("UserRoleGroups[" + @i + "].EffectiveDate", DateTime.UtcNow.ToString("dd/MM/yyyy"), false, new {@class = "form-control datepicker", placeholder = "dd/MM/yyyy"})
+                                </td>
+                                <td>
+                                    @Html.DatePicker("UserRoleGroups[" + @i + "].ExpiryDate",null, false, new {@class = "form-control datepicker", placeholder = "dd/MM/yyyy"})
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="not-found col-xs-12 col-sm-12 col-md-12 text-center">@LanguageResource.NoDataFound</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

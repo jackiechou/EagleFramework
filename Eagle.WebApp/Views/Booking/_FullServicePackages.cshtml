@@ -1,0 +1,95 @@
+﻿@using Eagle.Core.Settings
+@model IEnumerable<Eagle.Services.Dtos.Services.Booking.ServicePackInfoDetail>
+@if (Model != null && Model.Any())
+{
+    <div class="package-checked-list-box" style="max-height: 300px; overflow: auto;">
+
+        <ul id="servive-packages" class="list-group checked-list-box">
+            @{ 
+                int i = 0;
+                foreach (var item in Model)
+                {
+                    <li data-id="@item.PackageId" data-name="@item.PackageName">
+                        <div class="form-horizontal list-group-item" data-color="success">
+                            <div class="form-group">
+                                <label class="col-sm-6 item-name">
+                                    @{
+                                        var packageName = item.Duration != null ? string.Format("{0} ({1}) - {2} {3}", item.PackageName, item.Duration.DurationName, item.TotalFee, item.CurrencyCode) : string.Format("{0} ({1})", item.PackageName, item.TotalFee);
+                                    }
+                                    @packageName
+                                </label>
+                                <div class="col-sm-3">
+                                    @{
+                                        var employees = item.Employees.Where(x => x.Status == EmployeeStatus.Published).ToList();
+                                        if (employees.Any())
+                                        {
+                                            string ctrlEmployeeId = string.Format("Packages_{0}_EmployeeId", i);
+
+                                            <select id="@ctrlEmployeeId" name="Packages[@i].EmployeeId" class="form-control employee-select">
+                                                @foreach (var employee in employees)
+                                                {
+                                                    <option value="1"> @LanguageResource.AnyStaff </option>
+                                                    <option value="@employee.EmployeeId">@string.Format("{0} {1}", employee.Contact.FirstName, employee.Contact.LastName)</option>
+                                                }
+                                            </select>
+                                        }
+                                    }
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <small class="badge badge-info badge-pill"><b>@item.TotalFee</b> @item.CurrencyCode</small>
+                                </div>
+                                <div class="col-sm-1 pull-right">
+                                    <button type="button" class="btn btn-success btn-sm select-package">@LanguageResource.Apply</button>
+                                </div>
+                            </div>
+
+                            @*Show Image and  Description*@
+                            @if (!string.IsNullOrEmpty(item.Description))
+                            {
+                                <div class="form-group">
+                                    <div class="col-sm-offset-1 col-sm-10">
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                @if (!string.IsNullOrEmpty(item.Document.FileUrl))
+                                                {
+                                                    <img src='@item.Document.FileUrl' alt='@item.PackageName' width="90" height="60">
+                                                }
+                                                else
+                                                {
+                                                    <img src="/Images/150x90.png" alt='@item.PackageName' width="90" height="60">
+                                                }
+                                            </div>
+                                            <div class="col-sm-10 text-justify">
+                                                @Html.Raw(item.Description)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            @*Show Package Options*@
+                            @if (item.Options != null && item.Options.Any())
+                            {
+                                <div class="form-group">
+                                    <div class="col-sm-offset-1 col-sm-10">
+                                        <ul class="list-group">
+                                            @foreach (var option in item.Options)
+                                            {
+                                                <li class="list-group-item justify-content-between">
+                                                    <h6 class="list-group-item">@option.OptionName <span class="badge badge-default badge-pill">@string.Format("{0} {1}", option.OptionValue, item.CurrencyCode)</span></h6>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <input type="hidden" id='@string.Format("Packages_{0}_CategoryId", i)' name="Packages[@i].CategoryId" value="@item.CategoryId" />
+                        <input type="hidden" id='@string.Format("Packages_{0}_PackageId", i)' name="Packages[@i].PackageId" value="@item.PackageId" />
+                    </li>
+                   i++;
+                }
+            }
+        </ul>
+    </div>
+}

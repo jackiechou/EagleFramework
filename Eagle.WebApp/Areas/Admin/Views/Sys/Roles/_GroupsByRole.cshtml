@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.SystemManagement.Identity.RoleGroupDetail>
+
+<div id="dataGrid" class="row margin-left-100">
+    <table class="table table-responsive table-bordered table-condensed table-hover table-striped">
+        <thead>
+            <tr>
+                <th class="bg-color-grey">
+                    @LanguageResource.GroupName
+                </th>
+                <th class="bg-color-grey table-actions text_center">@LanguageResource.Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 0; }
+            @if (Model != null && Model !=null)
+            {
+                foreach (var item in Model)
+                {
+                    i++;
+                    <tr>
+                        <td id="@item.GroupId">
+                            @item.Group.GroupName
+                        </td>
+                        <td class="table-actions text_center no-sort">
+                            <a title="@LanguageResource.Remove" data-groupid="@item.GroupId" data-roleid="@item.RoleId" data-url='@Url.Action("RemoveRoleGroup", "Role")'  class="btn btn-small btn-warning removeItem"><i class="glyphicon glyphicon-align-center icon-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="row">
+                    <td colspan="2" class="not-found col-xs-12 col-sm-12 col-md-12">@LanguageResource.NoDataFound</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

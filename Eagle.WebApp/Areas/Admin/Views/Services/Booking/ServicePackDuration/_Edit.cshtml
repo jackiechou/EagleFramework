@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = LanguageResource.EditServicePackDuration;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Services.Booking.ServicePackDurationEditEntry
+
+<div class="panel panel-default">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditServicePackDuration", name = "frmEditServicePackDuration", autocomplete = "off", @class = "form-horizontal" }))
+    {
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <a class="btn btn-default backurl" href='@Url.Action("Index", "ServicePackDuration")'>
+                            <span class="glyphicon glyphicon-home"></span> @LanguageResource.Back
+                        </a>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditServicePackDuration" data-id="@Model.DurationId" data-url='@Url.Action("Edit", "ServicePackDuration")' value="@LanguageResource.Reset"/>
+                        <input type="button" class="btn btn-primary edit editServicePackDuration" data-mode="edit" data-form="frmEditServicePackDuration" data-url='@Url.Action("Edit", "ServicePackDuration")' value="@LanguageResource.Save"/>
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditServicePackDuration</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.DurationName, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.DurationName, new { @class = "form-control", required = "required", placeholder = LanguageResource.DurationName })
+                                    @Html.ValidationMessageFor(model => model.DurationName)
+
+                                    @Html.HiddenFor(model => model.DurationId)
+                                    @Html.ValidationMessageFor(model => model.DurationId)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.AllotedTime, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.AllotedTime, new { @class = "form-control number", placeholder = LanguageResource.AllotedTime })
+                                    @Html.ValidationMessageFor(model => model.AllotedTime)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Unit, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.Unit, new { @class = "form-control", placeholder = LanguageResource.Unit })
+                                    @Html.ValidationMessageFor(model => model.Unit)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.Description, new { rows = 2, columns = 40, maxlength = 150, @class = "form-control", placeholder = LanguageResource.Description })
+                                    @Html.ValidationMessageFor(model => model.Description)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.RequiredLabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <div class="checkbox-slider--a">
+                                        <label>
+                                            @{
+                                                if (Model.IsActive)
+                                                {
+                                                    <input type="checkbox" id="IsActive" name="IsActive" checked="checked" value="True"><span></span>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" id="IsActive" name="IsActive" value="False"><span></span>
+                                                }
+                                            }
+                                        </label>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.IsActive)
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditServicePackDuration" data-id="@Model.DurationId" data-url='@Url.Action("Edit", "ServicePackDuration")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary edit editServicePackDuration" data-mode="edit" data-form="frmEditServicePackDuration" data-id="@Model.DurationId" data-url='@Url.Action("Edit", "ServicePackDuration")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+     }
+</div>

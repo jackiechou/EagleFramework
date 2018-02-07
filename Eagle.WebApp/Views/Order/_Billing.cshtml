@@ -1,0 +1,102 @@
+﻿@model Eagle.Services.Dtos.Business.Transaction.CartInfoForShopping
+
+<div class="billing-container">
+    <section class="billing-info">
+        <div class="row">
+            <table class="table table-hover">
+                <tr>
+                    <th>@Html.Raw(LanguageResource.Image)</th>
+                    <th>@Html.Raw(LanguageResource.Name)</th>
+                    <th>@Html.Raw(LanguageResource.Price)</th>
+                    <th>@Html.Raw(LanguageResource.Quantity)</th>
+                    <th>@Html.Raw(LanguageResource.Amount)</th>
+                </tr>
+                @foreach (var p in Model.Items)
+                {
+                    <tr class="group-tr">
+                        <td>
+                            <a href='@Url.Action("Details", "Production", new { id = p.Id})'>
+                                <img class="img-responsive" src="@p.Image" style="height: 60px; width: 60px;" alt="@p.Name">
+                            </a>
+                        </td>
+                        <td class="product-in-table">
+                            <div class="product-it-in">
+                                <span> @Html.ActionLink(p.Name, "Details/" + p.Id, "Production")</span>
+                            </div>
+                        </td>
+                        <td>@Html.FormatValue(p.NetPrice, "{0:c}")</td>
+                        <td>
+                            <span id='qty_@p.Id'>@p.Quantity</span>
+                        </td>
+                        <td class="shop-red" id="@p.Id">
+                            @Html.FormatValue(p.NetPrice * p.Quantity, "{0:c}")
+                        </td>
+                    </tr>
+                }
+                <tr class="group-tr-total">
+                    <th>@Html.Raw(LanguageResource.SubTotal):</th>
+                    <th colspan="3">&nbsp;</th>
+                    <th>
+                        <strong id="subTotal">
+                            @((!string.IsNullOrEmpty(Model.CurrencyCode) && Model.CurrencyCode == "USD") ? Html.FormatValue(Model.SubTotal, "{0:c}") : string.Format("{0} {1}",Model.SubTotal,Model.CurrencyCode))
+                        </strong>
+                    </th>
+                </tr>
+                <tr class="group-tr-total">
+                    <th>@Html.Raw(LanguageResource.Discount):</th>
+                    <th colspan="3">&nbsp;</th>
+                    <th>
+                        <strong id="discount">
+                            @((!string.IsNullOrEmpty(Model.CurrencyCode) && Model.CurrencyCode == "USD") ? Html.FormatValue(Model.Discount, "{0:c}") : string.Format("{0} {1}", Model.Discount, Model.CurrencyCode))
+                        </strong>
+                    </th>
+                </tr>
+                <tr class="group-tr-total">
+                    <th>@Html.Raw(LanguageResource.Promotion):</th>
+                    <th colspan="3">&nbsp;</th>
+                    <th>
+                        <strong id="promotion">
+                            @(!string.IsNullOrEmpty(Model.CurrencyCode) && Model.CurrencyCode == "USD" ? Html.FormatValue(Model.Promotion, "{0:c}") : string.Format("{0} {1}",Model.Promotion,Model.CurrencyCode))
+                        </strong>
+                    </th>
+                </tr>
+                <tr class="group-tr-total">
+                    <th>@Html.Raw(LanguageResource.Taxes):</th>
+                    <th colspan="3">&nbsp;</th>
+                    <th>
+                        <strong id="taxes">
+                            @((!string.IsNullOrEmpty(Model.CurrencyCode) && Model.CurrencyCode == "USD") ? Html.FormatValue(Model.Tax, "{0:c}") : string.Format("{0} {1}", Model.Tax,Model.CurrencyCode))
+                        </strong>
+                    </th>
+                </tr>
+                <tr class="group-tr-total">
+                    <th>@Html.Raw(LanguageResource.Shipment):</th>
+                    <th colspan="3">&nbsp;</th>
+                    <th>
+                        <strong id="shipment-fee-label">
+                            @{
+                                if (!string.IsNullOrEmpty(Model.CurrencyCode) && Model.CurrencyCode == "USD")
+                                {
+                                    @Html.FormatValue(Model.ShippingCharge, "{0:c}")
+                                }
+                                else
+                                {
+                                    @("$" + Model.ShippingCharge + Model.CurrencyCode)
+                                }
+                            }
+                        </strong>
+                    </th>
+                </tr>
+                <tr class="group-tr-total">
+                    <th>@Html.Raw(LanguageResource.Total):</th>
+                    <th colspan="3">&nbsp;</th>
+                    <th>
+                        <strong id="total">
+                            @(Model.CurrencyCode != null && Model.CurrencyCode == "USD" ? Html.FormatValue(Model.Total, "{0:c}") : string.Format("{0} {1}",Model.Total,Model.CurrencyCode))
+                        </strong>
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </section>
+</div>

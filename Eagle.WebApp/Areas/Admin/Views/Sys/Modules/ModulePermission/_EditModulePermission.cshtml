@@ -1,0 +1,77 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.ModuleRolePermissionEntry
+@*http://bootsnipp.com/snippets/104r9*@
+<div class="module-permission-panel">
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2 class="panel-title">@LanguageResource.ModulePermission > @Model.Module.ModuleName</h2>
+                    </div>
+                    <div class="col-md-4">
+                        <h6 class="panel-title pull-right">@Model.Module.IsActive</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 toggle-header">
+            <div class="col-xs-3"></div>
+            @if (Model != null && Model.ModuleCapabilities.Any())
+            {
+            foreach (var defaultCapability in Model.ModuleCapabilities)
+            {
+            <div class="col-xs-1 text-center">
+                <span class="hidden-xs">@defaultCapability.CapabilityName</span>
+                <span class="visible-xs">@defaultCapability.CapabilityName[0]</span>
+            </div>
+            }
+            }
+        </div>
+        <div id="feature-1" class="panel-body-border collapse in">
+
+            @if (Model != null && Model.ModuleRolePermissions.Any())
+            {
+            foreach (var permission in Model.ModuleRolePermissions)
+            {
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-3 col">
+                        @permission.Role.RoleName <input type="hidden" id="RoleId" name="RoleId" value="@permission.Role.RoleId" />
+                    </div>
+                    @{
+                        if (permission.ModuleCapabilities!=null)
+                        {
+                            int i = 0;
+                            foreach (var capability in permission.ModuleCapabilities)
+                            {
+                                <div class="col-xs-1 col">
+                                    <div class="inner-center">
+                                        <div class="checkbox-slider--a">
+                                            <label>
+                                                @if (capability.AllowAccess)
+                                                {
+                                                    <input type="checkbox" id="ModuleCapabilities[@i].CapabilityId" name="ModuleCapabilities[@i].CapabilityId" data-roleid="@permission.Role.RoleId" data-moduleid="@capability.ModuleId" data-capabilityid="@capability.CapabilityId" data-url='@Url.Action("UpdatePermissionStatus", "Module")' class="changePermissionStatus" checked="checked" value="true"><span></span>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" id="ModuleCapabilities[@i].CapabilityId" name="ModuleCapabilities[@i].CapabilityId" data-roleid="@permission.Role.RoleId" data-moduleid="@capability.ModuleId" data-capabilityid="@capability.CapabilityId" data-url='@Url.Action("UpdatePermissionStatus", "Module")' class="changePermissionStatus" value="false"><span></span>
+                                                }
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                i++;
+                            }
+                        }
+                    }
+
+                </div>
+            </div>
+            }
+            }
+
+        </div>
+    </div>
+
+</div>

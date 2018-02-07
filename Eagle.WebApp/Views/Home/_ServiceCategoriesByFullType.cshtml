@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Common.TreeDetail>
+@if (Model != null)
+{
+    <div class="services-categories full-tyype">
+        <div class="block-header">
+            <h2>@LanguageResource.CategoriesByFullType</h2>
+            <span class="bordered-icon"><i class="fa fa-th-large"></i></span>
+        </div>
+        <div class="category-container-wrapper">
+            <div class="row content-boxes-v3 margin-bottom-30">
+                @foreach (var category in Model)
+                {
+                    <div class="col-sm-6 item sm-margin-bottom-20">
+                        <div class="content-boxes-in-v3">
+                            <a href='@Url.Action("GetServicesByCategoryId","Service",new { categoryId = category.id })'>
+                                <h5 class="heading-sm">
+                                    <i class="fa fa-fw fa-arrow-circle-o-right"></i> <span>@category.name</span>
+                                </h5>
+                            </a>
+                            @if (category.children.Count > 0)
+                            {
+                                <ul class="category-sub-item">
+                                    @for (int i = 0; i < category.children.Count; i++)
+                                    {
+                                        <li @((i == 0) ? "class='active'" : "")>
+                                            <a href='@Url.Action("GetServicesByCategoryId","Service",new { categoryId = category.children[i].id })'>
+                                                <h5 class="heading-sm">
+                                                    <i class="fa fa-fw fa-circle"></i> <span>@category.children[i].name</span>
+                                                </h5>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

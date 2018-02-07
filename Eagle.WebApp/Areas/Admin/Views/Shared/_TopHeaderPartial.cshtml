@@ -1,0 +1,16 @@
+﻿<div class="row">
+    <div id="LogoPane" class="logo-pane col-md-2">
+        <div class="logo-container"><a class="brand" href="/"><img src="/Images/logo.png" alt="logo" class="logo" /></a></div>
+        <div class="slogan-container"><h6 class="slogan">@Html.Raw(LanguageResource.AdministratorSystem)</h6></div>
+    </div>
+    <div class="content-pane col-md-10">
+        <div class="row">
+            <div id="AdminMainMenu" class="col-md-8 no-padding-left">
+                @Html.Action("LoadAdminMainMenu", "Menu")
+            </div>
+            <div id="TopRightMenu" class="col-md-4 top-right-menu">
+                @Html.Partial("_TopMenu")
+            </div>
+        </div>
+    </div>
+</div>

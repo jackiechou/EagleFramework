@@ -1,0 +1,67 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@model IPagedList<Eagle.Services.Dtos.Business.ProductInfoDetail>
+
+<!--===  Popular Products ===-->
+<div class="container">
+    <div class="heading heading-v1 margin-bottom-20">
+        <h2>@Html.Raw(LanguageResource.PopularProducts)</h2>
+    </div>
+    <div class="illustration-v2 margin-bottom-60">
+        <div class="customNavigation margin-bottom-25">
+            <a class="owl-btn prev rounded-x"><i class="fa fa-angle-left"></i></a>
+            <a class="owl-btn next rounded-x"><i class="fa fa-angle-right"></i></a>
+        </div>
+        @if (Model.Any())
+        {
+            <ul class="list-inline owl-slider-v4">
+                @foreach (var item in Model)
+                {
+                <li class="item">
+                    <a href='@Url.Action("Details", "Production", new {id = item.ProductId})'>
+                        <img class="full-width img-responsive" src="@item.SmallPhotoUrl" alt="@item.ProductName">
+                    </a>
+                    <div class="product-description-v2">
+                        <div class="margin-bottom-5">
+                            <h4 class="title-name dotdot"><a href="#">@Html.DisplayNameFor(model => model.FirstOrDefault().ProductName)</a></h4>
+                            <span class="title-name">$@item.ProductName</span>
+                        </div>
+                        <div class="margin-bottom-5">
+                            <h4 class="title-price"><a href="#">@Html.DisplayNameFor(model => model.FirstOrDefault().GrossPrice)</a></h4>
+                            <span class="title-price">@(item.GrossPrice == 0 ? LanguageResource.ContactUs : Html.FormatValue(item.GrossPrice, "${0:c}"))</span>
+                        </div>
+                        <div class="row rating-container">
+                            <div class="star-rating" id="starRating_@item.ProductId" star-id="@item.ProductId" star-url='@Url.Action("CreateProductRating", "Production")' rating-type="product">
+                                <span class="fa fa-star-o" data-rating="1" title="Did not like it"></span>
+                                <span class="fa fa-star-o" data-rating="2" title="it was okay"></span>
+                                <span class="fa fa-star-o" data-rating="3" title="Liked it"></span>
+                                <span class="fa fa-star-o" data-rating="4" title="Really liked it"></span>
+                                <span class="fa fa-star-o" data-rating="5" title="It was amazing"></span>
+                                <input type="hidden" name="ratingValue" id="ratingValue_@item.ProductId" input-id="@item.ProductId" class="rating-value" value="@item.Rating">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                }
+            </ul>
+        }
+    </div>
+
+    <div class="text-center datagrid-pager">
+        @if (Model != null && Model.Any())
+        {
+            <ul class="pagination pagination-v2 datagrid-pagination">
+                @Html.PagedListPager(Model, page => Url.Action("Search", "Production", new { page }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 5,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    //DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "result-list" }))
+            </ul>
+        }
+    </div>
+</div>
+<!--=== End Popular Products ===-->

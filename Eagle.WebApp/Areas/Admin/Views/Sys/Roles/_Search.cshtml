@@ -1,0 +1,32 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.Identity.RoleSearchEntry
+
+<div class="panel panel-primary search-panel">
+    <div class="panel-heading text-bold">@LanguageResource.Search</div>
+    <div class="panel-body">
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearchRole", name = "frmSearchRole", @class = "form-horizontal" }))
+            {
+            @Html.ValidationSummary("", new { @class = "alert alert-danger" })
+            <div class="row margin-bottom-15">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-cog"></span> @LanguageResource.Search
+                    </span>
+                    @Html.TextBoxFor(model => model.RoleName, new {@class = "form-control", placeholder = @LanguageResource.RoleName})
+                    <span class="input-group-addon">
+                        @Html.DropDownListFor(model => model.GroupId, null, new {autocomplete = "off"})
+                    </span>
+                    <span class="input-group-addon">
+                        @Html.DropDownListFor(model => model.Status, null, new {@class = "form-control"})
+                    </span>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-refresh reset" data-form="frmSearchRole" data-mode="search"></span>
+                    </span>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-search search" data-form="frmSearchRole" data-mode="search"></span>
+                    </span>
+                </div>
+            </div>
+            <div id="dataGrid" class="row"></div>
+        }
+        </div>
+</div>

@@ -1,0 +1,356 @@
+﻿@{
+    ViewBag.Title = LanguageResource.EditBanner;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+@using System
+@using System.Collections.Generic
+@using Eagle.Services.Dtos.Contents.Banners
+@using Eagle.Services.Skins
+@model Eagle.Services.Dtos.Contents.Banners.BannerEditEntry
+
+@using (Html.BeginForm(null, null, FormMethod.Post,new Dictionary<string, object> {
+                                                { "enctype", "multipart/form-data" },
+                                                {"data-mode", "edit"},
+                                                { "data-toggle", "validator" },  
+                                                { "id", "frmBanner"},{ "name", "frmBanner"}
+                                              }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <button type="button" class="btn btn-default back-home" onclick="location.href='@Url.Action("Index", "Banner")'">
+                            <span class="glyphicon glyphicon-backward"></span> @LanguageResource.Back
+                        </button>
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditBanner</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+        <div id="formMessage" class="form-message">
+            @Html.AntiForgeryToken()
+            @Html.Partial("_MessagePartial")
+            @Html.ValidationSummary(true, "", new {@class = "alert alert-danger"})
+        </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+
+                        <!-- Step Wizard -->
+                        <div id="wizard">
+                            <h3>@Html.Raw(LanguageResource.BannerType)</h3>
+                            <section>
+                                <h5 class="step-heading"><span class="glyphicon glyphicon-star"></span> @Html.Raw(LanguageResource.BannerType)</h5>
+                                <div id="step-1">
+                                    <div id="BannerType" class="form-horizontal">
+                                        <div class="form-group">
+                                            <div class="btn-group btn-group-vertical btn-radio" data-toggle="buttons">
+                                                @if (ViewBag.BannerTypes != null)
+                                                {
+                                                    int i = 0;
+                                                    List<BannerTypeDetail> bannerTypes = ViewBag.BannerTypes;
+                                                    if (bannerTypes != null)
+                                                    {
+                                                        foreach (var item in bannerTypes)
+                                                        {
+                                                            i++;
+                                                            <label class="btn text-left">
+                                                                @if (@item.TypeId == Model.TypeId)
+                                                                {
+                                                                    <input type="radio" id="TypeId-@item.TypeId" name="TypeId" value="@item.TypeId" autocomplete="off" checked>
+                                                                    <span class="glyphicon glyphicon-unchecked unchecked"></span>
+                                                                            <span class="glyphicon glyphicon-check checked"></span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input type="radio" id="TypeId-@item.TypeId" name="TypeId" value="@item.TypeId" autocomplete="off">
+                                                                    <span class="glyphicon glyphicon-unchecked unchecked"></span>
+                                                                            <span class="glyphicon glyphicon-check"></span>
+                                                                }
+                                                                <strong>@item.TypeName</strong>
+                                                                <br />
+                                                                @item.Description
+                                                            </label>
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <h3>@Html.Raw(LanguageResource.BannerProperties)</h3>
+                            <section>
+                                <h5 class="step-heading"><span class="glyphicon glyphicon-star"></span> @Html.Raw(LanguageResource.BannerProperties)</h5>
+                                <div id="step-2">
+                                    <div id="BannerProperties" class="form-horizontal">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                @Html.RequiredLabelFor(model => model.BannerTitle, new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-10">
+                                                @Html.TextBoxFor(model => model.BannerTitle, new Dictionary<string, object>{
+                                                        {"class", "form-control"},
+                                                        {"maxlength", 300},
+                                                        {"placeholder", LanguageResource.BannerTitle}
+                                                    })
+                                                @Html.HiddenFor(model=>model.BannerId)
+                                                @Html.ValidationMessageFor(model => model.BannerTitle)
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-10">
+                                                @Html.TextAreaFor(model => model.Description, new { @cols = "100", @rows = "5", @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                @Html.LabelFor(model => model.AltText, new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(model => model.AltText, new { @class = "form-control", placeholder = LanguageResource.AltText })
+                                                @Html.ValidationMessageFor(model => model.AltText)
+                                            </div>
+                                            <div class="col-md-2">
+                                                @Html.LabelFor(model => model.Advertiser, new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-2">
+                                                @Html.TextBoxFor(model => model.Advertiser, new { @cols = "100", @rows = "5", @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                @Html.LabelFor(model => model.Link)
+                                            </div>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(model => model.Link, new { @class = "form-control", placeholder = LanguageResource.Link })
+                                                @Html.ValidationMessageFor(model => model.Link)
+                                            </div>
+                                            <div class="col-md-2">
+                                                @Html.LabelFor(model => model.Target)
+                                            </div>
+                                            <div class="col-md-2">
+                                                @Html.DropDownListFor(model => model.Target, null, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                @Html.LabelFor(model => model.Width, new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(model => model.Width, new { type = "number", min = 0, max = 5000, @class = "form-control" })
+                                            </div>
+                                            <div class="col-md-2">
+                                                @Html.LabelFor(model => model.Height, new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-2">
+                                                @Html.TextBoxFor(model => model.Height, new { type = "number", min = 0, max = 5000, @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                @Html.LabelFor(model => model.Tags, new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(model => model.Tags, new { @class = "form-control" })
+                                            </div>
+                                            <div class="col-md-2">
+                                                @Html.LabelFor(model => model.Status)
+                                            </div>
+                                            <div class="col-md-2">
+                                                @Html.RadioButtonEnumFor(model => model.Status)
+                                                @Html.ValidationMessageFor(model => model.Status)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <h3>@Html.Raw(LanguageResource.BannerUploadAndLifeSpan)</h3>
+                            <section>
+                                <h5 class="step-heading"><span class="glyphicon glyphicon-star"></span> @Html.Raw(LanguageResource.BannerUploadAndLifeSpan)</h5>
+                                <div id="step-3">
+                                    <div id="UploadAndLifeSpan" class="form-horizontal">
+                                        <div id="FileContainer" class="form-group">
+                                            <div class="col-md-2">
+                                                @Html.Label(LanguageResource.Photo, new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-10">
+                                                <div class="file-container">
+                                                    <div class="row">
+                                                        <div class="col-md-8 no-padding-left">
+                                                            <input type="file" id="File" name="File" class="btn btn-default form-control" />
+                                                            @Html.HiddenFor(model => model.FileId)
+                                                        </div>
+                                                        <div class="col-md-4 no-padding-left">
+                                                            <input type="button" class="btn btn-warning resetFile" value="@LanguageResource.Reset" />
+                                                        </div>
+                                                    </div>
+                                                    <div id="image-holder">
+                                                        @if (!string.IsNullOrEmpty(Model.FileUrl))
+                                                        {
+                                                            <img src='@Model.FileUrl' class="thumb-image" width='450' height='250' />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="BannerContentContainer" class="form-group hide">
+                                            <div class="col-md-2">
+                                                @Html.LabelFor(model => model.BannerContent, new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-10">
+                                                @Html.TextAreaFor(model => model.BannerContent, new { @cols = "100", @rows = "5", @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                @Html.LabelFor(model => model.StartDate, new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-4">
+                                                @Html.DatePickerFor(model => model.StartDate, DateTime.UtcNow.ToString("dd/MM/yyyy"))
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                @Html.Label("LimitBannerViews", LanguageResource.LimitBannerViews, new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div id="LimitBannerViews" class="btn-group btn-group-vertical btn-radio" data-toggle="buttons">
+                                                    @{
+                                                        int j = 0;
+                                                        List<BannerScopeDetail> bannerScopes = ViewBag.BannerScopes;
+                                                        if (bannerScopes != null)
+                                                        {
+                                                            foreach (var item in bannerScopes)
+                                                            {
+                                                                j++;
+                                                                <label class="btn text-left">
+                                                                    @if (@item.ScopeId == Model.ScopeId)
+                                                                    {
+                                                                        <input type="radio" id="ScopeId-@item.ScopeId" name="ScopeId" value="@item.ScopeId" autocomplete="off" checked>
+                                                                        <span class="glyphicon glyphicon-unchecked unchecked"></span>
+                                                                        <span class="glyphicon glyphicon-check checked"></span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <input type="radio" id="ScopeId-@item.ScopeId" name="ScopeId" value="@item.ScopeId">
+                                                                        <span class="glyphicon glyphicon-unchecked unchecked"></span>
+                                                                        <span class="glyphicon glyphicon-check"></span>
+                                                                    }
+                                                                    <strong>@item.ScopeName</strong>
+                                                                    <br />
+                                                                    @item.Description
+                                                                </label>
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="BannerScopeResult">
+                                                    <div id="DateTimeScope" class='form-group @(@Model.ScopeId == 2?string.Empty:"hide")'>
+                                                        <div class="col-md-2">
+                                                            @Html.LabelFor(model => model.EndDate, new {@class = "control-label"})
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            @Html.DateTimePickerFor(model => model.EndDate)
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="ClickScope" class='form-group @(@Model.ScopeId == 3?string.Empty:"hide")'>
+                                                        <div class="col-md-2">
+                                                            @Html.LabelFor(model => model.ClickThroughs, new {@class = "control-label"})
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="input-group number-spinner">
+                                                                <span class="input-group-btn data-dwn">
+                                                                    <button class="btn btn-secondary btn-dwn" type="button" data-dir="dwn"><i class="fa_icon icon-minus"></i></button>
+                                                                </span>
+                                                                @Html.TextBoxFor(model => model.ClickThroughs, new {type = "number", min = 0, max = 999999999, @class = "form-control"})
+                                                                <span class="input-group-btn data-up">
+                                                                    <button class="btn btn-secondary btn-up" type="button" data-dir="up"><i class="fa_icon icon-plus"></i></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="ImpressionScope" class='form-group @(@Model.ScopeId == 4?string.Empty:"hide")'>
+                                                        <div class="col-md-2">
+                                                            @Html.Label("Impression", LanguageResource.Impressions, new { @class = "control-label" })
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="input-group number-spinner">
+                                                                <span class="input-group-btn data-dwn">
+                                                                    <button class="btn btn-secondary btn-dwn" type="button" data-dir="dwn"><i class="fa_icon icon-minus"></i></button>
+                                                                </span>
+                                                                @Html.TextBoxFor(model => model.Impressions, new { type = "number", min = 0, max = 999999999, @class = "form-control" })
+                                                                <span class="input-group-btn data-up">
+                                                                    <button class="btn btn-secondary btn-up" type="button" data-dir="up"><i class="fa_icon icon-plus"></i></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <h3>@Html.Raw(LanguageResource.DeliveryOptions)</h3>
+                            <section>
+                                <h5 class="step-heading"><span class="glyphicon glyphicon-star"></span> @Html.Raw(LanguageResource.DeliveryOptions)</h5>
+                                <div id="step-4">
+                                    <div id="DeliveryOption" class="form-horizontal">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                @Html.RequiredLabelFor(model => model.SelectedPositions)
+                                            </div>
+                                            <div class="col-md-4">
+                                                @Html.DropDownListFor(model => model.SelectedPositions, (MultiSelectList)ViewBag.AvailablePositions, new { multiple = "multiple", @class = "form-control", size = "10" })
+                                                @Html.ValidationMessageFor(model => model.SelectedPositions)
+                                            </div>
+                                            <div class="col-md-2">
+                                                @Html.RequiredLabelFor(model => model.SelectedPages)
+                                            </div>
+                                            <div class="col-md-4">
+                                                @Html.ListBox("SelectedPages", (MultiSelectList)ViewBag.AvailablePages, new { multiple = "multiple", size = 10 })
+                                                @Html.ValidationMessageFor(model => model.SelectedPages)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    <link href="~/Scripts/plugins/jquery-steps/jquery.steps.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/jquery-steps/jquery.steps.js"></script>
+    <link href="~/Scripts/plugins/multiple-select/multiple-select.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/multiple-select/multiple-select.js"></script>
+    <script type="text/javascript">
+        window.EditBannerUrl = '@Url.Action("Edit", "Banner")';
+    </script>
+    <script src="~/Scripts/app/modules/banner-edit.js"></script>
+}

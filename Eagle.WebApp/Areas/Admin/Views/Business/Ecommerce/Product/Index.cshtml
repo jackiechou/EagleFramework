@@ -1,0 +1,36 @@
+﻿@using Eagle.Core.Configuration
+@using Eagle.Services.Skins
+
+@{
+    ViewBag.Title = LanguageResource.Product;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    @Html.Action("LoadSearchForm", "Product")
+    @*<div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody" class="container-fluid">
+                <div id="divEdit"class="edit-panel padding-bottom-10">
+                    @Html.Action("Create", "Product")
+                </div>
+                <div id="divList" class="search-panel">
+                    @Html.Partial("../Business/Ecommerce/Product/_SearchForm")
+                </div>
+            </div>
+        </div>
+    </div>*@
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.ProductSearchUrl = '@Url.Action("Search", "Product")';
+    </script>
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <link href="~/Scripts/plugins/bootstrap-plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script type="text/javascript" src="~/Scripts/app/modules/product.js"></script>
+}

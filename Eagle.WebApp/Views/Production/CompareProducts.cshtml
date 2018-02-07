@@ -1,0 +1,159 @@
+﻿@using Eagle.Services.Skins
+@model List<Eagle.Services.Dtos.Business.ProductInfoDetail>
+@{
+    ViewBag.Title = LanguageResource.Product;
+    Layout = ThemeViewEngine.DesktopMainLayout;
+}
+@{
+    var columnWidth = "";
+    if (Model.Count > 0)
+    {
+        columnWidth = Math.Round((decimal)(90M / Model.Count), 0).ToString() + "%";
+    }
+}
+<div class="search-panel">
+    <div class="advanced-search">
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.Partial("../Production/_SearchFormAdvanced")
+                </div>
+                <div class="col-md-9">
+                    @*<div class="discounted-products">
+                            @{
+                                Html.RenderAction("GetDiscountedProducts", "Production");
+                            }
+                        </div> *@
+                    <div class="center-2">
+                        <div class="page compare-products-page">
+                            <div class="page-title">
+                                <h1>Compare product</h1>
+                            </div>
+                            <div class="page-body">
+                                @if (Model.Count > 0)
+                                {
+                                    <a href="#" onclick="" class="clear-list">Clear</a>
+                                    <div class="table-wrapper">
+                                        <table class="compare-products-table">
+                                            <tbody>
+                                                @*<tr class="remove-product">
+                                                        <td class="empty">&nbsp;</td>
+                                                        @foreach (var product in Model)
+                                                        {
+                                                            <td style="width: @columnWidth;">
+                                                                <input type="button" value="Remove" title="Remove" class="button-2 remove-button" />
+                                                            </td>
+                                                        }
+                                                    </tr>*@
+                                                <tr class="product-picture">
+                                                    <td class="empty">&nbsp;</td>
+                                                    @foreach (var product in Model)
+                                                    {
+                                                        <td style="width: @columnWidth;">
+                                                            <a class="picture" href="~/Production/Details/@product.ProductId"><img alt="@product.ProductName" src="@product.LargePhotoUrl" title="@product.ProductName" /></a>
+                                                        </td>
+                                                    }
+                                                </tr>
+                                                <tr class="product-name">
+                                                    <td>
+                                                        <label>Product Name</label>
+                                                    </td>
+                                                    @foreach (var product in Model)
+                                                    {
+                                                        <td style="width: @columnWidth;">
+                                                            <a href="~/Production/Details/@product.ProductId">@product.ProductName</a>
+                                                        </td>
+                                                    }
+                                                </tr>
+                                                <tr class="product-price">
+                                                    <td>
+                                                        <label>Price</label>
+                                                    </td>
+                                                    @foreach (var product in Model)
+                                                    {
+                                                        <td style="width: @columnWidth;">
+                                                            @product.NetPrice @product.CurrencyCode
+                                                        </td>
+                                                    }
+                                                </tr>
+                                                <tr class="short-description">
+                                                    <td>
+                                                        <label>Short Description</label>
+                                                    </td>
+                                                    @foreach (var product in Model)
+                                                    {
+                                                        <td style="width: @columnWidth;">
+                                                            @Html.Raw(product.ShortDescription)
+                                                        </td>
+                                                    }
+                                                </tr>
+                                                <tr class="full-description">
+                                                    <td>
+                                                        <label>Height</label>
+                                                    </td>
+                                                    @foreach (var product in Model)
+                                                    {
+                                                        <td style="width: @columnWidth;">
+                                                            @Html.Raw(product.Height)
+                                                        </td>
+                                                    }
+                                                </tr>
+                                                <tr class="full-description">
+                                                    <td>
+                                                        <label>Width</label>
+                                                    </td>
+                                                    @foreach (var product in Model)
+                                                    {
+                                                        <td style="width: @columnWidth;">
+                                                            @Html.Raw(product.Width)
+                                                        </td>
+                                                    }
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="no-data">
+                                        No product
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <link rel="stylesheet" href="/Scripts/plugins/nivo-slider/nivo-slider.css" type="text/css" media="screen" />
+    <script src="~/Scripts/plugins/nivo-slider/jquery.nivo.slider.js"></script>
+
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+
+    <!-- magnific popup -->
+    <link href="~/Scripts/plugins/magnific-popup/magnific-popup.css" rel="stylesheet" />
+}
+<style>
+    .compare-products-table .picture img {
+        max-width: 100%;
+    }
+
+    .compare-products-table td {
+        min-width: 150px;
+        border: 1px solid #ddd;
+        background-color: #fff;
+        padding: 20px;
+        text-align: left;
+        vertical-align: top;
+        color: #444;
+    }
+</style>

@@ -1,0 +1,37 @@
+﻿@using Eagle.Core.HtmlHelper
+@using Eagle.Core.Settings
+@using Eagle.Services.Dtos.Contents.Articles
+@model Eagle.Services.Dtos.Contents.Articles.NewsSearchEntry
+@using (Html.BeginForm("Search", "News", FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+{
+    <div class="panel panel-primary search-panel">
+        <div class="panel-heading text-bold">@LanguageResource.Search</div>
+        <div class="panel-body">
+
+            @Html.Partial("_MessagePartial")
+            @Html.ValidationSummary()
+
+            <div class="container-fluid">
+                <div class="row margin-bottom-15">
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.Keywords, new { @class = "form-control", placeholder = @LanguageResource.Keywords })
+                    </div>
+                    <div class="col-md-4">
+                        <input id="CategoryId" name="CategoryId" value="0" class="easyui-combotree form-control cbxTree" data-url='@Url.Action("GetNewsCategoryTree", "Article")' style="width: 99%;">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-default glyphicon glyphicon-search" role="button" data-form="frmSearch" data-mode="search"> @Html.Raw(LanguageResource.Search)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div id="list-container" class="row">
+                @Html.Action("Search", "Article", new NewsSearchEntry
+                {
+                    Status = NewsStatus.Published
+                })
+            </div>
+        </div>
+    </div>
+}

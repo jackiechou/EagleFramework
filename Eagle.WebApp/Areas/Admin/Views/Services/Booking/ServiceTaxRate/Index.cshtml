@@ -1,0 +1,27 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.ProductTaxRateManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody">
+                <div id="divEdit">
+                    @Html.Action("Create", "ProductTaxRate")
+                </div>
+                <div id="divList">
+                    @Html.Action("LoadSearchForm", "ProductTaxRate")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.ProductTaxRateSearchUrl = '@Url.Action("Search", "ProductTaxRate")';
+    </script>
+    <script type="text/javascript" src="~/Scripts/app/modules/product-tax-rate.js"></script>
+}

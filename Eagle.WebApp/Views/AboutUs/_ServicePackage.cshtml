@@ -1,0 +1,95 @@
+﻿@using Eagle.Core.Settings
+@model  IEnumerable<Eagle.Services.Dtos.Services.Booking.ServicePackInfoDetail>
+
+<div class="latest-service-about-us">
+    @if (Model != null && Model.Any())
+    {
+        <div class="panel-heading">
+            <h3>@LanguageResource.LatestPackages</h3>
+        </div>
+        <div class="panel-body">
+            @foreach (var item in Model)
+            {
+                <div class="service-item">
+                    <div class="service-item-inner">
+                        @if (item.FileUrl != null)
+                        {
+                            <div class="service-image">
+                                @if (!string.IsNullOrEmpty(item.FileUrl))
+                                {
+                                    <img src="@Url.Content(item.FileUrl)" alt="@item.PackageName" />
+                                }
+                                else
+                                {
+                                    <img src="/Images/150x90.png" alt="@item.PackageName" />
+                                }
+                            </div>
+                        }
+                        <h5 class="service-title">
+                            <a href="/Service/Details/@item.PackageId" data-id="@item.TypeId">@item.PackageName - <span class="price">$@item.PackageFee</span></a>
+                        </h5>
+                        <div class="service-desc dotdot">@Html.Raw(item.Specification)</div>
+                    </div>
+                    <div class="service-caption">
+                        @if (item.Category != null)
+                        {
+                            <div class="service-category">
+                                <span class="service-category-title">@LanguageResource.Category :</span>
+                                <span class="service-category-text">@item.Category.CategoryName</span>
+                            </div>
+                        }
+                        @if (item.Type != null)
+                        {
+                            <div class="service-type">
+                                <span class="service-type-title">@LanguageResource.Type :</span>
+                                <span class="service-type-text">@item.Type.TypeName</span>
+                            </div>
+                        }
+
+                        @if (item.DiscountRate != null && item.DiscountRate > 0 && item.TotalFee > 0)
+                        {
+                            <div class="discount-rate">
+                                <div class="saving">@LanguageResource.Saving :</div>
+                                <div class="xthrough">@Html.FormatValue(item.TotalFee + item.DiscountRate, "{0:c}")</div>
+                            </div>
+                        }
+
+                        @if (item.TotalFee != null)
+                        {
+                            <div class="price-block">
+                                <div class="price">
+                                    <span class="price-title">@LanguageResource.Price :</span>
+                                    <span class="price-tag">@Html.FormatValue(item.TotalFee, "{0:c}")</span>
+                                </div>
+                            </div>
+                        }
+                     
+
+                    </div>
+                    <div class="booking-box">
+                        <div class="select-quantity">
+                            <div class="qty-container">
+                                <input class="select-quantity-input" value="1" type="text">
+                                <div class="quantity-control">
+                                    <span class="select-quantity-plus"></span>
+                                    <span class="select-quantity-minus"></span>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                        <div class="button-booking add-item-to-cart" data-id="@item.PackageId" data-type="@ItemType.ServicePackage">@LanguageResource.AddToCart</div>
+                    </div>
+                    <div class="button-group">
+                        <div class="read-more-wrapper">
+                            <a data-id="@item.PackageId" title="@item.PackageName" href="@Url.Content("~/Service/Details/" + item.PackageId)">
+                                <div class="read-more-box">
+                                    <span class="read-more">@LanguageResource.ReadMore</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }                
+        </div>
+        }
+</div>

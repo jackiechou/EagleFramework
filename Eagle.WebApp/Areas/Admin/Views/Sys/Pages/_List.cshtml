@@ -1,0 +1,9 @@
+﻿<div class="easyui-panel" style="padding:5px">
+    <ul id="tt" class="easyui-tree" data-options="url:'/Admin/Page/PopulateListBox',method:'get',animate:true,lines:true,dnd:true"></ul>
+</div>
+<div id="mm" class="easyui-menu" style="width:120px;">
+    <div onclick="edit()" data-options="iconCls:'icon-add'">@Html.Raw(LanguageResource.Edit)</div>
+    <div class="menu-sep"></div>
+    <div onclick="remove()" data-options="iconCls:'icon-remove'">@Html.Raw(LanguageResource.Remove)</div>
+</div>
+

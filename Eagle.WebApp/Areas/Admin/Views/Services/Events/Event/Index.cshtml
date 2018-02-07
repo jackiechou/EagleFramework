@@ -1,0 +1,76 @@
+﻿@using Eagle.Core.Configuration
+@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.EventManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="heading-bar-container">
+        <div class="heading-bar-inner">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>@LanguageResource.Event</h6>
+                </div>
+                <div class="col-md-8 text-right">
+                    <button type="button" class="btn btn-success create-form" onclick="location.href = '@Url.Action("Create", "Event")'">
+                        <span class="glyphicon glyphicon-plus-sign"></span> @LanguageResource.CreateEvent
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body-container">
+        <div id="bodyContent" class="row">
+            <div class="row">
+                <div id="LeftContent" class="col-md-3 left-content">
+                    @Html.Action("LoadSearchForm", "Event")
+                </div>
+                <div id="RightContent" class="col-md-9 right-content">
+                    <div id="MainBody" class="form-horizontal main_box">
+                        <div id="search-result" class="gridContainer">
+                            @Html.Action("Search", "Event")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        //links
+        window.GetEventTypeSelectTreeUrl = '@Url.Action("GetEventTypeSelectTree", "EventType")';
+        window.CreateEventUrl = '@Url.Action("Create", "Event")';
+        window.EditEventUrl = '@Url.Action("Edit", "Event")';
+        window.SearchEventUrl = '@Url.Action("Search", "Event")';
+
+        //UPLOAD IN EDIOR
+        window.ReadImageBrowserUrl = '@Url.Action("Read", "ImageBrowser")';
+        window.CreateImageBrowserDirectoryUrl = '@Url.Action("CreateDirectory", "ImageBrowser")';
+        window.DestroyImageBrowserUrl = '@Url.Action("Destroy", "ImageBrowser")';
+        window.ThumbnailImageBrowserUrl = '@Url.Action("Thumbnail", "ImageBrowser")';
+        window.UploadImageBrowserUrl = '@Url.Action("Upload", "ImageBrowser")';
+        window.UploadEventImageFolder = '@Url.Content(GlobalSettings.EventUploadImagePath)';
+
+        window.ReadFileBrowserUrl = '@Url.Action("Read", "FileBrowser")';
+        window.CreateFileBrowserDirectoryUrl = '@Url.Action("CreateDirectory", "FileBrowser")';
+        window.DestroyFileBrowserUrl = '@Url.Action("Destroy", "FileBrowser")';
+        window.ThumbnailFileBrowserUrl = '@Url.Action("Thumbnail", "FileBrowser")';
+        window.UploadFileBrowserUrl = '@Url.Action("Upload", "FileBrowser")';
+        window.UploadEventFileFolder = '@Url.Content(GlobalSettings.EventUploadDocumentPath)';
+    </script>
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugins/bootstrap-plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js")"></script>
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.default.mobile.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/kendo/js/kendo.all.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/modules/event.js")"></script>
+}

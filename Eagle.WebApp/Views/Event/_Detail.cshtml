@@ -1,0 +1,64 @@
+﻿@model Eagle.Services.Dtos.Services.Event.EventInfoDetail
+<div class="event-container">
+    @if (Model != null)
+    {
+        <div class="event-header">
+            <div class="headline">
+                <h3>@Model.EventTitle</h3>
+            </div>
+            @if (Model.EventType != null)
+            {
+                <div class="row caption">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4 text-right">
+                        <span class="event-type">
+                            <em>@string.Format("{0} : {1}",LanguageResource.Type,Model.EventType.TypeName)</em>
+                        </span>
+                    </div>
+                </div>
+            }
+            @if (Model.StartDate != null)
+            {
+                <div class="row post-date">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4 text-right">
+                        <span class="event-date">
+                            <em>
+                            @string.Format("{0} : {1:dd/MM/yyyy}", LanguageResource.PostedDate,Model.StartDate.Value)
+                            </em>
+                        </span>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <hr />
+        <div class="event-body">
+            @if (Model.DocumentInfos != null && Model.DocumentInfos.Count == 2)
+                                {
+                <div class="event-image">
+                    <img src='@Model.DocumentInfos[1].FileUrl' class="thumb-image" width='350' height='250' />
+                </div>
+            }
+            <div class="event-content">
+                @Html.Raw(Model.EventMessage)
+            </div>
+        </div>
+        <div class="event-footer">
+            @Html.Partial("../Shared/_SocialLinks")
+            <!-- Your fb buttons -->
+            @*<div class="fbToolbar">
+                    <div class="fb-like" data-href='@Url.Action("Details", "Event", new {id = Model.NewsId})' data-layout="button_count" data-action="like" data-size="small" data-show-faces="true"></div>
+                    <div class="fb-share-button" data-href='@Url.Action("Details", "Event", new {id = Model.NewsId})' data-size="small" data-layout="button_count"></div>
+                    <div class="fb-send" data-href='@Url.Action("Details", "Event", new {id = Model.NewsId})' data-size="small" data-layout="button_count"></div>
+                    <div class="fb-follow" data-href="https://www.facebook.com/phiungco" data-layout="standard" data-size="small" data-show-faces="true"></div>
+                </div>*@
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <p>@Html.Raw(LanguageResource.NotFound)</p>
+        </div>
+    }
+</div>

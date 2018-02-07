@@ -1,0 +1,126 @@
+﻿@using Eagle.Core.Pagination.Extension
+@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.SystemManagement.Identity.UserContactDetail>
+
+<div class="table">
+    <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+        <thead>
+            <tr>
+                <th class="text-center">@LanguageResource.SequenceNo</th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Profile.Contact.FullName)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().UserName)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Profile.Contact.Email)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Profile.Contact.Mobile)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().IsApproved)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().IsLockedOut)
+                </th>
+                <th class="table-actions text-center no-sort">@LanguageResource.Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                int i = 0;
+                foreach (var item in Model)
+                {
+                    i++;
+                    <tr id="@i">
+                        <td class="text-center">
+                            @i
+                        </td>
+                        <td>
+                            @item.Profile.Contact.FullName
+                        </td>
+                        <td>
+                            @item.UserName
+                        </td>
+                        <td>
+                            @item.Profile.Contact.Email
+                        </td>
+                        <td class="text-center">
+                            @item.Profile.Contact.Mobile
+                        </td>
+                        <td class="text-center">
+                            <div class="chk-center">
+                                <div class="checkbox-slider--c">
+                                    <label>
+                                        @{
+                                            if (item.IsApproved == true)
+                                            {
+                                                <input type="checkbox" id="@string.Format("IsApproved-{0}", item.UserId)" name="@string.Format("IsApproved-{0}", item.UserId)" data-id="@item.UserId" data-approve-url='@Url.Action("Approve", "User")' data-unapprove-url='@Url.Action("UnApprove", "User")' class="approve-unapprove" checked="checked" value="true">
+                                                <span></span>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" id="@string.Format("IsApproved-{0}", item.UserId)" name="@string.Format("IsApproved-{0}", item.UserId)" data-id="@item.UserId" data-approve-url='@Url.Action("Approve", "User")' data-unapprove-url='@Url.Action("UnApprove", "User")' class="approve-unapprove" value="false">
+                                                <span></span>
+                                            }
+                                        }
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="chk-center">
+                                <div class="checkbox-slider--c">
+                                    <label>
+                                        @{
+                                            if (item.IsLockedOut == true)
+                                            {
+                                                <input type="checkbox" id="@($"IsLockedOut-{item.UserId}")" name="@($"IsLockedOut-{item.UserId}")" data-id="@item.UserId" data-lock-url='@Url.Action("Lock", "User")' data-unlock-url='@Url.Action("UnLock", "User")' class="lock-unlock" checked="checked" value="true">
+                                                <span></span>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" id="@($"IsLockedOut-{item.UserId}")" name="@($"IsLockedOut-{item.UserId}")" data-id="@item.UserId" data-lock-url='@Url.Action("Lock", "User")' data-unlock-url='@Url.Action("UnLock", "User")' class="lock-unlock" value="false">
+                                                <span></span>
+                                            }
+                                        }
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="table-actions text-center no-sort">
+                            <a data-id="@item.UserId" title="@Html.Raw(LanguageResource.Edit)" href='@Url.Action("Edit", "User", new { id = item.UserId })' class="btn btn-small btn-success editItem "><span class="icon-edit"></span></a>
+                        </td>
+                    </tr>
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="7" class="text-center">@LanguageResource.NoRecordFound</td>
+                                                </tr>
+                                            }
+        </tbody>
+    </table>
+</div>
+
+
+@if (Model != null && Model.Any())
+{
+    <div class="datagrid-pager panel-footer row">
+        <div class="datagrid-pagination pull-right text-right">
+            @Html.PagedListPager(Model, page => Url.Action("Search", "User", new { filter = Model, page, sourceEvent = "Result" }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 4,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "search-result" }))
+        </div>
+    </div>
+}

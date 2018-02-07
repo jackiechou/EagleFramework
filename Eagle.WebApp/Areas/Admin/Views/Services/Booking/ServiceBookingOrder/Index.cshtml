@@ -1,0 +1,23 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.BookingOrder;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody" class="container-fluid">
+                <div id="divList">
+                    @Html.Action("LoadSearchForm", "ServiceBookingOrder")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.ServiceBookingOrderSearchUrl = '@Url.Action("Search", "ServiceBookingOrder")';
+    </script>
+    <script type="text/javascript" src="~/Scripts/app/modules/service-booking-order.js"></script>
+}

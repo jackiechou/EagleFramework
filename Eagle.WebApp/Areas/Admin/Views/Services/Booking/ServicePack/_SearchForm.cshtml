@@ -1,0 +1,51 @@
+﻿@model Eagle.Services.Dtos.Services.Booking.ServicePackSearchEntry
+<div class="panel panel-primary search-panel">
+    <div class="panel-heading text-bold">
+        <div class="row">
+            <div class="col-md-10">
+                <h5>@Html.Raw(LanguageResource.List)</h5>
+            </div>
+            <div class="col-md-2 text-right">
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-default create-form" onclick="location.href = '@Url.Action("Create", "ServicePack")'">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="search-form">
+            @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary("", new { @class = "alert alert-danger" })
+                <div class="row margin-bottom-15">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            @Html.TextBoxFor(model => model.ServicePackName, new {@class = "form-control", placeholder = @LanguageResource.ServicePackName})
+                        </span>
+                        <span class="input-group-addon">
+                            @Html.DropDownListFor(model => model.ServiceType, (IEnumerable<SelectListItem>)ViewBag.ServiceType, new { @class = "form-control" })
+                        </span>
+                        <span class="input-group-addon">
+                            <input id="CategoryId" name="CategoryId" class="easyui-combotree form-control" data-url='@Url.Action("GetServiceCategorySelectTree", "ServicePack")' style="width: 50%;">
+                        </span>
+                        <span class="input-group-addon">
+                            @Html.EnumDropDownListFor(model => model.Status, $"--- {LanguageResource.SelectStatus} ---", new { @class = "form-control" })
+                        </span>
+                        <span class="input-group-addon reset" role="button" data-form="frmSearch" data-mode="reset">
+                            <span class="glyphicon glyphicon-refresh"></span>
+                        </span>
+                        <span class="input-group-addon search" role="button" data-form="frmSearch" data-mode="search">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div id="search-result" class="row search-result">
+            @Html.Action("Search", "ServicePack")
+        </div>
+    </div>
+</div>

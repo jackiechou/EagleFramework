@@ -1,0 +1,68 @@
+﻿@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Business.ProductInfoDetail>
+<div id="discounted-product-container" class="carousel slide" data-interval="3000" data-ride="carousel">
+    <div class="carousel-inner container" role="listbox">
+        @if (Model != null && Model.Any())
+        {
+            int i;
+            int paging = Model.Count() % 4 < 0 ? Model.Count() / 4 : (Model.Count() / 4) + 1;
+
+            for (i = 0; i < paging; i++)
+            {
+                string status = ((i == 0) ? "row item active" : "row item");
+
+                <div class="article-footer @status">
+                    @foreach (var item in Model.Skip(i*4).Take(4))
+                    {
+                        <div class="col-sm-3 col-md-3">
+                            <div class="post">
+                                <div class="post-img-content">
+                                    <a data-id="@item.ProductId" title="@item.ProductName" href='@Url.Action("Details", "Production", new {id = item.ProductId})'>
+                                        @if (!string.IsNullOrEmpty(item.SmallPhotoUrl))
+                                        {
+                                            <img src='@item.LargePhotoUrl' data-thumb='@item.SmallPhotoUrl' alt='@item.ProductName' title='#htmlcaption_@i' class="img-border img-responsive">
+                                        }
+                                        else
+                                        {
+                                            <img src="/Images/150x90.png" data-thumb="/Images/150x90.png" alt='@item.ProductName' title='#htmlcaption_@i' class="img-border img-responsive">
+                                        }
+                                        <span class="post-title">
+                                            <b>@item.ProductName</b>
+                                        </span>
+                                    </a>
+                                </div>
+                                <div class="content ">
+                                    <div class="dotdot">
+                                        @{
+                                            string description = string.Empty;
+                                            if (item.ShortDescription != null)
+                                            {
+                                                description = item.ShortDescription.Length > 200 ? $"{item.ShortDescription.Substring(0, 200)}" : item.ShortDescription;
+                                            }
+                                            else
+                                            {
+                                                if (item.Specification != null)
+                                                {
+                                                    description = item.Specification.Length > 200 ? $@"{item.Specification.Substring(0, 200)}" : item.Specification;
+                                                }
+                                            }
+                                        }
+                                        @description
+                                    </div>
+                                    <div>
+                                        <a data-id="@item.ProductId" title="@item.ProductName" href='@Url.Action("Details", "Production", new {id = item.ProductId})' class="btn btn-warning btn-sm">@LanguageResource.ReadMore</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        i++;
+                    }
+                </div>
+            }
+        }
+    </div>
+    <!-- Carousel Buttons Next/Prev -->
+    <div class="control-box">
+        <a data-slide="prev" href="#discounted-product-container" class="left carousel-control" role="button" title="go back"><i class="fa fa-chevron-left"></i></a>
+        <a data-slide="next" href="#discounted-product-container" class="right carousel-control" role="button" title="more"><i class="fa fa-chevron-right"></i></a>
+    </div>
+</div>

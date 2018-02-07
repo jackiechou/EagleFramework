@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = LanguageResource.EditLanguage;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.SystemManagement.ApplicationLanguageListEntry
+
+<div class="panel panel-default">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditLanguage", name = "frmEditLanguage", }))
+    {
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditLanguage" data-url='@Url.Action("EditApplicationLanguages", "Language")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save edit editLanguage" data-mode="edit" data-form="frmEditLanguage" data-url='@Url.Action("EditApplicationLanguages", "Language")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditApplicationLanguage</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.AntiForgeryToken()
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+                        <div class="form-horizontal">
+
+                            <div id="dual-list-box" class="dual-list-box form-group row">
+                                <div class="col-md-5">
+                                    <h5><span class="unselected-title">@LanguageResource.AvailableLanguages</span></h5>
+                                    <input class="input-from filter form-control filter-unselected" type="text" placeholder="Filter" style="margin-bottom: 5px;">
+                                    @Html.ListBox("AvailableLanguages", (MultiSelectList)ViewBag.AvailableLanguages, new { multiple = "multiple", @class = "unselected form-control", size = 10 })
+                                </div>
+                                <div class="col-md-2 center-block" style="margin-top: 80px">
+                                    <button type="button" class="btn btn-default col-md-8 col-md-offset-2 atr push-all" data-type="atr" style="margin-bottom: 10px;">
+                                        <span class="glyphicon glyphicon-list"></span> <span class="glyphicon glyphicon-chevron-right"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default col-md-8 col-md-offset-2 str push-item" data-type="str" style="margin-bottom: 20px;">
+                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default col-md-8 col-md-offset-2 stl pull-item" data-type="stl" style="margin-bottom: 10px;">
+                                        <span class="glyphicon glyphicon-chevron-left"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default col-md-8 col-md-offset-2 atl pull-all" data-type="atl" style="margin-bottom: 10px;">
+                                        <span class="glyphicon glyphicon-chevron-left"></span> <span class="glyphicon glyphicon-list"></span>
+                                    </button>
+                                </div>
+                                <div class="col-md-5">
+                                    <h5><span class="selected-title">@LanguageResource.SelectedLanguages</span></h5>
+                                    <input class="input-to filter form-control filter-selected" type="text" placeholder="Filter" style="margin-bottom: 5px;">
+                                    @Html.ListBox("SelectedLanguages", (MultiSelectList)ViewBag.SelectedLanguages, new { multiple = "multiple", @class = "selected form-control", size = 10 })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditLanguage" data-url='@Url.Action("EditApplicationLanguages", "Language")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save edit editLanguage" data-mode="edit" data-form="frmEditLanguage" data-url='@Url.Action("EditApplicationLanguages", "Language")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

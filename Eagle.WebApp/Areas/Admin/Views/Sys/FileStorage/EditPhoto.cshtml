@@ -1,0 +1,284 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.FileStorage.FileUploadModel
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "uploadform", name = "uploadform", autocomplete = "off"}))
+{ 
+    <div class="modal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="min-width:245px; background:#fff;border: none !important;">
+        <div class="modal-header" style="border-top-left-radius: 6px; border-top-right-radius : 6px;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">@LanguageResource.EditAvatar</h3>        
+        </div>
+         <div id="MessageBox">
+                @if (ViewBag.DisplayErrorMessage == true)
+                {
+                    <div class="@ViewBag.CssClass">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                        <strong>@ViewBag.SortMessage!</strong>
+                        <div class="padding-left">
+                            @Html.Raw(Server.HtmlDecode(ViewBag.Message))
+                        </div>
+                    </div>
+                }
+            </div>
+        <div class="modal-body">           
+            
+                @*<div class="row">
+                    <div class="col-md-2">
+                       <label>@Html.Raw(LanguageResource.FileTitle)</label>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.FileTitle, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FileTitle)  
+                    </div>
+                </div>*@
+                <div class="row">
+                    <div class="col-md-2"><label>@Html.Raw(LanguageResource.Photo)</label></div>
+                    <div class="col-md-10">
+                        @*@if (Model.FileId != null)
+                        {
+                            @Html.ImageByFileId("Photo", Model.FileId, Model.FileTitle, new { width = "80", height = "80", @class = "media-object img-thumbnail user-img img-rounded", @style = "width:80px; height=80px;overflow-x:hidden;border:1px solid #CCC;" })
+                        }
+                        else
+                        {
+                            <div id="ImagePreviewBox">
+                                <span><img width="80" height="80" title="no-image" src="~/Content/Admin/images/no-image.png" class="thumb"></span>
+                            </div>
+                        }*@
+                    </div>
+                </div>
+                <div class="row">
+                        <div class="col-md-2">
+                        <label>@Html.Raw(LanguageResource.Attachment)</label>
+                    </div>
+                    <div class="fileupload col-md-10">
+                        <input id="FileUploadName" name="FileUploadName" type="file" class="col-md-12" required="required" />
+                        @Html.HiddenFor(model => model.FileName, new { @class = "form-control" })
+                    </div>
+                </div>
+              @*  <div class="row">
+                    <div class="col-md-2">
+                        <label>@Html.Raw(LanguageResource.FileDescription)</label>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.FileDescription, new { rows = 2, columns = 40, maxlength = 150, @class = "form-control" })
+                    </div>
+                </div>                  *@                    
+           
+        </div>
+        <div class="modal-footer">
+            @Html.HiddenFor(model => model.FileId)
+            @Html.HiddenFor(model => model.FolderKey)   
+            @Html.HiddenFor(model => model.ItemId)
+            @Html.HiddenFor(model => model.ItemTag)   
+            <div class="center-block center-block text-center">
+                <input type="button" id="btnAddFile" value="@Html.Raw(LanguageResource.btnSave)" class="btn btn-info @ViewBag.AddButtonStatus" />
+                <input type="button" id="btnEditFile" value="@Html.Raw(LanguageResource.btnSave)" class="btn btn-info  @ViewBag.EditButtonStatus" />
+                <input type="button" id="btnResetFile" value="@Html.Raw(LanguageResource.btnReset)" class="btn btn-warning reset" />
+               @* <input type="button" id="btnCancel" value="@Html.Raw(LanguageResource.Cancel)" data-dismiss="modal" aria-hidden="true"  class="btn" />*@
+            </div>
+        </div>
+    </div>
+}
+
+
+<script type="text/javascript">
+    (function ($) {
+        $.createDataBuilder = function (p) {
+            var FileMgr = {
+                config: {
+                    isPostBack: false,
+                    async: true,
+                    cache: false,
+                    processData: false,
+                    mimeType: "multipart/form-data",
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    data: '{}',
+                    dataType: 'json',
+                    baseURL: p.BaseURL,
+                    method: "",
+                    url: "",
+                    ajaxCallMode: 0,
+                    isValid: false,
+                    mode: 0,
+                    key: 0,
+                    ContainerClientID: p.ContainerClientID
+                },
+                messages:
+                {
+                    nomenu: "No Data"
+                },
+                init: function (config) {
+                    FileMgr.InitializeCotrols();
+                    FileMgr.BindEvents();
+                },
+                ajaxSuccess: function (data) {
+                    if (data.message == "timeout")
+                        window.location.reload();
+                    else {
+                        switch (parseInt(FileMgr.config.ajaxCallMode)) {
+                            case 1:
+                                FileMgr.BindDetails(data);
+                                break;
+                            case 2:
+                                FileMgr.ReloadData(data);
+                                break;
+                        }
+                    }
+                },
+                ajaxFailure: function (jqXHR, textStatus, errorThrown) {
+                    handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                },
+                ajaxCall: function (config) {
+                    $.ajax({
+                        type: FileMgr.config.type,
+                        contentType: FileMgr.config.contentType,
+                        cache: FileMgr.config.cache,
+                        url: FileMgr.config.url,
+                        data: FileMgr.config.data,
+                        dataType: FileMgr.config.dataType,
+                        success: FileMgr.ajaxSuccess,
+                        error: FileMgr.ajaxFailure,
+                        async: false
+                    });
+                },
+                InitializeCotrols: function () {
+                    $("#modalEdit").draggable({ handle: ".modal-header" });
+                },
+                BindEvents: function () {
+                    $('input[type="file"][name="FileUploadName"]').change(function () {
+                        var newFileName = $(this).val();
+                        var orginalFileName = $('input[type=hidden][name="FileName"]').val();
+
+                        if (orginalFileName == '' && newFileName == '')
+                            showMessageWithTitleByContainerId("MessageBox", "@LanguageResource.Warning", "@LanguageResource.PleaseSelectFile", "warning", 20000);
+                        else 
+                            hideMessage("MessageBox");                        
+                         PreviewImage("FileUploadName", 50, 50);
+                    });
+
+                    $(document).one("click", "#btnAddFile", function () {
+                        $(this).attr('disabled', true);                       
+                        FileMgr.AddFileData();   
+                        return false;
+                    });
+
+                    $(document).on("click", "#btnEditFile", function () {
+                        $(this).attr('disabled', true);
+                        FileMgr.UpdateFileData();
+                        return false;
+                    });
+
+                    //Reset form
+                    $(document).on("click", "#btnResetFile", function () {
+                        FileMgr.ResetControls();
+                    });
+                },     
+                AddFileData: function () {
+                    var formData = new FormData($("#uploadform")[0]);
+                    this.config.method = "Insert";
+                    $.ajax({
+                        type: "POST",
+                        url: FileMgr.config.baseURL + this.config.method,
+                        data: formData,
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (data, statusCode, xhr) {
+                            if (data.message == "timeout")
+                                window.location.reload();
+                            else {
+                                FileMgr.ReloadData(data);
+                                setTimeout(function () {
+                                    $(".modalEdit").modal('hide');
+                                }, 1000);
+                            }
+                        }, error: function (jqXHR, textStatus, errorThrown) {
+                            handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                        }
+                    });
+                    return false;
+                },
+                UpdateFileData: function () {
+                    //grab all form data  
+                    var formData = new FormData($("#uploadform")[0]);
+
+                    this.config.method = "Update";
+                    $.ajax({
+                        type: "POST",
+                        url: FileMgr.config.baseURL + this.config.method,
+                        data: formData,
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (data, statusCode, xhr) {
+                            if (data.message == "timeout")
+                                window.location.reload();
+                            else {
+                                FileMgr.ReloadData(data);
+                                setTimeout(function () {
+                                    $(".modalEdit").modal('hide');
+                                }, 1000);
+                            }
+                        }, error: function (jqXHR, textStatus, errorThrown) {
+                            handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                        }
+                    });
+                    return false;
+                },
+                ReloadImage:function(FileId)
+                {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Handlers/ViewFile.ashx?FileId=" + FileId,
+                        success: function (data) {
+                            return true;
+                        }
+                    });
+                },
+                ReloadData: function (data) {
+                    if (data.flag == 'True' || data.flag == 'true') {
+                        var FileId = data.FileId;
+                        $('input[type=hidden][name="FileId"]').val(FileId);
+                        var EmpID = $('input[type=hidden][name="ItemId"]').val();
+                        // alert(data.flag + " - " + data.FileId+ " - "+ EmpID);
+                        $.ajax({
+                            type: "GET",
+                            url: "/Admin/Common/EmployeeDisplayDetails/?EmpID=" + EmpID,
+                            success: function (data) {
+                                FileMgr.ReloadImage(FileId);
+                                $('#brief_emp').html(data);
+                            }
+                        });
+                    }
+                },
+                ResetControls: function () {
+                    var mode = FileMgr.config.mode;
+                    if (mode == 0) {
+                        var validateObj = $('#uploadform');
+                        validateObj.find('input:text, input:password, input:file, select, textarea').not('.ignored').val('');
+                        validateObj.find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected');
+                        validateObj.find('input[type="number"]').val(0);
+                        validateObj.find('select').find('option:first').attr('selected', true).siblings().attr('selected', false);
+                        validateObj.find("[data-valmsg-summary=true]").removeClass("validation-summary-errors").addClass("validation-summary-valid").find("ul").empty();
+                        validateObj.find("[data-valmsg-replace]").removeClass("field-validation-error").addClass("field-validation-valid").empty();
+                        FileMgr.InitializeCotrols();
+                    } else {
+                        var key = FileMgr.config.key;
+                        FileMgr.GetFileDetails(key);
+                    }
+                }
+            };
+            FileMgr.init();
+        }
+
+         var Controller = 'FileManager';
+         var BaseURL =  "/" + Controller + "/";
+         var base_settings = {
+             ContainerClientID: "MainBody_Download",
+             BaseURL: BaseURL
+         };
+         $.createDataBuilder(base_settings);
+     })(jQuery);
+</script>
+

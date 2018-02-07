@@ -1,0 +1,46 @@
+﻿<div class="quick-shortcuts">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-dark-blue">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-bookmark"></span>@LanguageResource.QuickShortcuts
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        @model IEnumerable<Eagle.Services.Dtos.SystemManagement.MenuPageDetail>
+                        @if (Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                if (item.Page.IsExtenalLink != null && item.Page.IsExtenalLink == true)
+                                {
+                                    <a href="@item.Page.PageUrl" class="shortcut" role="button">
+                                        <span class="glyphicon @item.IconClass"></span>
+                                        <div class="margin-top-5">
+                                            @item.MenuName
+                                        </div>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="@item.Page.PagePath/@item.PageId" class="shortcut" role="button">
+                                        <span class="glyphicon @item.IconClass"></span>
+                                        <div class="margin-top-5">
+                                            @item.MenuName
+                                        </div>
+                                    </a>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <p style="text-align:center">@Html.Raw(LanguageResource.NoRecordFound)!</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

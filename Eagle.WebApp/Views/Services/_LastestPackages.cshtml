@@ -1,0 +1,32 @@
+﻿@using Eagle.Core.Pagination
+@model IPagedList<Eagle.Services.Dtos.Services.Booking.ServicePackInfoDetail>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model)
+    {
+        <div class="col-md-4 content-boxes-v6">
+            <a href="@Url.Action("Details","Service", new {id = item.PackageId })" class="rounded-x ">
+                <img src="@Url.Content(item.FileUrl)" alt="@item.PackageName" >
+            </a>
+            <a href="@Url.Action("Details","Service", new {id = item.PackageId })">
+                <h4 class="title-v3-md text-uppercase margin-bottom-10">@item.PackageName</h4>
+            </a>
+            <p>@item.Description</p>
+            <div class="note">
+                <div class="row">
+                    <div class="col-md-6">
+                        <span class="service-fee">@((item.TotalFee == 0) ? @LanguageResource.ContactUs : @Html.FormatValue(item.TotalFee, "{0:c}"))</span>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="read-more-wrapper">
+                            <a class="read-more" data-id="@item.PackageId" title="@item.PackageName" href="@Url.Content("~/Service/Details/"+item.PackageId)">
+                                @LanguageResource.ReadMore
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

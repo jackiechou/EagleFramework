@@ -1,0 +1,40 @@
+﻿@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Business.ProductInfoDetail>
+@if (Model != null && Model.Any())
+{
+    <div id="discounted-product-image-container" class="discount-image">
+        <div class="top">
+            <div class="title">
+                <h2>@Html.DisplayUpperTitle(LanguageResource.BeautySalon)</h2>
+            </div>
+            <div class="description" style="width: 25%; margin: 0 auto; text-align: center">
+                <p>Pamper yourself with our salon services. From waxing sessions and hair<br>
+                    styling to relaxing manicure and pedicure services, you'll find it all here.</p>
+            </div>
+        </div>
+        <div class="list-image margin-bottom-40" role="listbox">
+            <div class="article-footer row item">
+                @foreach (var item in Model)
+                {
+                    <div class="post">
+                        <div class="post-img-content img-border">
+                            <a data-id="@item.ProductId" title="@item.ProductName" href='@Url.Action("Details", "Production", new {id = item.ProductId})'>
+                                @if (!string.IsNullOrEmpty(item.SmallPhotoUrl))
+                                {
+                                    <img src='@item.LargePhotoUrl' data-thumb='@item.SmallPhotoUrl' alt='@item.ProductName' title='@item.ProductName' class="img-responsive">
+                                }
+                                else
+                                {
+                                    <img src="/Images/150x90.png" data-thumb="/Images/150x90.png" alt='@item.ProductName' title='@item.ProductName' class="img-responsive">
+                                }                                    
+                            </a>
+                        </div>
+                        <span class="post-title">
+                            <b>@item.ProductName</b>
+                        </span>
+                    </div>
+                }
+            </div>
+       
+        </div>
+    </div>
+}

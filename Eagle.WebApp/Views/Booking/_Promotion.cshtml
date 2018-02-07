@@ -1,0 +1,51 @@
+﻿@model Eagle.Services.Dtos.Business.PromotionDetail
+
+@if (Model != null)
+{
+    if (Model.PromotionId >0 && Model.IsActive == Eagle.Core.Settings.PromotionStatus.Active)
+    {
+        <div class="form-group has-feedback has-success @Model.PromotionType">
+            <div class="input-group">
+                <input class="form-control" id="PromotionCode" name="PromotionCode" type="text" value="@Model.PromotionCode" placeholder="@LanguageResource.Voucher" readonly="readonly"/>
+                <span class="input-group-addon remove-voucher" data-url='@Url.Action("GetPromotion", "Booking")'>
+                    <span class="glyphicon glyphicon-remove"></span>
+                </span>
+            </div>
+            <span class="form-control-feedback glyphicon glyphicon-ok" style="right: 40px;"></span>
+        </div>
+        <div class="input-group hidden" data-code='@Model.PromotionCode'>
+            <input type="text" id="PromotionValue" name="PromotionValue" class="form-control" value="@Model.PromotionValue" readonly="readonly">
+            @if (Model.IsPercent)
+                    {
+                <span class="input-group-addon">%</span>
+            }
+        </div>
+        <input type="hidden" id="StartDate" name="StartDate" class="form-control" value="@Model.StartDate">
+        <input type="hidden" id="EndDate" name="EndDate" class="form-control" value="@Model.EndDate">
+    }
+    else
+    {
+        <div class="form-group has-warning has-feedback">
+            <div class="input-group">
+                <input class="form-control" id="PromotionCode" name="PromotionCode" type="text" value="@Model.PromotionCode" placeholder="@LanguageResource.InvalidPromotionCode" />
+                <span class="input-group-addon icon-feedback">
+                    <span class="glyphicon glyphicon-warning-sign"></span>
+                </span>
+                <span class="input-group-addon remove-voucher" data-url='@Url.Action("GetPromotion", "Booking")'>
+                    <span class="glyphicon glyphicon-remove"></span>
+                </span>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="form-group has-error has-feedback">
+        <div class="input-group">
+            <input class="form-control" id="PromotionCode" name="PromotionCode" type="text" value="" placeholder="@LanguageResource.InvalidPromotionCode" />
+            <span class="input-group-addon remove-voucher" data-url='@Url.Action("GetPromotion", "Booking")'>
+                <span class="glyphicon glyphicon-remove"></span>
+            </span>
+        </div>
+    </div>
+}

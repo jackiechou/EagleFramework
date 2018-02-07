@@ -1,0 +1,108 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@model IPagedList<Eagle.Services.Dtos.Business.ProductTypeDetail>
+
+<div class="panel panel-default search-form-panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-10">
+                <h5>@Html.Raw(LanguageResource.List)</h5>
+            </div>
+            <div class="col-md-2 text-right">
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-default back-form" onclick="location.href = '@Url.Action("Index", "ProductType")'">
+                        <span class="glyphicon glyphicon-home"></span>
+                    </button>
+                    <button type="button" class="btn btn-default search">
+                        <span class="glyphicon glyphicon-th-list"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            @LanguageResource.SequenceNo
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().TypeName)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().IsActive)
+                        </th>
+                        <th class="table-actions text_center no-sort">@LanguageResource.Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            int index = i + 1;
+                            <tr>
+                                <td class="text-center">
+                                    @index
+                                </td>
+                                <td data-code="@item.TypeId">
+                                    @Html.DisplayFor(modelItem => item.TypeName)
+                                </td>
+                                <td class="text-center">
+                                    <div class="inner-center">
+                                        <div class="checkbox-slider--a">
+                                            <label>
+                                                @{
+                                                    if (item.IsActive == Eagle.Core.Settings.ProductTypeStatus.Active)
+                                                    {
+                                                        <input type="checkbox" id="IsActive-@item.TypeId" name="IsActive-@item.TypeId" data-id="@item.TypeId" data-url='@Url.Action("UpdateStatus", "ProductType")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeStatus" checked="checked" value="true"><span></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" id="IsActive-@item.TypeId" name="IsActive-@item.TypeId" data-id="@item.TypeId" data-url='@Url.Action("UpdateStatus", "ProductType")' data-warning="@LanguageResource.DoYouWantToContinue" class="changeStatus" value="false"><span></span>
+                                                    }
+                                                }
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="table-actions text-center center no-sort">
+                                    <a data-id="@item.TypeId" title="@LanguageResource.Delete" class="btn btn-small btn-warning delete deleteItem" data-container="divEdit" data-url='@Url.Action("Delete", "ProductType")' data-warning="@LanguageResource.DoYouWantToDeleteItem"><span class="glyphicon glyphicon-align-center icon-trash"></span></a>
+                                    <a data-id="@item.TypeId" title="@Html.Raw(LanguageResource.Edit)" class="btn btn-small btn-primary editItem" data-container="divEdit" data-url='@Url.Action("Edit", "ProductType")'><span class="icon-edit"></span></a>
+                                </td>
+                            </tr>
+                                                            i++;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="5" class="text-center">@LanguageResource.NoRecordFound</td>
+                                                        </tr>
+                                                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer">
+        @if (Model != null && Model.Any())
+        {
+            <div class="datagrid-pager row">
+                <div class="datagrid-pagination pull-right text-right">
+                    @Html.PagedListPager(Model, page => Url.Action("Search", "ProductType", new { page, sourceEvent = "Result" }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 10,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "search-result" }))
+                </div>
+            </div>
+        }
+    </div>
+</div>

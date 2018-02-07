@@ -1,0 +1,65 @@
+﻿@using Eagle.Core.Pagination
+@model IPagedList<Eagle.Services.Dtos.Services.Event.EventInfoDetail>
+
+<div class="latest-events-container-right">
+    <!-- Nav tabs -->
+    <div class="event-header">
+        <div class="headline">
+            <h3>@Html.Raw(LanguageResource.LastestEvent)</h3>
+        </div>
+    </div>
+
+    <!-- Tab panes -->
+    <div class="event-body">
+        @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                <div class="event-content">
+                    <div class="event-content-inner">
+                        @*<div class="event-image">
+                            <span class="get-details" data-id="@item.EventId" title="@item.EventTitle" data-url='@Url.Action("GetDetails", "EventInfo")'>
+                                @if (item.LargePhoto != null)
+                                {
+                                    <img src='@item.SmallPhoto' class="pull-left img-responsive thumb margin10 img-thumbnail">
+                                }
+                                else
+                                {
+                                    <img src="/Images/150x90.png" class="pull-left img-responsive thumb margin10 img-thumbnail">
+                                }
+                            </span>
+                        </div>*@
+                        <div class="event-desc">
+                            <h5>
+                                <span class="event-title get-details" data-id="@item.EventId" title="@item.EventTitle" data-url='@Url.Action("GetDetails", "EventInfo", new {id = item.EventId})'>@item.EventTitle</span>
+                            </h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @if (item.CreatedDate != null)
+                                    {
+                                        <p><span class="post-date"><i class="fa fa-calendar"></i> @item.CreatedDate</span></p>
+                                    }
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="read-more-wrapper">
+                                        <p class="pull-right">
+                                            <a class="read-more" data-id="@item.EventId" title="@item.EventTitle" href='@Url.Action("GetDetails", "EventInfo", new {id = item.EventId})'>
+                                                @LanguageResource.ReadMore
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <h6>
+                @Html.Raw(LanguageResource.NotFound)
+            </h6>
+        }
+    </div>
+</div>

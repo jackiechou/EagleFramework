@@ -1,0 +1,26 @@
+﻿<div class="box-container">
+    <div class="heading-bar-container">
+        <div class="heading-bar-inner">
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>@LanguageResource.MenuSelection</h6>
+                </div>
+                <div class="col-md-4 padding-3 text-right">
+                    <div id="menu-type-select">
+                        @Html.RadioButtonList("MenuTypeId", ViewData["TypeId"] as IEnumerable<SelectListItem>)
+                    </div>
+                </div>
+                <div class="col-md-2 padding-3 ">
+                    <a href='@Url.Action("Index", "Menu")' target="_selft"><input type="button" class="btn btn-success show-create-form btnPopulateCreateMenuForm" value="@LanguageResource.Create" /></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body-container">
+        <div class="row">
+            <div id="treeContainer">
+                <ul id="tree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+</div>

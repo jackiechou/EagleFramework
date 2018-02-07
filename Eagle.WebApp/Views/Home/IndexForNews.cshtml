@@ -1,0 +1,89 @@
+﻿@using Eagle.Services.Skins
+@using Eagle.WebApp.Themes
+@{
+    ViewBag.Title = LanguageResource.Home;
+    Layout = ThemeViewEngine.DesktopMainLayout;
+}
+
+<div class="banner-slide">
+    @section Banner
+    {
+        @{
+            Html.RenderAction("GetTopBanners", "BannerInfo");
+        }
+    }
+</div>
+
+<div class="booking-service">
+    <div id="appointment" class="appointment">
+        <div class="booking-info">
+            <img class="booking-logo img" src="/Images/logo.png" width="150" height="120" alt="logo">
+        </div>
+        <h2>Bạn muốn có một hình xăm thật đẹp?</h2>
+        <a class="btn btn-sm" href="/booking/index" title="@Html.Raw(LanguageResource.Booking)">
+            <i class="fa fa-thumb-tack"></i>@Html.Raw(LanguageResource.BookingNow)
+        </a>
+    </div>
+</div>
+<div class="latest-gallery-collection">
+    <div id="multiple_slides_visible" class="slideshow"></div>
+</div>
+
+<div class="company_info_bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 widget">
+                <h2>Article</h2>
+                <div class="widget_content">
+                    <ul>
+                        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit</li>
+                        <li>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>
+                        <li>Sed ut perspiciatis unde omnis iste natus error sit voluptatem</li>
+                        <li>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae </li>
+                        <li>Nemo enim ipsam voluptatem quia voluptas sit aspernatur</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3 widget">
+                <h2>Link</h2>
+                <div class="widget_content">
+                    <ul>
+                        <li>Bootsnipp</li>
+                        <li>Get Bootstrap</li>
+                        <li>My BLog</li>
+                        <li>Facebook</li>
+                        <li>Follow me</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 widget">
+                <h2>Contact Us</h2>
+                <div class="widget_content">
+                    <p>Jl. Lingkar Selatan, Kasihan, Bantul<br> Yogyakarta Indonesia 55183<br>Phone: +62 274 387656</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <!-- Include Unite Gallery core files -->
+    <script src="~/Scripts/plugins/unitegallery/js/unitegallery.min.js"></script>
+    <link href="~/Scripts/plugins/unitegallery/css/unite-gallery.css" rel="stylesheet" />
+
+    <!-- include Unite Gallery Theme Files -->
+    <script src='~/Scripts/plugins/unitegallery/themes/slider/ug-theme-slider.js' type='text/javascript'></script>
+
+     <!-- magnific popup -->
+    <link href="~/Scripts/plugins/magnific-popup/magnific-popup.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+     <!-- agile_carousel -->
+    <link href="~/Scripts/plugins/agile_carousel/agile_carousel.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/agile_carousel/agile_carousel.alpha.js"></script>
+    <script type="text/javascript">
+        window.GetGalleryFilesFromLatestCollectionUrl = '@Url.Action("GetGalleryFilesFromLatestCollection", "Gallery")';
+        window.LatestCollection = '@LanguageResource.LatestCollection';
+    </script>
+    <script src="~/Scripts/app/theme/default/gallery.js"></script>
+}

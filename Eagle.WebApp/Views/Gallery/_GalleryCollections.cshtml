@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Contents.Galleries.GalleryCollectionInfoDetail>
+<div class="gallery-description">
+    <div class="gallery-title">@Html.Raw(LanguageResource.GalleryCollection)</div>
+    <ul class="gallery-features">
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <li class="get-files" data-id="@item.CollectionId" data-url='@Url.Action("GetGalleryFiles", "Gallery")'>@item.CollectionName</li>
+            }
+        }
+        else
+        {
+            <li>@Html.Raw(LanguageResource.NotFoundCollection)</li>
+        }
+    </ul>
+    @*<a class="view-more" href="javascript:void(0)">View More</a>*@
+</div>

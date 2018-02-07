@@ -1,0 +1,719 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.FileStorage.FileControlDetail
+<link href="~/Scripts/plugins/plupload/js/jquery.plupload.queue/css/jquery.plupload.queue.css" rel="stylesheet" />
+<style type="text/css">
+    .plupload_file_name {
+        width: 500px !important;
+    }
+</style>
+@*<script type="text/javascript" src="~/Scripts/jquery-1.11.1.js" charset="UTF-8"></script>*@
+<script src="~/Scripts/plugins/plupload/js/plupload.full.min.js"></script>
+<script src="~/Scripts/jquery-progressbar.min.js"></script>
+
+<div id="uploader">
+    <input type="hidden" id="UpdateFileIdsServiceUrl" name="UpdateFileIdsServiceUrl" value="@Model.UpdateFileIdsServiceUrl" />
+    <input type="hidden" id="FolderKey" name="FolderKey" value="@Model.FolderKey" />
+    <input type="hidden" id="FileIds" name="FileIds" value="@Model.FileIds" />
+    <input type="hidden" id="KeyId" name="KeyId" value="@Model.KeyId" />
+    <div class="plupload_wrapper plupload_scroll">
+        <div class="plupload_container">
+            <div class="plupload">
+                <!-- Select & Upload Button -->
+                <div class="plupload_header">
+                    <div class="plupload_header_content">
+                        <div class="plupload_header_title">Select files</div>
+                        <div class="plupload_header_text">Add files to the upload queue and click the start button</div>
+                    </div>
+                </div>
+
+                <!-- File List -->
+                <div id="filelist" class="cb plupload_content">
+                    <div class="plupload_filelist_header">
+                        <div class="plupload_file_name">Filename</div>
+                        <div class="plupload_file_preview">Download</div>
+                        <div class="plupload_file_action">&nbsp;</div>
+                        <div class="plupload_file_status"><span>Status</span></div>
+                        <div class="plupload_file_size">Size</div>
+                        <div class="plupload_clearer">&nbsp;</div>
+                    </div>
+                    <ul id="plupload_filelist" class="plupload_filelist"></ul>
+                    <div class="cb plupload_filelist_footer">
+                        <div class="plupload_file_name">
+                            <div class="plupload_buttons">
+                                <a href="#" class="plupload_button plupload_add" id="pickfiles">Add Files</a>
+                                <a href="#" class="plupload_button plupload_start" id="uploadfiles">Start Upload</a>
+                            </div>
+                            @* <div id="console" style="float:left"><span id="runtime" style="display:none"></span></div>*@
+                            <span class="plupload_upload_status"></span>
+                        </div>
+                        <div class="plupload_file_action"></div>
+                        <div class="plupload_file_status"><span class="plupload_total_status">0%</span></div>
+                        <div class="plupload_file_size"><span class="plupload_total_file_size">0 b</span></div>
+                        <div class="plupload_progress">
+                            <div class="plupload_progress_container">
+                                <div class="plupload_progress_bar"></div>
+                            </div>
+                        </div>
+                        <div class="plupload_clearer">&nbsp;</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Progress Bar -->
+            <div id="progressbar"></div>
+        </div>
+        <input type="hidden" id="uploader_count" name="uploader_count" value="0" />
+    </div>
+</div>
+<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" class="modal hide fade" id="viewModal" style="background: #808080;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">@ViewBag.PopupTitle @LanguageResource.FileContent</h3>
+    </div>
+    <div class="modal-body">
+        <div class="input-area" id="divFileContent">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input type="button" id="btnClose" class="btn" data-dismiss="modal" aria-hidden="true" value="@Html.Raw(LanguageResource.Close)" />
+    </div>
+</div>
+<script type="text/javascript">
+    /* Upload Form Configuration Here */
+    $(function () {
+        var image_extensions = ['.jpg', '.JPG', '.gif', '.GIF', '.png', '.PNG', '.jpeg', '.JPEG'];
+        var UploadFileServiceUrl = '/Handlers/UploadMultipleFile.ashx?FolderKey=' + $("input[type=hidden][name=FolderKey]").val()
+            + '&FileIds=' + $("input[type=hidden][name=FileIds]").val();
+
+        // Settings ////////////////////////////////////////////////
+        var uploader = new plupload.Uploader({
+            runtimes: 'html5,flash,silverlight,html4', // Set runtimes, here it will use HTML5, if not supported will use flash, etc.
+            browse_button: 'pickfiles', // The id on the select files button
+            autostart: false, //Automatically start upload when files added
+            multi_selection: true, // Allow to select one file each time
+            multipart: true,
+            prevent_duplicates: true,
+            unique_names: true,
+            rename: true, // Rename files by clicking on their titles
+            sortable: true, // Sort files
+            //resize: {
+            //    width: 100,
+            //    height: 100,
+            //    crop: true,
+            //    quality: 70
+            //},
+            // Views to activate
+            views: {
+                list: true,
+                thumbs: true, // Show thumbs
+                active: 'thumbs'
+            },
+            dragdrop: false,  // Enable ability to drag'n'drop files onto the widget (currently only HTML5 supports that)
+            drop_element: 'uploader',
+            container: 'uploader', // The id of the upload form container
+            max_file_size: '10mb', // Maximum file size allowed
+            chunk_size: '1mb',
+            url: UploadFileServiceUrl, // The url to the upload.php file
+            flash_swf_url: 'Scripts/plugins/plupload/js/Moxie.swf', // The url to thye flash file
+            silverlight_xap_url: 'Scripts/plugins/plupload/js/Moxie.xap', // The url to the silverlight file
+            // filters: [{ title: "Image files", extensions: "jpg,gif,png" }] // Filter the files that will be showed on the select files window
+        });
+        uploader.bind("PostInit", function (up, file) {
+            // features are populated only after input components are fully instantiated
+            if (up.settings.dragdrop && up.features.dragdrop) {
+                $('.plupload_filelist').append('<li class="plupload_droptext">Drag files here.</li>');
+            }
+        });
+        // RUNTIME
+        uploader.bind('Init', function (up, params) {
+            //$('#runtime').text(params.runtime);
+            //getFileList(up);
+            updateList(uploader, uploader.files);
+        });
+
+        // Start Upload ////////////////////////////////////////////
+        // When the button with the id "#uploadfiles" is clicked the upload will start
+        $('#uploadfiles').click(function (e) {
+            uploader.start();
+            e.preventDefault();
+        });
+
+        uploader.init(); // Initializes the Uploader instance and adds internal event listeners.
+        uploader.bind("UploadFile", function (up, file) {
+            $('#' + file.id).addClass('plupload_current_file');
+        });
+
+
+        // Selected Files //////////////////////////////////////////
+        // When the user select a file it wiil append one div with the class "addedFile" and a unique id to the "#filelist" div.
+        // This appended div will contain the file name and a remove button
+        uploader.bind('FilesAdded', function (up, files) {
+            // set an array of file names that are in the list
+            var i = 0;
+            while (i < files.length) {
+                var dupe = false;
+                var ii = 0;
+                while (ii < (up.files.length - files.length)) {
+                    if (files[i].name == up.files[ii].name) {
+                        dupe = true;
+                        up.removeFile(up.getFile(files[i].id));
+                        /// added this line of code to remove the visual duplication from the queue
+                        $('#' + files[i].id).remove();
+
+                        files.splice(i, 1);
+                        break;
+                    }
+                    ii++;
+                }
+                if (!dupe) { i++; }
+            }
+
+            updateList(uploader, uploader.files);
+
+           // up.refresh(); // Reposition Flash/Silverlight
+            ////setTimeout(function () { up.start(); }, 100); => auto upload
+
+        });
+
+      
+
+        uploader.bind('FileUploaded', function (up, file, info) {
+            // Called when file has finished uploading
+            // log('[FileUploaded] File:', file, "Info:", info);
+            //$('#' + file.id).append('<div class="plupload_file_id"><input id="' + file.id + '_response" type="hidden" value="' + info.response + '" /></div>');
+
+            handleStatus(file);
+
+            if (info.response != null && info.response != '' && info.response != '0')
+            {
+                $('#' + file.id).children('div.plupload_file_action').children('a').attr("data-id", info.response);
+
+                var uploadedFileIdArray = [];
+                var uploadedFiles = $("input[type=hidden][name=FileIds]").val();
+
+                if (uploadedFiles != '' && uploadedFiles != 0) {
+                    //cat chuoi bien chuoi thanh mang
+                    uploadedFileIdArray = uploadedFiles.split(',');
+                }
+                uploadedFileIdArray.push(info.response);
+                $("input[type=hidden][name=FileIds]").val(uploadedFileIdArray.join());
+                updateFileIds();
+
+                ////add cac files duoc them moi vao mang duoc tao truoc tu hidden
+                //$.each(uploader.files, function (i, file) {
+                //    if (file != null && file != undefined && file != '') {
+                //        var dataId = $('#' + file.id).children('div.plupload_file_action').children('a').attr("data-id");
+                //        if (dataId != null && dataId != '' && dataId != '0') {
+                //            var isExisted = $.inArray(dataId, uploadedFileIdArray);
+                //            if (isExisted == -1)
+                //                uploadedFileIdArray.push(dataId);
+                //        }
+                //    }
+                //});
+                //uploadedFileIdArray = uploadedFileIdArray.filter(Boolean);
+                //uploadedFileIdArray = uploadedFileIdArray.filter(function (n) { return n != 0 });               
+            }           
+
+            ////check permission for delete event
+            //if (FDelete == '1')
+                $('#' + file.id).children('div.plupload_file_action').children('a').addClass('isAllowedToRemove');
+             updateList(uploader, uploader.files);
+            //// up.refresh(); // Reposition Flash/Silverlight
+        });
+
+        uploader.bind('StateChanged', function () {
+            if (uploader.state === plupload.STARTED) {
+
+                $('li.plupload_delete a,div.plupload_buttons').hide();
+                uploader.disableBrowse(true);
+
+                $('span.plupload_upload_status,div.plupload_progress,a.plupload_stop').css('display', 'block');
+                //$('span.plupload_upload_status').html('Uploaded ' + uploader.total.uploaded + '/' + uploader.files.length + ' files');
+
+
+                $('span.plupload_total_status,span.plupload_total_file_size').show();
+
+            } else {
+                //updateList(uploader, uploader.files);
+                $('a.plupload_stop,div.plupload_progress').hide();
+                $('a.plupload_delete').css('display', 'block');
+
+                if (uploader.total.uploaded + uploader.total.failed == uploader.files.length) {
+                    $(".plupload_buttons,.plupload_upload_status").css("display", "inline");
+                    uploader.disableBrowse(false);
+
+                    $(".plupload_start").addClass("plupload_disabled");
+                    $('span.plupload_total_status,span.plupload_total_file_size').hide();
+                }
+            }
+        });
+
+        uploader.bind('FilesRemoved', function (up, file) {
+            // since the whole file list is redrawn for every change in the queue
+            // we need to scroll back to the file removal point to avoid annoying
+            // scrolling to the bottom bug (see #926)
+            var scrollTop = $('#' + file.id + '_filelist').scrollTop();
+            // updateList(up,up.files);
+            $('#' + file.id + '_filelist').scrollTop(scrollTop);
+        });
+
+        // Error Alert /////////////////////////////////////////////
+        // If an error occurs an alert window will popup with the error code and error message.
+        // Ex: when a user adds a file with now allowed extension
+        uploader.bind('Error', function (up, err) {
+            //alert("Error: " + err.code + ", Message: " + err.message + (err.file ? ", File: " + err.file.name : "") + "");
+            //up.refresh(); // Reposition Flash/Silverlight
+            var file = err.file, message;
+
+            if (file) {
+                message = err.message;
+
+                if (err.details) {
+                    message += " (" + err.details + ")";
+                }
+
+                if (err.code == plupload.FILE_SIZE_ERROR) {
+                    alert(_("Error: File too large:") + " " + file.name);
+                }
+
+                if (err.code == plupload.FILE_EXTENSION_ERROR) {
+                    alert(_("Error: Invalid file extension:") + " " + file.name);
+                }
+
+                file.hint = message;
+                $('#' + file.id).attr('class', 'plupload_failed').find('a').css('display', 'block').attr('title', message);
+            }
+
+            if (err.code === plupload.INIT_ERROR) {
+                setTimeout(function () {
+                    uploader.destroy();
+                }, 1);
+            }
+        });
+
+        //uploader.bind('UploadComplete', function (up, files){
+        //    plupload.each(files, function (file) {
+        //        up.removeFile(file);
+        //    });
+        //});
+
+        //uploader.bind('Refresh', function (up) {
+        //    console.log('Refresh');
+        //});
+
+        // Remove file button //////////////////////////////////////
+        // On click remove the file from the queue
+        $(document).on("click", "a.removeFile", function (e) {
+            if ($(this).hasClass('isAllowedToRemove')) {
+                var id = $(this).attr("data-id");
+                deleteFile(id);
+            }
+            uploader.removeFile(uploader.getFile(this.id));
+            $('#' + this.id).remove();
+            // e.preventDefault();
+        });
+
+        $(document).on("click", "a.isAllowedToRemove", function () {
+            var id = $(this).attr("data-id");
+            deleteFile(id);
+            $('span.plupload_upload_status').text('');
+            //uploader.removeFile(uploader.getFile(this.id));
+            //$('#' + this.id).remove();
+            //e.preventDefault();
+        });
+
+        //$(document).on("click", ".icon_preview", function (e) {
+        //    var id = $(this).parents('div').parents('li').attr('id');
+        //    var file = uploader.getFile(id);
+        //    var parts = /^(.+)(\.[^.]+)$/.exec(file.name);
+        //    var ext = parts[2];
+        //    if (image_extensions.indexOf(ext) > -1) {
+        //        showImagePreview(file);
+        //        $('#viewModal').modal('show');
+        //    }
+        //    return false;
+        //});
+
+        $(document).on("click", ".icon_download", function (e) {
+            e.preventDefault();  //stop the browser from following
+            var FileUrl = $(this).attr('file-url');
+            window.location.href = '/Handlers/DownloadFile.ashx?file=' + FileUrl;
+        });
+
+
+        //// On click remove the file from the queue
+        //$('a.removeFileItem').live('click', function (e) {
+        //    uploader.removeFile(uploader.getFile(this.id));
+        //    $('#' + this.id).remove();
+        //    e.preventDefault();
+        //});
+
+        // Progress bar ////////////////////////////////////////////
+        // Add the progress bar when the upload starts
+        // Append the tooltip with the current percentage
+        uploader.bind('UploadProgress', function (up, file) {
+            //var progressBarValue = up.total.percent;
+            //$('#progressbar').fadeIn().progressbar({
+            //    value: progressBarValue
+            //});
+            //$('#progressbar .ui-progressbar-value').html('<span class="progressTooltip">' + up.total.percent + '%</span>');
+
+            // Set file specific progress
+            $('#' + file.id + ' div.plupload_file_status').html(file.percent + '%');
+
+            handleStatus(file);
+            updateTotalProgress(up);
+        });
+
+        // Close window after upload ///////////////////////////////
+        // If checkbox is checked when the upload is complete it will close the window
+        uploader.bind('UploadComplete', function () {
+            if ($('.upload-form #checkbox').attr('checked')) {
+                $('.upload-form').fadeOut('slow');
+            }
+
+        });
+
+        // Close window ////////////////////////////////////////////
+        // When the close button is clicked close the window
+        $('.upload-form .close').on('click', function (e) {
+            $('.upload-form').fadeOut('slow');
+            e.preventDefault();
+        });
+
+    }); // end of the upload form configuration
+
+
+
+    function updateTotalProgress(uploader) {
+        $('span.plupload_total_status').html(uploader.total.percent + '%');
+        $('div.plupload_progress_bar').css('width', uploader.total.percent + '%');
+        $('span.plupload_total_file_size').html(plupload.formatSize(uploader.total.size));
+      //  $('span.plupload_upload_status').html('Uploaded ' + uploader.total.uploaded + ' of ' + uploader.files.length + ' file(s)');
+
+        //// Scroll to end of file list
+        //uploader.filelist[0].scrollTop = uploader.filelist[0].scrollHeight;
+        //uploader.progressbar.progressbar('value', uploader.total.percent);
+    }
+
+    function getFileList(uploader) {
+        var _fileIds = $("input[type=hidden][name=FileIds]").val();
+        if (_fileIds != undefined && _fileIds != null && _fileIds != '') {
+            var baseUrl = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+            $.ajax({
+                type: "GET",
+                url: baseUrl + "/Handlers/GetFileList.ashx?FileIds=" + _fileIds,
+                success: function (result) {
+                    if(result != null && result != '')
+                        getData(uploader, JSON.parse(result));
+                },
+                error: function () {
+                    $('#plupload_filelist').html("There was error in invoking Ajax!");
+                }
+            });
+        }
+    }
+
+    function getData(uploader, data) {
+        if (data != null && data.length > 0) {
+            var fileList = $('ul.plupload_filelist'), inputCount = 0;
+            $.each(data, function (i, file) {
+                if (file != null && file != '') {
+                    inputHTML = '';
+                    inputHTML += '<input type="hidden" name="' + file.FileId + '_' + inputCount + '_name" value="' + plupload.xmlEncode(file.FileName) + '" />';
+                    inputHTML += '<input type="hidden" name="' + file.FileId + '_' + inputCount + '_status" value="done" />';
+
+                    inputCount++;
+
+                    $('#' + file.FileId + '_count').val(inputCount);
+
+                    fileList.append(
+                    '<li id="' + file.FileId + '">' +
+                    '<div class="plupload_file_name"><span>' + file.FileName + '</span></div>' +
+                    '<div class="plupload_file_preview"><span class="icon_download" file-url="' + file.FileUrl + '"></span></div>' +
+                    '<div class="plupload_file_action"><a data-id="' + file.FileId + '" href="#"></a></div>' +
+                    '<div class="plupload_file_status">100%</div>' +
+                    '<div class="plupload_file_size">' + plupload.formatSize(file.Size) + '</div>' +
+                    '<div class="plupload_clearer">&nbsp;</div>' +
+                    inputHTML +
+                    '</li>'
+                    );
+
+                    var icon = $('#' + file.FileId).attr('class', 'plupload_delete').find('a').css('display', 'block');
+
+                    //if (FDelete == '1')
+                        $('#' + file.Id).children('div.plupload_file_action').children('a').addClass('isAllowedToRemove');
+
+                    $('#' + file.FileId + '.plupload_delete a').click(function (e) {
+                        deleteFile(file.FileId);
+                        $('#' + file.FileId).remove();
+                        uploader.removeFile(file);
+                        e.preventDefault();
+                    });
+                }
+            });
+        }
+    }
+
+    function updateList(uploader, files) {
+        var fileList = $('ul.plupload_filelist').html(''), inputCount = 0;
+
+        $.each(files, function (i, file) {
+            inputHTML = '';
+
+            // fileList.append('<li class="addedFile" id="' + file.id + '">' + file.name + '<a href="#" id="' + file.id + '" class="removeFile"></a>' + '</li>');
+
+            if (file.status == plupload.DONE) {
+                if (file.target_name) {
+                    inputHTML += '<input type="hidden" name="' + file.id + '_' + inputCount + '_tmpname" value="' + plupload.xmlEncode(file.target_name) + '" />';
+                }
+
+                inputHTML += '<input type="hidden" name="' + file.id + '_' + inputCount + '_name" value="' + plupload.xmlEncode(file.name) + '" />';
+                inputHTML += '<input type="hidden" name="' + file.id + '_' + inputCount + '_status" value="' + (file.status == plupload.DONE ? 'done' : 'failed') + '" />';
+
+                inputCount++;
+
+                $('#' + file.id + '_count').val(inputCount);
+            }
+
+            //var iconPreview = '';
+            //var image_extensions = ['.jpg', '.JPG', '.gif', '.GIF', '.png', '.PNG', '.jpeg', '.JPEG'];
+            //var parts = /^(.+)(\.[^.]+)$/.exec(file.name);
+            //var ext = parts[2];
+            //if (image_extensions.indexOf(ext) > -1)
+            //    iconPreview = "icon_preview";
+            //else
+            //    iconPreview = "icon_no_preview";
+
+            fileList.append(
+            '<li id="' + file.id + '">' +
+            '<div class="plupload_file_name"><span>' + file.name + '</span></div>' +
+            //'<div class="plupload_file_preview"><span class="' + iconPreview + '"></span></div>' +
+            '<div class="plupload_file_action"><a href="#"></a></div>' +
+            '<div class="plupload_file_status">' + file.percent + '%</div>' +
+            '<div class="plupload_file_size">' + plupload.formatSize(file.size) + '</div>' +
+            '<div class="plupload_clearer">&nbsp;</div>' +
+            inputHTML +
+            '</li>'
+            );
+
+            handleStatus(file);
+
+            $('#' + file.id + '.plupload_delete a').click(function (e) {
+                $('#' + file.id).remove();
+                uploader.removeFile(file);
+                e.preventDefault();
+            });
+        });
+        getFileList(uploader);
+    }
+
+    function deleteFile(fileId) {
+        var baseUrl = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+        $.ajax({
+            type: "POST",
+            url: baseUrl + "/Handlers/DeleteFile.ashx?fileId=" + fileId,
+            success: function (data) {
+                if (data.toLowerCase() == 'true') {
+                    var uploadedFiles = $("input[type=hidden][name=FileIds]").val();
+                    var uploadedFileIdArray = uploadedFiles.split(',');
+                    uploadedFileIdArray.splice($.inArray(fileId, uploadedFileIdArray), 1);
+                    $("input[type=hidden][name=FileIds]").val(uploadedFileIdArray.join());
+                    updateFileIds();
+                    showMessageWithTitle("@Html.Raw(LanguageResource.DeleteSuccess)", "@Html.Raw(LanguageResource.DeleteSuccess)", "success", 50000);
+                } else {
+                    showMessageWithTitle("@Html.Raw(LanguageResource.DeleteFailure)", "@Html.Raw(LanguageResource.DeleteFailure)", "error", 50000);
+                }
+            },
+            error: function () {
+                console.log("There was error in deleting file!");
+            }
+        });
+    }
+
+    function updateFileIds() {
+        var UpdateFileIdsServiceUrl = $('input[type=hidden][name=UpdateFileIdsServiceUrl]').val();
+        var FileIds = $("input[type=hidden][name=FileIds]").val();
+        var KeyId = $("input[type=hidden][name=KeyId]").val();
+       // var data = { "Id": KeyId, "FileIds": FileIds };
+        if (KeyId != 0 && KeyId != '') {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: UpdateFileIdsServiceUrl + "?Id=" + KeyId + "&FileIds=" + FileIds,
+                //data: data,
+                //dataType: 'json',
+                success: function (response) {
+                    var result = JSON.parse(response);
+                    if (result.flag == 'true') {
+                        showMessageWithTitle("@Html.Raw(LanguageResource.UpdateSuccess)", result.message, "success", 50000);
+                        $('#plupload_filelist li.plupload_done').remove();
+                } else {
+                    showMessageWithTitle("@Html.Raw(LanguageResource.UpdateFailure)", result.message, "error", 50000);
+                }
+            },
+                  error: function () {
+                      console.log("There was error in updating file!");
+                  }
+              });
+        }
+    }
+
+    function handleStatus(file) {
+        var actionClass;
+
+        if (file.status == plupload.DONE) {
+            actionClass = 'plupload_done';
+        }
+
+        if (file.status == plupload.FAILED) {
+            actionClass = 'plupload_failed';
+        }
+
+        if (file.status == plupload.QUEUED) {
+            actionClass = 'plupload_delete';
+        }
+
+        if (file.status == plupload.UPLOADING) {
+            actionClass = 'plupload_uploading';
+        }
+
+        var icon = $('#' + file.id).attr('class', actionClass).find('a').css('display', 'block');
+        if (file.hint) {
+            icon.attr('title', file.hint);
+        }
+    }
+    // Check Box Styling
+    function settingCheckBox() {
+        var checkbox = $('.upload-form span.checkbox');
+
+        // Check if JavaScript is enabled
+        $('body').addClass('js');
+
+        // Make the checkbox checked on load
+        // checkbox.addClass('checked').children('input').attr('checked', true);
+        checkbox.children('input').attr('checked', false);
+
+        // Click function
+        checkbox.on('click', function () {
+
+            if ($(this).children('input').attr('checked')) {
+                $(this).children('input').attr('checked', false);
+                $(this).removeClass('checked');
+            }
+
+            else {
+                $(this).children('input').attr('checked', true);
+                $(this).addClass('checked');
+            }
+
+        });
+    }
+
+    // I handle the files-added event. This is different
+    // that the queue-changed event. At this point, we
+    // have an opportunity to reject files from the queue.
+    function handlePluploadFilesAdded(uploader, files) {
+        // Show the client-side preview using the loaded File.
+        for (var i = 0 ; i < files.length ; i++) {
+            showImagePreview(files[i]);
+        }
+    }
+
+    // I take the given File object (as presented by
+    // Plupoload), and show the client-side-only preview of
+    // the selected image object.
+    function showImagePreview(file) {
+        var divFileContent = $('#divFileContent');
+        divFileContent.html('');
+        var item = $("<div></div>").prependTo(divFileContent);
+        var image = $(new Image()).appendTo(item);
+
+        var preloader = new mOxie.Image();
+
+        // Define the onload BEFORE you execute the load()
+        // command as load() does not execute async.
+        preloader.onload = function () {
+
+            // This will scale the image (in memory) before it
+            // tries to render it. This just reduces the amount
+            // of Base64 data that needs to be rendered.
+            //preloader.downsize(600, 600);
+
+            // Now that the image is preloaded, grab the Base64
+            // encoded data URL. This will show the image
+            // without making an Network request using the
+            // client-side file binary.
+            image.prop("src", preloader.getAsDataURL());
+        };
+
+        preloader.load(file.getSource());
+    }
+
+    //function openDocumentFilePath(file) {
+    //var parts = /^(.+)(\.[^.]+)$/.exec(file.name);
+    //var ext = parts[2];
+    //if (ext == ".doc" || ext == ".docx") {
+    //    var objWord;
+    //    objWord = new ActiveXObject("Word.Application");
+    //    objWord.Visible = true;
+    //    objWord.Documents.Open(file);
+    //}
+
+    //if (ext == ".xls" || ext == ".xlsx") {
+    //     var objExcel;
+    //    objExcel = new ActiveXObject("Excel.Application");
+    //    objExcel.Visible = true;
+    //    objExcel.Workbooks.Open(file, false, false);
+    //}
+    //}
+
+    //function PreviewImage(uploader,file) {
+    //    var divFileContent = $('#divFileContent');
+    //    divFileContent.html('');
+    //    //var divImageBox = $('<div/>', {
+    //    //    id: file.id,
+    //    //    'class': 'plupload_file_thumb',
+    //    //   // html: '<span><img width="500" height="400" title="no-image" src="~/Content/Admin/images/no-image.png" class="thumb"></span>'
+    //    //});
+    //    //divFileContent.append(divImageBox);
+    //    //alert(file.getSource());
+    //    // var img = new Image();
+    //    var img = new Image();
+    //    img.onload = function () {
+    //        var dataUrl = img.getAsDataURL();
+    //        // use dataUrl wherever you like
+    //    };
+    //    img.load(file.getSource());
+    //    //img.onload = function () {
+    //    //    var thumb = $('#' + file.id + ' .plupload_file_thumb').html('');
+    //    //    this.embed(thumb[0], {
+    //    //        width: uploader.options.thumb_width,
+    //    //        height: uploader.options.thumb_height,
+    //    //        crop: true,
+    //    //        swf_url: resolveUrl(uploader.options.flash_swf_url),
+    //    //        xap_url: resolveUrl(uploader.options.silverlight_xap_url)
+    //    //    });
+    //    //};
+    //   // img.src = "~/Content/Admin/images/no-image.png";
+    //    //img.src = file.getSource();
+    //   // img.load(file.getSource());
+    //    divFileContent.append(img);
+    //    //var f = document.getElementById(id).files[0];
+    //    //var output_container = document.getElementById("ImagePreviewBox");
+    //    //output_container.innerHTML = "";
+
+
+
+
+
+    //    //var oFReader = new FileReader();
+    //    //oFReader.readAsDataURL(f);
+
+    //    //oFReader.onload = (function (theFile) {
+    //    //    return function (e) {
+    //    //        var span = document.createElement('span');
+    //    //        span.innerHTML = '<img class="thumb" src="' + e.target.result + '" title="' + escape(theFile.name) + '" width="' + width + '" height="' + height + '"/>';
+    //    //        output_container.insertBefore(span, null);
+    //    //    };
+    //    //})(f);
+    //}
+</script>

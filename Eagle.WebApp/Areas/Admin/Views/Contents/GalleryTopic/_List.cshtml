@@ -1,0 +1,16 @@
+﻿@using Eagle.Services.Dtos.Common
+@model Eagle.Core.Search.SearchDataResult<Eagle.Core.Extension.TreeGrid>
+
+<div class="gridContainer">
+    <div class="dataGrid">
+        <input id="treeSearch" name="treeSearch" type="text" value="" />
+        <button class="square_button button_background button" id="search" type="button" value="Search">
+            @LanguageResource.Search
+        </button>
+        <button class='square_button button_background button' id='search_clear' type='button' value='Search_clear'>
+            @LanguageResource.ClearSearch
+        </button>
+
+        <div id="jstreeGrid" class="row"></div>
+    </div>
+</div>

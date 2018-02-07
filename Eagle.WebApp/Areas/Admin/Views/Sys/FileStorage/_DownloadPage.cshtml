@@ -1,0 +1,316 @@
+﻿@{
+    ViewBag.Title = Html.Raw(Eagle.Resources.LanguageResource.Upload);
+    Layout = ThemeViewEngine.AdminPopUpLayout;
+}
+
+@using Eagle.Services.Skins
+@model Eagle.Services.Dtos.SystemManagement.FileStorage.FileModel
+<input type="hidden" id="ItemId" name="ItemId" value="@Model.ItemId" />
+<input type="hidden" id="ItemTag" name="ItemTag" value="@Model.ItemTag" />
+<input type="button" id="btnReloadDownloadFileList" style="display:none" data-isclosed="false" data-id="null" value="Reload"> 
+<div id="MainBody_Download" class="main_box"> 
+    @Html.Partial("../Sys/FileStorage/Reset")
+</div>
+<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" class="modal hide fade modalEdit" id="modalEdit" style="background: #eee;">
+    <div id="divFileEdit"></div>
+</div>
+
+<script type="text/javascript">
+    (function ($) {
+        $.createDataBuilder = function (p) {
+            var FileMgr = {
+                config: {
+                    isPostBack: false,
+                    async: true,
+                    cache: false,
+                    processData: false,
+                    mimeType: "multipart/form-data",
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    data: '{}',
+                    dataType: 'json',
+                    baseURL: p.BaseURL,
+                    method: "",
+                    url: "",
+                    ajaxCallMode: 0,
+                    isValid: false,
+                    mode: 0,
+                    key: 0,
+                    ContainerClientID: p.ContainerClientID
+                },
+                messages:
+                {
+                    nomenu: "No Data"
+                },
+                init: function (config) {              
+                    FileMgr.InitializeCotrols();
+                    FileMgr.BindEvents();
+                },
+                ajaxSuccess: function (data) {
+                    if (data.message == "timeout")
+                        window.location.reload();
+                    else {
+                        switch (parseInt(FileMgr.config.ajaxCallMode)) {
+                            case 0:
+                                FileMgr.BindList(data);
+                                break;
+                            case 1:
+                                FileMgr.BindDetails(data);
+                                break;
+                            case 2:
+                                FileMgr.ReloadData(data);
+                                break;
+                        }
+                    }
+                },
+                ajaxFailure: function (jqXHR, textStatus, errorThrown) {
+                    handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                },
+                ajaxCall: function (config) {
+                    $.ajax({
+                        type: FileMgr.config.type,
+                        contentType: FileMgr.config.contentType,
+                        cache: FileMgr.config.cache,
+                        url: FileMgr.config.url,
+                        data: FileMgr.config.data,
+                        dataType: FileMgr.config.dataType,
+                        success: FileMgr.ajaxSuccess,
+                        error: FileMgr.ajaxFailure,
+                        async: false
+                    });
+                },              
+                InitializeCotrols: function () { 
+                    $("#modalEdit").draggable({ handle: ".modal-header" });
+                },
+                BindEvents: function () {                    
+                    $(document).on("click", "#btnReloadDownloadFileList", function (event, ItemId, ItemTag, FileIds) {
+                        $("input[name=FileIds]:hidden").val(FileIds);
+                        FileMgr.GetList();
+                        return false;
+                    });                
+
+                    //Add and update post action
+                    $(document).on("click", "#btnAdd", function () {
+                        if ($("#FileTitle").val() != '' && $("#FileUpload").val() != '') {
+                            FileMgr.AddData();
+                        } else {
+                            return false;
+                        }
+                    });
+
+                    $(document).on("click", "#btnEditFile", function (event) {
+                        event.preventDefault();
+                        FileMgr.UpdateData();
+                        return false;
+                    });
+
+                    //Reset form
+                    $(document).on("click", "#btnResetFile", function () {
+                        FileMgr.ResetControls();
+                    });
+
+                    // Click edit (get)
+                    $(document).on("click", ".editFileItem", function () {
+                        var ID = $(this).data('id');  // ID cua dong du lieu                      
+                        FileMgr.GetFileDetails(ID);
+                        return false;
+                    });
+                   
+                    // Click delete (get)
+                    $(document).on("click", ".deleteFileItem", function (e) {
+                        e.preventDefault();
+                        var FileId = $(this).data('id');
+                        bootbox.confirm("@Html.Raw(LanguageResource.DoYouWantToContinue)", function (result) {
+                            if (result) {
+                                FileMgr.DeleteData(FileId);
+                                return false;
+                            }
+                        });
+                    });
+                },       
+                ConvertFormToJSON: function (form) {
+                    var array = $("#" + form).serializeArray();
+                    var json = {};
+                    $.each(array, function () {
+                        json[this.name] = this.value || '';
+                    });
+                    return JSON.stringify(json);
+                }, 
+                GetList: function () {
+                    FileMgr.config.mode = 0;
+                    var ItemId = $('input[type=hidden][name="ItemId"]').val();
+                    var ItemTag = $('input[type=hidden][name="ItemTag"]').val();
+                    var data = { "ItemId": ItemId, "ItemTag": ItemTag };                 
+                    this.config.method = "PopulateDownloadFileList";
+                    this.config.data = data;
+                    this.config.type = "GET";
+                    this.config.dataType = "html";
+                    this.config.url = this.config.baseURL + this.config.method;
+                    this.config.ajaxCallMode = 0;
+                    this.ajaxCall(this.config);                   
+                },
+                BindList: function (data) {
+                    $('#divList').html(data);
+                },
+                AddData: function () {
+                    var url = '/Admin/FileManager/Insert';
+                    //disable the default form submission
+                    event.preventDefault();
+
+                    //grab all form data  
+                    var formData = new FormData($("#uploadform")[0]);
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: formData,
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (data, statusCode, xhr) {
+                            if (data.message == "timeout")
+                                window.location.reload();
+                            else {
+                                $("input[name=FileIds]:hidden").val(data.FileIds);
+                                setTimeout(function () {
+                                    $(".modalUpload").modal('hide');
+                                }, 1000);
+                                showMessageWithTitle("@LanguageResource.Success", "@LanguageResource.CreateSuccess", "success", 2000);
+                            }
+                        }, error: function (jqXHR, textStatus, errorThrown) {
+                            handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                        }
+                    });
+                     return false;
+                },
+                GetFileDetails: function (FileId) {
+                    FileMgr.config.mode = 2;
+                    FileMgr.config.key = FileId;
+
+                    var ItemId = $('input[type=hidden][name="ItemId"]').val();
+                    var ItemTag = $('input[type=hidden][name="ItemTag"]').val();
+                    var data = { "FileId": FileId , "ItemId": ItemId, "ItemTag": ItemTag};
+                    
+                    this.config.method = "Edit";
+                    this.config.data = data;
+                    this.config.type = "GET";
+                    this.config.dataType = "html";
+                    this.config.url = this.config.baseURL + this.config.method;
+                    this.config.ajaxCallMode = 1;
+                    this.ajaxCall(this.config);
+                },
+                BindDetails: function (data) {
+                    $('#divFileEdit').html(data);
+                    $('#modalEdit').modal('show');
+                },
+                UpdateData: function () {                    
+                    //grab all form data  
+                    var formData = new FormData($("#uploadform")[0]);
+                    this.config.method = "Update";
+                    $.ajax({
+                        type: "POST",
+                        url: FileMgr.config.baseURL + this.config.method,
+                        data: formData,
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (data, statusCode, xhr) {
+                            if (data.message == "timeout")
+                                window.location.reload();
+                            else {
+                                $("input[name=FileIds]:hidden").val(data.message);
+                                FileMgr.GetList();
+                                setTimeout(function () {
+                                    $(".modalEdit").modal('hide');
+                                }, 1000);
+                                showMessageWithTitleByContainerId("MessageBox", "@LanguageResource.Success", "@LanguageResource.UpdateSuccess", "success", 2000);
+                               }
+                            }, error: function (jqXHR, textStatus, errorThrown) {
+                                handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                            }
+                        });
+                    return false;
+                },              
+                DeleteData: function (FileId) {
+                    FileMgr.config.mode = 3;
+                    var ItemId = $('input[type=hidden][name="ItemId"]').val();
+                    var ItemTag = $('input[type=hidden][name="ItemTag"]').val();
+                    var data = { "ItemId": ItemId, "ItemTag": ItemTag, "FileId": FileId };                    
+                    this.config.method = "DeleteFileInFileList";
+                    $.ajax({
+                        type: "POST",
+                        url: FileMgr.config.baseURL + this.config.method,
+                        data: data,
+                        success: function (data, statusCode, xhr) {
+                            if (data.flag == 'True') {
+                                var titleSuccess = "@LanguageResource.DeleteSuccess";
+                                var titleFailure = "@LanguageResource.DeleteFailure";
+                                showMessageWithTitle(titleSuccess, data.message, "success", 20000);
+                                FileMgr.GetList();
+
+                            } else {
+                                showMessageWithTitle(titleFailure, data.message, "error", 20000);
+                            }
+                        }, error: function (jqXHR, textStatus, errorThrown) {
+                            handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                        }
+                    })
+                    return false;                   
+                },
+                ReloadData: function (data) {
+                    var mode = FileMgr.config.mode;
+                    var titleSuccess = "", titleFailure = "", titleAjaxError = "";
+                    titleAjaxError = "@LanguageResource.Error";
+                    if (mode == 0) {
+                        titleSuccess = "@LanguageResource.CreateSuccess";
+                        titleFailure = "@LanguageResource.CreateFailure";
+                    }
+                    else if (mode == 1) {
+                        titleSuccess = "@LanguageResource.UpdateSuccess";
+                        titleFailure = "@LanguageResource.UpdateFailure";
+                    } else if (mode == 2) {
+                        titleSuccess = "@LanguageResource.DeleteSuccess";
+                        titleFailure = "@LanguageResource.DeleteFailure";
+                    } else {
+                         titleSuccess = "@LanguageResource.UpdateSuccess";
+                        titleFailure = "@LanguageResource.UpdateFailure";
+                    }
+            
+                    if (data.flag == 'True') {
+                        //Reload page after success
+                        showMessageWithTitle(titleSuccess, data.message, "success", 20000);   
+                        FileMgr.GetList();                        
+                    } else {
+                        showMessageWithTitle(titleFailure, data.message, "error",20000);
+                    }
+                },
+                ResetControls: function () {
+                    var mode = FileMgr.config.mode;
+                    if (mode == 0) {
+                        var validateObj = $('#uploadform');
+                        validateObj.find('input:text, input:password, input:file, select, textarea').not('.ignored').val('');
+                        validateObj.find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected');
+                        validateObj.find('input[type="number"]').val(0);
+                        validateObj.find('select').find('option:first').attr('selected', true).siblings().attr('selected', false);
+                        validateObj.find("[data-valmsg-summary=true]").removeClass("validation-summary-errors").addClass("validation-summary-valid").find("ul").empty();
+                        validateObj.find("[data-valmsg-replace]").removeClass("field-validation-error").addClass("field-validation-valid").empty();
+                        FileMgr.InitializeCotrols();
+                    } else {
+                        var key = FileMgr.config.key;
+                        FileMgr.GetFileDetails(key);
+                    }
+                }
+            };
+            FileMgr.init();
+        }
+
+        var Controller = 'FileManager';
+        var BaseURL =  "/" + Controller + "/";
+        var base_settings = {
+            ContainerClientID: "MainBody_Download",
+            BaseURL: BaseURL
+        };
+        $.createDataBuilder(base_settings);
+    })(jQuery);
+</script>

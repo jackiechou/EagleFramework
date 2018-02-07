@@ -1,0 +1,77 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.MenuRolePermissionEntry
+
+<div class="menu-permission-panel">
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2 class="panel-title">@LanguageResource.MenuPermission</h2>
+                    </div>
+                    <div class="col-md-4">
+                        <h6 class="panel-title pull-right">@Model.Menu.MenuName : @Model.Menu.Status</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 toggle-header">
+            <div class="col-xs-3"></div>
+            @if (Model != null && Model.MenuPermissionLevels.Any())
+            {
+            foreach (var defaultMenuPermissionLevel in Model.MenuPermissionLevels)
+            {
+            <div class="col-xs-1 text-center">
+                <span class="hidden-xs">@defaultMenuPermissionLevel.PermissionName</span>
+                <span class="visible-xs">@defaultMenuPermissionLevel.PermissionName[0]</span>
+            </div>
+            }
+            }
+        </div>
+        <div id="feature-1" class="panel-body-border collapse in">
+
+            @if (Model != null && Model.MenuRolePermissions.Any())
+            {
+            foreach (var permission in Model.MenuRolePermissions)
+            {
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-3 col">
+                        @permission.Role.RoleName <input type="hidden" id="RoleId" name="RoleId" value="@permission.Role.RoleId" />
+                    </div>
+                    @{
+                    if (permission.MenuPermissionAccessLevels!=null)
+                    {
+                    int i = 0;
+                    foreach (var accessLevel in permission.MenuPermissionAccessLevels)
+                    {
+                    <div class="col-xs-1 col">
+                        <div class="inner-center">
+                            <div class="checkbox-slider--b">
+                                <label>
+                                    @if (accessLevel.AllowAccess)
+                                    {
+                                    <input type="checkbox" id="MenuPermissionLevels[@i].PermissionId" name="MenuPermissionLevels[@i].PermissionId" data-roleid="@permission.Role.RoleId" data-menuid="@accessLevel.MenuId" data-permissionid="@accessLevel.PermissionId" data-url='@Url.Action("UpdatePermissionStatus", "Menu")' class="changePermissionStatus" checked="checked" value="true"><span></span>
+                                    }
+                                    else
+                                    {
+                                    <input type="checkbox" id="MenuPermissionLevels[@i].PermissionId" name="MenuPermissionLevels[@i].PermissionId" data-roleid="@permission.Role.RoleId" data-menuid="@accessLevel.MenuId" data-permissionid="@accessLevel.PermissionId" data-url='@Url.Action("UpdatePermissionStatus", "Menu")' class="changePermissionStatus" value="false"><span></span>
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    i++;
+                    }
+                    }
+                    }
+
+                </div>
+            </div>
+            }
+            }
+
+        </div>
+    </div>
+
+</div>

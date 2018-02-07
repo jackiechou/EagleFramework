@@ -1,0 +1,484 @@
+﻿@model Eagle.Services.Dtos.Business.Personnel.EmployeeEditEntry
+<div id="divContractContainer">   
+    <div class="row">                                                        
+        <div class="pull-right detailViewButtoncontainer">
+            <div class="btn-toolbar">
+                <span class="btn-group">                                                                    
+                    <button type="button" data-id="@Model.EmployeeId" id="btnLoadFormContract" class="btn addItem">
+                    <strong>@Html.Raw(LanguageResource.AddForm)</strong></button>
+
+                     <button type="button" data-id="close" id="btnCloseForm" class="btn closeForm btnLast">
+                     <strong>@Html.Raw(LanguageResource.CloseForm)</strong></button>
+                     @Html.HiddenFor(model => model.EmployeeId)
+                </span>                                                                
+            </div>
+        </div>
+        <br /> <br />
+        <div class="row" id="divEditContract"></div>
+        <div id="ContractList" class="data_list">  
+            @Html.Action("GetListByEmpID", "Contract",  new { EmpID = Model.EmployeeId })
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript"> 
+    (function ($) {
+        $.createDataBuilder = function (p) {
+            var ContractMgr = {
+                config: {
+                    isPostBack: false,
+                    async: true,
+                    cache: false,
+                    processData: false,
+                    mimeType: "multipart/form-data",
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    data: '{}',
+                    dataType: 'json',
+                    baseURL: p.BaseURL,
+                    method: "",
+                    url: "",
+                    ajaxCallMode: 0,
+                    isValid: false,
+                    mode: 0,
+                    key:0,
+                    ContainerClientID: p.ContainerClientID                   
+                },
+                messages:
+                {
+                    nomenu: "No Data"
+                },
+                init: function (config) {                  
+                    ContractMgr.InitializeCotrols();
+                    ContractMgr.BindEvents();                    
+                },
+                ajaxSuccess: function (data) {
+                    switch (parseInt(ContractMgr.config.ajaxCallMode)) {
+                        case 0:
+                            ContractMgr.BindDataGrid(data);
+                        case 1:
+                            ContractMgr.BindDetails(data);
+                            break;
+                        case 2:
+                            ContractMgr.ReloadData(data);
+                            break;
+                    }
+                },
+                ajaxFailure: function (jqXHR, textStatus, errorThrown) {
+                    handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                },
+                ajaxCall: function (config) {
+                    $.ajax({
+                        type: ContractMgr.config.type,
+                        contentType: ContractMgr.config.contentType,
+                        cache: ContractMgr.config.cache,
+                        url: ContractMgr.config.url,
+                        data: ContractMgr.config.data,
+                        dataType: ContractMgr.config.dataType,
+                        success: ContractMgr.ajaxSuccess,
+                        error: ContractMgr.ajaxFailure,
+                        async: false
+                    });
+                },
+                InitializeCotrols: function () {                   
+                    //ContractMgr.BindValidator();
+                    //ContractMgr.DragNDrop();    
+                    $.validator.methods["date"] = function (value, element) { return true; }
+           
+                    ShowDateTimePicker("dd/MM/yyyy");
+                    InvokeMonthPicker();
+                    ContractMgr.RemoveQtip();
+                    ContractMgr.HandleMethodPITEvent();
+
+                    BindAutoCompleteSelect2('@Url.Action("DropdownList", "LS_tblContractType")',
+                        'selectLSContractTypeID', '@Html.Raw(LanguageResource.PleaseSelectAnItem)', 'LSContractTypeID', 'LSContractTypeName');
+
+
+                    BindAutoCompleteSelect2('@Url.Action("DropdownList", "LS_tblPosition")',
+                        'selectPosition', '@Html.Raw(LanguageResource.PleaseSelectAnItem)', 'PositionID', 'PositionName');
+
+
+                    BindAutoCompleteSelect2('@Url.Action("DropdownList", "LS_tblLocation")',
+                        'selectLocation', '@Html.Raw(LanguageResource.PleaseSelectAnItem)', 'LocationID', 'LocationName');
+
+
+                    $('#ProbationSalaryEdit').formatNumber();
+                    $('#InsuranceSalaryEdit').formatNumber();
+
+                    $('#ProbationSalaryEdit').returnPressNumber();
+                    $('#InsuranceSalaryEdit').returnPressNumber(); 
+
+                    $("#modalUpload_Contract").draggable({ handle: ".modal-header" });
+                },    
+                BindEvents: function () {
+                    $('#Note').keypress(function () {
+                        if (this.value.length >= 150)
+                            return false;
+                    });
+
+                    //load form
+                    $(document).on("click", "#btnLoadFormContract", function () {
+                        var EmpID = $(this).attr("data-id");
+                        ContractMgr.LoadCreateBriefForm(EmpID);
+                    });
+
+                    //close form
+                    $(document).on("click", "#btnCloseForm", function () {
+                        $('#divEditContract').html('');
+                        return false;
+                    });
+
+                    //Add and update post action
+                    $(document).on("click", "#btnAddContract", function () {
+                        if (!$("#createform_contract").valid()) { // Not Valid
+                            if ($('#LSContractTypeID').val() == '')
+                                ShowToolTip("LSContractTypeID", '@Html.Raw(LanguageResource.PleaseSelectAnItem)');
+                            else
+                                CloseToolTip("LSContractTypeID");
+
+                            if ($('#LocationID').val() == '')
+                                ShowToolTip("LocationID", '@Html.Raw(LanguageResource.PleaseSelectAnItem)');
+                            else
+                                CloseToolTip("LocationID");
+
+                            if ($('#PositionID').val() == '')
+                                ShowToolTip("PositionID", '@Html.Raw(LanguageResource.PleaseSelectAnItem)');
+                            else
+                                CloseToolTip("PositionID");
+                            return false;
+                        } else {
+                           ContractMgr.RemoveQtip();
+                            if ($('#LSContractTypeID').val() == '')
+                                ShowToolTip("LSContractTypeID", '@Html.Raw(LanguageResource.PleaseSelectAnItem)');
+                            else
+                                CloseToolTip("LSContractTypeID");
+
+                            if ($('#LocationID').val() == '')
+                                ShowToolTip("LocationID", '@Html.Raw(LanguageResource.PleaseSelectAnItem)');
+                            else
+                                CloseToolTip("LocationID");
+
+
+                              if ($('#PositionID').val() == '')
+                                ShowToolTip("PositionID", '@Html.Raw(LanguageResource.PleaseSelectAnItem)');
+                            else
+                                CloseToolTip("PositionID");
+
+                            if ($('#LSContractTypeID').val() != '' && $('#LocationID').val() != '' && $('#PositionID').val() != '') {
+                                ContractMgr.AddContract();
+                            }                            
+                        }
+                    });
+
+                    $(document).on("click", "#btnEditContract", function () {
+                        if (!$("#editform_contract").valid()) { // Not Valid
+                            if ($('#LSContractTypeID').val() == '')
+                                ShowToolTip("LSContractTypeID", '@Html.Raw(LanguageResource.PleaseSelectAnItem)');
+                            else
+                                CloseToolTip("LSContractTypeID");
+
+                            if ($('#LocationID').val() == '')
+                                ShowToolTip("LocationID", '@Html.Raw(LanguageResource.PleaseSelectAnItem)');
+                            else
+                                CloseToolTip("LocationID");
+
+                            if ($('#PositionID').val() == '')
+                                ShowToolTip("PositionID", '@Html.Raw(LanguageResource.PleaseSelectAnItem)');
+                            else
+                                CloseToolTip("PositionID");
+                            return false;
+                        } else {
+                            ContractMgr.RemoveQtip();
+                            if ($('#LSContractTypeID').val() == '')
+                                ShowToolTip("LSContractTypeID", '@Html.Raw(LanguageResource.PleaseSelectAnItem)');
+                            else
+                                CloseToolTip("LSContractTypeID");
+
+                            if ($('#LocationID').val() == '')
+                                ShowToolTip("LocationID", '@Html.Raw(LanguageResource.PleaseSelectAnItem)');
+                            else
+                                CloseToolTip("LocationID");
+
+                            if ($('#PositionID').val() == '')
+                                ShowToolTip("PositionID", '@Html.Raw(LanguageResource.PleaseSelectAnItem)');
+                            else
+                                CloseToolTip("PositionID");
+
+                            if ($('#LSContractTypeID').val() != '' && $('#LocationID').val() != '' && $('#PositionID').val() != '') {                                
+                                ContractMgr.UpdateContract();
+                            }
+                        }
+                    });
+                 
+                    $(document).on("click", "#btnUpload_Contract", function () {
+                        ContractMgr.PopulateUploadFormContract("UPLOAD_DOCUMENT_DIR", "");
+                    });
+
+                    // Click edit (get)
+                    $(document).on("click", ".editItem_Contract", function () {
+                        var ID = $(this).data('id');  // ID cua dong du lieu                        
+                        ContractMgr.GetContractDetails(ID);                       
+                        return false;
+                    });
+
+                    // Click delete (get)
+                    $(document).on("click", ".deleteItem_Contract", function (e) {
+                        var ID = $(this).data('id');  // ID cua dong du lieu
+                       
+                        bootbox.confirm("@Html.Raw(LanguageResource.DoYouWantToContinue)", function (result) {
+                            if (result) {
+                                ContractMgr.DeleteContract(ID);
+                                return false;
+                            }
+                        });
+
+            
+                    });
+
+                    // Reset form
+                    $(document).on("click", "#btnReset", function () {
+                        ContractMgr.ResetControls();
+                    });
+                },
+                RemoveQtip: function () {
+                    $('span.error:first').qtip("hide");
+                    $(".qtip").remove();
+                },
+                ConvertFormToJSON: function (form) {
+                    var array = $("#" + form).serializeArray();
+                    var json = {};
+                    $.each(array, function () {
+                        json[this.name] = this.value || '';
+                    });
+                    return JSON.stringify(json);
+                },
+                CommaFormatted: function (amount) {
+                    var delimiter = "."; // replace comma if desired
+                    amount = new String(amount);
+                    var a = amount.split('.', 2)
+                    var d = a[1];
+                    var i = parseInt(a[0]);
+                    if (isNaN(i)) { return ''; }
+                    var minus = '';
+                    if (i < 0) { minus = '-'; }
+                    i = Math.abs(i);
+                    var n = new String(i);
+                    var a = [];
+                    while (n.length > 3) {
+                        var nn = n.substr(n.length - 3);
+                        a.unshift(nn);
+                        n = n.substr(0, n.length - 3);
+                    }
+                    if (n.length > 0) { a.unshift(n); }
+                    n = a.join(delimiter);
+                    if (d.length < 1) { amount = n; }
+                    else { amount = n + '.' + d; }
+                    amount = minus + amount;
+                    return amount;
+                },
+                HandleMethodPITEvent: function () {
+                    if ($("#MethodPIT :selected").val() == 2)
+                        $("#divPercentPIT").show();
+                    else
+                        $("#divPercentPIT").hide();
+
+                    $(document).on('change', '#MethodPIT', function () {
+                        $(this).find("option[value=" + $(this).val() + "]").attr('selected', true).siblings().attr('selected', false);
+                        if ($(this).val() == 2)
+                            $("#divPercentPIT").show();
+                        else
+                            $("#divPercentPIT").hide();
+                    });
+                },
+                ValidateCode: function () {
+                    var params = {};
+                    params.Code = $('#ContractNo').val();
+                    $.getJSON('@Url.Action("ValidateCode", "Contract")', params,
+                         function (data) {
+                             if (data == false)
+                                 ShowToolTip('ContractNo', '@Html.Raw(LanguageResource.InValid)');
+                             else
+                                 CloseToolTip('ContractNo');
+                         });
+                },
+                PopulateUploadFormContract: function (FolderKey, FileIds) {
+                    var ItemId = $('#ContractID').val();
+                    var ItemTag = "Contract";
+                    var data = { "ItemId": ItemId, "ItemTag": ItemTag, "FolderKey": FolderKey, "FileIds": FileIds, };
+
+                    $.ajax({
+                        type: "GET",
+                        dataType: 'html',
+                        //url: '/Admin/FileManager/PopulateUploadFileListForm/',                       
+                        url: '/Admin/FileManager/PopulateUploadMultipleFileForm/',
+                        data: data,
+                        success: function (data, statusCode, xhr) {
+                            if (data.message != 'timeout') {
+                                $('#divUpload_Contract').html(data);
+                                $('#modalUpload_Contract').modal('show');
+                                @*showContentPopUp('@Html.Raw(LanguageResource.Upload)', data);*@
+                            } else {
+                                window.location.reload();
+                            }
+                        }, error: function (jqXHR, textStatus, errorThrown) {
+                            handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                        }
+                    });
+                 },
+                LoadCreateBriefForm: function (EmpID) {
+                    $('body').addClass('loading');
+                    var data = { "EmpID": EmpID };
+                    $.ajax({
+                        type: "GET",
+                        url: '/Admin/Contract/CreateBriefForm/',
+                        data: data,
+                        success: function (data, statusCode, xhr) {
+                            $('#divEditContract').html(data);
+                            ContractMgr.InitializeCotrols();
+                            $('body').removeClass('loading');
+                        }, error: function (jqXHR, textStatus, errorThrown) {
+                            handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                        }
+                    });
+                },
+                GetList: function () {
+                    $('#ContractList').html('');
+                    var EmpID = $('input:hidden[name="EmpID"]').val();
+                    var data = { "EmpID": EmpID };
+                    this.config.method = "GetListByEmpID";
+                    this.config.data = data;
+                    this.config.type = "GET";
+                    this.config.dataType = "html";
+                    this.config.url = ContractMgr.config.baseURL + this.config.method;
+                    this.config.ajaxCallMode = 0;
+                    this.ajaxCall(this.config);
+                },
+                BindDataGrid: function (data) {
+                    $('#divEditContract').html('');
+                    $('#ContractList').html(data);
+                },
+                DeleteContract: function (ID) {
+                    ContractMgr.config.mode = 2;
+
+                    this.config.method = "Delete";
+                    this.config.type = "POST";
+                    this.config.dataType = "json";
+                    this.config.data = JSON.stringify({ "id": ID });
+                    this.config.url = ContractMgr.config.baseURL + this.config.method + "/" + ID;
+                    this.config.ajaxCallMode = 2;
+                    this.ajaxCall(this.config);
+                },
+                AddContract: function () {
+                    var data = ContractMgr.ConvertFormToJSON("createform_contract");
+                    this.config.method = "Insert";
+                    this.config.type = "POST";
+                    this.config.dataType = "json";
+                    this.config.mimeType = "multipart/form-data";
+                    this.config.processData = false;
+                    this.config.async = true;
+                    this.config.data = data;
+                    this.config.url = ContractMgr.config.baseURL + this.config.method;
+                    this.config.ajaxCallMode = 2;
+                    this.ajaxCall(this.config);
+                },
+                UpdateContract: function () {
+                    var data = ContractMgr.ConvertFormToJSON("editform_contract");
+                    this.config.method = "Update";
+                    this.config.type = "POST";
+                    this.config.dataType = "json";
+                    this.config.data = data;
+                    this.config.url = ContractMgr.config.baseURL + this.config.method;
+                    this.config.ajaxCallMode = 2;
+                    this.ajaxCall(this.config);
+                },
+                GetContractDetails: function (id) {
+                    ContractMgr.config.mode = 1;
+                    ContractMgr.config.key = id;
+
+                    var data = { "id": id };
+                    this.config.method = "EditBriefForm";
+                    this.config.data = data;
+                    this.config.type = "GET";
+                    this.config.dataType = "html";
+                    this.config.url = this.config.baseURL + this.config.method;
+                    this.config.ajaxCallMode = 1;
+                    this.ajaxCall(this.config);
+                },
+                BindDetails: function (data) {
+                    $('#divEditContract').html(data);
+                    ContractMgr.InitializeCotrols();
+                }, 
+                //ReBindValidator: function (form_id) {
+                //    var $form = $("#"+form_id);
+                //    $form.unbind();
+                //    $form.data("validator", null);
+
+                //    //$.validator.unobtrusive.parse(form_id);
+                //    $.validator.unobtrusive.parse(document);
+
+                //    // Re add validation with changes
+                //    $form.validate($form.data("unobtrusiveValidation").options);
+                //},  
+                ReloadData: function (data) {
+                    if (data != null && data != '' && data != undefined) {
+                        var mode = ContractMgr.config.mode;
+                        var titleSuccess = "", titleFailure = "", titleAjaxError = "";
+                        titleAjaxError = "@LanguageResource.Error";
+                        if (mode == 0) {
+                            titleSuccess = "@LanguageResource.CreateSuccess";
+                            titleFailure = "@LanguageResource.CreateFailure";
+                        }
+                        else if (mode == 1) {
+                            titleSuccess = "@LanguageResource.UpdateSuccess";
+                            titleFailure = "@LanguageResource.UpdateFailure";
+                        }
+                        else if (mode == 2) {
+                            titleSuccess = "@LanguageResource.DeleteSuccess";
+                            titleFailure = "@LanguageResource.DeleteFailure";
+                        }
+                        else {
+                            titleSuccess = "@LanguageResource.UpdateSuccess";
+                            titleFailure = "@LanguageResource.UpdateFailure";
+                        }
+
+                        var result = JSON.parse(data);
+                        if (result.flag == 'true') {
+                            //Reload grid after success
+                            showMessageWithTitle(titleSuccess, result.message, "success", 3000);
+                            ContractMgr.GetList();
+                            $('#divEditContract').html('');
+                        } else {
+                            showMessageWithTitle(titleFailure, result.message, "error",20000);
+                        }
+                    }
+                 },
+                ResetControls: function () {
+                    var mode = ContractMgr.config.mode;                   
+                    if (mode == 0) {
+                        var validateObj = $('#myform');
+                        validateObj.find('input:text, input:password, input:file, select, textarea').not('.ignored').val('');
+                        validateObj.find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected');
+                        validateObj.find('input[type="number"]').val(0);
+                        validateObj.find('select').find('option:first').attr('selected', true).siblings().attr('selected', false);
+                        validateObj.find("[data-valmsg-summary=true]").removeClass("validation-summary-errors").addClass("validation-summary-valid").find("ul").empty();
+                        validateObj.find("[data-valmsg-replace]").removeClass("field-validation-error").addClass("field-validation-valid").empty();
+                        ContractMgr.InitializeCotrols();
+                    } else {                       
+                        var key = ContractMgr.config.key;
+                        ContractMgr.GetContractDetails(key);
+                    }
+                }
+            };
+            ContractMgr.init();
+        }
+
+        var Controller = 'Contract';
+        var BaseURL = "/" + Controller + "/";
+        var base_settings = {
+            ContainerClientID: "MainBody",
+            BaseURL: BaseURL
+        };
+        $.createDataBuilder(base_settings);
+
+    })(jQuery);
+</script>

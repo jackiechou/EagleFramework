@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Skins.SkinPackageTemplateInfoDetail>
+<div class="table-responsive">
+    <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+        <thead>
+            <tr>
+                <th class="text-center">@LanguageResource.SequenceNo</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().TemplateName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().TemplateSrc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Package.PackageName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().IsActive)
+                </th>
+                <th class="table-actions text-center no-sort">@LanguageResource.Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @if (Model.Any())
+        {
+            int i = 0;
+            foreach (var item in Model)
+            {
+                i++;
+                <tr>
+                    <td class="text-center">
+                        @i
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TemplateName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TemplateSrc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Package.PackageName)
+                    </td>
+                    <td class="text-center">
+                        <div class="inner-center">
+                            <div class="checkbox-slider--a">
+                                <label>
+                                    @{
+                                        if (item.IsActive)
+                                        {
+                                            <input type="checkbox" id="IsActive-@item.TemplateId" name="IsActive-@item.TemplateId" class="changeStatus" data-id="@item.TemplateId" data-url='@Url.Action("UpdateStatus", "SkinPackageTemplate")' data-warning="@LanguageResource.DoYouWantToContinue" checked="checked" value="true"><span></span>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" id="IsActive-@item.TemplateId" name="IsActive-@item.TemplateId" class="changeStatus" data-id="@item.TemplateId" data-url='@Url.Action("UpdateStatus", "SkinPackageTemplate")' data-warning="@LanguageResource.DoYouWantToContinue" value="false"><span></span>
+                                        }
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="table-actions text-center center no-sort">
+                        <a data-id="@item.TemplateId" title="@Html.Raw(LanguageResource.Edit)" class="btn btn-small btn-primary editItem" data-container="divEdit" data-url='@Url.Action("Edit", "SkinPackageTemplate")'><span class="icon-edit"></span></a>
+                    </td>
+                </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-center">@LanguageResource.NoRecordFound</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

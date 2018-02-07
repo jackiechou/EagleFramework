@@ -1,0 +1,83 @@
+﻿@using Eagle.Services.Skins
+@using Eagle.WebApp.Themes
+@{
+    ViewBag.Title = LanguageResource.Gallery;
+    Layout = ThemeViewEngine.DesktopSubLayout;
+}
+
+<div id="page" class="row">
+    <div class="page-content container content-sm">
+        <div class="row">
+            <div class="col-md-12">
+                @Html.Action("GetGalleryCollections", "Gallery")
+            </div>
+            <div id="gallery-container" class="col-md-12">
+                @Html.Action("PopulateLatestGallerySlider", "Gallery")
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <link href="~/Scripts/plugins/jgallery/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Scripts/plugins/jgallery/css/jgallery.min.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/jgallery/js/jgallery.min.js"></script>
+    <script src="~/Scripts/plugins/jgallery/js/touchswipe.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#gallery').jGallery({
+                mode: 'standard',
+                autostart: true,
+                autostartAtImage: 1,
+                autostartAtAlbum: 1,
+                //backgroundColor: '#fff',
+                //browserHistory: true,         //If set as 'true', changes of active image will be saved in browser history.
+                //canChangeMode: true,          //If set as 'true' you can change display mode(only for full-screen or standard mode).
+                //preloadAll: false,            //If set as 'true', all photos will be loaded before first shown photo.
+                canZoom: true,
+                slideshow: true,
+                slideshowAutostart: true,
+                slideshowInterval: '8s',       //Time between change of photos for slideshow(only when 'slideshow' has been set as true).
+                title: true,
+                titleExpanded: true,          // If set as 'true', in bottom area of zoomed photo will be shown title from alt attribute of img(only when 'title' has been set as true).
+                tooltips: true,
+                tooltipZoom: 'Zoom',
+                thumbnails: true,               //If set as 'true', thumbnails will be displayed.
+
+            });
+
+            function getDetails(url, id) {
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: { collectionId: id },
+                    success: function (data) {
+                        $('#gallery-container').html(data);
+                        $('#gallery').jGallery({
+                            mode: 'standard',
+                            autostart: true,
+                            canZoom: true,
+                            slideshow: true,
+                            slideshowAutostart: true,
+                            title: true,
+                            tooltips: true,
+                            tooltipZoom: 'Zoom'
+                        });
+                    },
+                    error: function (jqXhr, textStatus, errorThrown) {
+                        handleAjaxErrors(jqXhr, textStatus, errorThrown);
+                    }
+                });
+            }
+
+            $(document).on("click", ".get-files", function (e) {
+                e.preventDefault();
+
+                var id = $(this).data('id');
+                var url = $(this).data('url');
+                getDetails(url, id);
+                return false;
+            });
+        });
+    </script>
+}

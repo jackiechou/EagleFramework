@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = LanguageResource.CreateProductComment;
+}
+@model Eagle.Services.Dtos.Business.ProductCommentEntry
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmCreateProductComment", name = "frmCreateProductComment", }))
+{
+    <div class="product-comment-post">
+        <div class="row">
+            <div id="formMessage" class="form-message">
+                @Html.AntiForgeryToken()
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="container-fluid">
+                    <div class="form-container">
+
+                        <div class="form-body-container">
+                            <div class="form-horizontal">
+                                @if (TempData["Captcha"] == null || (bool)TempData["Captcha"] == false)
+                                {
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-md-offset-2">
+                                            <div class="g-recaptcha" data-sitekey="@ViewBag.DataSiteKey"></div>
+                                           @* <div class="g-recaptcha" data-sitekey="6Ldr9kAUAAAAAK4-YMUi3y_CtE10V7_Pqj_xqoZL"></div>*@
+                                            <input type="hidden" name="id" value="@Model.ProductId" />
+                                            <input type="submit" value="Submit" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    @Html.HiddenFor(model => model.ProductId)
+                                    @Html.ValidationMessageFor(model => model.ProductId)
+
+                                    @*<div class="form-group">
+                                        @Html.RequiredLabelFor(model => model.CommentMobile, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-6">
+                                            
+                                            @Html.TextBoxFor(model => model.CommentMobile, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.CommentMobile)
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="checkbox-slider--c">
+                                                <label>
+                                                    <input type="checkbox" id="IsReplied" name="IsReplied" value="false"><span> @Html.DisplayNameFor(model => model.IsReplied)</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.RequiredLabelFor(model => model.CommentText, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.CommentText, new { rows = 2, columns = 40, @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.CommentText)
+                                        </div>
+                                    </div>*@
+
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <img src='@($"http://placehold.it/50/55C1E7/fff&text=0")' alt='0' class="media-object" style="width:50px" />
+                                        </div>
+                                        <div class="media-body">
+                                            @Html.TextAreaFor(model => model.CommentText, new { rows = 2, columns = 40, @class = "form-control", style = "height:20px" })
+                                            @Html.ValidationMessageFor(model => model.CommentText)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class='btn-toolbar pull-right margin-right-15'>
+                                            <div class='btn-group'>
+                                                <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateProductComment" data-url='@Url.Action("CreateProductComment", "Production")' value="@LanguageResource.Reset" />
+                                                <input type="button" class="btn btn-primary save add create createProductComment" data-mode="create" data-form="frmCreateProductComment" data-url='@Url.Action("CreateProductComment", "Production")' value="@LanguageResource.Save" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @*<div class="form-group">
+                                    <div class="col-md-12">
+                                        @Html.Raw(LanguageResource.RequiredFill)
+                                    </div>
+                                </div>*@
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+<script src='https://www.google.com/recaptcha/api.js'></script>

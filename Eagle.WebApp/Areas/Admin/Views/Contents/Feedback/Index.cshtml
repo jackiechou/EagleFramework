@@ -1,0 +1,20 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.Feedback);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainBody" class="form-horizontal main_box">
+    <div id="divList" class="divList">
+        @Html.Action("List", "Feedback");
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        window.SearchFeedbackUrl = '@Url.Action("List", "Feedback")';
+    </script>
+    <script src="@Url.Content("~/Scripts/app/modules/feedback.js")"></script>
+}

@@ -1,0 +1,153 @@
+﻿@using Eagle.Core.Pagination
+@using Eagle.Core.Pagination.Extension
+@using Eagle.Core.Settings
+@model IPagedList<Eagle.Services.Dtos.Business.Transaction.OrderInfoDetail>
+
+<!--Table Search v1-->
+<div class="table-search-v1 margin-bottom-20">
+    <div class="panel table-responsive">
+        @if (Model.Any())
+        {
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <span class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
+                        </span>
+                    </div>
+                    <div class="col-xs-4">
+                        <span class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().OrderNo)
+                        </span>
+                    </div>
+                    <div class="col-xs-2">@Html.DisplayNameFor(model => model.FirstOrDefault().OrderDate)</div>
+                    <div class="col-xs-1 text-center">@LanguageResource.TotalItems</div>
+                    <div class="col-xs-3 text-center">@LanguageResource.Totals</div>
+                </div>
+                <ul class="list-group order-list-group" id="list-group-accordion">
+                    @{
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            int index = i + 1;
+                            DateTime startDate = Convert.ToDateTime(item.OrderDate);
+                            string orderDate;
+
+                            if (item.DueDate != null)
+                            {
+                                DateTime endDate = Convert.ToDateTime(item.DueDate);
+                                orderDate = string.Format("{0} {1:00}/{2:00}/{3:00} {4} {5:00}/{6:00}/{7:00}", LanguageResource.From, startDate.Day,startDate.Month,startDate.Year, LanguageResource.To,endDate.Day,endDate.Month,endDate.Year);
+                            }
+                            else
+                            {
+                                orderDate = string.Format("{0:00}/{1:00}/{2:00}",startDate.Day,startDate.Month,startDate.Year);
+                            }
+
+                            <li class="list-group-item justify-content-between">
+                                <div class="list-group-heading @index/2" data-id="@item.OrderId" data-toggle="collapse" data-target="#item-@index" data-parent="#list-group-accordion">
+                                    <div class="row">
+                                        <div class="col-xs-2">
+                                            @if (item.Status == OrderStatus.Approved)
+                                            {
+                                                <button class="btn btn-u btn-block btn-u-green btn-u-xs"><i class="fa fa-level-up margin-right-5"></i> @LanguageResource.Approved</button>
+                                            }
+                                            else if (item.Status == OrderStatus.Pending)
+                                            {
+                                                <button class="btn btn-u btn-block btn-u-blue btn-u-xs"><i class="icon-graph margin-right-5"></i> @LanguageResource.Pending</button>
+                                            }
+                                            else if (item.Status == OrderStatus.Rejected)
+                                            {
+                                                <button class="btn btn-u btn-u-red btn-block btn-u-xs"><i class="fa fa-sort-amount-desc margin-right-5"></i> @LanguageResource.Rejected</button>
+                                            }
+                                            else if (item.Status == OrderStatus.Cancelled)
+                                            {
+                                                <button class="btn btn-u btn-u-orange btn-block btn-u-xs"><i class="fa fa-sort-amount-desc margin-right-5"></i> @LanguageResource.Cancelled</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-u btn-block btn-u-yellow btn-u-xs"><i class="fa fa-arrows-v margin-right-5"></i> @LanguageResource.Undefined</button>
+                                            }
+                                        </div>
+                                        <div class="col-xs-4"><span class="label label-primary">@item.OrderNo</span></div>
+                                        <div class="col-xs-2">
+                                            <span class="label label-info">@orderDate</span>
+                                        </div>
+                                        <div class="col-xs-1 text-center">
+                                            <span class="badge badge-pill">@item.OrderProducts.Count()</span>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <div class="pull-right">
+                                                <span class="badge badge-success pull-left">@item.TotalFees</span> <span class="badge badge-pill margin-left-5">@item.CurrencyCode</span>
+                                            </div>
+                                        </div>
+                                        @if (item.OrderProducts != null && item.OrderProducts.Any())
+                                        {
+                                            <div class="col-xs-1">
+                                                <i class="fa fa-chevron-right pull-right"></i>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-xs-1"></div>
+                                        }
+                                    </div>
+                                </div>
+
+                                @if (item.OrderProducts != null && item.OrderProducts.Any())
+                                {
+                                    <div id="item-@index" class="sub-items collapse">
+                                        @foreach (var product in item.OrderProducts)
+                                        {
+                                            if (product.Item != null)
+                                            {
+                                                <a href="javascript:void(0)" data-productid="@product.ProductId" class="list-group-item small">
+                                                    <h5 data-itemcode="@product.Item.ItemCode">
+                                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                                        @*<small class="badge">@product.Item.ItemCode</small>*@
+                                                        @product.Item.ItemName
+                                                        <span class="pull-right"> @string.Format("{0} x {1}",product.Quantity,product.Item.GrossPrice) <small>@product.Item.CurrencyCode</small></span>
+                                                    </h5>
+                                                </a>
+                                            }
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="sub-items collapse">@LanguageResource.NoRecordFound</div>
+                                }
+                            </li>
+                            i++;
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="panel-footer">
+                @if (Model != null && Model.Any())
+                {
+                    <div class="datagrid-pager row">
+                        <div class="datagrid-pagination pull-right text-right">
+                            @Html.PagedListPager(Model, page => Url.Action("Search", "CustOrder", new {page}),
+                                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                                {
+                                    MaximumPageNumbersToDisplay = 10,
+                                    DisplayPageCountAndCurrentLocation = true,
+                                    // PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                                    //DisplayItemSliceAndTotal = true,
+                                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                                }, new AjaxOptions() {HttpMethod = "GET", UpdateTargetId = "search-result"}))
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="panel-body">
+                <div class="no-row">
+                    @Html.Raw(LanguageResource.NotFoundOrder)
+                </div>
+            </div>
+        }
+    </div>
+</div>

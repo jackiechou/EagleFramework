@@ -1,0 +1,16 @@
+﻿<div id="footer" class="footer">
+    <div class="footer-content">
+        @{
+            Html.RenderAction("GetVendorOnFooter", "VendorInfo");
+        }
+    </div>
+</div>
+
+<div class="nav-fix">
+    <div class="footer-content">
+        @{
+            Html.RenderAction("GetVendorOnFixBottom", "VendorInfo");
+        }
+    </div>
+</div>
+<div id="footer-bot"></div>

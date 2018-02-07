@@ -1,0 +1,43 @@
+﻿<div id="HeaderContainer" class="heading header-container">
+    <div class="row">
+        <div class="col-md-10 no-padding-left">
+            @if (IsSectionDefined("TitleSection"))
+            {
+                @RenderSection("TitleSection", false)
+            }
+            else
+            {
+                <h4><span class="glyphicon glyphicon-star"></span>@ViewBag.Title</h4>
+            }
+        </div>
+        <div class="col-md-2 no-padding-right">
+            <div class="top-toolbar">
+                @RenderSection("TopActionButtons", false)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="MainContainer" class="main-container">
+    @if (IsSectionDefined("MessageSection"))
+    {
+        @RenderSection("MessageSection", required: false)
+    }
+    else
+    {
+        @Html.Partial("_MessagePartial")
+    }
+
+    @(IsSectionDefined("ContentSection") ? RenderSection("ContentSection", false) : RenderBody())
+
+    @RenderSection("Scripts", false)
+</div>
+
+<div id="FooterContainer" class="footer-container">
+    <div class="bottom-toolbar">
+        @if (IsSectionDefined("BottomActionButtons"))
+        {
+            @RenderSection("BottomActionButtons", false)
+        }
+    </div>
+</div>

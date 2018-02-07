@@ -1,0 +1,159 @@
+﻿@using Eagle.Core.Configuration
+@using Eagle.Core.Pagination.Extension
+@using Eagle.Core.Settings
+@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Contents.Banners.BannerInfoDetail>
+
+<div class="panel panel-default search-form-panel">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-8">
+                <h5>@Html.Raw(LanguageResource.List)</h5>
+            </div>
+            <div class="col-md-4 text-right">
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-default back-form" onclick="location.href = '@Url.Action("Create", "Banner")'">
+                        <span class="glyphicon glyphicon-plus"></span> @LanguageResource.CreateBanner
+                    </button>
+                    <button type="button" class="btn btn-default search">
+                        <span class="glyphicon glyphicon-th-list"></span> @LanguageResource.List
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table id="tblResults" class="pagedTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+                <thead>
+                    <tr>
+                        <th class="center">
+                            @LanguageResource.SequenceNo
+                        </th>
+                        <th class="center">
+                          @LanguageResource.Preview
+                        </th>
+                        <th class="center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().BannerTitle)
+                        </th>
+                        <th class="center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Scope)
+                        </th>
+                        <th class="center">
+                            @string.Format("{0} - {1}", LanguageResource.StartDate, LanguageResource.EndDate)
+                        </th>
+                        
+                        <th class="center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
+                        </th>
+                        <th class="table-actions text_center">@LanguageResource.Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            i++;
+                            <tr id="@i">
+                                <td class="text-center">
+                                    @i
+                                </td>
+                                <td class="text-center">
+                                    @if (item.FileId != null && !string.IsNullOrEmpty(item.FileUrl))
+                                    {
+                                        string[] validImageTypes = GlobalSettings.ImageExtensions;
+                                        string extension = Path.GetExtension(item.FileUrl);
+
+                                        if (!string.IsNullOrEmpty(extension) && validImageTypes.Contains(extension))
+                                        {
+                                            <img alt="@item.BannerTitle" title="@item.BannerTitle" src="@item.FileUrl"
+                                                 width="100" height="50" />
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <strong>@item.BannerTitle</strong>
+                                        </div>
+                                        <div class="col-md-5">
+                                            @(!string.IsNullOrEmpty(item.Advertiser) ? $"{LanguageResource.Advertiser} : {item.Advertiser}" : string.Empty)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            @string.Format("{0} : {1}", LanguageResource.Type, item.Type.TypeName)
+                                        </div>
+                                        <div class="col-md-5">
+                                            @(item.Zones.Any() ? string.Format("{0} : {1}", LanguageResource.Zone, String.Join(",", item.Zones.Select(x => x.Position.PositionName).ToList())) : string.Empty)
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.Scope.ScopeName)
+                                </td>
+                                <td class="text-center">
+                                    @if (item.StartDate != null)
+                                    {
+                                        @item.StartDate.Value.ToString("dd/MM/yyyy")
+                                    }
+                                    @if (item.EndDate != null)
+                                      {
+                                          @item.EndDate.Value.ToString("dd/MM/yyyy")
+                                      }
+                                </td>
+                                <td class="text-center">
+                                    <div class="inner-center">
+                                        <div class="checkbox-slider--a">
+                                            <label>
+                                                @{
+                                                    if (item.Status == BannerStatus.Active)
+                                                    {
+                                                        <input type="checkbox" id="Status-@item.BannerId" name="Status-@item.BannerId" data-id="@item.BannerId" data-url='@Url.Action("UpdateStatus", "Banner")' data-title="@LanguageResource.UpdateStatus" data-warning="@LanguageResource.DoYouWantToContinue" class="changeStatus" checked="checked" value="true"><span></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" id="Status-@item.BannerId" name="Status-@item.BannerId" data-id="@item.BannerId" data-url='@Url.Action("UpdateStatus", "Banner")' data-title="@LanguageResource.UpdateStatus" data-warning="@LanguageResource.DoYouWantToContinue" class="changeStatus" value="false"><span></span>
+                                                    }
+                                                }
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="table-actions text-center center no-sort">
+                                    <a data-id="@item.BannerId" title="@LanguageResource.Delete" class="btn btn-xs btn-warning delete deleteItem" data-container="divEdit" data-url='@Url.Action("Delete", "Banner")' data-warning="@LanguageResource.DoYouWantToDeleteItem"><span class="glyphicon glyphicon-align-center icon-trash"></span></a>
+                                    <a data-id="@item.BannerId" title="@Html.Raw(LanguageResource.Edit)" class="btn btn-xs btn-primary edit editItem" data-container="divEdit" data-url='@Url.Action("Edit", "Banner")' onclick="location.href = '@Url.Action("Edit", "Banner", new { id = item.BannerId })'"><span class="icon-edit"></span></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                    <tr class="text-center">
+                        <td colspan="5" class="text-center">@Html.Raw(LanguageResource.NoRecordFound)</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer">
+        @if (Model != null && Model.Any())
+        {
+            <div class="datagrid-pager panel-footer row">
+                <div class="datagrid-pagination pull-right text-right">
+                    @Html.PagedListPager(Model, page => Url.Action("Search", "Banner", new { page, sourceEvent = "Result" }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 4,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "search-result" }))
+                </div>
+            </div>
+        }
+    </div>
+</div>

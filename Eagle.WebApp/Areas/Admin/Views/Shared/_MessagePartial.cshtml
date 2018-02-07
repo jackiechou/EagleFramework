@@ -1,0 +1,14 @@
+﻿<div id="alertMessageBox" aria-hidden="true" aria-labelledby="alertMessage" role="dialog" class="modal hide fade">
+    <div class="modal-body">
+        <div id="alertMessage">
+            @if (ViewBag.DisplayErrorMessage == true)
+            {
+                <div class="@ViewBag.CssClass">
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                    <strong>@ViewBag.SortMessage !</strong> @ViewBag.Message
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

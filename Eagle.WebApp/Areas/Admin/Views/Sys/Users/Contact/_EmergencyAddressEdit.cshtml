@@ -1,0 +1,69 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.Identity.UserEditEntry
+
+
+@Html.HiddenFor(model => model.EmergencyAddress.AddressId)
+<div id="EmergencyAddress" class="form-horizontal">
+    <div class="heading text-right">
+        <h4><span class="label label-primary">@LanguageResource.EmergencyAddress</span></h4>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmergencyAddress.CountryId, new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @if (Model.EmergencyAddress != null)
+            {
+                <select id="EmergencyAddress.CountryId" name="EmergencyAddress.CountryId" class="EmergencyAddress-CountryId form-control ignored" data-id="@Model.EmergencyAddress.CountryId" data-url='@Url.Action("PopulateCountrySelectList", "Contact")'></select>
+            }
+            else
+            {
+                <select id="EmergencyAddress.CountryId" name="EmergencyAddress.CountryId" class="EmergencyAddress-CountryId form-control ignored" data-url='@Url.Action("PopulateCountrySelectList", "Contact")'></select>
+            }
+            @Html.ValidationMessage("EmergencyAddress.CountryId", "*", new { @class = "text-danger" })
+        </div>
+        @Html.LabelFor(model => model.EmergencyAddress.ProvinceId, new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @if (Model.EmergencyAddress != null)
+            {
+                <select id="EmergencyAddress.ProvinceId" name="EmergencyAddress.ProvinceId" class="EmergencyAddress-ProvinceId form-control ignored" data-id="@Model.EmergencyAddress.ProvinceId" data-url='@Url.Action("PopulateProvinceSelectList", "Contact")'></select>
+            }
+            else
+            {
+                <select id="EmergencyAddress.ProvinceId" name="EmergencyAddress.ProvinceId" class="EmergencyAddress-ProvinceId form-control ignored" data-url='@Url.Action("PopulateProvinceSelectList", "Contact")'></select>
+            }
+            @Html.ValidationMessage("EmergencyAddress.ProvinceId", "*", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmergencyAddress.RegionId, new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @if (Model.EmergencyAddress != null)
+            {
+                <select id="EmergencyAddress.RegionId" name="EmergencyAddress.RegionId" class="EmergencyAddress-RegionId form-control ignored" data-id="@Model.EmergencyAddress.RegionId" data-url='@Url.Action("PopulateRegionSelectList", "Contact")'></select>
+            }
+            else
+            {
+                <select id="EmergencyAddress.RegionId" name="EmergencyAddress.RegionId" class="EmergencyAddress-RegionId form-control ignored" data-url='@Url.Action("PopulateRegionSelectList", "Contact")'></select>
+            }
+            @Html.ValidationMessage("EmergencyAddress.RegionId", "*", new { @class = "text-danger" })
+        </div>
+        @Html.LabelFor(model => model.EmergencyAddress.PostalCode, new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.EmergencyAddress.PostalCode, null, new { @class = "form-control", placeholder = LanguageResource.PostalCode })
+            @Html.ValidationMessageFor(model => model.EmergencyAddress.PostalCode)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmergencyAddress.Street, new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.TextAreaFor(model => model.EmergencyAddress.Street, new { rows = 2, columns = 40, maxlength = 150, @class = "form-control", placeholder = LanguageResource.Street })
+            @Html.ValidationMessageFor(model => model.EmergencyAddress.Street)
+        </div>
+        @Html.LabelFor(model => model.EmergencyAddress.Description, new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.TextAreaFor(model => model.EmergencyAddress.Description, new { rows = 2, columns = 40, maxlength = 150, @class = "form-control", placeholder = LanguageResource.Description })
+            @Html.ValidationMessageFor(model => model.EmergencyAddress.Description)
+        </div>
+    </div>
+</div>

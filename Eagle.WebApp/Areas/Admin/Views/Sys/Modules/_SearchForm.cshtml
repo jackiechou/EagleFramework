@@ -1,0 +1,40 @@
+﻿@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.SystemManagement.ModuleSearchEntry
+<div class="panel panel-info search-panel">
+    @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearchModule", name = "frmSearchModule", @class = "form-horizontal", enctype = "multipart/form-data", role = "form", autocomplete = "off", }))
+    {
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-4 no-padding-left">
+                    <h6 class="panel-title">@Html.Raw(LanguageResource.Search)</h6>
+                </div>
+                <div class="col-md-6 text-right no-padding-right">
+                    <span class="medium">
+                        @Html.RadioButtonSwitchEnumFor(model => model.SearchModuleType, 1)
+                    </span>
+                </div>
+                <div class="col-md-2 create-new">
+                    <button type="button" class="btn btn-primary" onclick='window.location.href="@Url.Action("Index", "Module")"' >@LanguageResource.Create</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div id="search-form" class="input-group padding-bottom-5">
+                @Html.TextBoxFor(model => model.SearchText, null, new { @class = "form-control", placeholder = LanguageResource.Search })
+                <div class="input-group-btn no-padding-left">
+                    <button type="button" data-mode="search" data-form="frmSearchModule" data-url='@Url.Action("Search", "Module")' class="btn btn-default btn-search reset">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                    <button type="button" data-mode="search" data-form="frmSearchModule" data-url='@Url.Action("Search", "Module")' class="btn btn-default btn-search search">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="panel-footer">
+        <div id="search-result" class="row no-padding-left no-padding-right"></div>
+        <div id="page-containter" data-page="1" class="no-padding-left"></div>
+    </div>
+</div>

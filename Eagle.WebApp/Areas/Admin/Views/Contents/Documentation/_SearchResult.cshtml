@@ -1,0 +1,118 @@
+﻿@using Eagle.Core.Pagination.Extension
+@model Eagle.Services.Dtos.Contents.Documentation.DocumentationSearchResult
+
+<table id="dataTable" class="table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+    <thead>
+        <tr>
+            <th class="text_center">@LanguageResource.SequenceNo</th>
+            <th class="text_center">@LanguageResource.FileName</th>
+            <th class="text_center">@LanguageResource.Status</th>
+            <th class="table-actions text_center no-sort">@LanguageResource.Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int i = 0; }
+        @if (Model.PagedList != null && Model.PagedList.Any())
+        {
+            foreach (var item in Model.PagedList)
+            {
+                i++;
+                <tr>
+                    <td class="text-center">
+                        @item.DocumentationId
+                    </td>
+                    <td>
+                        <div class="heading-container">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6>@item.DocumentInfo.FileName</h6>
+                                </div>
+                                <div class="col-md-4 pull-right text-right">@string.Format("{0} : {1}", LanguageResource.On, item.CreatedDate)</div>
+                            </div>
+                        </div>
+                    </td>
+                    
+                    <td class="text-center">
+                        <div class="changeStatus" data-id="@item.DocumentationId" data-url='@Url.Action("UpdateStatus", "Documentation")' data-warning="@LanguageResource.DoYouWantToContinue">
+                            @Html.RadioButtonSwitchEnumFor(modelItem => item.Status)
+                        </div>
+                    </td>
+                    <td class="table-actions text-center no-sort">
+                        <a data-id="@item.DocumentationId" title="@LanguageResource.Delete" class="btn btn-small btn-warning deleteItem"><i class="glyphicon glyphicon-align-center icon-trash"></i></a>                        
+                        <button title="@LanguageResource.Edit" class="btn btn-small btn-success showDocumentationPopUp" data-title="@LanguageResource.EditDocumentation" data-url='@Url.Action("Edit", "Documentation", new { id = item.DocumentationId })' type="button"><i class="icon-edit"></i></button>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr class="row">
+                <td class="not-found col-xs-12 col-sm-12 col-md-12">@LanguageResource.NoDataFound</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.PagedList != null && Model.PagedList.Any())
+{
+    <div class="datagrid-pager row">
+        <div class="datagrid-goToPage col-md-4">
+            @Html.PagedListGoToPageForm(Model.PagedList, Url.Action("Search", "Documentation", new { page = 1 }),
+                new GoToFormRenderOptions
+                {
+                    LabelFormat = "Go to page:",
+                    SubmitButtonFormat = "Go",
+                    InputFieldType = "number",
+                    Max = Model.PagedList.TotalPageCount
+                }, new AjaxOptions
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "gridcontainer"
+                })
+        </div>
+        <div class="datagrid-pagination col-md-8 pull-right text-right">
+            @Html.PagedListPager(Model.PagedList, page => Url.Action("Search", "Documentation",new{ filter = Model, page, sourceEvent = "Result"}),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 10,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "gridcontainer" }))
+        </div>
+    </div>
+}
+@section Scripts
+{
+    <script type="text/javascript">
+        (function ($) {
+            $(document).on('keyup change', '#page', function () {
+                var selectedValue = $(this).val();
+                if (!this.checkValidity()) {
+                    this.value = '1';
+                };
+
+                var updatedUrl = window.SearchDocumentationUrl + '?page=' + selectedValue;
+                $("a#goBtn").attr("href", updatedUrl);
+            });
+
+            $("#goBtn").click(function () {
+                var selectedValue = $("#page").val();
+                if (selectedValue != null) {
+                    $.ajax({
+                        url: '@Url.Action("Search", "Documentation")',
+                        type: "GET",
+                        data: { 'page': selectedValue },
+                        success: function (data) {
+                            $("#gridcontainer").html(data);
+                        },
+                        error: function (jqXhr, textStatus, errorThrown) {
+                            handleAjaxErrors(jqXhr, textStatus, errorThrown);
+                        }
+                    });
+                }
+            });
+        })(jQuery);
+    </script>
+}

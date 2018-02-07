@@ -1,0 +1,113 @@
+﻿@model Eagle.Services.Dtos.Business.VendorInfoDetail
+
+@if (Model != null)
+{
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <!-- About -->
+                <div class="col-lg-2 col-md-3 md-margin-bottom-40 footer-cols">
+                    <a class="logo-img" href='@Url.Action("Index", "AboutUs")'>
+                        <div class="footer-left-side-inner">
+                            <div class="footer-logo">
+                                <img src="@Model.FileUrl" alt="@Model.VendorName" class="footer-logo-thumb" />
+                            </div>
+                            <div class="vendor-name">
+                                <h6>@Model.VendorName</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- End About -->
+                <!-- Simple List -->
+                <div class="col-lg-4 hidden-md col-sm-6 footer-cols">
+                    <ul class="list-unstyled address-list margin-bottom-20">
+                        @if (!string.IsNullOrEmpty(Model.Summary))
+                        {
+                            <li><p class="dotdot">@Html.Raw(Model.Summary)</p></li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4 hidden-sm padding-left-0 footer-cols">
+                    @{
+                        Html.RenderAction("GetFooterBanners", "BannerInfo");
+                    }
+                </div>
+                <div class="col-lg-3 col-md-5 col-sm-6 padding-left-0 footer-cols">
+                    <div class="address-container">
+                        <ul class="list-unstyled address-list margin-bottom-20">
+                            @if (!string.IsNullOrEmpty(Model.VendorName))
+                            {
+                                <li><header class='vendor-title'><h5>@Html.Raw(Model.VendorName)</h5></header><hr /></li>
+                            }
+                            @if (Model.Addresses != null && Model.Addresses.Any())
+                            {
+                                foreach (var item in Model.Addresses)
+                                {
+                                    <li>
+                                        <span class='address-title'><i class='fa fa-angle-right'></i>@LanguageResource.Address :</span>  @Html.Raw(item.Address.Location)
+                                    </li>
+                                }
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Email))
+                            {
+                                <li><span class='address-title'><i class='fa fa-angle-right'></i>@LanguageResource.Email :</span> @Html.Raw(Model.Email)</li>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Hotline))
+                            {
+                                <li><span class='address-title'><i class='fa fa-angle-right'></i>@LanguageResource.Hotline :</span> @Html.Raw(Model.Hotline)</li>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.Telephone))
+                            {
+                                <li><span class='address-title'><i class='fa fa-angle-right'></i>@LanguageResource.Telephone :</span> @Html.Raw(Model.Telephone)</li>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.Fax))
+                            {
+                                <li><span class='address-title'><i class='fa fa-angle-right'></i>@LanguageResource.Fax :</span>@Html.Raw(Model.Fax)</li>
+                            }
+                        </ul>
+
+                    </div>
+                </div>
+
+                <!-- End Simple List -->
+            </div><!--/end row-->
+        </div><!--/end continer-->
+    </div><!--/footer-->
+
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    @if (!string.IsNullOrEmpty(Model.CopyRight))
+                    {
+                        <p>@Html.Raw(Model.CopyRight)</p>
+                    }
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-inline shop-social pull-right">
+                        <li><a href="#"><i class="fb rounded-md fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="tw rounded-md fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="gp rounded-md fa fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="yt rounded-md fa fa-youtube"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div><!--/copyright-->
+
+}
+else
+{
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <p>
+                    <span class="label">@LanguageResource.NotFound</span>
+                </p>
+            </div>
+        </div>
+    </div>
+}

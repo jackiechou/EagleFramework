@@ -1,0 +1,42 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.NotificationSender;
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+<div class="box-container">
+    <div class="heading-bar-container">
+        <div class="heading-bar-inner">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>@LanguageResource.NotificationSender</h6>
+                </div>
+                <div class="col-md-8 text-right">
+                    <div class="btn-group" data-toggle="buttons">
+                        <button type="button" class="btn btn-default load-back-form" data-url='@Url.Action("Index", "NotificationSender")'>
+                            <span class="glyphicon glyphicon-backward"></span> @LanguageResource.Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body-container">
+        <div id="bodyContent" class="row">
+            <div id="divEdit">
+                @Html.Action("Create", "NotificationSender")
+            </div>
+            <div id="MainBody" class="form-horizontal main_box">
+                <div id="gridcontainer" class="gridContainer">
+                    @Html.Action("LoadSearchForm", "NotificationSender")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.NotificationSenderSearchUrl = '@Url.Action("Search", "NotificationSender")';
+    </script>
+    <script src="~/Scripts/app/modules/notification-sender.js"></script>
+}

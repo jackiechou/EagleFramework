@@ -1,0 +1,114 @@
+﻿@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.SystemManagement.Identity.UserEntry
+
+<div class="form-group">
+    @Html.RequiredLabelFor(model => model.Contact.FirstName, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Contact.FirstName, null, new { @class = "form-control", placeholder=LanguageResource.FirstName })
+        @Html.ValidationMessageFor(model => model.Contact.FirstName)
+    </div>
+    @Html.LabelFor(m => m.Contact.Mobile, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Contact.Mobile, null, new { @class = "form-control", placeholder = LanguageResource.Mobile })
+        @Html.ValidationMessageFor(model => model.Contact.Mobile)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.RequiredLabelFor(model => model.Contact.LastName, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Contact.LastName, null, new { @class = "form-control", placeholder = LanguageResource.LastName })
+        @Html.ValidationMessageFor(model => model.Contact.LastName)
+    </div>
+    @Html.LabelFor(m => m.Contact.LinePhone1, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Contact.LinePhone1, null, new { @class = "form-control", type = "tel", placeholder = LanguageResource.LinePhone1 })
+        @Html.ValidationMessageFor(model => model.Contact.LinePhone1)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.RequiredLabelFor(m => m.Contact.Email, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Contact.Email, null, new { @class = "form-control", type = "email", @required = true, placeholder = LanguageResource.Email })
+        @Html.ValidationMessageFor(model => model.Contact.Email)
+    </div>
+    @Html.LabelFor(m => m.Contact.LinePhone2, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Contact.LinePhone2, null, new { @class = "form-control", type = "tel", placeholder = LanguageResource.LinePhone2 })
+        @Html.ValidationMessageFor(model => model.Contact.LinePhone2)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Contact.DisplayName, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Contact.DisplayName, null, new { @class = "form-control", placeholder = LanguageResource.DisplayName })
+        @Html.ValidationMessageFor(model => model.Contact.DisplayName)
+    </div>
+    @Html.LabelFor(model => model.Contact.Sex, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.RadioButtonEnumFor(model => model.Contact.Sex, (int)SexType.Male)
+        @Html.ValidationMessageFor(model => model.Contact.Sex)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Contact.JobTitle, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Contact.JobTitle, null, new { @class = "form-control", placeholder = LanguageResource.JobTitle })
+        @Html.ValidationMessageFor(model => model.Contact.JobTitle)
+    </div>
+    @Html.LabelFor(m => m.Contact.TaxNo, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Contact.TaxNo, null, new { @class = "form-control", placeholder = LanguageResource.TaxNo })
+        @Html.ValidationMessageFor(model => model.Contact.TaxNo)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Contact.Dob, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.DatePickerWithIconFor(model => model.Contact.Dob)
+        @Html.ValidationMessageFor(model => model.Contact.Dob)
+    </div>
+    @Html.LabelFor(m => m.Contact.Fax, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Contact.Fax, null, new { @class = "form-control", placeholder = LanguageResource.Fax })
+        @Html.ValidationMessageFor(model => model.Contact.Fax)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Contact.IdNo, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Contact.IdNo, null, new { @class = "form-control", placeholder = LanguageResource.IDNo })
+        @Html.ValidationMessageFor(model => model.Contact.IdNo)
+    </div>
+    @Html.LabelFor(m => m.Contact.IdIssuedDate, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.DatePickerWithIconFor(model => model.Contact.IdIssuedDate)
+        @Html.ValidationMessageFor(model => model.Contact.IdIssuedDate)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Contact.Website, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Contact.Website, null, new { @class = "form-control", placeholder = LanguageResource.Website })
+        @Html.ValidationMessageFor(model => model.Contact.Website)
+    </div>
+    @Html.Label("Photo", LanguageResource.Photo, new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        <div class="file-container">
+            <div class="input-group input-group-sm">
+                <input type="file" id="Contact_FileUpload" name="Contact.FileUpload" accept="image/gif, image/jpg, image/jpeg, image/png, image/gif" class="btn btn-default form-control" />
+                <span class="input-group-addon resetPhoto">
+                    <span class="glyphicon glyphicon-remove-sign"></span>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.Contact.FileUpload)
+            <div id="image-holder"> </div>
+        </div>
+    </div>
+</div>

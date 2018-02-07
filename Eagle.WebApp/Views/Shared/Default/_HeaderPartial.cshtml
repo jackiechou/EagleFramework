@@ -1,0 +1,18 @@
+﻿<div class="header">
+    <div class="header_top">
+        <div class="top-menu lang-img" data-url='@Url.Action("GetTopMenu", "MenuDesktop")'>
+            <a href="javascript:void(0);" class="sign-up" data-container="page-container" data-url='@Url.Action("SignUp", "Cust")'>@LanguageResource.SignUp</a>
+            <a href="javascript:void(0);" class="sign-in" data-container="page-container" data-url='@Url.Action("SignIn", "Cust")'>@LanguageResource.SignIn</a>
+            <a href="/en/">English</a>
+        </div>
+    </div>
+    <div class="header_main">
+        <div class="vendor-container">
+            @{
+                Html.RenderAction("GetVendorOnHeader", "VendorInfo");
+            }
+        </div>
+    </div>
+</div>
+<div class="clearboth"></div>
+<div id="MainMenu" class="main-menu-container" data-url='@Url.Action("GetMainMenu", "MenuDesktop")'></div>

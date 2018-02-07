@@ -1,0 +1,62 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.Booking;
+    Layout = ThemeViewEngine.DesktopSubLayout;
+}
+<div id="page" class="row">
+    <div class="page-content container content-sm page-booking">
+        <div id="bodyContent">
+            <div id="divEdit">
+                <div class="panel panel-default">
+                    <div class="panel-body padding-top-0">
+                        <div id="formMessage" class="form-message">
+                            @*@Html.AntiForgeryToken()*@
+                            @Html.Partial("_MessagePartial")
+                            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+                        </div>
+                        <div id="formBody" class="form-horizontal">
+                            <div class="container-fluid">
+                                
+                                @*Step 1: Choose Service Type - Appointments*@
+                                <h2>@string.Format("{0} 1 : {1}", LanguageResource.Step, LanguageResource.ChooseServiceType)</h2>
+                                <div id="form-step-0" name="form-step-0">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            @Html.RadioButtonSwitchEnum("TypeId", typeof(Eagle.Core.Settings.ServiceType), 1)
+                                        </div>
+                                        <div class="panel-body padding-top-0">
+                                            <div id="package-container">
+                                                @{
+                                                    Html.RenderAction("LoadSingleService", "Booking");
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+</div>
+
+@section Scripts{
+    <link href="~/Scripts/plugins/easyui/themes/icon.css" rel="stylesheet" />
+    <script src="~/Scripts/plugins/easyui/jquery.easyui.min.js"></script>
+    <script>
+        window.getServiceCategorySelectTreeUrl = '@Url.Action("GetServiceCategorySelectTree", "Booking")';
+        window.getServicePackageDetailUrl = '@Url.Action("GetServicPackageDetail", "Booking")';
+        window.None = '@Html.Raw(LanguageResource.None)';
+        window.Category = '@Html.Raw(LanguageResource.Category)';
+        window.Package = '@Html.Raw(LanguageResource.Package)';
+        window.Employee = '@Html.Raw(LanguageResource.Employee)';
+        window.Select = '@Html.Raw(LanguageResource.Select)';
+        window.SelectPackage = '@Html.Raw(LanguageResource.SelectPackage)';
+        window.SelectEmployee = '@Html.Raw(LanguageResource.SelectEmployee)';
+        window.Loading = '@Html.Raw(LanguageResource.Loading)';
+    </script>
+    <script src="~/Themes/Booking/Content/js/app/booking.js"></script>
+}

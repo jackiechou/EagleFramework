@@ -1,0 +1,51 @@
+﻿@model Eagle.Services.Dtos.Business.Transaction.OrderSearchEntry
+
+<div class="panel panel-default search-panel">
+    <div class="panel-heading">
+        <h5>@Html.Raw(LanguageResource.Search)</h5>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+        {
+            <div class="container-fluid padding-10">
+                <div class="row padding-bottom-10">
+                    <div class="col-md-8 padding-left-right-5">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-cog"></span> @LanguageResource.Search
+                            </span>
+                            <input type="text" name="SearchText" id="SearchText" class="form-control" placeholder="@LanguageResource.SearchText" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 padding-left-right-5">
+                        @Html.EnumDropDownListFor(model => model.Status,  string.Format("--- {0} ---", LanguageResource.Select), new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-1 padding-left-right-5">
+                        <div class="input-group">
+                            <div class="input-group-button">
+                                <button type="button" class="btn btn-primary search" data-form="frmSearch" data-url='@Url.Action("Search", "Order")' data-mode="search">
+                                    <span class="glyphicon glyphicon-search" role="button"></span> @LanguageResource.Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.Label("DateRangePicker", LanguageResource.DateRange, new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        <input type="text" name="DateRangePicker" id="DateRangePicker" data-datepicker="datepicker" class="small form-control" data-link-format="MM/YYYY" />
+                        <input type="hidden" id="FromDate" name="FromDate" />
+                        <input type="hidden" id="ToDate" name="ToDate" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        <div id="search-result" class="row">
+            @{
+                Html.RenderAction("Search", "Order");
+            }
+        </div>
+    </div>
+</div>

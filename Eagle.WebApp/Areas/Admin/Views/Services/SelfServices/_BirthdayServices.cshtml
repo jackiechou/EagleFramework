@@ -1,0 +1,149 @@
+﻿<div class="box_container">  
+    <div class="box_header">  
+            <div id="BirthdayHeading" class="box_header_title pull-left">
+            <h6>@Html.Raw(LanguageResource.BirthdayStatistics)</h6>
+        </div>                 
+        <div id="BirthdayTypeButtons" class="btn-group pull-right" data-toggle="buttons-radio">
+            <button type="button" class="btn" data-id="1">@Html.Raw(LanguageResource.Today)</button>
+            <button type="button" class="btn hidden" data-id="2">@Html.Raw(LanguageResource.Week)</button>
+            <button type="button" class="btn active" data-id="3">@Html.Raw(LanguageResource.Month)</button>
+        </div>
+            <div class="pull-right" style="padding-right:5px;">
+            @Html.DropDownList("Month")
+        </div>
+    </div>
+    <div id="BirthdayPlaceHolder" class="box_content">
+        @Html.Action("GetEmpListByBirthday", "Employee", null)
+    </div>   
+</div> 
+
+<script type="text/javascript">
+    (function ($) {
+        $.createDataBuilder = function (p) {
+            var DataMgr = {
+                config: {
+                    isPostBack: false,
+                    async: true,
+                    cache: false,
+                    processData: false,
+                    mimeType: "multipart/form-data",
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    data: '{}',
+                    dataType: 'json',
+                    baseURL: p.BaseURL,
+                    method: "",
+                    url: "",
+                    ajaxCallMode: 0,
+                    isValid: false,
+                    ContainerClientID: p.ContainerClientID
+                },
+                messages:
+                {
+                    nomenu: "No Data"
+                },
+                init: function (config) {                  
+                    DataMgr.InitializeCotrols();
+                    DataMgr.BindEvents();
+                },
+                ajaxSuccess: function (data) {
+                    switch (parseInt(DataMgr.config.ajaxCallMode)) {
+                        case 1:
+                            DataMgr.BindBirthdayListToContainer(data);
+                            break;
+                    //    case 2:
+                    //        DataMgr.BindDataToDetailReportContainer(data);
+                    //        break;
+                    //    case 3:
+                    //        DataMgr.ReloadData();
+                    //        break;
+                        default:
+                            break;
+                    }
+                },
+                ajaxFailure: function (jqXHR, textStatus, errorThrown) {
+                    handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                },
+                ajaxCall: function (config) {
+                    $.ajax({
+                        type: DataMgr.config.type,
+                        contentType: DataMgr.config.contentType,
+                        cache: DataMgr.config.cache,
+                        url: DataMgr.config.url,
+                        data: DataMgr.config.data,
+                        dataType: DataMgr.config.dataType,
+                        success: DataMgr.ajaxSuccess,
+                        error: DataMgr.ajaxFailure,
+                        async: false
+                    });
+                },              
+                InitializeCotrols: function () {
+                    var currentMonth = (new Date).getMonth() + 1;
+                    $('#Month').find("option[value=" + currentMonth + "]").attr('selected', true).siblings().attr('selected', false);
+                },               
+                BindEvents: function () {                    
+                    $("#BirthdayTypeButtons > .btn").click(function () {
+                        $(this).addClass("active").siblings().removeClass("active");
+                        var type = $(this).attr("data-id");
+                        var placeholder = 'BirthdayPlaceHolder';
+                        switch (type) {
+                            case '1':
+                                var currentMonth = (new Date).getMonth() + 1;
+                                $('#Month').find("option[value=" + currentMonth + "]").attr('selected', true).siblings().attr('selected', false);
+                                DataMgr.LoadBirthdayList(1);
+                                break;
+                            case '2':
+                                DataMgr.LoadBirthdayList(7);
+                                break;
+                            case '3':                               
+                                DataMgr.LoadBirthdayList(30);
+                                break;
+                            default:
+                                DataMgr.LoadBirthdayList(1);
+                                break;
+                        }
+                    });
+                  
+                    $(document).on('change', '#Month', function () {
+                        $(this).find("option[value=" + $(this).val() + "]").attr('selected', true).siblings().attr('selected', false);
+                        //var Type = $("#BirthdayTypeButtons > .active").attr("data-id");
+                        $("#BirthdayTypeButtons > .btn").attr('data-id',30).addClass("active").siblings().removeClass("active");
+                        DataMgr.LoadBirthdayList(30);
+                    });
+                },
+                LoadBirthdayList: function (Type) {
+                    $("body").addClass("loading");
+                    $('#' + DataMgr.config.ContainerClientID).html('');
+                    var data = { "Month": $('#Month').val(), "Type": Type };                  
+                    this.config.method = "GetEmpListByBirthday";
+                    this.config.data = data;
+                    this.config.type = "GET";
+                    this.config.dataType = "html";
+                    this.config.url = this.config.baseURL + this.config.method;
+                    this.config.ajaxCallMode = 1;
+                    this.ajaxCall(this.config);
+                },
+                BindBirthdayListToContainer: function (data) {                  
+                   if (!$.trim(data)) {                      
+                        //showMessageWithTitle("Warning", '@Html.Raw(LanguageResource.NoDataFound)', "warning", 5000);
+                        $('#' + DataMgr.config.ContainerClientID).html('<span style="padding:5px">@Html.Raw(LanguageResource.NoDataFound)</span>');
+                    }
+                    else {
+                        $('#' + DataMgr.config.ContainerClientID).html(data);
+                      
+                   }
+                    $("body").removeClass('loading');                    
+                }
+            };
+            DataMgr.init();
+        }
+
+        var Controller = 'Employee';
+        var BaseURL =  "/" + Controller + "/";
+        var base_settings = {
+            ContainerClientID: "BirthdayPlaceHolder",
+            BaseURL: BaseURL
+        };
+        $.createDataBuilder(base_settings);
+    })(jQuery);
+</script>

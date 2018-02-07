@@ -1,0 +1,75 @@
+﻿@using Eagle.Core.Configuration
+@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.NewsManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="heading-bar-container">
+        <div class="heading-bar-inner">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>@LanguageResource.News</h6>
+                </div>
+                <div class="col-md-8 text-right">
+                    <button type="button" class="btn btn-success create-form" onclick="location.href='@Url.Action("Create", "News")'">
+                        <span class="glyphicon glyphicon-plus-sign"></span> @LanguageResource.CreateNews
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body-container">
+        <div id="bodyContent" class="row">
+            @Html.Partial("../Contents/News/_Reset")
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        //links
+        window.GetNewsCategoryTreeUrl = '@Url.Action("GetNewsCategoryTree", "NewsCategory")';
+        window.CreateNewsUrl = '@Url.Action("Create", "News")';
+        window.EditNewsUrl = '@Url.Action("Edit", "News")';
+        window.SearchNewsUrl = '@Url.Action("Search", "News")';
+        window.SearchNewsPagingUrl = '@Url.Action("Search", "News")';
+        window.IndexNewsUrl = '@Url.Action("Index", "News")';
+        window.DeleteNewsUrl = '@Url.Action("Delete", "News")';
+        window.UpdateNewsListOrderUrl = '@Url.Action("UpdateNewsListOrder", "News")';
+        //var baseUrl = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+        //window.UploadNewsImageUrl = baseUrl + '/Handlers/UploadFile.ashx';
+
+        //UPLOAD IN EDIOR
+        window.ReadImageBrowserUrl = '@Url.Action("Read", "ImageBrowser")';
+        window.CreateImageBrowserDirectoryUrl = '@Url.Action("CreateDirectory", "ImageBrowser")';
+        window.DestroyImageBrowserUrl = '@Url.Action("Destroy", "ImageBrowser")';
+        window.ThumbnailImageBrowserUrl = '@Url.Action("Thumbnail", "ImageBrowser")';
+        window.UploadImageBrowserUrl = '@Url.Action("Upload", "ImageBrowser")';
+        window.UploadNewsImageFolder = '@Url.Content(GlobalSettings.NewsUploadImagePath)';
+        @*window.ImageUrl = '@Url.Action("Image", "ImageBrowser")' + "?path={0}";*@
+
+        window.ReadFileBrowserUrl = '@Url.Action("Read", "FileBrowser")';
+        window.CreateFileBrowserDirectoryUrl = '@Url.Action("CreateDirectory", "FileBrowser")';
+        window.DestroyFileBrowserUrl = '@Url.Action("Destroy", "FileBrowser")';
+        window.ThumbnailFileBrowserUrl = '@Url.Action("Thumbnail", "FileBrowser")';
+        window.UploadFileBrowserUrl = '@Url.Action("Upload", "FileBrowser")';
+        window.UploadNewsFileFolder = '@Url.Content(GlobalSettings.NewsUploadDocumentPath)';
+        @*window.FileUrl = '@Url.Action("File", "FileBrowser")' + "?fileName={0}";*@
+    </script>
+
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/plugins/bootstrap-plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js")"></script>
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.common.min.css")" rel="stylesheet" />
+   <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.default.min.css")" rel="stylesheet" />
+   <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.default.mobile.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/kendo/js/kendo.all.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/modules/news.js")"></script>
+
+}

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.SystemManagement.FileStorage.FileUploadModel>
+<div class="table-responsive">
+    <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+        <tbody>
+             @{
+                 if (Model != null)                   
+                 {
+                    int i = 0;
+                    foreach (var item in Model)
+                    {
+                        i++;
+                        <tr>
+                            <td style="width:20px" class="text_center">
+                                @i
+                            </td>
+                            <td>
+                                <a id="@item.FileId" href="/Handlers/DownloadFile.ashx?file=@item.FileUrl">
+                                    @Html.DisplayFor(modelItem => item.FileTitle)  
+                                </a>                               
+                            </td>                   
+                            <td style="width:50px" class="table-actions text_center center no-sort">
+                                <a href="javascript:void(0);" data-id="@item.FileId" title="Edit" class="ico ico-edit editFileItem">&nbsp;&nbsp;&nbsp;</a>
+                                <a href="javascript:void(0);" data-id="@item.FileId" title="Delete" class="ico ico-delete deleteFileItem">&nbsp;&nbsp;&nbsp;</a>
+
+                            </td>
+                        </tr>
+                    }
+                 }else
+                 {
+                      <tr>
+                        <td style="width:100%" class="text_center">
+                            @Html.Raw(LanguageResource.NoDataFound)
+                        </td> 
+                     </tr>
+                 }
+             }           
+        </tbody>
+    </table>
+</div>

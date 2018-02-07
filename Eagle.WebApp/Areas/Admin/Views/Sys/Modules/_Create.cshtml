@@ -1,0 +1,65 @@
+﻿@model Eagle.Services.Dtos.SystemManagement.ModuleEntry
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmCreateModule", name = "frmCreateModule", @class = "form-horizontal" }))
+{
+    <div class="panel-heading text-bold">
+        <div class='page-header margin-top-5 margin-bottom-0'>
+            <div class='btn-toolbar pull-right'>
+                <div class='btn-group'>
+                    <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateModule" value="@LanguageResource.Reset" />
+                    <input type="submit" class="btn btn-primary add create" data-mode="create" data-form="frmCreateModule" data-url='@Url.Action("Create", "Module")' value="@LanguageResource.Save" />
+                </div>
+            </div>
+            <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.CreateModule</h4>
+        </div>
+    </div>
+
+    <div class="panel-body padding-top-0">
+        <div id="formMessage" class="form-message">
+            @Html.Partial("_MessagePartial")
+            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+        </div>
+
+        <div id="formBody" class="form-horizontal">
+
+            <div class="form-container add-new-module">
+                <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                <div class="form-body">
+                    <div class="row">
+                        <ul class="nav nav-tabs" id="myTab">
+                            <li id="tab-1" class="active"><a href="#pane-1" data-toggle="tab">@LanguageResource.AddNewModuleToPage</a></li>
+                            <li id="tab-2"><a href="#pane-2" data-toggle="tab">@LanguageResource.ModuleLocation</a></li>
+                            <li id="tab-3"><a href="#pane-3" data-toggle="tab">@LanguageResource.ModuleCapability</a></li>
+                        </ul>
+
+                        <div id="myTabContent" class="tab-content responsive">
+                            <div class="tab-pane  fade in active" id="pane-1">
+                                @Html.Partial("../Sys/Modules/_ModuleBasic")
+                            </div>
+
+                            <div class="tab-pane fade" id="pane-2">
+                                @Html.Partial("../Sys/Modules/ModulePages/_CreateModulePage")
+                            </div>
+
+                            <div class="tab-pane fade" id="pane-3">
+                                @Html.Partial("../Sys/Modules/ModuleCapabilities/_CreateDefaultModuleCapability")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="panel-footer">
+        <div class="row">
+            <div class='btn-toolbar pull-right'>
+                <div class='btn-group'>
+                    <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateModule" value="@LanguageResource.Reset" />
+                    <input type="submit" class="btn btn-primary add create" data-mode="create" data-form="frmCreateModule" data-url='@Url.Action("Create", "Module")' value="@LanguageResource.Save" />
+                </div>
+            </div>
+        </div>
+    </div>
+}

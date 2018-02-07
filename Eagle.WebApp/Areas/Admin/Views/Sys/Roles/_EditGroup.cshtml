@@ -1,0 +1,26 @@
+﻿<div id="dual-list-box" class="dual-list-box form-group row">
+    <div class="col-md-5">
+        <h5><span class="unselected-title">@LanguageResource.AvailableGroups</span></h5>
+        <input class="input-from filter form-control filter-unselected" type="text" placeholder="@LanguageResource.AvailableItems" style="margin-bottom: 5px;">
+        <select id="AvailableGroups" name='AvailableGroups' size="10" data-url='@Url.Action("PopulateAvailableGroupMultiSelectList", "Role")' class="unselected form-control" multiple="multiple"></select>
+    </div>
+    <div class="col-md-2 center-block" style="margin-top: 80px">
+        <button type="button" class="btn btn-default col-md-8 col-md-offset-2 atr push-all" data-type="atr" style="margin-bottom: 10px;">
+            <span class="glyphicon glyphicon-list"></span> <span class="glyphicon glyphicon-chevron-right"></span>
+        </button>
+        <button type="button" class="btn btn-default col-md-8 col-md-offset-2 str push-item" data-type="str" style="margin-bottom: 20px;">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </button>
+        <button type="button" class="btn btn-default col-md-8 col-md-offset-2 stl pull-item" data-type="stl" style="margin-bottom: 10px;">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </button>
+        <button type="button" class="btn btn-default col-md-8 col-md-offset-2 atl pull-all" data-type="atl" style="margin-bottom: 10px;">
+            <span class="glyphicon glyphicon-chevron-left"></span> <span class="glyphicon glyphicon-list"></span>
+        </button>
+    </div>
+    <div class="col-md-5">
+        <h5><span class="selected-title">@LanguageResource.SelectedGroups</span></h5>
+        <input class="input-to filter form-control filter-selected" type="text" placeholder="@LanguageResource.SelectedItems" style="margin-bottom: 5px;">
+        <select id="SelectedGroups" name='SelectedGroups' size="10" data-url='@Url.Action("PopulateSelectedGroupMultiSelectList", "Role")' class="selected form-control" multiple="multiple"></select>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+﻿<div class="row">
+    <div class="col-md-6 product_img">
+        <img class="img-responsive" src="@Model.LargePhotoUrl" alt="@Model.ProductName">
+    </div>
+    <div class="col-md-6 product_content">
+        <h4>@LanguageResource.Product: <span>@Model.ProductName</span></h4>
+        <div class="rating">
+            <div class="rating-container">
+                <div class="star-rating" id="starRating_@Model.ProductId" star-id="@Model.ProductId" star-url='@Url.Action("CreateProductRating", "Production")' rating-type="product">
+                    <span class="fa fa-star-o" data-rating="1" title="Did not like it"></span>
+                    <span class="fa fa-star-o" data-rating="2" title="it was okay"></span>
+                    <span class="fa fa-star-o" data-rating="3" title="Liked it"></span>
+                    <span class="fa fa-star-o" data-rating="4" title="Really liked it"></span>
+                    <span class="fa fa-star-o" data-rating="5" title="It was amazing"></span>
+                    <input type="hidden" name="ratingValue" id="ratingValue_@Model.ProductId" input-id="@Model.ProductId" class="rating-value" value="@Model.Rating">
+                </div>
+
+            </div>
+        </div>
+        <p>@LanguageResource.Description: @Model.ShortDescription</p>
+
+        <ul class="list-inline shop-product-prices margin-bottom-30">
+            @if (Model.NetPrice != null && Model.NetPrice > 0)
+            {
+                <li class="shop-red">@Html.FormatValue(Model.NetPrice + Model.TaxRate, "{0:c}")</li>
+                if (Model.DiscountRate != null && Model.DiscountRate > 0 && Model.NetPrice > 0)
+                {
+                    <li class="line-through">@Html.FormatValue(Model.NetPrice + Model.TaxRate - Model.DiscountRate, "{0:c}")</li>
+                }
+            }
+            else
+            {
+                <li class="price-tag">
+                    <span class="text-danger">@LanguageResource.Price :</span>
+                    <span class="text-muted">@LanguageResource.ContactUs</span>
+                </li>
+            }
+        </ul>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="wishlist-category">
+                    <strong>@LanguageResource.Categories:</strong> @Model.ProductCategory.CategoryName
+                </p>
+            </div>
+        </div>
+        <div class="space-ten"></div>
+        <div class="btn-ground">
+            <a href="#"class="btn btn-u btn-u-sea-shop btn-continue-shoping" data-dismiss="modal"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;@LanguageResource.ContinueShopping</a>
+            <a href="/Cart" class="btn btn-u btn-u-sea-shop btn-continue-shoping">&nbsp;&nbsp;@LanguageResource.ViewCart</a>
+        </div>
+    </div>
+</div>

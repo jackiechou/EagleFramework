@@ -1,0 +1,52 @@
+﻿@using System.Text
+@model Eagle.Services.Dtos.Business.CompanyInfoDetail
+
+<div class="container">
+    <section class="company">
+        @if (Model != null)
+        {
+            <header>
+                <h3 class="text-center">@Html.Raw(Model.CopyRight)</h3>
+            </header>
+            <p>
+                <span class="label">
+                    @Html.Raw(string.Format("{0} {1} {2}", Model.Address.Street,Model.Address.Province.ProvinceName,Model.Address.Region.RegionName))
+                </span>
+            </p>
+            <p>
+                <span class="label">
+                    @{
+                        StringBuilder sb = new StringBuilder();
+                        if (!string.IsNullOrEmpty(Model.Telephone))
+                        {
+                            sb.Append($"{LanguageResource.Telephone} : {Model.Telephone}");
+                        }
+
+                        if (!string.IsNullOrEmpty(Model.Hotline))
+                        {
+                            sb.Append($"/ {LanguageResource.Hotline} : {Model.Hotline}");
+                        }
+
+                        if (!string.IsNullOrEmpty(Model.Email))
+                        {
+                            sb.Append($"/ {LanguageResource.Email} : {Model.Email}");
+                        }
+
+                        var contactPhone = sb.ToString();
+                    }
+
+                    @contactPhone
+                </span>
+            </p>
+            <p>
+                <span class="label">@Model.SupportOnline</span>
+            </p>
+        }
+        else
+        {
+            <p>
+                <span class="label">@LanguageResource.NotFound</span>
+            </p>
+        }
+    </section>
+</div>

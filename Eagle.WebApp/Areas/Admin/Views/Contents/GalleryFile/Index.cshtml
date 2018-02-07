@@ -1,0 +1,41 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.GalleryFile);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+@model Eagle.Services.Dtos.Contents.Galleries.GalleryFileSearchEntry
+
+<div id="MainContainer" class="tab-container">
+    <div class="row">
+        <div class="col-sm-3 no-padding-right">
+            @Html.Partial("../Contents/GalleryFile/_Search")
+        </div>
+        <div class="col-sm-9 no-padding-left">
+            <div id="search-result" class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active">
+                    @Html.Action("Search", "GalleryFile")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<link href="~/Themes/Booking/Content/css/plugins/bootstrap-vertical-tabs.min.css" rel="stylesheet" />
+
+@section Scripts{
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/kendo/styles/kendo.default.mobile.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/kendo/js/kendo.all.min.js")"></script>
+    <script type="text/javascript">
+        window.GalleryFileSearchUrl = '@Url.Action("Search", "GalleryFile")';
+        window.GetGalleryTopicTreeUrl = '@Url.Action("GetGalleryTopicTree", "GalleryFile")';
+    </script>
+    <script type="text/javascript" src="~/Scripts/app/modules/gallery-file.js"></script>
+}

@@ -1,0 +1,68 @@
+﻿@model Eagle.Services.Dtos.Business.Personnel.EmployeeEditEntry
+
+@Html.HiddenFor(model => model.PermanentAddress.AddressId)
+<div id="PermanentAddress" class="form-horizontal">
+    <div class="heading text-right">
+        <h4><span class="label label-primary">@LanguageResource.PermanentAddress</span></h4>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PermanentAddress.CountryId, LanguageResource.Country, new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @if (Model.PermanentAddress.CountryId != null)
+            {
+                <select id="PermanentAddress.CountryId" name="PermanentAddress.CountryId" class="PermanentAddress-CountryId form-control ignored" data-id="@Model.PermanentAddress.CountryId" data-url='@Url.Action("PopulateCountrySelectList", "Contact")'></select>
+            }
+            else
+            {
+                <select id="PermanentAddress.CountryId" name="PermanentAddress.CountryId" class="PermanentAddress-CountryId form-control ignored" data-url='@Url.Action("PopulateCountrySelectList", "Contact")'></select>
+            }
+            @Html.ValidationMessage("PermanentAddress.CountryId", "*", new { @class = "text-danger" })
+        </div>
+       @Html.LabelFor(model => model.PermanentAddress.ProvinceId, new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @if (Model.PermanentAddress.ProvinceId != null)
+            {
+                <select id="PermanentAddress.ProvinceId" name="PermanentAddress.ProvinceId" class="PermanentAddress-ProvinceId form-control ignored" data-id="@Model.PermanentAddress.ProvinceId" data-url='@Url.Action("PopulateProvinceSelectList", "Contact")'></select>
+            }
+            else
+            {
+                <select id="PermanentAddress.ProvinceId" name="PermanentAddress.ProvinceId" class="PermanentAddress-ProvinceId form-control ignored" data-url='@Url.Action("PopulateProvinceSelectList", "Contact")'></select>
+            }
+            @Html.ValidationMessage("PermanentAddress.ProvinceId", "*", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PermanentAddress.RegionId, new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @if (Model.PermanentAddress.RegionId != null)
+            {
+                <select id="PermanentAddress.RegionId" name="PermanentAddress.RegionId" class="PermanentAddress-RegionId form-control ignored" data-id="@Model.PermanentAddress.RegionId" data-url='@Url.Action("PopulateRegionSelectList", "Contact")'></select>
+            }
+            else
+            {
+                <select id="PermanentAddress.RegionId" name="PermanentAddress.RegionId" class="PermanentAddress-RegionId form-control ignored" data-url='@Url.Action("PopulateRegionSelectList", "Contact")'></select>
+            }
+            @Html.ValidationMessage("PermanentAddress.RegionId", "*", new { @class = "text-danger" })
+        </div>
+      @Html.LabelFor(model => model.PermanentAddress.PostalCode, new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.PermanentAddress.PostalCode, null, new { @class = "form-control", placeholder = LanguageResource.PostalCode })
+            @Html.ValidationMessageFor(model => model.PermanentAddress.PostalCode)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PermanentAddress.Street, new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.TextAreaFor(model => model.PermanentAddress.Street, new { rows = 2, columns = 40, maxlength = 150, @class = "form-control", placeholder = LanguageResource.Street })
+            @Html.ValidationMessageFor(model => model.PermanentAddress.Street)
+        </div>
+        @Html.LabelFor(model => model.PermanentAddress.Description, new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.TextAreaFor(model => model.PermanentAddress.Description, new { rows = 2, columns = 40, maxlength = 150, @class = "form-control", placeholder = LanguageResource.Description })
+            @Html.ValidationMessageFor(model => model.PermanentAddress.Description)
+        </div>
+    </div>
+</div>

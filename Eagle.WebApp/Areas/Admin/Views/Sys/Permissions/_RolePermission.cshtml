@@ -1,0 +1,78 @@
+﻿@model string
+<div id="RolePermissionContainer" class="role-permission-container">
+    @Html.Raw(Model)
+</div>
+<div class="clearboth"></div>
+<script>
+    handleCheckBox("chkAllVIEW");
+    handleCheckBox("chkAllEDIT");
+
+
+    $(".chkVIEW").click(function () {
+        var name = $(this).attr("name");
+        var checkBoxSelector = $("input:checkbox[name=" + name + "]");
+        var hiddenSelector = $("input:hidden[name=" + name + "]");
+        var chkStatus = checkBoxSelector.is(":checked");
+
+        var checkBoxStatus = $(this).is(":checked");
+        $(this).attr("checked", checkBoxStatus);
+        $(this).val(checkBoxStatus);
+        hiddenSelector.val(checkBoxStatus);
+
+        if (checkBoxStatus == false) {
+            var num = $(this).data("rowid");
+            $("input:checkbox[name=chkVIEW_" + num + "]").prop("checked", false);
+            $("input:checkbox[name=chkEDIT_" + num + "]").prop("checked", false);
+        }
+    });
+
+    $(".chkEDIT").click(function () {
+        var name = $(this).attr("name");
+        var checkBoxSelector = $("input:checkbox[name=" + name + "]");
+        var hiddenSelector = $("input:hidden[name=" + name + "]");
+        var chkStatus = checkBoxSelector.is(":checked");
+
+        var checkBoxStatus = $(this).is(":checked");
+        $(this).attr("checked", checkBoxStatus);
+        $(this).val(checkBoxStatus);
+        hiddenSelector.val(checkBoxStatus);
+
+        if (checkBoxStatus == true) {
+            var num = $(this).data("rowid");
+            $("input:checkbox[name=chkVIEW_" + num + "]").prop("checked", true);
+            $("input:checkbox[name=chkEDIT_" + num + "]").prop("checked", true);
+        }
+    });
+
+    // Xu ly All Select Checkbox =======================================
+
+    $("input[name='chkAllVIEW']").click(function () {
+        var chkAllVIEWStatus = $(this).is(":checked");
+
+        $(this).attr("checked", chkAllVIEWStatus);
+        if (chkAllVIEWStatus) {
+            $("input[class='chkVIEW']").prop("checked", true);
+        } else {
+            $("input[class='chkVIEW']").not(':first').prop("checked", false);
+            $("input[class='chkEDIT']").not(':first').prop("checked", false);
+
+            $("input[name='chkAllVIEW']").attr("checked", false);
+            $("input[name='chkAllEDIT']").attr("checked", false);
+        }
+    });
+
+    $("input[name='chkAllEDIT']").click(function () {
+        var chkAllEditStatus = $(this).is(":checked");
+        $(this).attr("checked", chkAllEditStatus);
+        if (chkAllEditStatus) {
+            $("input[class='chkVIEW']").not(':first').prop("checked", true);
+            $("input[class='chkEDIT']").not(':first').prop("checked", true);
+
+            $("input[name='chkAllVIEW']").attr("checked", true);
+            $("input[name='chkAllEDIT']").attr("checked", true);
+        } else {
+            $("input[class='chkEDIT']").not(':first').prop("checked", false);
+        }
+    });
+
+</script>

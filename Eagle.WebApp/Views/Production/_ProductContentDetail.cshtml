@@ -1,0 +1,84 @@
+﻿@model Eagle.Services.Dtos.Business.ProductInfoDetail
+<div class="content-md container">
+    <div class="product-body row">
+        <div class="product-left col-md-8">
+            <div class="product-container">
+                @if (Model != null)
+                {
+                    <div class="tab-v5">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active"><a href="#description" role="tab" data-toggle="tab">@Html.Raw(LanguageResource.Description)</a></li>
+                            <li><a href="#specification" role="tab" data-toggle="tab">@Html.Raw(LanguageResource.Specification)</a></li>
+                            <li><a href="#vendor" role="tab" data-toggle="tab">@Html.Raw(LanguageResource.Vendor)</a></li>
+                            @*<li><a href="#reviews" role="tab" data-toggle="tab">@Html.Raw(LanguageResource.Reviews)</a></li>*@
+                        </ul>
+
+                        <div class="tab-content">
+
+                            <!-- Description -->
+                            <div class="tab-pane fade in active" id="description">
+                                <div class="row">
+                                    <img src='@Model.SmallPhotoUrl' class="thumb-image" width='450' height='350'/>
+                                </div>
+                                <div class="row">
+                                    @Html.Raw(Model.ProductName)
+                                </div>
+                                <div class="row">
+                                    @Html.Raw(Model.ShortDescription)
+                                </div>
+                            </div>
+
+                            <!-- Specification -->
+                            <div class="tab-pane fade" id="specification">
+                                <h3 class="heading-md margin-bottom-20">@Html.Raw(Model.ProductName)</h3>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <ul class="list-unstyled specifies-list">
+                                            <li><i class="fa fa-caret-right"></i>@Html.DisplayNameFor(model => model.ProductCode) : <span>@Html.Raw(Model.ProductCode)</span></li>
+                                            <li><i class="fa fa-caret-right"></i>@Html.DisplayNameFor(model => model.CategoryId) : <span>@Html.Raw(Model.ProductCategory.CategoryName) </span></li>
+                                            <li><i class="fa fa-caret-right"></i>@Html.DisplayNameFor(model => model.ManufacturerId) : <span>@Html.Raw(Model.Manufacturer.ManufacturerName) </span></li>
+                                            <li><i class="fa fa-caret-right"></i>@Html.DisplayNameFor(model => model.UnitsInStock) : <span>@Html.Raw(Model.UnitsInStock) </span></li>
+                                            <li><i class="fa fa-caret-right"></i>@Html.DisplayNameFor(model => model.NetPrice) : <span>@Html.Raw(Model.NetPrice) </span></li>
+                                            <li><i class="fa fa-caret-right"></i>@Html.DisplayNameFor(model => model.GrossPrice) : <span>@Html.Raw(Model.GrossPrice) </span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Vendor -->
+                            <div class="tab-pane fade" id="vendor">
+                                @if (Model.VendorId != null && Model.VendorId > 0)
+                                {
+                                    @Html.Action("Details", "VendorInfo", new {vendorId = Model.VendorId})
+                                }
+                            </div>
+
+                            <!-- Reviews -->
+                            @*<div class="tab-pane fade" id="reviews">
+                                @Html.Action("GetComments", "Production", new {productId = Model.ProductId})
+
+                                <h3 class="heading-md margin-bottom-30">Add a review</h3>
+                                @Html.Action("CreateComment", "Production", new {productId = Model.ProductId})
+                            </div>*@
+                            <!-- End Reviews -->
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row">@Html.Raw(LanguageResource.Updating)</div>
+                }
+            </div>
+        </div>
+        <div class="product-right col-md-4">
+            <div class="col-md-12">
+                <div id="list-container" class="row related-products">
+                    @{
+                        Html.RenderAction("GetRelatedProducts", "Production", new { categoryId = Model.CategoryId });
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

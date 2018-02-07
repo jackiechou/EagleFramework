@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = LanguageResource.EditMediaType;
+}
+
+@using Eagle.Core.Settings
+@model Eagle.Services.Dtos.Contents.Media.MediaTypeEditEntry
+
+<div class="panel panel-default">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditMediaType", name = "frmEditMediaType", autocomplete = "off", @class = "form-horizontal" }))
+    {
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <button type="button" class="btn btn-default load-back-form" onclick="location.href = '@Url.Action("Index", "MediaType")'">
+                            <span class="glyphicon glyphicon-backward"></span> @LanguageResource.Back
+                        </button>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditMediaType" data-id="@Model.TypeId" data-url='@Url.Action("Edit", "MediaType")' value="@LanguageResource.Reset"/>
+                        <input type="button" class="btn btn-primary edit editMediaType" data-mode="edit" data-form="frmEditMediaType" data-url='@Url.Action("Edit", "MediaType")' value="@LanguageResource.Save"/>
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditMediaType</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TypeName, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.TypeName, new { @class = "form-control", required = "required"  })
+                                    @Html.ValidationMessageFor(model => model.TypeName)
+
+                                    @Html.HiddenFor(model => model.TypeId)
+                                    @Html.ValidationMessageFor(model => model.TypeId)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.Description, new { rows = 6, columns = 40, maxlength = 4000, @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Description)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        @Html.RadioButtonSwitchEnumFor(model => model.Status)
+                                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <button type="button" class="btn btn-default load-back-form" onclick="location.href = '@Url.Action("Index", "MediaType")'">
+                            <span class="glyphicon glyphicon-backward"></span> @LanguageResource.Back
+                        </button>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditMediaType" data-id="@Model.TypeId" data-url='@Url.Action("Edit", "MediaType")' value="@LanguageResource.Reset"/>
+                        <input type="button" class="btn btn-primary edit editMediaType" data-mode="edit" data-form="frmEditMediaType" data-id="@Model.TypeId" data-url='@Url.Action("Edit", "MediaType")' value="@LanguageResource.Save"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

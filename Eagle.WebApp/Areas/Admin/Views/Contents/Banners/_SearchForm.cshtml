@@ -1,0 +1,78 @@
+﻿@model Eagle.Services.Dtos.Contents.Banners.BannerSearchEntry
+
+<div class="panel panel-default search-panel">
+    <div class="panel-heading">
+        <h5>@Html.Raw(LanguageResource.Search)</h5>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearchBanner", name = "frmSearchBanner", @class = "form-horizontal" }))
+        {
+            <div class="accordion-content">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.BannerName)
+                    </div>
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.BannerName, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.BannerPositionId)
+                    </div>
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.BannerPositionId, null, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.PageId)
+                    </div>
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.PageId, null, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.Advertiser)
+                    </div>
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.Advertiser, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.BannerTypeId)
+                    </div>
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.BannerTypeId, null, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.Status)
+                    </div>
+                    <div class="col-md-8">
+                        @Html.EnumDropDownListFor(model => model.Status,  string.Format("--- {0} ---", LanguageResource.Select), new { @class = "form-control" })
+                    </div>
+                </div>
+                 
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="text-right">
+                <button type="button" class="btn btn-primary search btnSearch" data-url='@Url.Action("Search", "Banner")'>
+                    <span class="glyphicon glyphicon-search"></span> @LanguageResource.Search
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

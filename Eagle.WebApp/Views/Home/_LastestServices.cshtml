@@ -1,0 +1,122 @@
+﻿@using Eagle.Core.Settings
+@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Services.Booking.ServicePackInfoDetail>
+<div class="latest-services-slider container-fluid around-box dark">
+    <div class="service-header">
+        <h2>@LanguageResource.LatestServices</h2>
+        <span class="bordered-icon"><i class="fa fa-th-large"></i></span>
+    </div>
+    <div class="container">
+        <div id="latest-services-slider" class="carousel latest-services-slider" data-interval="3000" data-ride="carousel">
+            <div class="carousel-inner" role="listbox">
+
+                @if (Model != null && Model.Any())
+                {
+                    int i;
+                    int paging = Model.Count() % 4 < 0 ? Model.Count() / 4 : (Model.Count() / 4) + 1;
+
+                    for (i = 0; i < paging; i++)
+                    {
+                        string status = ((i == 0) ? "row item active" : "row item");
+
+                        <div class="@status">
+                            @foreach (var item in Model.Skip(i * 4).Take(4))
+                            {
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="post">
+                                        <div class="post-img-content">
+                                            <a href="@Url.Action("Details","Service", new {id = item.PackageId })" class="box-images rounded-x">
+                                                @if (!string.IsNullOrEmpty(item.FileUrl))
+                                                {
+                                                    <img src="@Url.Content(item.FileUrl)" alt="@item.PackageName">
+                                                }
+                                                else
+                                                {
+                                                    <img src="/Images/150x90.png" alt="@item.PackageName">
+                                                }
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <div class="content-details">
+                                               
+                                                <div class="service-title">
+                                                    <a href="@Url.Action("Details","Service", new {id = item.PackageId })" class="link-readmore">
+                                                        <h4>@item.PackageName </h4>
+                                                    </a>
+                                                </div>
+                                               
+                                                <div class="service-caption">
+                                                    @if (item.Category != null)
+                                                    {
+                                                        <div class="service-category">
+                                                            <span class="service-category-title">@LanguageResource.Category :</span>
+                                                            <span class="service-category-text">@item.Category.CategoryName</span>
+                                                        </div>
+                                                    }
+                                                    @if (item.Type != null)
+                                                    {
+                                                        <div class="service-type">
+                                                            <span class="service-type-title">@LanguageResource.Type :</span>
+                                                            <span class="service-type-text">@item.Type.TypeName</span>
+                                                        </div>
+                                                    }
+
+                                                    @if (item.DiscountRate != null && item.DiscountRate > 0 && item.TotalFee > 0)
+                                                    {
+                                                        <div class="discount-rate">
+                                                            <div class="saving">@LanguageResource.Saving :</div>
+                                                            <div class="xthrough">@Html.FormatValue(item.TotalFee + item.DiscountRate, "{0:c}")</div>
+                                                        </div>
+                                                    }
+
+                                                    @if (item.TotalFee != null)
+                                                    {
+                                                        <div class="price-block">
+                                                            <div class="price">
+                                                                <span class="price-title">@LanguageResource.Price :</span>
+                                                                <span class="price-tag">@((item.TotalFee == 0) ? @LanguageResource.ContactUs : @Html.FormatValue(item.TotalFee, "{0:c}"))</span>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                     
+                                                    <div class="booking-box @((item.TotalFee == 0) ? "no-price" : " ")">
+                                                        <div class="select-quantity">
+                                                            <div class="qty-container">
+                                                                <input type="text" class="select-quantity-input" value="1">
+                                                                <div class="quantity-control">
+                                                                    <span class="select-quantity-plus increment-by-one"></span>
+                                                                    <span class="select-quantity-minus decrement-by-one"></span>
+                                                                </div>
+                                                                <div class="clear"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="button-booking add-item-to-cart" data-id="@item.PackageId" data-type="@ItemType.ServicePackage">@LanguageResource.AddToCart</div>
+                                                    </div>
+                                                    <div class="button-group @((item.TotalFee == 0) ? "no-price" : " ")">
+                                                        <div class="read-more-wrapper">
+                                                            <a data-id="@item.PackageId" title="@item.PackageName" href="@Url.Content("~/Service/Details/" + item.PackageId)">
+                                                                <div class="read-more-box">
+                                                                    <span class="read-more">@LanguageResource.ReadMore</span>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        i++;
+                    }
+                }
+            </div>
+            <!-- Carousel Buttons Next/Prev -->
+            <div class="control-box">
+                <a data-slide="prev" href="#latest-services-slider" class="left carousel-control"><i class="fa fa-chevron-left"></i></a>
+                <a data-slide="next" href="#latest-services-slider" class="right carousel-control"><i class="fa fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </div>
+</div>

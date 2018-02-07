@@ -1,0 +1,50 @@
+﻿@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Services.Booking.ServicePackInfoDetail>
+
+<div id="discounted-service-container" class="panel panel-default">
+    <div class="panel-heading"><h3><span class="glyphicon glyphicon-list-alt"></span> @LanguageResource.Services</h3></div>
+    <div class="panel-body">
+        <div class="row">
+            <ul class="news-ticker">
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <li class="news-item">
+                            <div class="news-item-container">
+                                <div class="thumbnail-img">
+                                    <a id="@item.PackageId" title="@item.PackageName" href='@Url.Action("Booking", "Service", new {id = item.PackageId})'>
+                                        @if (!string.IsNullOrEmpty(item.FileUrl))
+                                        {
+                                            <img src='@item.FileUrl' alt='@item.PackageName' class="img-responsive thumb margin10 img-thumbnail">
+                                        }
+                                        else
+                                        {
+                                            <img src="/Images/150x90.png" alt='@item.PackageName' class="img-responsive thumb margin10 img-thumbnail">
+                                        }
+                                    </a>
+                                </div>
+                                <div class="caption">
+                                    <h5>
+                                        <a data-id="@item.PackageId" title="@item.PackageName" href='@Url.Action("Booking", "Service", new {id = item.PackageId})'>@item.PackageName</a>
+                                    </h5>
+                                    @if (!string.IsNullOrEmpty(item.Description))
+                                    {
+                                        <p class="dotdot">
+                                            @Html.Raw((item.Description.Length > 200) ? item.Description.Substring(0, 200) + "..." : item.Description)
+                                        </p>
+                                    }
+                                    <p>
+                                        <a class="pull-right" id="@item.PackageId" title="@item.PackageName" href='@Url.Action("Booking", "Service", new {id = item.PackageId})'>
+                                            @Html.DisplayUpperTitle(LanguageResource.ReadMore)
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,25 @@
+﻿<div id="ViewFileContent" class="modal hide fade" style="width: 800px;margin: auto auto;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">@ViewBag.PopupTitle @LanguageResource.FileContent</h3>
+    </div>
+      <div class="modal-body">
+           <div id="alertMessage">
+            @if (ViewBag.DisplayErrorMessage == true)
+            {
+                <div class="@ViewBag.CssClass">
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                    <strong>@ViewBag.SortMessage !</strong> @ViewBag.Message 
+                </div>
+            }
+        </div>
+        <div class="input-area">
+            <div class="row">
+                    Content is here
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+         <input type="button" id="btnClose" class="btn" value="@Html.Raw(LanguageResource.Close)" />
+    </div>
+</div>

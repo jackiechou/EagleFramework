@@ -1,0 +1,304 @@
+﻿@{
+    ViewBag.Title = Html.Raw(LanguageResource.Page + " : " + LanguageResource.Edit);
+}
+
+@using Eagle.Core.HtmlHelper
+@model Eagle.Services.Dtos.SystemManagement.PageEditEntry
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmEditPage", name = "frmEditPage", autocomplete = "off", @class = "form-horizontal" }))
+{
+    <div class="panel with-nav-tabs panel-info">
+        <div class="panel-heading">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditPage" data-url='@Url.Action("Edit", "Page")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save edit editPage" data-mode="edit" data-form="frmEditPage" data-url='@Url.Action("Edit", "Page")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">@LanguageResource.Details</a></li>
+                    <li><a href="#tab2" data-toggle="tab">@LanguageResource.PageSettings</a></li>
+                    <li><a href="#tab3" data-toggle="tab">Modules To Page</a></li>
+                    <li><a href="#tab4" data-toggle="tab">Permission</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div id="formMessage" class="form-message">
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </div>
+            <div id="formBody" class="form-horizontal">
+                <div class="form-container">
+                    <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                    <div class="form-body-container">
+                        <div class="form-horizontal">
+
+                            <div class="tab-content no-border">
+                                <div class="tab-pane fade in active" id="tab1">
+                                    <!--start row-->
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.RequiredLabelFor(model => model.PageTypeId)
+                                        </div>
+                                        <div class="col-md-7">
+                                            @Html.DropDownListFor(model => model.PageTypeId, null, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.PageTypeId)
+
+                                            @Html.TextBoxFor(model => model.PageId, new { @style = "position:absolute; top:-9999px; left:-9999px" })
+                                            @Html.ValidationMessageFor(model => model.PageId)
+                                        </div>
+                                        <div class="col-md-3 no-padding-left">
+                                            <div class="checkbox-slider--b">
+                                                <label>
+                                                    @{
+                                                        if (Model.IsSecured!=null && Model.IsSecured==true)
+                                                        {
+                                                            <input type="checkbox" id="IsSecured" name="IsSecured" checked="checked" value="true"><span>@LanguageResource.IsSecured</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" id="IsSecured" name="IsSecured" value="false"><span>@LanguageResource.IsSecured</span>
+                                                        }
+                                                    }
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.RequiredLabelFor(model => model.PageName)
+                                        </div>
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.PageName, null, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.PageName)
+                                        </div>
+                                        <div class="col-md-3 no-padding-left">
+                                            <div class="checkbox-slider--b">
+                                                <label>
+                                                    @{
+                                                        if (Model.IsMenu)
+                                                        {
+                                                            <input type="checkbox" id="IsMenu" name="IsMenu" checked="checked" value="true"><span>@LanguageResource.IsMenu</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" id="IsMenu" name="IsMenu" value="false"><span>@LanguageResource.IsMenu</span>
+                                                        }
+                                                    }
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.RequiredLabelFor(model => model.PageTitle)
+                                        </div>
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.PageTitle, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.PageTitle)
+                                        </div>
+                                        <div class="col-md-3 no-padding-left">
+                                            <div class="checkbox-slider--b">
+                                                <label>
+                                                    @{
+                                                        if (Model.DisplayTitle)
+                                                        {
+                                                            <input type="checkbox" id="DisplayTitle" name="DisplayTitle" checked="checked" value="true"><span>@LanguageResource.DisplayTitle</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" id="DisplayTitle" name="DisplayTitle" value="false"><span>@LanguageResource.DisplayTitle</span>
+                                                        }
+                                                    }
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.RequiredLabelFor(model => model.PageCode)
+                                        </div>
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.PageCode, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.PageCode)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.Keywords)
+                                        </div>
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.Keywords, null, new Dictionary<string, object>
+                                        {
+                                            {"class", "form-control"},
+                                            {"placeholder", LanguageResource.Keywords},
+                                            {"data-role", "tagsinput"}
+                                        })
+                                        </div>
+                                        <div class="col-md-3 no-padding-left">
+                                            <div class="checkbox-slider--b">
+                                                <label>
+                                                    @{
+                                                        if (Model.DisableLink != null && Model.DisableLink == true)
+                                                        {
+                                                            <input type="checkbox" id="DisableLink" name="DisableLink" checked="checked" value="true"><span>@LanguageResource.DisableLink</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" id="DisableLink" name="DisableLink" value="false"><span>@LanguageResource.DisableLink</span>
+                                                        }
+                                                    }
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.PageUrl)
+                                        </div>
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.PageUrl, null, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.PageUrl)
+                                        </div>
+                                        <div class="col-md-3 no-padding-left">
+                                            <div class="checkbox-slider--b">
+                                                <label>
+                                                    @{
+                                                        if (Model.IsExtenalLink != null && Model.IsExtenalLink == true)
+                                                        {
+                                                            <input type="checkbox" id="IsExtenalLink" name="IsExtenalLink" checked="checked" value="true"><span>@LanguageResource.IsExtenalLink</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" id="IsExtenalLink" name="IsExtenalLink" value="false"><span>@LanguageResource.IsExtenalLink</span>
+                                                        }
+                                                    }
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.PagePath)
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.TextBoxFor(model => model.PagePath, null, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.PagePath)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.StartDate)
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.DatePickerFor(model => model.StartDate, @Model.StartDate?.ToString("dd/MM/yyyy"), new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.StartDate)
+                                        </div>
+
+                                        <div class="col-md-2 text-right">
+                                            @Html.LabelFor(model => model.EndDate)
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.DatePickerFor(model => model.EndDate)
+                                            @Html.ValidationMessageFor(model => model.EndDate)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.Description)
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.Description, new { rows = 2, columns = 40, maxlength = 500, @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Description)
+                                        </div>
+                                    </div>
+                                    <!--end row-->
+                                </div>
+
+                                <div class="tab-pane fade" id="tab2">
+                                    <!--start row-->
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.TemplateId)
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(model => model.TemplateId, null, new { @class = "form-control", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(model => model.TemplateId)
+                                        </div>
+                                        <div class="col-md-1 no-padding-left no-padding-right">
+                                            @Html.LabelFor(model => model.IconClass)
+                                        </div>
+                                        <div class="col-md-1 no-padding-left no-padding-right">
+                                            <button class="btn btn-default iconpicker" data-icon="glyphicon-picture" data-arrow-class="btn-success" role="iconpicker"></button>
+                                            <input type="hidden" id="IconClass" name="IconClass" class="form-control" value="@Model.IconClass">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.PageHeadText)
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.PageHeadText, new { rows = 2, columns = 40, maxlength = 500, @class = "form-control ckeditor" })
+                                            @Html.ValidationMessageFor(model => model.PageHeadText)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(model => model.PageFooterText)
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.PageFooterText, new { rows = 2, columns = 40, @class = "form-control ckeditor" })
+                                            @Html.ValidationMessageFor(model => model.PageFooterText)
+                                        </div>
+                                    </div>
+
+                                    <!--end row-->
+                                </div>
+
+                                <div id="tab3" class="tab-pane fade">
+                                    <!--start row-->
+                                    @Html.Partial("../Sys/Pages/_ModuleList")
+                                    <!--end row-->
+                                </div>
+
+                                <div id="tab4" class="tab-pane fade">
+                                    <!--start row-->
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.Action("LoadPagePermission", "Page", new { id = Model.PageId })
+                                        </div>
+                                    </div>
+                                    <!--end row-->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="frmEditPage" data-url='@Url.Action("Edit", "Page")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save edit editPage" data-mode="edit" data-form="frmEditPage" data-url='@Url.Action("Edit", "Page")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                                                        }

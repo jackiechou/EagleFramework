@@ -1,0 +1,68 @@
+﻿@using Eagle.Entities.SystemManagement
+@model Eagle.Services.Dtos.Contents.Galleries.GalleryFileSearchEntry
+
+<div class="panel panel-default search-panel">
+    <div class="panel-heading text-bold">
+        <div class="row">
+            <div class="col-md-4 no-padding-left">
+                @Html.Raw(LanguageResource.Search)
+            </div>
+            <div class="col-md-8 no-padding-right">
+                <div class="btn-toolbar pull-right" role="toolbar">
+                    <button type="button" class="btn btn-default reset" data-form="frmSearch" data-mode="search">
+                        <small><span class="glyphicon glyphicon-refresh reset"></span></small>
+                    </button>
+                    <button type="button" class="btn btn-default search" data-form="frmSearch" data-mode="search">
+                        <small><span class="glyphicon glyphicon-search"></span></small>
+                    </button>
+                    <button type="button" class="btn btn-default populate-add-form" data-url='@Url.Action("Create","GalleryFile")'>
+                        <small><span class="glyphicon glyphicon-plus"></span></small>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+        {
+            <div id="formMessage" class="form-message">
+                @Html.ValidationSummary("", new { @class = "alert alert-danger" })
+            </div>
+            <div class="container-fluid">
+                <div class="form-container">
+                    <div class="form-body-container">
+                        <div class="form-group">
+                            <label class="col-sm-12" for="SearchTopicId">@LanguageResource.Topic</label>
+                            <div class="col-sm-12">
+                                <input id="cbxTopicTree" class="easyui-combotree form-control cbxTopicTree" data-url='@Url.Action("PoplulateGalleryTopicTree", "GalleryFile")' style="width: 100%;">
+                                <input type="hidden" id="SearchTopicId" name="SearchTopicId" value="0" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-12" for="SearchCollectionId">@LanguageResource.Collection</label>
+                            <div class="col-sm-12">
+                                <select id="SearchCollectionId" name="SearchCollectionId" class="form-control cbxCollection" data-url='@Url.Action("GetGalleryCollectionSelectList", "GalleryFile")'></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-12" for="SearchStatus">@LanguageResource.Status</label>
+                            <div class="col-sm-12">
+                                @Html.EnumDropDownListFor(model => model.SearchStatus, LanguageResource.PleaseSelect, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        <div class="btn-toolbar pull-right" role="toolbar">
+            <button type="button" class="btn btn-default reset" data-form="frmSearch" data-mode="search">
+                <small><span class="glyphicon glyphicon-refresh reset"></span></small> @LanguageResource.Reset
+            </button>
+            <button type="button" class="btn btn-default search" data-form="frmSearch" data-mode="search">
+                <small><span class="glyphicon glyphicon-search"></span></small> @LanguageResource.Search
+            </button>
+        </div>
+    </div>
+</div>

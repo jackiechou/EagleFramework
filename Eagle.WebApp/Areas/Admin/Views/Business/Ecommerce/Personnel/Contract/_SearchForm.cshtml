@@ -1,0 +1,46 @@
+﻿@model Eagle.Services.Dtos.Business.Personnel.ContractSearchEntry
+<div class="panel panel-primary search-panel">
+    <div class="panel-heading text-bold">
+        <div class="row">
+            <div class="col-md-10">
+                <h5>@Html.Raw(LanguageResource.List)</h5>
+            </div>
+            <div class="col-md-2 text-right">
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-default back-form" onclick="location.href = '@Url.Action("Index", "Contract")'">
+                        <span class="glyphicon glyphicon-home"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+
+        <div class="search-form">
+            @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "frmSearch", name = "frmSearch", @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary("", new { @class = "alert alert-danger" })
+                <div class="row margin-bottom-15">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            @Html.TextBoxFor(model => model.Keywords, new { @class = "form-control", placeholder = @LanguageResource.Keywords })
+                        </span>
+                        <span class="input-group-addon">
+                            @Html.DropDownListFor(model => model.IsActive, null, new { @class = "form-control" })
+                        </span>
+                        <span class="input-group-addon reset" role="button" data-form="frmSearch" data-mode="search">
+                            <span class="glyphicon glyphicon-refresh"></span>
+                        </span>
+                        <span class="input-group-addon search" role="button" data-form="frmSearch" data-mode="search">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div id="search-result" class="row">
+            @Html.Action("Search", "Contract")
+        </div>
+    </div>
+</div>

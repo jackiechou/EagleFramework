@@ -1,0 +1,73 @@
+﻿@using System.Linq
+@using Eagle.Core.Pagination.Extension
+@using Eagle.Core.Settings
+@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Contents.Media.MediaFileInfoDetail>
+<div class="table-responsive">
+    <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+        <thead>
+            <tr>
+                <th class="text-center">
+                    @LanguageResource.SequenceNo
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().DocumentFileInfo.FileName)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().DocumentFileInfo.IsActive)
+                </th>
+                <th class="table-actions text_center no-sort">@LanguageResource.Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                int i = 0;
+                foreach (var item in Model)
+                {
+                    int index = i + 1;
+                    <tr>
+                        <td class="text-center">
+                            @index
+                        </td>
+                        <td data-id="@item.MediaId">
+                            @Html.DisplayFor(modelItem => item.DocumentFileInfo.FileName)
+                        </td>
+                        <td class="text-center">
+                            <div class="changeStatus" data-id="@item.FileId" data-url='@Url.Action("UpdateStatus", "MediaFile")' data-warning="@LanguageResource.DoYouWantToContinue">
+                                @Html.RadioButtonSwitchEnumFor(modelItem => item.DocumentFileInfo.IsActive)
+                            </div>
+                        </td>
+                        <td class="table-actions text-center center no-sort">
+                            <a data-id="@item.MediaId" title="@LanguageResource.Delete" class="btn btn-small btn-warning delete deleteItem" data-container="divEdit" data-url='@Url.Action("Delete", "MediaFile")' data-warning="@LanguageResource.DoYouWantToDeleteItem"><span class="glyphicon glyphicon-align-center icon-trash"></span></a>
+                            <a data-id="@item.MediaId" title="@Html.Raw(LanguageResource.Edit)" class="btn btn-small btn-primary editItem" data-container="divEdit" data-url='@Url.Action("Edit", "MediaFile")'><span class="icon-edit"></span></a>
+                        </td>
+                    </tr>
+                                                    i++;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="5" class="text-center">@LanguageResource.NoRecordFound</td>
+                                                </tr>
+                                            }
+        </tbody>
+    </table>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="datagrid-pager row">
+        <div class="datagrid-pagination pull-right text-right">
+            @Html.PagedListPager(Model, page => Url.Action("Search", "MediaFile", new { filter = Model, page, sourceEvent = "Result" }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                {
+                    MaximumPageNumbersToDisplay = 10,
+                    DisplayPageCountAndCurrentLocation = true,
+                    PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat, //"Page {0} of {1}"
+                    DisplayItemSliceAndTotal = true,
+                    ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat //"Showing items {0} through {1} of {2}."
+                }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "dataGrid" }))
+        </div>
+    </div>
+}

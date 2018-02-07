@@ -1,0 +1,99 @@
+﻿@using Eagle.Core.HtmlHelper
+@model Eagle.Services.Dtos.Contents.Media.MediaTopicEditEntry
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "myform", name = "myform", autocomplete = "off", @class = "form-horizontal" }))
+{
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading text-bold">
+                <div class='page-header margin-top-5 margin-bottom-0'>
+                    <div class='btn-toolbar pull-right'>
+                        <div class='btn-group'>
+                            <button type="button" class="btn btn-default load-back-form" onclick="location.href = '@Url.Action("Index", "MediaTopic")'">
+                                <span class="glyphicon glyphicon-backward"></span> @LanguageResource.Back
+                            </button>
+                            <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="myform" data-id="@Model.TopicId" data-url='@Url.Action("Edit", "MediaTopic")' value="@LanguageResource.Reset"/>
+                            <input type="button" class="btn btn-primary save edit editMediaTopic" data-mode="edit" data-form="myform" data-id="@Model.TopicId" data-url='@Url.Action("Edit", "MediaTopic")' value="@LanguageResource.Save"/>
+                        </div>
+                    </div>
+                    <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.EditMediaTopic</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div id="formMessage" class="form-message">
+                    @Html.AntiForgeryToken()
+                    @Html.Partial("_MessagePartial")
+                    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+                </div>
+                <div id="formBody">
+                    <div class="container-fluid">
+                        <div class="form-container">
+                            <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                            <div class="form-body-container">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        @Html.RequiredLabelFor(model => model.TopicName, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(model => model.TopicName, null, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.TopicName)
+
+                                            @Html.HiddenFor(model => model.TopicId)
+                                            @Html.ValidationMessageFor(model => model.TopicId)
+                                        </div>
+                                        <div class="col-md-1 no-padding-left no-padding-right">
+                                            @Html.LabelFor(model => model.Icon)
+                                        </div>
+                                        <div class="col-md-1 no-padding-left no-padding-right">
+                                            <button class="btn btn-default iconpicker" data-icon="glyphicon-picture" data-arrow-class="btn-success" role="iconpicker"></button>
+                                            <input type="hidden" id="Icon" name="Icon" class="form-control" value="@Model.Icon">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.TypeId, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            <select id="TypeId" name="TypeId" data-id="@Model.TypeId" data-url='@Url.Action("PoplulateMediaTypeSelectList", "MediaTopic")' class="form-control"></select>
+                                            @Html.ValidationMessageFor(model => model.TypeId)
+                                        </div>
+                                        @Html.RequiredLabelFor(model => model.ParentId, new {@class = "control-label col-md-2"})
+                                        <div class="col-md-4">
+                                            <input id="ParentId" name="ParentId" value="@Model.ParentId" class="easyui-combotree form-control cbxParentTree" data-url='@Url.Action("GetMediaTopicSelectTree", "MediaTopic")' style="width: 100%;">
+                                            @Html.ValidationMessageFor(model => model.ParentId)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.Description, new { rows = 2, columns = 40, @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Description)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.RadioButtonSwitchEnumFor(model => model.Status)
+                                            @Html.ValidationMessageFor(model => model.Status)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class='btn-toolbar pull-right'>
+                        <div class='btn-group'>
+                            <button type="button" class="btn btn-default load-back-form" onclick="location.href = '@Url.Action("Index", "MediaTopic")'">
+                                <span class="glyphicon glyphicon-backward"></span> @LanguageResource.Back
+                            </button>
+                            <input type="button" class="btn btn-default reset btnReset" data-mode="edit" data-form="myform" data-id="@Model.TopicId" data-url='@Url.Action("Edit", "MediaTopic")' value="@LanguageResource.Reset"/>
+                            <input type="button" class="btn btn-primary save edit editMediaTopic" data-mode="edit" data-form="myform" data-id="@Model.TopicId"  data-url='@Url.Action("Edit", "MediaTopic")' value="@LanguageResource.Save"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

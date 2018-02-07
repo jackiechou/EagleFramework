@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = LanguageResource.Service;
+    Layout = Eagle.Services.Skins.ThemeViewEngine.DesktopSubLayout;
+}
+
+<div id="page" class="container-fluid">
+    <div class="page-content container">
+        <div class="col-md-12 service_page servicepack_by_category" id="list-service-packs">
+
+            <div class="article-body row">
+                <div class="article-left col-md-8">
+                    <div id="divEdit" class="row">
+                        @{
+                            @Html.Action("GetServicePacks", "Service", new {categoryId = (int) ViewBag.CategoryId})
+                        }
+                    </div>
+                </div>
+                <div class="article-right col-md-4">
+                    @{
+                        @Html.Action("GetLastestServicesRight", "Service", new { page = 1, pageSize = 5 })
+                    }
+                </div>
+                @*<div class="note">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="service-fee">@Html.FormatValue(item.TotalFee, "{0:c}")</span>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="read-more-wrapper">
+                                <a class="read-more" data-id="@item.PackageId" title="@item.PackageName" href="@Url.Content("~/Service/Details/"+item.PackageId)">
+                                    @LanguageResource.ReadMore
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+        </div>
+        @*<div class="col-md-12">
+                <div class="row-home" style="display: none">
+                    @Html.Partial("../Services/_ServiceCategory")
+                </div>
+                <div class="row-home">
+
+                </div>
+            </div>*@
+    </div>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        window.GetServiceCategorySelectTreeUrl = '@Url.Action("GetServiceCategoryTree", "Service")';
+        window.GetServicePacksByCategoryId = '@Url.Action("GetServicesByCategoryId", "Service")';
+    </script>
+
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui-custom.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon-custom.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <script src="~/Themes/Booking/Content/js/app/service.js"></script>
+}

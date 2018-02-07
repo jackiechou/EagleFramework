@@ -1,0 +1,102 @@
+﻿@model Eagle.Services.Dtos.Contents.Articles.NewsInfoDetail
+@{
+    ViewBag.Title = LanguageResource.NewsDetail;
+    Layout = Eagle.Services.Skins.ThemeViewEngine.DesktopMainLayout;
+}
+
+<div id="page" class="row">
+    <div class="page-content container">
+        <div class="article-body row">
+            <div class="article-left col-md-8">
+                <div class="article-container">
+                    @if (Model != null)
+                    {
+                        <div class="article-header">
+                            <div class="headline">
+                                <h3>@Model.Headline</h3>
+                            </div>
+                            <div class="header-caption">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <span>
+                                            <em>@string.Format("{0} : {1}",LanguageResource.Category,Model.CategoryName)</em>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-4 text-right">
+                                        @if (!string.IsNullOrEmpty(Model.Authors))
+                                        {
+                                            <span>
+                                                <em>
+                                                    @string.Format("{0} : {1}", LanguageResource.Authors, Model.Authors)
+                                                </em>
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <span>
+                                            <em>
+                                                @string.Format("{0} : {1}", LanguageResource.PostedBy, Model.FullName)
+                                            </em>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-4 text-right">
+                                        <span>
+                                            <em>
+                                                @string.Format("{0} : {1:dd-MM-yyyy}", LanguageResource.PostedDate, Model.PostedDate)
+                                            </em>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="rating-container">
+                            <div class="star-rating" id="starRating_@Model.NewsId" star-id="@Model.NewsId" star-url='@Url.Action("CreateNewsRating", "Article")' rating-type="news">
+                                <span class="fa fa-star-o" data-rating="1" title="Did not like it"></span>
+                                <span class="fa fa-star-o" data-rating="2" title="it was okay"></span>
+                                <span class="fa fa-star-o" data-rating="3" title="Liked it"></span>
+                                <span class="fa fa-star-o" data-rating="4" title="Really liked it"></span>
+                                <span class="fa fa-star-o" data-rating="5" title="It was amazing"></span>
+                                <input type="hidden" name="ratingValue" id="ratingValue_@Model.NewsId" input-id="@Model.NewsId" class="rating-value" value="@Model.TotalRates">
+                            </div>
+                        </div>
+                        <div class="article-body">
+                            <div class="article-image">
+                                <img src='@Model.FrontImageUrl' class="thumb-image" width='350'/>
+                            </div>
+                            <div class="article-content" style="font-size: small;">
+                                @Html.Raw(Model.Summary)
+                                <div class="content">
+                                    @Html.Raw(Model.MainText)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="article-footer">
+                            @Html.Partial("../Shared/Booking/_SocialLinks")
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <p>@Html.Raw(LanguageResource.NotFound)</p>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="article-right col-md-4">
+                <div class="row padding-bottom-15">
+                    @{
+                        Html.RenderAction("GetHotNews", "Article");
+                    }
+                </div>
+                <div class="row padding-bottom-15">
+                    @{
+                        Html.RenderAction("GetMostViewedNews", "Article");
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

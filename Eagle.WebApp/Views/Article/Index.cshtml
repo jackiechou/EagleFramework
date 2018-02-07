@@ -1,0 +1,50 @@
+﻿@using Eagle.Core.HtmlHelper
+@using Eagle.Services.Dtos.Contents.Articles
+@using Eagle.Services.Skins
+@using Eagle.WebApp.Themes
+@model Eagle.Services.Dtos.Contents.Articles.NewsSearchEntry
+@{
+    ViewBag.Title = LanguageResource.News;
+    Layout = ThemeViewEngine.DesktopSubLayout;
+}
+<div id="page" class="row">
+    <div class="page-content container content-xs">
+        <div class="article-body row">
+            <div class="article-left col-md-8">
+                <div class="news-container">
+                    <div class="top-news-thumbnails">
+                        @Html.Action("GetTopNews", "Article", new { num = 4 })
+                    </div>
+                    <div class="news-grid">
+                        @Html.Partial("../Article/_SearchForm")
+                    </div>
+                </div>
+            </div>
+            <div class="article-right col-md-4">
+                <div class="row padding-bottom-10">
+                    @Html.Partial("../Article/Tabs/_ArticleTabs")
+                </div>
+                <div class="row padding-bottom-10">
+                    @Html.Action("GetDiscountedPackageTicker", "Home")
+                </div>
+                <div class="row">
+                    @Html.Action("GetDiscountedProductVertialSlide", "Home")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        window.SearchNewsUrl = '@Url.Action("Search", "Article")';
+        //window.UpdateRatingUrl = '@Url.Action("CreateNewsRating", "Article")';
+    </script>
+
+    <script src="~/Scripts/plugins/bootstrap-plugins/bootstrap-newsbox/jquery.bootstrap.newsbox.min.js"></script>
+    <!-- tree -->
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/bootstrap/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/plugins/easyui/themes/icon.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/plugins/easyui/jquery.easyui.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/theme/default/article.js")"></script>
+}

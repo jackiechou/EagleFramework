@@ -1,0 +1,46 @@
+﻿@*@model List<Common_spRemind_GetAll_Result>
+
+    <div id="notification_li">
+        <a href="#" id="notificationLink">@LanguageResource.Remind</a>
+        <span id="notification_count">@if (Model != null) { @Model.Count }</span>
+
+        <div id="notificationContainer">
+            <div id="notificationTitle">@LanguageResource.Remind</div>
+            <div id="notificationsBody" class="notifications">
+
+                <ul>
+                @if (Model != null && Model.Count > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <li>
+                            <a href="@item.href">
+                                <div class="avatar">
+                                    @Html.ImageByFileId("Photo", item.AvatarID, item.Name, new { width = "80", height = "80", @class = "media-object img-thumbnail user-img img-rounded", @style = "width:50px; height=50px;overflow-x:hidden;border:1px solid #CCC;" })
+                                </div>
+                                <div class="container">
+                                    <span class="name">@item.Name</span>
+                                    <span class="message"><i class="glyphicon glyphicon-share-alt"></i>@item.SoftDescription
+                                        <br>
+                                    </span>
+                                    <span class="date">
+                                        @if (item.CreateTime != null)
+                                        {
+                                            @item.CreateTime.Value.ToString("hh:mm dd/MM/yyyy")
+                                        }
+                                    </span>
+                                </div>
+                            </a>
+                        </li>
+                    }
+                }
+                </ul>
+            </div>
+            <div id="notificationFooter"><a href="#">@LanguageResource.SeeAll</a></div>
+        </div>
+    </div>*@
+
+<a href="#" data-placement="bottom" data-original-title="Reminder" rel="tooltip">
+    <i class="glyphicon glyphicon-bell"></i>@LanguageResource.Remind
+    <span class="label label-warning">5</span>
+</a>

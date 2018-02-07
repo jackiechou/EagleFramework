@@ -1,0 +1,114 @@
+﻿@using Eagle.Core.Configuration
+@using Eagle.Core.Pagination.Extension
+@using Eagle.Core.Settings
+@model Eagle.Core.Pagination.IPagedList<Eagle.Services.Dtos.Services.Booking.ServicePackInfoDetail>
+<div id="relarted-services" class="related-service-container row">
+    <div class="threads">
+        <div class="title">
+            <h3 class="dotdot">@Html.Raw(LanguageResource.RelatedServices)</h3>
+            <p class="line"></p>
+        </div>
+        @if (Model != null && Model.Any())
+        {
+            <ul>
+                @foreach (var item in Model)
+                {
+                    <li>
+                        <a class="avatar" title="@item.PackageName" href="@Url.Action("Details", "Service", new { id = item.PackageId})">
+                            <img src="@Url.Content(item.FileUrl)" alt="@item.PackageName" title="@item.PackageName">
+                        </a>
+                        <h3>
+                            <a title="@item.PackageName" href="@Url.Action("Details", "Service", new { id = item.PackageId})">
+                                @item.PackageName
+                            </a>
+                        </h3>
+                        <div class="rating-container">
+                            <div class="star-rating" id="starRating_@item.PackageId" star-id="@item.PackageId" star-url='@Url.Action("CreateServicePackRating", "Service")' rating-type="service">
+                                <span class="fa fa-star-o" data-rating="1" title="Did not like it"></span>
+                                <span class="fa fa-star-o" data-rating="2" title="it was okay"></span>
+                                <span class="fa fa-star-o" data-rating="3" title="Liked it"></span>
+                                <span class="fa fa-star-o" data-rating="4" title="Really liked it"></span>
+                                <span class="fa fa-star-o" data-rating="5" title="It was amazing"></span>
+                                <input type="hidden" name="ratingValue" id="ratingValue_@item.PackageId" input-id="@item.PackageId" class="rating-value" value="@item.Rating">
+                            </div>
+                        </div>
+                        <div class="description dotdot">@item.Description</div>
+                        <div class="service-caption">
+                            @if (item.Category != null)
+                            {
+                                <div class="service-category">
+                                    <span class="service-category-title">@LanguageResource.Category :</span>
+                                    <span class="service-category-text">@item.Category.CategoryName</span>
+                                </div>
+                            }
+                            @if (item.Type != null)
+                            {
+                                <div class="service-type">
+                                    <span class="service-type-title">@LanguageResource.Type :</span>
+                                    <span class="service-type-text">@item.Type.TypeName</span>
+                                </div>
+                            }
+
+                            @if (item.DiscountRate != null && item.DiscountRate > 0 && item.TotalFee > 0)
+                            {
+                                <div class="discount-rate">
+                                    <div class="saving">@LanguageResource.Saving :</div>
+                                    <div class="xthrough">@Html.FormatValue(item.TotalFee + item.DiscountRate, "{0:c}")</div>
+                                </div>
+                            }
+                        </div>
+                        <div class="booking-box">
+                            <div class="select-quantity">
+                                <div class="qty-container">
+                                    <input type="text" class="select-quantity-input" value="1">
+                                    <div class="quantity-control">
+                                        <span class="select-quantity-plus increment-by-one"></span>
+                                        <span class="select-quantity-minus decrement-by-one"></span>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                            <div class="button-booking add-item-to-cart" data-id="@item.PackageId" data-type="@ItemType.ServicePackage">@LanguageResource.AddToCart</div>
+                        </div>
+                        <div class="note">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span class="service-fee">@((item.TotalFee == 0) ? @LanguageResource.ContactUs : @Html.FormatValue(item.TotalFee, "{0:c}"))</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="pull-right">
+                                        <a class="read-more" data-id="@item.PackageId" title="@item.PackageName" href="@Url.Content("~/Service/Details/"+item.PackageId)">
+                                            @LanguageResource.ReadMore
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+        <div class="clearfix"></div>
+    </div>
+
+</div>
+<div class="pagination col-md-12">
+    @if (Model != null && Model.Any())
+    {
+        <div class="datagrid-pager row">
+            <div class="datagrid-pagination pull-right text-right">
+                @Html.PagedListPager(Model, page => Url.Action("GetRelatedServices", "Service", new { servicePackageId = ViewBag.SevicePackageId, page = page }),
+                    PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                    {
+                        MaximumPageNumbersToDisplay = 6,
+                        DisplayPageCountAndCurrentLocation = true,
+                        PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                    }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "list-service-packs" }))
+            </div>
+        </div>
+    }
+    else
+    {
+        <a href="">@LanguageResource.ViewAll</a>
+    }
+</div>

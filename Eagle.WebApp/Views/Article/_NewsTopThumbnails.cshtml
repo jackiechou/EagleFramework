@@ -1,0 +1,113 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Contents.Articles.NewsInfoDetail>
+
+<div class="top-new-container">
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            var firstItem = Model.FirstOrDefault();
+            if (firstItem != null)
+            {
+                <div class="col-sm-7">
+                    <!-- artigo em destaque -->
+                    <div class="featured-article row">
+                        <a data-id="@firstItem.NewsId" class="big_image" title="@firstItem.Title" href='@Url.Action("Details", "Article", new {id = firstItem.NewsId})'>
+                            @if (!string.IsNullOrEmpty(firstItem.MainImageUrl))
+                            {
+                                <img src='@firstItem.MainImageUrl' alt='@firstItem.Title' class="img-responsive">
+                            }
+                            else
+                            {
+                                <img src="/Images/482x350.png" alt='@firstItem.Title' class="img-responsive">
+                            }
+                        </a>
+                        <div class="block-title">
+                            <a data-id="@firstItem.NewsId" title="@firstItem.Title" href='@Url.Action("Details", "Article", new {id = firstItem.NewsId})'>
+                                <h4>@firstItem.Headline</h4>
+                            </a>
+                            @*<p class="by-author">
+                                @if (!string.IsNullOrEmpty(firstItem.Authors))
+                                {
+                                    <small>@firstItem.Authors</small>
+                                }
+                                else
+                                {
+                                    <small>@firstItem.FullName</small>
+                                }
+                            </p>*@
+                            <div class="rating-container">
+                                <div class="star-rating" id="starRating_@firstItem.NewsId" star-id="@firstItem.NewsId" star-url='@Url.Action("CreateNewsRating", "Article")' rating-type="news">
+                                    <span class="fa fa-star-o" data-rating="1" title="Did not like it"></span>
+                                    <span class="fa fa-star-o" data-rating="2" title="it was okay"></span>
+                                    <span class="fa fa-star-o" data-rating="3" title="Liked it"></span>
+                                    <span class="fa fa-star-o" data-rating="4" title="Really liked it"></span>
+                                    <span class="fa fa-star-o" data-rating="5" title="It was amazing"></span>
+                                    <input type="hidden" name="ratingValue" id="ratingValue_@firstItem.NewsId" input-id="@firstItem.NewsId" class="rating-value" value="@firstItem.TotalRates">
+                                </div>
+                            </div>
+                            <div class="summary dotdot">
+                                @if (!string.IsNullOrEmpty(firstItem.Summary))
+                                {
+                                    <p>@Html.Raw(Eagle.Common.Utilities.StringUtils.StripHtml(firstItem.Summary))</p>
+                                }
+                                else
+                                {
+                                    if (!string.IsNullOrEmpty(firstItem.MainText) && firstItem.MainText.Length > 200)
+                                    {
+                                        var desc = Eagle.Common.Utilities.StringUtils.StripHtml(firstItem.MainText);
+                                        <p class="dotdot">@desc.Substring(0, 200)</p>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.featured-article -->
+                </div>
+            }
+
+            foreach (var item in Model.Skip(1))
+            {
+
+                <div class="col-md-5 col-lg-5">
+                    <ul class="media-list main-list">
+                        <li class="media">
+                            <a class="pull-left" data-id="@item.NewsId" title="@item.Title" href='@Url.Action("Details", "Article", new {id = item.NewsId})'>
+                                @if (!string.IsNullOrEmpty(item.FrontImageUrl))
+                                {
+                                    <img src='@item.FrontImageUrl' alt='@item.Title' class="media-object">
+                                }
+                                else
+                                {
+                                    <img src="/Images/150x90.png" alt='@item.Title' class="media-object">
+                                }
+                            </a>
+                            <div class="media-body">
+                                <a data-id="@item.NewsId" title="@item.Title" href='@Url.Action("Details", "Article", new {id = item.NewsId})'>
+                                    <h4 class="media-heading">@item.Headline</h4>
+                                </a>
+                                @*<p class="by-author">@($"{LanguageResource.By} : {item.Authors ?? item.FullName}")</p>*@
+                                <div class="summary dotdot">
+                                    @if (!string.IsNullOrEmpty(item.Summary))
+                                    {
+                                        @Html.Raw(Eagle.Common.Utilities.StringUtils.StripHtml(item.Summary))
+                                    }
+                                    else
+                                    {
+                                        if (!string.IsNullOrEmpty(item.MainText) && item.MainText.Length > 200)
+                                        {
+                                            var desc = Eagle.Common.Utilities.StringUtils.StripHtml(item.MainText);
+                                            @desc.Substring(0, 200)
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="row">@LanguageResource.NotFound</div>
+        }
+    </div>
+</div>

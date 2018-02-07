@@ -1,0 +1,23 @@
+﻿@using Eagle.Services.Dtos.SystemManagement.Identity
+<div class="top-menu-toolbar btn-toolbar topnav navbar navbar-static-top">
+    <ul class="nav navbar-nav ">
+        <li>
+            <div class="reminder">
+                @Html.Action("LoadReminder", "Dashboard")
+            </div>
+        </li>
+        <li><a href="@Url.Action("Index", "Host")"><span class="glyphicon glyphicon-cog"></span> @LanguageResource.Settings</a></li>
+        <li>
+            <div class="user-profile-top">
+                @Html.Action("GeProfileOnTop", "Dashboard")
+            </div>
+        </li>
+        <li>
+            <a data-placement="bottom" data-original-title="Show / Hide Sidebar" href="javascript:void(0);" rel="tooltip" data-toggle="offcanvas" role="button" class="btn sidebar-toggle" id="changeSidebarPos">
+                <i class="glyphicon glyphicon-menu-hamburger"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+

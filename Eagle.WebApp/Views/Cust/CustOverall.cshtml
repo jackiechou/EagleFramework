@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = LanguageResource.CustomerProfile;
+    Layout = Eagle.Services.Skins.ThemeViewEngine.DesktopSubLayout;
+}
+@using Eagle.Services.Dtos.Business
+@using Eagle.Services.Dtos.Business.Transaction
+@model Eagle.Services.Dtos.Business.CustomerInfoDetail
+
+<div id="page" class="row">
+    <div class="page-content container content-sm">
+
+        <div class="col-md-3 md-margin-bottom-40">
+            <div class="box-user-image">
+                <div class="row">
+                    <div class="col-md-12">
+                        @if (!string.IsNullOrEmpty(Model.FileUrl))
+                        {
+                            <img src="@Url.Content(Model.FileUrl)" width="150" height="150" class="img-rounded img-responsive" alt="@Model.FirstName">
+                        }
+                        else
+                        {
+                            <img src='@Url.Content("~/Images/noavatar.jpg")' width="150" height="150" class="img-rounded img-responsive" alt="no-avatar">
+                        }
+                    </div>
+                    <div class="col-md-12">
+                        <blockquote>
+                            <p>@Model.FirstName</p> <small><cite title='@Model.ContactName'>@Model.CustomerNo <i class="glyphicon glyphicon-map-marker"></i></cite></small>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+            <div class="box-user-link">
+                <img class="img-responsive profile-img margin-bottom-20" src="@Model.FileUrl" alt="">
+                <ul class="list-group sidebar-nav-v1 margin-bottom-40" id="sidebar-nav-1">
+                    <li id="tab-1" class="list-group-item active">
+                        <a href="#pane-1" data-toggle="tab"><i class="fa fa-bar-chart-o"></i> @LanguageResource.Overall</a>
+                    </li>
+                    <li id="tab-2" class="list-group-item">
+                        <a href="#pane-2" data-toggle="tab"><i class="fa fa-user"></i> @LanguageResource.Profile</a>
+                    </li>
+                    <li id="tab-3" class="list-group-item">
+                        <a href="#pane-3" data-toggle="tab"><i class="fa fa-key"></i> @LanguageResource.ChangePassword</a>
+                    </li>
+                    @*<li id="tab-4" class="list-group-item">
+                    <a href="#pane-4" data-toggle="tab"><i class="fa fa-credit-card"></i> @LanguageResource.PaymentOptions</a>
+                </li>
+                <li id="tab-5" class="list-group-item">
+                    <a href="#pane-5" data-toggle="tab"><i class="fa fa-bell-o"></i> @LanguageResource.NotificationSettings</a>
+                </li>*@
+                </ul>
+            </div>
+        </div>
+        <!-- Profile Content -->
+        <div class="col-md-9">
+            <div class="profile-body tab-content margin-bottom-20">
+                <div class="customer-order-container profile-edit tab-pane fade in active" id="pane-1">
+                    @Html.Partial("../Cust/_CustOrderSearchForm", new OrderSearch {CustomerId = Model.CustomerId})
+                </div>
+                <div class="customer-profile-container profile-edit tab-pane fade" id="pane-2">
+                    @Html.Partial("../Cust/_CustProfile", Model)
+                </div>
+                <div class="change-password-container profile-edit tab-pane fade" id="pane-3">
+                    @Html.Partial("../Cust/_CustChangePassword", new CustomerChangePassword {Email = Model.Email, OldPassword = Model.PasswordSalt})
+                </div>
+                @*<div class="profile-edit tab-pane fade" id="pane-4">
+                    @Html.Partial("../Cust/_CustPayment", Model)
+                </div>
+                <div class="profile-edit tab-pane fade" id="pane-5">
+                    @Html.Partial("../Cust/_CustNotification", Model)
+                </div>*@
+            </div>
+        </div>
+        <!-- End Profile Content -->
+
+    </div>
+</div>
+
+@section Scripts{
+   <script src="~/Themes/Booking/Content/js/app/cust-profile.js"></script>
+}

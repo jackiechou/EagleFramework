@@ -1,0 +1,27 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = Html.Raw(LanguageResource.MediaComposerManagement);
+    Layout = ThemeViewEngine.AdminFullMainLayout;
+}
+
+<div id="MainContainer" class="box-container">
+    <div class="body-container">
+        <div id="bodyContent">
+            <div id="MainBody" class="container-fluid">
+                <div id="divEdit">
+                    @Html.Action("Create", "MediaComposer")
+                </div>
+                <div id="divList">
+                    @Html.Action("List", "MediaComposer")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script Scope="text/javascript">
+        window.MediaComposerListUrl = '@Url.Action("List", "MediaComposer")';
+    </script>
+    <script type="text/javascript" src="~/Scripts/app/modules/media-composer.js"></script>
+}

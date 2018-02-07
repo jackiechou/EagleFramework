@@ -1,0 +1,37 @@
+﻿@using Eagle.Services.Skins
+@{
+    ViewBag.Title = LanguageResource.Home;
+    Layout = ThemeViewEngine.AdminMainLayout;
+}
+
+
+@section TitleSection {
+    <h4>@LanguageResource.Home</h4>
+}
+
+@section ContentSection
+{
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            @*<div class="margin-bottom-10">
+                @Html.Action("GetInfoBox", "Dashboard")
+            </div>*@
+            <div class="margin-bottom-10">
+                @Html.Action("GeAdminQuickShoptcuts", "Dashboard")
+            </div>
+            <div class="row margin-bottom-10">
+                <div id="ChartContainer" class="col-md-6">
+                    @Html.Action("GetLatestPost", "Dashboard");
+                </div>
+                <div class="col-md-6">
+                    @Html.Action("GetLatestMembers", "Dashboard")
+                </div>
+            </div>
+            @*<div class="margin-bottom-10">
+                @Html.Action("GeStatistics", "Dashboard")
+            </div>*@
+        </section>
+        <!-- /.content -->
+    </div>
+}

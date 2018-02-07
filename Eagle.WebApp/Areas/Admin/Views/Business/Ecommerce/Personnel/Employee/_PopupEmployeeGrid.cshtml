@@ -1,0 +1,268 @@
+﻿@{   
+    Layout = null;
+}
+@model Eagle.Services.Dtos.Business.Personnel.EmployeeSearchEntry
+
+<div class="modal hide fade popupEmp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Search Employees</h3>
+    </div>
+    <div class="modal-body popup-empl-search">
+        <!--Begin search -->
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.SearchText)
+            </div>
+            <div class="col-md-4">
+                @Html.TextBox("SearchText", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            @*<div class="col-md-2">
+                @Html.LabelFor(model => model.LSCompanyID)
+            </div>
+            <div class="col-md-4">  
+                @Html.TextBox("SearchLSCompanyID", null, new { @class = "easyui-combotree col-md-2" })
+            </div>*@
+
+            <div class="col-md-4 offset2">
+                @Html.RadioButton("SearchStatus", true, true, new { id = "InActive", @style = "float:left;" })
+                @Html.Label("InActive", Eagle.Resources.LanguageResource.Active, new { @style = "float:left;margin:-4px 20px -4px 4px;" })
+
+
+                @Html.RadioButton("SearchStatus", false, false, new { id = "IsTerminated", @style = "float:left;" })
+                @Html.Label("Terminate", Eagle.Resources.LanguageResource.Terminate, new { @style = "float:left;margin:-4px 20px -4px 4px;" })
+
+                @Html.RadioButton("SearchStatus", "", false, new { id = "IsBoth", @style = "float:left;" })
+                @Html.Label("IsBoth", Eagle.Resources.LanguageResource.Both, new { @style = "float:left;margin:-4px 20px -4px 4px;" })
+            </div>
+        </div>
+
+        <!--End search -->
+        <!--Begin button -->
+        <div class="row">
+            <div class="footbar">
+                <input type="button" id="btnCancelpopupEmployee" value="Cancel" class="btn btn-small" />
+                <input type="button" id="btnSearch" value="Search" class="btn btn-info btn-small default">
+            </div>
+        </div>
+        <!--End button -->
+        <!--Begin results grid -->
+
+        <div class="popup-empl-results-grid">
+            @Html.Action("_SearchResultsForPopup", "Employee", null)
+        </div>
+        <!--End results grid -->
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    (function ($) {
+        $.createDataBuilder = function (p) {
+            var DataMgr = {
+                config: {
+                    isPostBack: false,
+                    async: true,
+                    cache: false,
+                    processData: false,
+                    mimeType: "multipart/form-data",
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    data: '{}',
+                    dataType: 'json',
+                    baseURL: p.BaseURL,
+                    method: "",
+                    url: "",
+                    ajaxCallMode: 0,
+                    isValid: false,
+                    ContainerClientID: p.ContainerClientID
+                },
+                messages:
+                {
+                    nomenu: "No Data"
+                },
+                init: function (config) {                        
+                    DataMgr.InitializeCotrols();
+                    DataMgr.BindEvents();
+                },
+                ajaxSuccess: function (data) {
+                    switch (parseInt(DataMgr.config.ajaxCallMode)) {
+                        case 1:
+                            DataMgr.ResetControls();
+                            break;
+                        case 2:
+                            DataMgr.ShowMessageBox(data);
+                            break;
+                            //case 3:
+                            //    DataMgr.ShowMessageAfterCheckingCode(data);
+                            //    break;
+                    }
+                },
+                ajaxFailure: function (jqXHR, textStatus, errorThrown) {
+                    handleAjaxErrors(jqXHR, textStatus, errorThrown);
+                },
+                ajaxCall: function (config) {
+                    $.ajax({
+                        type: DataMgr.config.type,
+                        contentType: DataMgr.config.contentType,
+                        cache: DataMgr.config.cache,
+                        url: DataMgr.config.url,
+                        data: DataMgr.config.data,
+                        dataType: DataMgr.config.dataType,
+                        success: DataMgr.ajaxSuccess,
+                        error: DataMgr.ajaxFailure,
+                        async: false
+                    });
+                },
+                InitializeCotrols: function () {                                          
+                    ShowDateTimePicker("dd/MM/yyyy");
+                    DataMgr.RemoveQtip();
+                    DataMgr.PopulateComboTree('SearchLSCompanyID', '@Url.Action("GetHierachicalCompanyList", "LS_tblCompany")', false);
+                    $("#modalEdit").draggable({ handle: ".modal-header" });
+                },
+                RemoveQtip: function () {
+                    $('.qtip').remove();
+                    //$('span.error:first').qtip("hide");
+                },
+                BindEvents: function () {
+                    $(".popup-empl-search input").keypress(function (e) {
+                        if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                            $("#btnSearch").trigger("click");
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    });
+
+                    $('#btnSearch').click(function () {
+                        /*Search params*/
+                        var EmpCode = $('.popup-empl-search #SearchEmpCode').val();
+                        var FullName = $('.popup-empl-search #SearchFullName').val();
+                        var LSCompanyID = $('.popup-empl-search').find('input[type=hidden][name="SearchLSCompanyID"]').val();
+                        var active1 = $('.popup-empl-search input[name=SearchStatus]:checked').val();
+
+
+                        var params = {};
+                        window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) {
+                            params[key] = value;
+                        });
+                        var data = {
+                            "EmpCode": EmpCode,
+                            "FullName": FullName,
+                            "LSCompanyID": LSCompanyID,
+                            "Active": active1,
+                            "ModuleId": params["ModuleID"]
+                        }
+
+
+                        /*url get result*/
+                        // var url = '/Admin/Employee/_SearchResultsForPopup?EmpCode=' + EmpCode + '&FullName=' + FullName + '&LSCompanyID=' + LSCompanyID + '&Active=' + active1;
+                        var url = '/Admin/Employee/_SearchResultsForPopup';
+
+
+                        $.ajax({
+                            url: url,
+                            data: data,
+                            context: document.body
+                        }).done(function (data) {
+                            $('.popup-empl-results-grid').html(data);
+                        });
+                    });
+
+                    // cancel form
+                    $(document).on("click", "#btnCancelpopupEmployee", function () {
+                        $('.popupEmp').modal('hide');
+                    });
+                },
+                PopulateComboTree: function (selectBoxId, actionUrl, isRequired, selectedValue) {                       
+                    if (selectedValue == undefined || selectedValue == null)
+                        selectedValue = 0;
+                    if (isRequired == undefined || isRequired == null)
+                        isRequired = false;
+                    var hiddenBox = $('input[type=hidden][name="' + selectBoxId + '"]');
+                    var selectBox = $('#' + selectBoxId);
+                    selectBox.combotree({
+                        url: actionUrl,
+                        textField: 'text',
+                        valueField: 'id',
+                        required: isRequired,
+                        editable: false,
+                        onLoadSuccess: function (row, data) {
+                            $(this).tree("collapseAll");
+                        },
+                        onSelect: function (node) {
+                            //lưu lại tên để tiện add vào grid
+                            hiddenBox.val(node.text);
+                            // nếu mà là note cuối cùng cho qua
+                            // note cấp trên thì báo lỗi
+                            var selectedNode = $('div[node-id=' + node.id + ']');
+                        }
+                    });
+                    selectBox.combotree('setValue', selectedValue);
+                },
+                HandleCheckBoxEvent: function (checkFieldId, chkStatus) {
+                    var name = $("#" + checkFieldId).attr("name");
+                    var checkBoxSelector = $("input:checkbox[name=" + name + "]");
+                    var hiddenSelector = $("input:hidden[name=" + name + "]");
+
+                    checkBoxSelector.attr("checked", chkStatus);
+                    checkBoxSelector.val(chkStatus);
+                    hiddenSelector.val(chkStatus);
+
+                    checkBoxSelector.click(function () {
+                        var checkBoxStatus = $(this).is(":checked");
+                        checkBoxSelector.attr("checked", checkBoxStatus);
+                        checkBoxSelector.val(checkBoxStatus);
+                        hiddenSelector.val(checkBoxStatus);
+                    });
+                },
+                AddData: function (data) {
+                    this.config.method = "Insert";
+                    this.config.data = data;
+                    this.config.url = DataMgr.config.baseURL + this.config.method;
+                    this.config.ajaxCallMode = 2;
+                    this.ajaxCall(this.config);
+                },
+                ShowMessageBox: function (data) {
+                    var titleSuccess = "", titleFailure = "", titleAjaxError = "";
+                    titleAjaxError = "@LanguageResource.Error";
+                    titleSuccess = "@LanguageResource.CreateSuccess";
+                    titleFailure = "@LanguageResource.CreateFailure";
+
+                    var result = JSON.parse(data);
+                    if (result.flag == 'true') {
+                        showMessageWithTitle(titleSuccess, result.message, "success");
+                        hideMessageWithTitle(20000);
+                    } else {
+                        showMessageWithTitle(titleFailure, result.message, "error");
+                        hideMessageWithTitle(20000);
+                    }
+                    DataMgr.ResetControls();
+                },
+                ResetControls: function () {
+                    var validateObj = $('#myform');
+                    validateObj.find('input:text, input:password, input:file, select, textarea').not('.ignored').val('');
+                    validateObj.find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected');
+                    validateObj.find('input[type="number"]').val(0);
+                    validateObj.find('select').find('option:first').attr('selected', true).siblings().attr('selected', false);
+
+                    DataMgr.InitializeCotrols();
+                    DataMgr.GenerateCode();
+                }
+            };
+            DataMgr.init();
+        }
+
+        var Controller = 'Employee';
+        var BaseURL = "/" + Controller + "/";
+        var base_settings = {
+            ContainerClientID: "MainBody",
+            BaseURL: BaseURL
+        };
+        $.createDataBuilder(base_settings);
+    })(jQuery);
+</script>

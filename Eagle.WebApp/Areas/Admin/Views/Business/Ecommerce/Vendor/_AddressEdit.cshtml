@@ -1,0 +1,81 @@
+﻿@model Eagle.Services.Dtos.Business.VendorEditEntry
+@Html.HiddenFor(model => model.Address.AddressId)
+<div id="Address" class="form-horizontal">
+    <div class="heading text-right">
+        <h4><span class="label label-primary">@LanguageResource.Address</span></h4>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Address.CountryId)
+        </div>
+        <div class="col-md-4">
+            @if (Model.Address != null)
+            {
+                <select id="Address.CountryId" name="Address.CountryId" class="Address-CountryId form-control ignored" data-id="@Model.Address.CountryId" data-url='@Url.Action("PopulateCountrySelectList", "Contact")'></select>
+            }
+            else
+            {
+                <select id="Address.CountryId" name="Address.CountryId" class="Address-CountryId form-control ignored" data-url='@Url.Action("PopulateCountrySelectList", "Contact")'></select>
+            }            @Html.ValidationMessage("Address.CountryId", "*", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Address.ProvinceId)
+        </div>
+        <div class="col-md-4">
+            @if (Model.Address != null)
+            {
+                <select id="Address.ProvinceId" name="Address.ProvinceId" class="Address-ProvinceId form-control ignored" data-id="@Model.Address.ProvinceId" data-url='@Url.Action("PopulateProvinceSelectList", "Contact")'></select>
+            }
+            else
+            {
+                <select id="Address.ProvinceId" name="Address.ProvinceId" class="Address-ProvinceId form-control ignored" data-url='@Url.Action("PopulateProvinceSelectList", "Contact")'></select>
+            }
+            @Html.ValidationMessage("Address.ProvinceId", "*", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Address.RegionId)
+        </div>
+        <div class="col-md-4">
+            @if (Model.Address != null)
+            {
+                <select id="Address.RegionId" name="Address.RegionId" class="Address-RegionId form-control ignored" data-id="@Model.Address.RegionId" data-url='@Url.Action("PopulateRegionSelectList", "Contact")'></select>
+            }
+            else
+            {
+                <select id="Address.RegionId" name="Address.RegionId" class="Address-RegionId form-control ignored" data-url='@Url.Action("PopulateRegionSelectList", "Contact")'></select>
+            }
+            @Html.ValidationMessage("Address.RegionId", "*", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Address.PostalCode)
+        </div>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Address.PostalCode, null, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Address.PostalCode)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Address.Street)
+        </div>
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Address.Street, new { rows = 2, columns = 40, maxlength = 150, @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Address.Street)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Address.Description)
+        </div>
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Address.Description, new { rows = 2, columns = 40, maxlength = 150, @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Address.Description)
+        </div>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+﻿@using Eagle.Core.Pagination.Extension
+@model Eagle.Services.Dtos.SystemManagement.Identity.GroupSearchResult
+
+<div id="dataGrid" class="row">
+    <table id="dataTable" class="dataTable table table-bordered table-condensed table-hover table-striped tablesorter sortableTable">
+        <thead>
+            <tr>
+                <th class="text_center">@LanguageResource.SequenceNo</th>
+                <th>
+                    @LanguageResource.GroupName
+                </th>
+                <th class="no-sort">
+                    @LanguageResource.Note
+                </th>
+                <th class="no-sort text_center">
+                    @LanguageResource.Used
+                </th>
+                <th class="table-actions text_center no-sort">@LanguageResource.Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 0; }
+            @if (Model.PagedList != null && Model.PagedList.Any())
+            {
+                foreach (var item in Model.PagedList)
+                {
+                    i++;
+                    <tr>
+                        <td id="@item.GroupId">
+                            @i
+                        </td>
+                        <td>
+                            @item.GroupName
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td class="center-block text-center">
+                            <div class="chk-center">
+                                <div class="checkbox-slider--a">
+                                    <label>
+                                        @*<input type="checkbox" id="IsActive" name="IsActive" checked="@Html.Raw((item.IsActive != null && item.IsActive == true) ? "checked" : "")"><span></span>*@
+                                        @{
+                                            if (item.IsActive != null && item.IsActive == true)
+                                            {
+                                                <input type="checkbox" data-id="@item.GroupId" class="changeStatus" data-url='@Url.Action("UpdateStatus", "Group")' id="IsActive" name="IsActive" checked="checked" value="true">
+                                                <span></span>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" data-id="@item.GroupId" class="changeStatus" data-url='@Url.Action("UpdateStatus", "Group")' id="IsActive" name="IsActive" value="false">
+                                                <span></span>
+                                            }
+                                        }
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="table-actions text_center no-sort"> 
+                            <a data-id="@item.GroupId" title="@Html.Raw(LanguageResource.Edit)" data-url='@Url.Action("_Edit", "Group")' class="btn btn-small btn-success warning editItem"><span class="icon-edit"></span></a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="row">
+                    <td colspan="5" class="not-found col-xs-12 col-sm-12 col-md-12">@LanguageResource.NoDataFound</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div id="dataPager" class="datagrid-pager row">
+    @if (Model.PagedList != null && Model.PagedList.Any())
+    {
+        <div class="datagrid-pagination pull-right text-right">
+            @Html.PagedListPager(Model.PagedList, page => Url.Action("Search", "Group", new { page, sourceEvent = "Result" }),
+                        PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                        {
+                            MaximumPageNumbersToDisplay = 10,
+                            DisplayPageCountAndCurrentLocation = true,
+                            PageCountAndCurrentLocationFormat = LanguageResource.PageCountAndCurrentLocationFormat,
+                            DisplayItemSliceAndTotal = true,
+                            ItemSliceAndTotalFormat = LanguageResource.ItemSliceAndTotalFormat
+                        }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "SearchResult" }))
+        </div>
+    }
+</div>

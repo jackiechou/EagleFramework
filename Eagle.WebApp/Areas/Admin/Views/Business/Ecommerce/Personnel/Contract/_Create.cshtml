@@ -1,0 +1,167 @@
+﻿@{
+    ViewBag.Title = LanguageResource.CreateContract;
+}
+
+@model Eagle.Services.Dtos.Business.Personnel.ContractEntry
+
+<div class="panel panel-default">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "frmCreateContract", name = "frmCreateContract", }))
+    {
+        <div class="panel-heading text-bold">
+            <div class='page-header margin-top-5 margin-bottom-0'>
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateContract" data-url='@Url.Action("Create", "Contract")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save add create createContract" data-mode="create" data-form="frmCreateContract" data-url='@Url.Action("Create", "Contract")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+                <h4><span class="glyphicon glyphicon-star"></span> @LanguageResource.CreateContract</h4>
+            </div>
+        </div>
+
+        <div class="panel-body padding-top-0">
+            <div id="formMessage" class="form-message">
+                @Html.Partial("_MessagePartial")
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+            </div>
+
+            <div id="formBody" class="form-horizontal">
+                <div class="container-fluid">
+                    <div class="form-container">
+                        <div class="form-lead">@Html.Raw(LanguageResource.RequiredFill)</div>
+                        <div class="form-body-container">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.ContractNo, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        <div class="input-group addon">
+                                            @Html.TextBoxFor(model => model.ContractNo, new {@class = "form-control", placeholder = LanguageResource.ContractNo })
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default generate-code" type="button" data-url='@Url.Action("GenerateCode", "Contract")' id="btnReloadCode"><i class="glyphicon glyphicon-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.ContractNo)
+                                    </div>
+                                    @Html.RequiredLabelFor(model => model.CompanyId, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        <input id="CompanySelextBox" name="CompanySelextBox" value="0" class="easyui-combotree form-control cbxParentTree" data-url='@Url.Action("GetCompanyTree", "Company")' style="width: 100%;">
+                                        @Html.HiddenFor(model => model.CompanyId)
+                                        @Html.ValidationMessageFor(model => model.CompanyId)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.RequiredLabelFor(model => model.EmployeeId, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        <div class="input-group addon">
+                                            @Html.TextBoxFor(model => model.EmployeeName, new {@class = "form-control"})
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default showEmployeePopUp" data-url='@Url.Action("LoadSearchEmployeeForm", "Contract")' type="button"><i class="glyphicon glyphicon-plus"></i></button>
+                                            </div>
+                                        </div>
+                                        @Html.HiddenFor(model => model.EmployeeId)
+                                        @Html.ValidationMessageFor(model => model.EmployeeId)
+                                    </div>
+                                    @Html.RequiredLabelFor(model => model.PositionId, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.PositionId, null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.PositionId)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ProbationSalary, new {@class = "control-label col-md-2"})
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(model => model.ProbationSalary, new {@class = "form-control number"})
+                                            <span class="input-group-addon">
+                                                @Html.DisplayFor(model => model.CurrencyCode)
+                                            </span>
+                                        </div>
+                                        @Html.HiddenFor(item => item.CurrencyCode)
+                                        @Html.ValidationMessageFor(model => model.ProbationSalary)
+                                    </div>
+                                    @Html.LabelFor(model => model.InsuranceSalary, new {@class = "control-label col-md-2"})
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(model => model.InsuranceSalary, new {@class = "form-control number"})
+                                            <span class="input-group-addon">
+                                                @Html.DisplayFor(model => model.CurrencyCode)
+                                            </span>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.InsuranceSalary)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ProbationFrom, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DateTimePickerFor(model => model.ProbationFrom)
+                                        @Html.ValidationMessageFor(model => model.ProbationFrom)
+                                    </div>
+                                    @Html.LabelFor(model => model.ProbationTo, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DateTimePickerFor(model => model.ProbationTo)
+                                        @Html.ValidationMessageFor(model => model.ProbationTo)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SignedDate, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DateTimePickerFor(model => model.SignedDate)
+                                        @Html.ValidationMessageFor(model => model.SignedDate)
+                                    </div>
+                                    @Html.LabelFor(model => model.EffectiveDate, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DateTimePickerFor(model => model.EffectiveDate)
+                                        @Html.ValidationMessageFor(model => model.EffectiveDate)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ExpiredDate, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DateTimePickerFor(model => model.ExpiredDate)
+                                        @Html.ValidationMessageFor(model => model.ExpiredDate)
+                                    </div>
+                                    @Html.RequiredLabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        <div class="checkbox-slider--a">
+                                            <label>
+                                                <input type="checkbox" id="IsActive" name="IsActive" checked="checked" value="true"><span></span>
+                                            </label>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.IsActive)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.Description, new { rows = 6, columns = 40, maxlength = 4000, @class = "form-control ckeditor" })
+                                        @Html.ValidationMessageFor(model => model.Description)
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class='btn-toolbar pull-right'>
+                    <div class='btn-group'>
+                        <input type="button" class="btn btn-default reset btnReset" data-mode="create" data-form="frmCreateContract" data-url='@Url.Action("Create", "Contract")' value="@LanguageResource.Reset" />
+                        <input type="button" class="btn btn-primary save add create createContract" data-mode="create" data-form="frmCreateContract" data-url='@Url.Action("Create", "Contract")' value="@LanguageResource.Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Eagle.Services.Dtos.Business.ProductCommentDetail>
+@{
+    ViewBag.Title = LanguageResource.ProductComment;
+}
+
+
+@if (Model != null && Model.Any())
+{
+    <div class="product-comment margin-bottom-40">
+        <div class="product-comment-in">
+
+
+            @foreach (var item in Model)
+            {
+                if (item.IsReplied == null || item.IsReplied == false)
+                {
+                    <!-- Left-aligned -->
+                    <div class="media">
+                        <div class="media-left">
+                            @if (!string.IsNullOrEmpty(item.CommentEmail))
+                            {
+                                <img src='@($"http://placehold.it/50/55C1E7/fff&text={item.CommentEmail[0]}")' alt='@item.CommentEmail' class="media-object img-circle" style="width:50px" />
+                            }
+                            else if (!string.IsNullOrEmpty(item.CommentMobile))
+                            {
+                                <img src='@($"http://placehold.it/50/55C1E7/fff&text={item.CommentMobile[0]}")' alt='@item.CommentMobile' class="media-object img-circle" style="width:50px" />
+                            }
+                            else
+                            {
+                                <img src='@($"http://placehold.it/50/55C1E7/fff&text=0")' alt='0' class="media-object img-circle" style="width:50px" />
+                            }
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">@Html.Raw(item.CommentEmail) <small><i>Posted on  @string.Format("{0}:dd-MM-yyyy", item.CreatedDate)</i></small></h4>
+                            <p>@Html.Raw(item.CommentText)</p>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <!-- Right-aligned -->
+                    <div class="media">
+                        <div class="media-body">
+                            <h4 class="media-heading">@Html.Raw(item.CommentEmail) <small><i>Posted on  @string.Format("{0}:dd-MM-yyyy", item.CreatedDate)</i></small></h4>
+                            <p>@Html.Raw(item.CommentText)</p>
+                        </div>
+                        <div class="media-right">
+                            @if (!string.IsNullOrEmpty(item.CommentEmail))
+                            {
+                                <img src='@($"http://placehold.it/50/55C1E7/fff&text={item.CommentEmail[0]}")' alt='@item.CommentEmail' class="media-object img-circle" style="width:50px" />
+                            }
+                            else if (!string.IsNullOrEmpty(item.CommentMobile))
+                            {
+                                <img src='@($"http://placehold.it/50/55C1E7/fff&text={item.CommentMobile[0]}")' alt='@item.CommentMobile' class="media-object img-circle" style="width:50px" />
+                            }
+                            else
+                            {
+                                <img src='@($"http://placehold.it/50/55C1E7/fff&text=0")' alt='0' class="media-object img-circle" style="width:50px" />
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            
+
+        </div>
+    </div>
+}
